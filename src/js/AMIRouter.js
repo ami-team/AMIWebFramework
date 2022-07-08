@@ -322,6 +322,25 @@ class AMIRouter
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
+	#goto(hash)
+	{
+		if(hash)
+		{
+			setTimeout(() => {
+
+				const el = $(hash);
+
+				if(el.length > 0)
+				{
+					$(document).scrollTop(el.offset().top);
+				}
+
+			}, 1000);
+		}
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
 	/**
 	 * Appends a new history entry
 	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, searchParams, hash)
@@ -344,6 +363,8 @@ class AMIRouter
 			{
 				history.pushState(context, null, url.toString());
 			}
+
+			this.#goto(url.hash);
 
 			return true;
 		}
@@ -375,6 +396,8 @@ class AMIRouter
 			{
 				history.replaceState(context, null, url.toString());
 			}
+
+			this.#goto(url.hash);
 
 			return true;
 		}

@@ -13579,8 +13579,13 @@ var _routes = AMIRouter_classPrivateFieldLooseKey("routes");
 
 var _buildURL = AMIRouter_classPrivateFieldLooseKey("buildURL");
 
+var _goto = AMIRouter_classPrivateFieldLooseKey("goto");
+
 var AMIRouter = function () {
   function AMIRouter(prodJsFilename, devJsFilename) {
+    Object.defineProperty(this, _goto, {
+      value: _goto2
+    });
     Object.defineProperty(this, _buildURL, {
       value: _buildURL2
     });
@@ -13754,6 +13759,8 @@ var AMIRouter = function () {
         history.pushState(context, null, url.toString());
       }
 
+      AMIRouter_classPrivateFieldLooseBase(this, _goto)[_goto](url.hash);
+
       return true;
     }
 
@@ -13772,6 +13779,8 @@ var AMIRouter = function () {
       if (window.location !== url.toString()) {
         history.replaceState(context, null, url.toString());
       }
+
+      AMIRouter_classPrivateFieldLooseBase(this, _goto)[_goto](url.hash);
 
       return true;
     }
@@ -13800,6 +13809,18 @@ function _buildURL2(searchParams, hash) {
   }
 
   return result;
+}
+
+function _goto2(hash) {
+  if (hash) {
+    setTimeout(function () {
+      var el = $(hash);
+
+      if (el.length > 0) {
+        $(document).scrollTop(el.offset().top);
+      }
+    }, 1000);
+  }
 }
 
 /* harmony default export */ const js_AMIRouter = (new AMIRouter('js/ami.min.js', 'js/ami.js'));
@@ -18430,27 +18451,13 @@ function triggerLogout() {
 
   return result.promise();
 }
-
-function gotoAnchor(anchor) {
-  if (anchor) {
-    setTimeout(function () {
-      var el = $("#" + anchor);
-
-      if (el.length > 0) {
-        $(document).scrollTop(el.offset().top);
-      }
-    }, 1000);
-  }
-}
-
 function loadSubApp(subapp, userdata, options) {
   var result = $.Deferred();
 
-  var _tools$setup = setup(['context', 'defaultSubApp', 'hash', 'cache'], [result, '', null, false], options),
+  var _tools$setup = setup(['context', 'hash', 'cache'], [result, null, false], options),
       context = _tools$setup[0],
-      defaultSubApp = _tools$setup[1],
-      hash = _tools$setup[2],
-      cache = _tools$setup[3];
+      hash = _tools$setup[1],
+      cache = _tools$setup[2];
 
   result.always(function () {
     unlock();
@@ -18475,17 +18482,13 @@ function loadSubApp(subapp, userdata, options) {
           _internal_then(_currentSubappInstance.onReady(userdata), function () {
             var promise = js_AMIAuth.isAuthenticated() ? triggerLogin() : triggerLogout();
             promise.then(function () {
-              if (subapp !== defaultSubApp) {
-                js_AMIRouter.appendHistoryEntry({
-                  searchParams: {
-                    'subapp': subapp,
-                    'userdata': userdata
-                  },
-                  hash: hash
-                });
-              }
-
-              gotoAnchor(hash);
+              js_AMIRouter.appendHistoryEntry({
+                searchParams: {
+                  'subapp': subapp,
+                  'userdata': userdata
+                },
+                hash: hash
+              });
               fillBreadcrumb(descr.breadcrumb);
               result.resolveWith(context, [_currentSubappInstance]);
             }, function (message) {
@@ -18544,9 +18547,7 @@ function loadSubAppByURL(defaultSubApp, defaultUserData) {
     if (!js_AMIRouter.check()) {
       var subapp = args['subapp'] || defaultSubApp;
       var userdata = args['userdata'] || defaultUserData;
-      loadSubApp(subapp, userdata, {
-        defaultSubApp: defaultSubApp
-      }).then(function () {
+      loadSubApp(subapp, userdata).then(function () {
         result.resolve();
       }, function (message) {
         result.reject(message);

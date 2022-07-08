@@ -144,25 +144,6 @@ export function triggerLogout()
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-function gotoAnchor(anchor)
-{
-	if(anchor)
-	{
-		setTimeout(() => {
-
-			const el = $(`#${anchor}`);
-
-			if(el.length > 0)
-			{
-				$(document).scrollTop(el.offset().top);
-			}
-
-		}, 1000);
-	}
-}
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
 /**
  * Asynchronously loads a subapp
  * @param {string} subapp the subapp name
@@ -176,9 +157,9 @@ export function loadSubApp(subapp, userdata, options)
 {
 	const result = $.Deferred();
 
-	const [context, defaultSubApp, hash, cache] = tools.setup(
-		['context', 'defaultSubApp', 'hash', 'cache'],
-		[result, '', null, false],
+	const [context, hash, cache] = tools.setup(
+		['context', 'hash', 'cache'],
+		[result, null, false],
 		options
 	);
 
@@ -224,18 +205,13 @@ export function loadSubApp(subapp, userdata, options)
 
 						promise.then(() => {
 
-							if(subapp !== defaultSubApp)
-							{
-								amiRouter.appendHistoryEntry({
-									searchParams: {
-										'subapp': subapp,
-										'userdata': userdata,
-									},
-									hash: hash,
-								});
-							}
-
-							gotoAnchor(hash);
+							amiRouter.appendHistoryEntry({
+								searchParams: {
+									'subapp': subapp,
+									'userdata': userdata,
+								},
+								hash: hash,
+							});
 
 							view.fillBreadcrumb(descr.breadcrumb);
 
@@ -352,7 +328,7 @@ export function loadSubAppByURL(defaultSubApp, defaultUserData)
 			const subapp = args['subapp'] || defaultSubApp;
 			const userdata = args['userdata'] || defaultUserData;
 
-			loadSubApp(subapp, userdata, {defaultSubApp: defaultSubApp}).then((/*---*/) => {
+			loadSubApp(subapp, userdata).then((/*---*/) => {
 
 				result.resolve(/*---*/);
 
