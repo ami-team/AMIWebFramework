@@ -14,9 +14,7 @@ import twigTextBoxCtrl from './assets/twig/TextBoxCtrl.twig';
 
 import ClipboardJS from 'clipboard';
 import {EditorView} from 'codemirror';
-import {EditorState} from '@codemirror/state';
-import editableCompartment from '../../src/js/utilities/codemirrror';
-
+import { sql } from '@codemirror/lang-sql';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -145,11 +143,20 @@ $AMIClass('TextBoxCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
+		// let updateLanguage = editorInstance.state.update({
+		// 	effects: languageConf.reconfigure(params.lang !== 'mql' ? params.lang : sql())
+		// })
+
+		let updateLanguage = editorInstance.state.update({
+			// effects: editorInstance.test.reconfigure(sql())
+		})
+
 		let transaction = editorInstance.state.update({
 			changes: { from: 0, to: editorInstance.state.doc.length, insert: this.format(params.text, params.lang) },
 		});
 
 		editorInstance.dispatch(transaction)
+		editorInstance.dispatch(updateLanguage)
 
 		// monaco.editor.setModelLanguage(editor.getModel(), params.lang !== 'mql' ? params.lang : 'sql'); /* TEMP */
 

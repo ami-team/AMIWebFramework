@@ -22,11 +22,14 @@ import amiTwig from 'ami-twig';
 import 'flatpickr/dist/flatpickr.min.css';
 import /*-------*/'flatpickr'/*-------*/;
 
-import {EditorState} from '@codemirror/state'
+import {Compartment, EditorState} from '@codemirror/state'
 import {EditorView, basicSetup} from 'codemirror'
-import {keymap} from '@codemirror/view';
+import {keymap, lineNumbers} from '@codemirror/view';
 import {defaultKeymap} from '@codemirror/commands'
-import {javascript} from '@codemirror/lang-javascript'
+import {LanguageDescription} from '@codemirror/language';
+import { languages } from '@codemirror/language-data';
+import {javascript} from '@codemirror/lang-javascript';
+import {syntaxHighlighting, defaultHighlightStyle} from '@codemirror/language';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* BREADCRUMB                                                                                                         */
@@ -104,30 +107,37 @@ function createCodeInstance(editors) {
 			'style': textarea.attr('style'),
 		});
 
-		div.insertAfter(textarea).promise().done(() => {
+		div.insertAfter(textarea).promise().done(async () => {
 			const readOnly = textarea.attr('data-read-only') || 'false';
 			const wordWrap = textarea.attr('data-word-wrap') || 'false';
+			const showGutter = textarea.attr('data-show-gutter') || 'false';
+			const lang = textarea.attr('data-lang') || 'js';
+
+			const dynamicLang = await LanguageDescription.matchLanguageName(languages, lang).load();
 
 			let startState = EditorState.create({
 				doc: item.value,
 				extensions: [
 					keymap.of(defaultKeymap),
-					basicSetup,
-					javascript(),
-					wordWrap ? EditorView.lineWrapping : '',
+					dynamicLang,
+					lineNumbers(),
+					syntaxHighlighting(defaultHighlightStyle),
+					wordWrap && EditorView.lineWrapping,
 					EditorView.updateListener.of((update) => {
-						if(update.state.doc.toString() !== textarea.text()) {
+						if (update.state.doc.toString() !== textarea.text()) {
 							textarea.text(update.state.doc.toString())
 						}
 					}),
-					EditorView.editable.of(!readOnly),
+					EditorView.editable.of(readOnly !== 'true'),
 				],
-			})
+			});
 
 			let view = new EditorView({
 				state: startState,
 				parent: div[0]
-			})
+			});
+
+			view.test = new Compartment;
 		});
 	})
 }
