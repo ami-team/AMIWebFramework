@@ -13594,21 +13594,12 @@ var _buildURL = AMIRouter_classPrivateFieldLooseKey("buildURL");
 var _goto = AMIRouter_classPrivateFieldLooseKey("goto");
 
 var AMIRouter = function () {
-  function AMIRouter(_prodJsFilename, _devJsFilename) {
+  function AMIRouter(prodJsFilename, devJsFilename) {
     Object.defineProperty(this, _goto, {
       value: _goto2
     });
     Object.defineProperty(this, _buildURL, {
       value: _buildURL2
-    });
-    Object.defineProperty(this, _eatSlashes, {
-      value: _eatSlashes2
-    });
-    Object.defineProperty(this, _searchParamToDict, {
-      value: _searchParamToDict2
-    });
-    Object.defineProperty(this, _findThisJs, {
-      value: _findThisJs2
     });
     Object.defineProperty(this, _webAppURL, {
       writable: true,
@@ -13644,24 +13635,24 @@ var AMIRouter = function () {
     });
     var webappUrl = new URL(window.location);
 
-    var scriptUrl = AMIRouter_classPrivateFieldLooseBase(this, _findThisJs)[_findThisJs](_prodJsFilename, _devJsFilename);
+    var scriptUrl = AMIRouter_classPrivateFieldLooseBase(AMIRouter, _findThisJs)[_findThisJs](prodJsFilename, devJsFilename);
 
     if (!scriptUrl) {
-      throw "cannot find neither '" + _prodJsFilename + "' nor '" + _devJsFilename + "'";
+      throw "cannot find neither '" + prodJsFilename + "' nor '" + devJsFilename + "'";
     }
 
     AMIRouter_classPrivateFieldLooseBase(this, _webAppURL)[_webAppURL] = webappUrl.protocol === 'file:' ? "file://" + webappUrl.pathname : "" + webappUrl.origin + webappUrl.pathname;
-    AMIRouter_classPrivateFieldLooseBase(this, _webAppArgs)[_webAppArgs] = AMIRouter_classPrivateFieldLooseBase(this, _searchParamToDict)[_searchParamToDict](webappUrl);
+    AMIRouter_classPrivateFieldLooseBase(this, _webAppArgs)[_webAppArgs] = AMIRouter_classPrivateFieldLooseBase(AMIRouter, _searchParamToDict)[_searchParamToDict](webappUrl);
     AMIRouter_classPrivateFieldLooseBase(this, _webAppHash)[_webAppHash] = webappUrl.hash.substring(1);
     AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL] = scriptUrl.protocol === 'file:' ? "file://" + scriptUrl.pathname : "" + scriptUrl.origin + scriptUrl.pathname;
-    AMIRouter_classPrivateFieldLooseBase(this, _scriptArgs)[_scriptArgs] = AMIRouter_classPrivateFieldLooseBase(this, _searchParamToDict)[_searchParamToDict](scriptUrl);
+    AMIRouter_classPrivateFieldLooseBase(this, _scriptArgs)[_scriptArgs] = AMIRouter_classPrivateFieldLooseBase(AMIRouter, _searchParamToDict)[_searchParamToDict](scriptUrl);
     AMIRouter_classPrivateFieldLooseBase(this, _scriptHash)[_scriptHash] = scriptUrl.hash.substring(1);
     var idx;
 
-    if ((idx = AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].indexOf(_prodJsFilename)) > 0) {
-      AMIRouter_classPrivateFieldLooseBase(this, _originURL)[_originURL] = AMIRouter_classPrivateFieldLooseBase(this, _eatSlashes)[_eatSlashes](AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].substring(0, idx));
-    } else if ((idx = AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].indexOf(_devJsFilename)) > 0) {
-      AMIRouter_classPrivateFieldLooseBase(this, _originURL)[_originURL] = AMIRouter_classPrivateFieldLooseBase(this, _eatSlashes)[_eatSlashes](AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].substring(0, idx));
+    if ((idx = AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].indexOf(prodJsFilename)) > 0) {
+      AMIRouter_classPrivateFieldLooseBase(this, _originURL)[_originURL] = AMIRouter_classPrivateFieldLooseBase(AMIRouter, _eatSlashes)[_eatSlashes](AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].substring(0, idx));
+    } else if ((idx = AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].indexOf(devJsFilename)) > 0) {
+      AMIRouter_classPrivateFieldLooseBase(this, _originURL)[_originURL] = AMIRouter_classPrivateFieldLooseBase(AMIRouter, _eatSlashes)[_eatSlashes](AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].substring(0, idx));
     }
   }
 
@@ -13843,6 +13834,15 @@ function _goto2(hash) {
   }
 }
 
+Object.defineProperty(AMIRouter, _eatSlashes, {
+  value: _eatSlashes2
+});
+Object.defineProperty(AMIRouter, _searchParamToDict, {
+  value: _searchParamToDict2
+});
+Object.defineProperty(AMIRouter, _findThisJs, {
+  value: _findThisJs2
+});
 /* harmony default export */ const js_AMIRouter = (new AMIRouter('js/ami.min.js', 'js/ami.js'));
 ;// CONCATENATED MODULE: ./src/js/utilities/locks.js
 

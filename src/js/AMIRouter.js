@@ -51,7 +51,7 @@ class AMIRouter
 
 		const webappUrl = new URL(window.location);
 
-		const scriptUrl = this.#findThisJs(prodJsFilename, devJsFilename);
+		const scriptUrl = AMIRouter.#findThisJs(prodJsFilename, devJsFilename);
 
 		if(!scriptUrl)
 		{
@@ -63,13 +63,13 @@ class AMIRouter
 		this.#webAppURL = webappUrl.protocol === 'file:' ? `file://${webappUrl.pathname}`
 		                                                 : `${webappUrl.origin}${webappUrl.pathname}`
 		;
-		this.#webAppArgs = this.#searchParamToDict(webappUrl);
+		this.#webAppArgs = AMIRouter.#searchParamToDict(webappUrl);
 		this.#webAppHash = webappUrl.hash.substring(1);
 
 		this.#scriptURL = scriptUrl.protocol === 'file:' ? `file://${scriptUrl.pathname}`
 		                                                 : `${scriptUrl.origin}${scriptUrl.pathname}`
 		;
-		this.#scriptArgs = this.#searchParamToDict(scriptUrl);
+		this.#scriptArgs = AMIRouter.#searchParamToDict(scriptUrl);
 		this.#scriptHash = scriptUrl.hash.substring(1);
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -77,10 +77,10 @@ class AMIRouter
 		let idx;
 
 		/**/ if((idx = this.#scriptURL.indexOf(prodJsFilename)) > 0) {
-			this.#originURL = this.#eatSlashes(this.#scriptURL.substring(0, idx));
+			this.#originURL = AMIRouter.#eatSlashes(this.#scriptURL.substring(0, idx));
 		}
 		else if((idx = this.#scriptURL.indexOf(devJsFilename)) > 0) {
-			this.#originURL = this.#eatSlashes(this.#scriptURL.substring(0, idx));
+			this.#originURL = AMIRouter.#eatSlashes(this.#scriptURL.substring(0, idx));
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -88,7 +88,7 @@ class AMIRouter
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	#findThisJs(prodJsFilename, devJsFilename)
+	static #findThisJs(prodJsFilename, devJsFilename)
 	{
 		const scripts = document.getElementsByTagName('script');
 
@@ -116,7 +116,7 @@ class AMIRouter
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	#searchParamToDict(url)
+	static #searchParamToDict(url)
 	{
 		const result = {};
 
@@ -130,7 +130,7 @@ class AMIRouter
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	#eatSlashes(url)
+	static #eatSlashes(url)
 	{
 		url = url.trim();
 
