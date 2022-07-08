@@ -63,13 +63,13 @@ class AMIRouter
 		this.#webAppURL = webappUrl.protocol === 'file:' ? `file://${webappUrl.pathname}`
 		                                                 : `${webappUrl.origin}${webappUrl.pathname}`
 		;
-		this.#webAppArgs = this.#getSearchParamDict(webappUrl);
+		this.#webAppArgs = this.#searchParamToDict(webappUrl);
 		this.#webAppHash = webappUrl.hash.substring(1);
 
 		this.#scriptURL = scriptUrl.protocol === 'file:' ? `file://${scriptUrl.pathname}`
 		                                                 : `${scriptUrl.origin}${scriptUrl.pathname}`
 		;
-		this.#scriptArgs = this.#getSearchParamDict(scriptUrl);
+		this.#scriptArgs = this.#searchParamToDict(scriptUrl);
 		this.#scriptHash = scriptUrl.hash.substring(1);
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -116,7 +116,7 @@ class AMIRouter
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	#getSearchParamDict(url)
+	#searchParamToDict(url)
 	{
 		const result = {};
 

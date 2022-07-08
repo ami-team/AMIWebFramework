@@ -13585,7 +13585,7 @@ var _routes = AMIRouter_classPrivateFieldLooseKey("routes");
 
 var _findThisJs = AMIRouter_classPrivateFieldLooseKey("findThisJs");
 
-var _getSearchParamDict = AMIRouter_classPrivateFieldLooseKey("getSearchParamDict");
+var _searchParamToDict = AMIRouter_classPrivateFieldLooseKey("searchParamToDict");
 
 var _eatSlashes = AMIRouter_classPrivateFieldLooseKey("eatSlashes");
 
@@ -13604,8 +13604,8 @@ var AMIRouter = function () {
     Object.defineProperty(this, _eatSlashes, {
       value: _eatSlashes2
     });
-    Object.defineProperty(this, _getSearchParamDict, {
-      value: _getSearchParamDict2
+    Object.defineProperty(this, _searchParamToDict, {
+      value: _searchParamToDict2
     });
     Object.defineProperty(this, _findThisJs, {
       value: _findThisJs2
@@ -13651,10 +13651,10 @@ var AMIRouter = function () {
     }
 
     AMIRouter_classPrivateFieldLooseBase(this, _webAppURL)[_webAppURL] = webappUrl.protocol === 'file:' ? "file://" + webappUrl.pathname : "" + webappUrl.origin + webappUrl.pathname;
-    AMIRouter_classPrivateFieldLooseBase(this, _webAppArgs)[_webAppArgs] = AMIRouter_classPrivateFieldLooseBase(this, _getSearchParamDict)[_getSearchParamDict](webappUrl);
+    AMIRouter_classPrivateFieldLooseBase(this, _webAppArgs)[_webAppArgs] = AMIRouter_classPrivateFieldLooseBase(this, _searchParamToDict)[_searchParamToDict](webappUrl);
     AMIRouter_classPrivateFieldLooseBase(this, _webAppHash)[_webAppHash] = webappUrl.hash.substring(1);
     AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL] = scriptUrl.protocol === 'file:' ? "file://" + scriptUrl.pathname : "" + scriptUrl.origin + scriptUrl.pathname;
-    AMIRouter_classPrivateFieldLooseBase(this, _scriptArgs)[_scriptArgs] = AMIRouter_classPrivateFieldLooseBase(this, _getSearchParamDict)[_getSearchParamDict](scriptUrl);
+    AMIRouter_classPrivateFieldLooseBase(this, _scriptArgs)[_scriptArgs] = AMIRouter_classPrivateFieldLooseBase(this, _searchParamToDict)[_searchParamToDict](scriptUrl);
     AMIRouter_classPrivateFieldLooseBase(this, _scriptHash)[_scriptHash] = scriptUrl.hash.substring(1);
     var idx;
 
@@ -13788,7 +13788,7 @@ function _findThisJs2(prodJsFilename, devJsFilename) {
   return null;
 }
 
-function _getSearchParamDict2(url) {
+function _searchParamToDict2(url) {
   var result = {};
 
   for (var _iterator = _createForOfIteratorHelperLoose(url.searchParams.entries()), _step; !(_step = _iterator()).done;) {
