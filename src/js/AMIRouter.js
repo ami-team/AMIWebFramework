@@ -120,9 +120,9 @@ class AMIRouter
 	{
 		const result = {};
 
-		for(const [key, val] of url.searchParams.entries())
+		for(const [name, value] of url.searchParams.entries())
 		{
-			result[key] = val;
+			result[name] = value;
 		}
 
 		return result;

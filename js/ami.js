@@ -13793,9 +13793,9 @@ function _searchParamToDict2(url) {
 
   for (var _iterator = _createForOfIteratorHelperLoose(url.searchParams.entries()), _step; !(_step = _iterator()).done;) {
     var _step$value = _step.value,
-        key = _step$value[0],
-        val = _step$value[1];
-    result[key] = val;
+        name = _step$value[0],
+        value = _step$value[1];
+    result[name] = value;
   }
 
   return result;
