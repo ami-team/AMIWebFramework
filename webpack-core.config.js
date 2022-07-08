@@ -19,7 +19,7 @@ const BANNER = `AMI Web Framework (AWF) ${PACKAGE.version}
 
 Copyright (c) 2014-${new Date().getFullYear()} CNRS/LPSC
 
-Author: Jérôme Odier (jerome.odier@lpsc.in2p3.fr)
+Author: Jerome Odier (jerome.odier@lpsc.in2p3.fr)
 
 Repositories: https://gitlab.in2p3.fr/ami-team/AMIWebFramework/
               https://www.github.com/ami-team/AMIWebFramework/
@@ -222,10 +222,6 @@ const config = {
 				{
 					'from': path.resolve(__dirname, 'node_modules/select2/dist/js/select2.min.js'),
 					'to': path.resolve(__dirname, 'js/assets/js/select2.min.js')
-				},
-				{
-					'from': path.resolve(__dirname, 'node_modules/keycloak-js/dist/keycloak.min.js'),
-					'to': path.resolve(__dirname, 'js/assets/js/keycloak.min.js')
 				}
 
 				/*----------------------------------------------------------------------------------------------------*/

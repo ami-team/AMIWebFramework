@@ -34,7 +34,6 @@
     "jquery": "3.6.0",
     "jquery-ui": "1.13.0",
     "jspath": "0.4.0",
-    "keycloak-js": "15.1.0",
     "marked": "4.0.12",
     "moment": "2.29.2",
     "moment-jdateformatparser": "1.2.1",

@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2014-2022 CNRS/LPSC
  *
- * Author: Jérôme Odier (jerome.odier@lpsc.in2p3.fr)
+ * Author: Jerome Odier (jerome.odier@lpsc.in2p3.fr)
  *
  * Repositories: https://gitlab.in2p3.fr/ami-team/AMIWebFramework/
  *               https://www.github.com/ami-team/AMIWebFramework/
