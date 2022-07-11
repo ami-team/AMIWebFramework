@@ -37204,9 +37204,7 @@ function _injectCodeMirror(editors) {
         var readOnly = textarea.attr('data-read-only') || 'false';
         var wordWrap = textarea.attr('data-word-wrap') || 'false';
         var showGutter = textarea.attr('data-show-gutter') || 'true';
-        var extensions = [editorConf.of(dynamicLang), dist/* keymap.of */.$f.of(defaultKeymap), dist/* EditorView.editable.of */.tk.editable.of(readOnly !== 'true'), language_dist/* syntaxHighlighting */.nF(language_dist/* defaultHighlightStyle */.R_), dist/* EditorView.updateListener.of */.tk.updateListener.of(function (update) {
-          console.log(item.value !== update.state.doc.toString());
-
+        var extensions = [editorConf.of(dynamicLang), state_dist/* EditorState.tabSize.of */.yy.tabSize.of(4), dist/* keymap.of */.$f.of(defaultKeymap), dist/* EditorView.editable.of */.tk.editable.of(readOnly !== 'true'), language_dist/* syntaxHighlighting */.nF(language_dist/* defaultHighlightStyle */.R_), dist/* EditorView.updateListener.of */.tk.updateListener.of(function (update) {
           if (item.value !== update.state.doc.toString()) {
             item.value = update.state.doc.toString();
             $(item).trigger('change');
@@ -37229,6 +37227,7 @@ function _injectCodeMirror(editors) {
           state: editorState,
           parent: div[0]
         });
+        alert(editorView.defaultCharacterWidth);
         textarea.data('editorConf', editorConf);
         textarea.data('editorView', editorView);
 

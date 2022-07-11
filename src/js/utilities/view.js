@@ -130,13 +130,12 @@ function _injectCodeMirror(editors)
 
 				const extensions = [
 					editorConf.of(dynamicLang),
+					cm_state.EditorState.tabSize.of(4),
 					cm_view.keymap.of(cm_command.defaultKeymap),
 					cm_view.EditorView.editable.of(readOnly !== 'true'),
 					cm_language.syntaxHighlighting(cm_language.defaultHighlightStyle),
 					/**/
 					cm_view.EditorView.updateListener.of((update) => {
-
-						console.log(item.value !== update.state.doc.toString());
 
 						if(item.value !== update.state.doc.toString())
 						{
@@ -166,6 +165,8 @@ function _injectCodeMirror(editors)
 					state: editorState,
 					parent: div[0],
 				});
+
+				alert(editorView.defaultCharacterWidth);
 
 				/*----------------------------------------------------------------------------------------------------*/
 
