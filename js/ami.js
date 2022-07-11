@@ -8134,6 +8134,7 @@ module.exports = moment;
 /* harmony export */   "c6": () => (/* binding */ LanguageDescription),
 /* harmony export */   "il": () => (/* binding */ StreamLanguage),
 /* harmony export */   "kU": () => (/* binding */ defineLanguageFacet),
+/* harmony export */   "mi": () => (/* binding */ foldGutter),
 /* harmony export */   "nF": () => (/* binding */ syntaxHighlighting),
 /* harmony export */   "pp": () => (/* binding */ languageDataProp),
 /* harmony export */   "qp": () => (/* binding */ LRLanguage),
@@ -8146,7 +8147,7 @@ module.exports = moment;
 /* harmony export */   "y1": () => (/* binding */ getIndentUnit),
 /* harmony export */   "ze": () => (/* binding */ flatIndent)
 /* harmony export */ });
-/* unused harmony exports HighlightStyle, StringStream, TreeIndentContext, bracketMatching, codeFolding, ensureSyntaxTree, foldAll, foldCode, foldEffect, foldGutter, foldKeymap, foldService, foldState, foldable, foldedRanges, forceParsing, highlightingFor, indentOnInput, indentRange, indentService, language, syntaxParserRunning, syntaxTreeAvailable, unfoldAll, unfoldCode, unfoldEffect */
+/* unused harmony exports HighlightStyle, StringStream, TreeIndentContext, bracketMatching, codeFolding, ensureSyntaxTree, foldAll, foldCode, foldEffect, foldKeymap, foldService, foldState, foldable, foldedRanges, forceParsing, highlightingFor, indentOnInput, indentRange, indentService, language, syntaxParserRunning, syntaxTreeAvailable, unfoldAll, unfoldCode, unfoldEffect */
 /* harmony import */ var _lezer_common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2064);
 /* harmony import */ var _codemirror_state__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5854);
 /* harmony import */ var _codemirror_view__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(9732);
@@ -9525,7 +9526,7 @@ const foldGutterDefaults = {
   foldingChanged: () => false
 };
 
-class FoldMarker extends (/* unused pure expression or super */ null && (GutterMarker)) {
+class FoldMarker extends _codemirror_view__WEBPACK_IMPORTED_MODULE_4__/* .GutterMarker */ .SJ {
   constructor(config, open) {
     super();
     this.config = config;
@@ -9554,7 +9555,7 @@ function foldGutter(config) {
   let fullConfig = Object.assign(Object.assign({}, foldGutterDefaults), config);
   let canFold = new FoldMarker(fullConfig, true),
       canUnfold = new FoldMarker(fullConfig, false);
-  let markers = ViewPlugin.fromClass(class {
+  let markers = _codemirror_view__WEBPACK_IMPORTED_MODULE_4__/* .ViewPlugin.fromClass */ .lg.fromClass(class {
     constructor(view) {
       this.from = view.viewport.from;
       this.markers = this.buildMarkers(view);
@@ -9565,7 +9566,7 @@ function foldGutter(config) {
     }
 
     buildMarkers(view) {
-      let builder = new RangeSetBuilder();
+      let builder = new _codemirror_state__WEBPACK_IMPORTED_MODULE_3__/* .RangeSetBuilder */ .f_();
 
       for (var _iterator17 = _createForOfIteratorHelperLoose(view.viewportLineBlocks), _step17; !(_step17 = _iterator17()).done;) {
         let line = _step17.value;
@@ -9580,13 +9581,13 @@ function foldGutter(config) {
   let {
     domEventHandlers
   } = fullConfig;
-  return [markers, gutter({
+  return [markers, (0,_codemirror_view__WEBPACK_IMPORTED_MODULE_4__/* .gutter */ .v5)({
     class: "cm-foldGutter",
 
     markers(view) {
       var _a;
 
-      return ((_a = view.plugin(markers)) === null || _a === void 0 ? void 0 : _a.markers) || RangeSet.empty;
+      return ((_a = view.plugin(markers)) === null || _a === void 0 ? void 0 : _a.markers) || _codemirror_state__WEBPACK_IMPORTED_MODULE_3__/* .RangeSet.empty */ .Xs.empty;
     },
 
     initialSpacer() {
@@ -14075,16 +14076,18 @@ __webpack_require__.d(__webpack_exports__, {
   "p": () => (/* binding */ Decoration),
   "Nm": () => (/* binding */ Direction),
   "tk": () => (/* binding */ EditorView),
+  "SJ": () => (/* binding */ GutterMarker),
   "lg": () => (/* binding */ ViewPlugin),
   "l9": () => (/* binding */ WidgetType),
   "gB": () => (/* binding */ getTooltip),
+  "v5": () => (/* binding */ gutter),
   "$f": () => (/* binding */ keymap),
   "Eu": () => (/* binding */ lineNumbers),
   "OO": () => (/* binding */ logException),
   "hJ": () => (/* binding */ showTooltip)
 });
 
-// UNUSED EXPORTS: BidiSpan, BlockInfo, BlockType, GutterMarker, MatchDecorator, ViewUpdate, __test, closeHoverTooltips, crosshairCursor, drawSelection, dropCursor, getPanel, gutter, gutterLineClass, gutters, hasHoverTooltips, highlightActiveLine, highlightActiveLineGutter, highlightSpecialChars, hoverTooltip, lineNumberMarkers, panels, placeholder, rectangularSelection, repositionTooltips, runScopeHandlers, scrollPastEnd, showPanel, tooltips
+// UNUSED EXPORTS: BidiSpan, BlockInfo, BlockType, MatchDecorator, ViewUpdate, __test, closeHoverTooltips, crosshairCursor, drawSelection, dropCursor, getPanel, gutterLineClass, gutters, hasHoverTooltips, highlightActiveLine, highlightActiveLineGutter, highlightSpecialChars, hoverTooltip, lineNumberMarkers, panels, placeholder, rectangularSelection, repositionTooltips, runScopeHandlers, scrollPastEnd, showPanel, tooltips
 
 // EXTERNAL MODULE: ./node_modules/@codemirror/state/dist/index.js
 var state_dist = __webpack_require__(5854);
@@ -33929,7 +33932,7 @@ function _injectCodeMirror(editors) {
         const readOnly = textarea.attr('data-read-only') || 'false';
         const wordWrap = textarea.attr('data-word-wrap') || 'false';
         const showGutter = textarea.attr('data-show-gutter') || 'true';
-        const extensions = [editorConf.of(dynamicLang), state_dist/* EditorState.tabSize.of */.yy.tabSize.of(4), dist/* keymap.of */.$f.of(defaultKeymap), dist/* EditorView.editable.of */.tk.editable.of(readOnly !== 'true'), language_dist/* syntaxHighlighting */.nF(language_dist/* defaultHighlightStyle */.R_), dist/* EditorView.updateListener.of */.tk.updateListener.of(update => {
+        const extensions = [editorConf.of(dynamicLang), state_dist/* EditorState.tabSize.of */.yy.tabSize.of(4), dist/* keymap.of */.$f.of(defaultKeymap), dist/* EditorView.editable.of */.tk.editable.of(readOnly !== 'true'), language_dist/* foldGutter */.mi(), language_dist/* syntaxHighlighting */.nF(language_dist/* defaultHighlightStyle */.R_), dist/* EditorView.updateListener.of */.tk.updateListener.of(update => {
           if (item.value !== update.state.doc.toString()) {
             item.value = update.state.doc.toString();
             $(item).trigger('change');

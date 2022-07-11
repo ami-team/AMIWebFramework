@@ -130,9 +130,13 @@ function _injectCodeMirror(editors)
 
 				const extensions = [
 					editorConf.of(dynamicLang),
+					/**/
 					cm_state.EditorState.tabSize.of(4),
+					/**/
 					cm_view.keymap.of(cm_command.defaultKeymap),
 					cm_view.EditorView.editable.of(readOnly !== 'true'),
+					/**/
+					cm_language.foldGutter(),
 					cm_language.syntaxHighlighting(cm_language.defaultHighlightStyle),
 					/**/
 					cm_view.EditorView.updateListener.of((update) => {
