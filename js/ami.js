@@ -37227,7 +37227,6 @@ function _injectCodeMirror(editors) {
           state: editorState,
           parent: div[0]
         });
-        alert(editorView.defaultCharacterWidth);
         textarea.data('editorConf', editorConf);
         textarea.data('editorView', editorView);
 

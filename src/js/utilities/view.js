@@ -166,8 +166,6 @@ function _injectCodeMirror(editors)
 					parent: div[0],
 				});
 
-				alert(editorView.defaultCharacterWidth);
-
 				/*----------------------------------------------------------------------------------------------------*/
 
 				textarea.data('editorConf', editorConf);
