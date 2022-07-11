@@ -41,17 +41,9 @@ knowledge of the CeCILL-C license and that you accept its terms.
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 const BROWSER_LIST = [
-	'>= 1%',
-	'last 1 major version',
-	'not dead',
-	'Chrome >= 45',
-	'Firefox >= 38',
-	'Edge >= 12',
-	'Explorer >= 10',
-	'iOS >= 9',
-	'Safari >= 9',
-	'Android >= 4.4',
-	'Opera >= 30'
+	'defaults',
+	'not ie 11',
+	'not ie_mob 11'
 ];
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -288,6 +280,11 @@ module.exports = (env, argv) => {
 			'loader': 'babel-loader',
 			'options': {
 				'shouldPrintComment': () => false,
+				'plugins': [
+					['@babel/plugin-transform-for-of', {
+						'loose': true
+					}]
+				],
 				'presets': [
 					['@babel/preset-env', {
 						'loose': true,

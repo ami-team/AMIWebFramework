@@ -12067,7 +12067,7 @@ var __webpack_exports__ = {};
 ;// CONCATENATED MODULE: ./src/js/AMIObject.js
 
 
-var $this;
+let $this;
 
 if (typeof window !== 'undefined') {
   $this = window;
@@ -12078,10 +12078,10 @@ if (typeof window !== 'undefined') {
 }
 
 function _$createNamespace($name, x) {
-  var i;
-  var parent = $this;
-  var parts = $name.split(/\s*\.\s*/g),
-      l = parts.length - 1;
+  let i;
+  let parent = $this;
+  const parts = $name.split(/\s*\.\s*/g),
+        l = parts.length - 1;
 
   for (i = 0; i < l; i++) {
     if (parent[parts[i]]) {
@@ -12095,10 +12095,10 @@ function _$createNamespace($name, x) {
 }
 
 function _$addToNamespace($name, x) {
-  var i;
-  var parent = $this;
-  var parts = $name.split(/\s*\.\s*/g),
-      l = parts.length - 1;
+  let i;
+  let parent = $this;
+  const parts = $name.split(/\s*\.\s*/g),
+        l = parts.length - 1;
 
   for (i = 0; i < l; i++) {
     if (parent[parts[i]]) {
@@ -12124,7 +12124,7 @@ function $AMINamespace($name, $descr) {
 function $AMIInterface($name, $descr) {
   $descr = $descr || {};
 
-  var $class = function $class() {
+  const $class = function () {
     throw 'could nor instantiate interface';
   };
 
@@ -12152,18 +12152,18 @@ function $AMIInterface($name, $descr) {
 }
 function $AMIClass($name, $descr) {
   $descr = $descr || {};
-  var $super = $descr.$extends instanceof Function ? $descr.$extends.prototype : {};
-  var $super_implements = $super.$implements instanceof Array ? $super.$implements : [];
-  var $descr_implements = $descr.$implements instanceof Array ? $descr.$implements : [];
+  const $super = $descr.$extends instanceof Function ? $descr.$extends.prototype : {};
+  const $super_implements = $super.$implements instanceof Array ? $super.$implements : [];
+  const $descr_implements = $descr.$implements instanceof Array ? $descr.$implements : [];
 
-  var $class = function $class() {
-    for (var i in this.$implements) {
+  const $class = function () {
+    for (const i in this.$implements) {
       if (this.$implements.hasOwnProperty(i)) {
-          var $interface = this.$implements[i];
+          const $interface = this.$implements[i];
 
-          for (var j in $interface.$members) {
+          for (const j in $interface.$members) {
             if ($interface.$members.hasOwnProperty(j)) {
-                var $member = $interface.$members[j];
+                const $member = $interface.$members[j];
 
                 if (typeof this[j] !== typeof $member) {
                   alert("class '" + this.$name + "' must implement '" + $interface.$name + "." + j + "'");
@@ -12173,29 +12173,25 @@ function $AMIClass($name, $descr) {
         }
     }
 
-    var _super = this.$class._internal_super;
-    var _added = this.$class._internal_added;
+    const _super = this.$class._internal_super;
+    const _added = this.$class._internal_added;
     this.$super = {};
 
-    for (var name in _super) {
+    for (const name in _super) {
       if (_super.hasOwnProperty(name)) {
-          this.$super[name] = function (_super, name, that) {
-            return function () {
-              return _super[name].apply(that, arguments);
-            };
-          }(_super, name, this);
+          this.$super[name] = ((_super, name, that) => function () {
+            return _super[name].apply(that, arguments);
+          })(_super, name, this);
         }
     }
 
     this.$added = {};
 
-    for (var _name in _added) {
-      if (_added.hasOwnProperty(_name)) {
-          this.$added[_name] = function (_added, name, that) {
-            return function () {
-              return _added[name].apply(that, arguments);
-            };
-          }(_added, _name, this);
+    for (const name in _added) {
+      if (_added.hasOwnProperty(name)) {
+          this.$added[name] = ((_added, name, that) => function () {
+            return _added[name].apply(that, arguments);
+          })(_added, name, this);
         }
     }
 
@@ -12207,17 +12203,17 @@ function $AMIClass($name, $descr) {
   $class._internal_super = {};
   $class._internal_added = {};
 
-  for (var name in $super) {
+  for (const name in $super) {
     if (name === '$init' || name.charAt(0) !== '$' || $super.hasOwnProperty(name)) {
       $class._internal_super[name] = $super[name];
       $class.prototype[name] = $super[name];
     }
   }
 
-  for (var _name2 in $descr) {
-    if (_name2 === '$init' || _name2.charAt(0) !== '$' || $descr.hasOwnProperty(_name2)) {
-      $class._internal_added[_name2] = $descr[_name2];
-      $class.prototype[_name2] = $descr[_name2];
+  for (const name in $descr) {
+    if (name === '$init' || name.charAt(0) !== '$' || $descr.hasOwnProperty(name)) {
+      $class._internal_added[name] = $descr[name];
+      $class.prototype[name] = $descr[name];
     }
   }
 
@@ -13352,8 +13348,8 @@ var _httpClient = _classPrivateFieldLooseKey("httpClient");
 
 var _mqttClient = _classPrivateFieldLooseKey("mqttClient");
 
-var AMICommand = function () {
-  function AMICommand() {
+class AMICommand {
+  constructor() {
     Object.defineProperty(this, _httpClient, {
       writable: true,
       value: null
@@ -13364,92 +13360,89 @@ var AMICommand = function () {
     });
   }
 
-  var _proto = AMICommand.prototype;
-
-  _proto.initHttpClient = function initHttpClient(endpoint) {
+  initHttpClient(endpoint) {
     _classPrivateFieldLooseBase(this, _httpClient)[_httpClient] = new ami_http_client(endpoint);
-  };
+  }
 
-  _proto.initMqttClient = function initMqttClient(endpoint) {
+  initMqttClient(endpoint) {
     _classPrivateFieldLooseBase(this, _mqttClient)[_mqttClient] = new ami_mqtt_client(endpoint);
-  };
+  }
 
-  _proto.getHttpEndpoint = function getHttpEndpoint() {
+  getHttpEndpoint() {
     return _classPrivateFieldLooseBase(this, _httpClient)[_httpClient] ? _classPrivateFieldLooseBase(this, _httpClient)[_httpClient].getEndpoint() : '';
-  };
+  }
 
-  _proto.getMqttEndpoint = function getMqttEndpoint() {
+  getMqttEndpoint() {
     return _classPrivateFieldLooseBase(this, _mqttClient)[_mqttClient] ? _classPrivateFieldLooseBase(this, _mqttClient)[_mqttClient].getEndpoint() : '';
-  };
+  }
 
-  _proto.execute = function execute(command, options) {
+  execute(command, options) {
     return typeof options === 'object' && 'mqtt' in options ? _classPrivateFieldLooseBase(this, _mqttClient)[_mqttClient].execute(command, options) : _classPrivateFieldLooseBase(this, _httpClient)[_httpClient].execute(command, options);
-  };
+  }
 
-  _proto.mqttSignInByToken = function mqttSignInByToken(token, serverName) {
+  mqttSignInByToken(token, serverName) {
     return _classPrivateFieldLooseBase(this, _mqttClient)[_mqttClient].signInByToken(token, serverName);
-  };
+  }
 
-  _proto.mqttSignOut = function mqttSignOut(options) {
+  mqttSignOut(options) {
     return _classPrivateFieldLooseBase(this, _mqttClient)[_mqttClient].signOut(options);
-  };
+  }
 
-  _proto.signInByCode = function signInByCode(code, options) {
+  signInByCode(code, options) {
     return _classPrivateFieldLooseBase(this, _httpClient)[_httpClient].signInByCode(code, options);
-  };
+  }
 
-  _proto.signInByToken = function signInByToken(token, options) {
+  signInByToken(token, options) {
     return _classPrivateFieldLooseBase(this, _httpClient)[_httpClient].signInByToken(token, options);
-  };
+  }
 
-  _proto.signInByPassword = function signInByPassword(username, password, options) {
+  signInByPassword(username, password, options) {
     return _classPrivateFieldLooseBase(this, _httpClient)[_httpClient].signInByPassword(username, password, options);
-  };
+  }
 
-  _proto.signInByCertificate = function signInByCertificate(options) {
+  signInByCertificate(options) {
     return _classPrivateFieldLooseBase(this, _httpClient)[_httpClient].signInByCertificate(options);
-  };
+  }
 
-  _proto.signOut = function signOut(options) {
-    return _classPrivateFieldLooseBase(this, _httpClient)[_httpClient].signOut(options).always(function () {});
-  };
+  signOut(options) {
+    return _classPrivateFieldLooseBase(this, _httpClient)[_httpClient].signOut(options).always(() => {});
+  }
 
-  _proto.attachCertificate = function attachCertificate(options) {
+  attachCertificate(options) {
     options = options || {};
     return this.execute('GetSessionInfo -attachCert', options);
-  };
+  }
 
-  _proto.detachCertificate = function detachCertificate(options) {
+  detachCertificate(options) {
     options = options || {};
     return this.execute('GetSessionInfo -detachCert', options);
-  };
+  }
 
-  _proto.addUser = function addUser(username, password, firstName, lastName, email, captchaHash, captchaText, attachCert, agree, options) {
+  addUser(username, password, firstName, lastName, email, captchaHash, captchaText, attachCert, agree, options) {
     options = options || {};
     options.params = [username, password, firstName, lastName, email, captchaHash, captchaText];
     return this.execute("AddUser -amiLogin=? -amiPassword=? -firstName=? -lastName=? -email=? -captchaHash=? -captchaText=? " + (attachCert ? ' -attachCert' : '') + (agree ? ' -agree' : ''), options);
-  };
+  }
 
-  _proto.changeInfo = function changeInfo(firstName, lastName, email, options) {
+  changeInfo(firstName, lastName, email, options) {
     options = options || {};
     options.params = [firstName, lastName, email];
     return this.execute('SetUserInfo -firstName=? -lastName=? -email=?', options);
-  };
+  }
 
-  _proto.changePassword = function changePassword(username, oldPassword, newPassword, options) {
+  changePassword(username, oldPassword, newPassword, options) {
     options = options || {};
     options.params = [username, oldPassword, newPassword];
     return this.execute('ChangePassword -amiLogin=? -amiPasswordOld=? -amiPasswordNew=?', options);
-  };
+  }
 
-  _proto.resetPassword = function resetPassword(username, captchaHash, captchaText, options) {
+  resetPassword(username, captchaHash, captchaText, options) {
     options = options || {};
     options.params = [username, captchaHash, captchaText];
     return this.execute('ResetPassword -amiLogin=? -captchaHash=? -captchaText=?', options);
-  };
+  }
 
-  return AMICommand;
-}();
+}
 
 /* harmony default export */ const js_AMICommand = (new AMICommand());
 // EXTERNAL MODULE: ./node_modules/ami-twig/index.js
@@ -13473,7 +13466,7 @@ function _internal_always(deferred, alwaysCallback) {
   }
 }
 function typeOf(x) {
-  var name = Object.prototype.toString.call(x);
+  const name = Object.prototype.toString.call(x);
   return name.startsWith('[object ') ? name.substring(8, name.length - 1) : '';
 }
 function isString(x) {
@@ -13495,56 +13488,50 @@ function asArray(x) {
   return Array.isArray(x) ? x : [x];
 }
 function setupParams(immutables, defaults, options) {
-  var result = {};
+  const result = {};
 
   if (options) {
     for (var _i = 0, _Object$entries = Object.entries(options); _i < _Object$entries.length; _i++) {
-      var _Object$entries$_i = _Object$entries[_i],
-          key = _Object$entries$_i[0],
-          val = _Object$entries$_i[1];
+      let [key, val] = _Object$entries[_i];
       result[key] = val;
     }
   }
 
   if (defaults) {
     for (var _i2 = 0, _Object$entries2 = Object.entries(defaults); _i2 < _Object$entries2.length; _i2++) {
-      var _Object$entries2$_i = _Object$entries2[_i2],
-          _key = _Object$entries2$_i[0],
-          _val = _Object$entries2$_i[1];
+      let [key, val] = _Object$entries2[_i2];
 
-      if (!(_key in result)) {
-        result[_key] = _val;
+      if (!(key in result)) {
+        result[key] = val;
       }
     }
   }
 
   if (immutables) {
     for (var _i3 = 0, _Object$entries3 = Object.entries(immutables); _i3 < _Object$entries3.length; _i3++) {
-      var _Object$entries3$_i = _Object$entries3[_i3],
-          _key2 = _Object$entries3$_i[0],
-          _val2 = _Object$entries3$_i[1];
-      result[_key2] = _val2;
+      let [key, val] = _Object$entries3[_i3];
+      result[key] = val;
     }
   }
 
   return result;
 }
 function setup(optionNames, optionDefaults, options) {
-  var result = [];
-  var l = optionNames.length;
-  var m = optionDefaults.length;
+  const result = [];
+  const l = optionNames.length;
+  const m = optionDefaults.length;
 
   if (l !== m) {
     throw 'internal error';
   }
 
   if (options) {
-    for (var i = 0; i < l; i++) {
+    for (let i = 0; i < l; i++) {
       result.push(optionNames[i] in options ? options[optionNames[i]] : optionDefaults[i]);
     }
   } else {
-    for (var _i4 = 0; _i4 < l; _i4++) {
-      result.push(optionDefaults[_i4]);
+    for (let i = 0; i < l; i++) {
+      result.push(optionDefaults[i]);
     }
   }
 
@@ -13557,7 +13544,7 @@ function _createForOfIteratorHelperLoose(o, allowArrayLike) { var it = typeof Sy
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 
 function AMIRouter_classPrivateFieldLooseBase(receiver, privateKey) { if (!Object.prototype.hasOwnProperty.call(receiver, privateKey)) { throw new TypeError("attempted to use private field on non-instance"); } return receiver; }
 
@@ -13593,8 +13580,8 @@ var _buildURL = AMIRouter_classPrivateFieldLooseKey("buildURL");
 
 var _goto = AMIRouter_classPrivateFieldLooseKey("goto");
 
-var AMIRouter = function () {
-  function AMIRouter(prodJsFilename, devJsFilename) {
+class AMIRouter {
+  constructor(prodJsFilename, devJsFilename) {
     Object.defineProperty(this, _goto, {
       value: _goto2
     });
@@ -13633,9 +13620,9 @@ var AMIRouter = function () {
       writable: true,
       value: []
     });
-    var webappUrl = new URL(window.location);
+    const webappUrl = new URL(window.location);
 
-    var scriptUrl = AMIRouter_classPrivateFieldLooseBase(AMIRouter, _findThisJs)[_findThisJs](prodJsFilename, devJsFilename);
+    const scriptUrl = AMIRouter_classPrivateFieldLooseBase(AMIRouter, _findThisJs)[_findThisJs](prodJsFilename, devJsFilename);
 
     if (!scriptUrl) {
       throw "cannot find neither '" + prodJsFilename + "' nor '" + devJsFilename + "'";
@@ -13647,7 +13634,7 @@ var AMIRouter = function () {
     AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL] = scriptUrl.protocol === 'file:' ? "file://" + scriptUrl.pathname : "" + scriptUrl.origin + scriptUrl.pathname;
     AMIRouter_classPrivateFieldLooseBase(this, _scriptArgs)[_scriptArgs] = AMIRouter_classPrivateFieldLooseBase(AMIRouter, _searchParamToDict)[_searchParamToDict](scriptUrl);
     AMIRouter_classPrivateFieldLooseBase(this, _scriptHash)[_scriptHash] = scriptUrl.hash.substring(1);
-    var idx;
+    let idx;
 
     if ((idx = AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].indexOf(prodJsFilename)) > 0) {
       AMIRouter_classPrivateFieldLooseBase(this, _originURL)[_originURL] = AMIRouter_classPrivateFieldLooseBase(AMIRouter, _eatSlashes)[_eatSlashes](AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].substring(0, idx));
@@ -13656,56 +13643,54 @@ var AMIRouter = function () {
     }
   }
 
-  var _proto = AMIRouter.prototype;
-
-  _proto.getWebAppURL = function getWebAppURL() {
+  getWebAppURL() {
     return AMIRouter_classPrivateFieldLooseBase(this, _webAppURL)[_webAppURL];
-  };
+  }
 
-  _proto.getWebAppArgs = function getWebAppArgs() {
+  getWebAppArgs() {
     return AMIRouter_classPrivateFieldLooseBase(this, _webAppArgs)[_webAppArgs];
-  };
+  }
 
-  _proto.getWebAppHash = function getWebAppHash() {
+  getWebAppHash() {
     return AMIRouter_classPrivateFieldLooseBase(this, _webAppHash)[_webAppHash];
-  };
+  }
 
-  _proto.getScriptURL = function getScriptURL() {
+  getScriptURL() {
     return AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL];
-  };
+  }
 
-  _proto.getScriptArgs = function getScriptArgs() {
+  getScriptArgs() {
     return AMIRouter_classPrivateFieldLooseBase(this, _scriptArgs)[_scriptArgs];
-  };
+  }
 
-  _proto.getWebappHash = function getWebappHash() {
+  getWebappHash() {
     return AMIRouter_classPrivateFieldLooseBase(this, _scriptHash)[_scriptHash];
-  };
+  }
 
-  _proto.getOriginURL = function getOriginURL() {
+  getOriginURL() {
     return AMIRouter_classPrivateFieldLooseBase(this, _originURL)[_originURL];
-  };
+  }
 
-  _proto.append = function append(regExp, callback) {
+  append(regExp, callback) {
     AMIRouter_classPrivateFieldLooseBase(this, _routes)[_routes].unshift({
       regExp: regExp,
       callback: callback
     });
 
     return this;
-  };
+  }
 
-  _proto.remove = function remove(regExp) {
-    AMIRouter_classPrivateFieldLooseBase(this, _routes)[_routes] = AMIRouter_classPrivateFieldLooseBase(this, _routes)[_routes].filter(function (route) {
+  remove(regExp) {
+    AMIRouter_classPrivateFieldLooseBase(this, _routes)[_routes] = AMIRouter_classPrivateFieldLooseBase(this, _routes)[_routes].filter(route => {
       return route.regExp.toString() !== regExp.toString();
     });
     return this;
-  };
+  }
 
-  _proto.check = function check() {
-    var m;
+  check() {
+    let m;
 
-    for (var i = 0; i < AMIRouter_classPrivateFieldLooseBase(this, _routes)[_routes].length; i++) {
+    for (let i = 0; i < AMIRouter_classPrivateFieldLooseBase(this, _routes)[_routes].length; i++) {
       m = AMIRouter_classPrivateFieldLooseBase(this, _webAppHash)[_webAppHash].match(AMIRouter_classPrivateFieldLooseBase(this, _routes)[_routes][i].regExp);
 
       if (m) {
@@ -13716,16 +13701,13 @@ var AMIRouter = function () {
     }
 
     return false;
-  };
+  }
 
-  _proto.appendHistoryEntry = function appendHistoryEntry(options) {
+  appendHistoryEntry(options) {
     if (history.pushState) {
-      var _tools$setup = setup(['context', 'searchParams', 'hash'], [{}, {}, null], options),
-          context = _tools$setup[0],
-          searchParams = _tools$setup[1],
-          hash = _tools$setup[2];
+      const [context, searchParams, hash] = setup(['context', 'searchParams', 'hash'], [{}, {}, null], options);
 
-      var url = AMIRouter_classPrivateFieldLooseBase(this, _buildURL)[_buildURL](searchParams, hash);
+      const url = AMIRouter_classPrivateFieldLooseBase(this, _buildURL)[_buildURL](searchParams, hash);
 
       if (window.location !== url.toString()) {
         history.pushState(context, null, url.toString());
@@ -13737,16 +13719,13 @@ var AMIRouter = function () {
     }
 
     return false;
-  };
+  }
 
-  _proto.replaceHistoryEntry = function replaceHistoryEntry(options) {
+  replaceHistoryEntry(options) {
     if (history.replaceState) {
-      var _tools$setup2 = setup(['context', 'searchParams', 'hash'], [{}, {}, null], options),
-          context = _tools$setup2[0],
-          searchParams = _tools$setup2[1],
-          hash = _tools$setup2[2];
+      const [context, searchParams, hash] = setup(['context', 'searchParams', 'hash'], [{}, {}, null], options);
 
-      var url = AMIRouter_classPrivateFieldLooseBase(this, _buildURL)[_buildURL](searchParams, hash);
+      const url = AMIRouter_classPrivateFieldLooseBase(this, _buildURL)[_buildURL](searchParams, hash);
 
       if (window.location !== url.toString()) {
         history.replaceState(context, null, url.toString());
@@ -13758,17 +13737,16 @@ var AMIRouter = function () {
     }
 
     return false;
-  };
+  }
 
-  return AMIRouter;
-}();
+}
 
 function _findThisJs2(prodJsFilename, devJsFilename) {
-  var scripts = document.getElementsByTagName('script');
+  const scripts = document.getElementsByTagName('script');
 
-  for (var i = 0; i < scripts.length; i++) {
+  for (let i = 0; i < scripts.length; i++) {
     try {
-      var url = new URL(scripts[i].src);
+      const url = new URL(scripts[i].src);
 
       if (url.pathname.endsWith(prodJsFilename) > 0 || url.pathname.endsWith(devJsFilename) > 0) {
         return url;
@@ -13780,12 +13758,10 @@ function _findThisJs2(prodJsFilename, devJsFilename) {
 }
 
 function _searchParamToDict2(url) {
-  var result = {};
+  const result = {};
 
   for (var _iterator = _createForOfIteratorHelperLoose(url.searchParams.entries()), _step; !(_step = _iterator()).done;) {
-    var _step$value = _step.value,
-        name = _step$value[0],
-        value = _step$value[1];
+    const [name, value] = _step.value;
     result[name] = value;
   }
 
@@ -13803,12 +13779,10 @@ function _eatSlashes2(url) {
 }
 
 function _buildURL2(searchParams, hash) {
-  var result = new URL(AMIRouter_classPrivateFieldLooseBase(this, _webAppURL)[_webAppURL]);
+  const result = new URL(AMIRouter_classPrivateFieldLooseBase(this, _webAppURL)[_webAppURL]);
 
   for (var _i = 0, _Object$entries = Object.entries(searchParams); _i < _Object$entries.length; _i++) {
-    var _Object$entries$_i = _Object$entries[_i],
-        name = _Object$entries$_i[0],
-        value = _Object$entries$_i[1];
+    const [name, value] = _Object$entries[_i];
 
     if (typeof value === 'string') {
       result.searchParams.set(name, value);
@@ -13824,8 +13798,8 @@ function _buildURL2(searchParams, hash) {
 
 function _goto2(hash) {
   if (hash) {
-    setTimeout(function () {
-      var el = $(hash);
+    setTimeout(() => {
+      const el = $(hash);
 
       if (el.length > 0) {
         $(document).scrollTop(el.offset().top);
@@ -13862,10 +13836,10 @@ function getStack() {
     }
   }
 }
-var _curLockCnt = 0;
-var _tmpLockCnt = 0;
+let _curLockCnt = 0;
+let _tmpLockCnt = 0;
 function lock() {
-  var lines = getStack().split('\n');
+  let lines = getStack().split('\n');
 
   if (lines.length > 3) {
     console.log("lock[" + _curLockCnt + "] :: " + lines[3]);
@@ -13886,14 +13860,14 @@ function unlock() {
     _curLockCnt--;
   }
 
-  var lines = getStack().split('\n');
+  let lines = getStack().split('\n');
 
   if (lines.length > 3) {
     console.log("unlock[" + _curLockCnt + "] :: " + lines[3]);
   }
 }
 function modalLeave() {
-  var lines = getStack().split('\n');
+  const lines = getStack().split('\n');
 
   if (lines.length > 2) {
     console.log("modalLock[" + _curLockCnt + "] :: " + lines[2]);
@@ -13912,13 +13886,13 @@ function modalEnter() {
     $('#ami_locker').css('display', 'none');
   }
 
-  var lines = getStack().split('\n');
+  const lines = getStack().split('\n');
 
   if (lines.length > 2) {
     console.log("modalUnlock[" + _curLockCnt + "] :: " + lines[2]);
   }
 }
-var _canLeave = true;
+let _canLeave = true;
 function canLeave(canLeave) {
   _canLeave = canLeave;
 }
@@ -13927,42 +13901,42 @@ function canLeave(canLeave) {
 
 
 function base64Encode(s) {
-  return btoa(encodeURIComponent(s || '').replace(/%([0-9A-F]{2})/g, function (_, $1) {
+  return btoa(encodeURIComponent(s || '').replace(/%([0-9A-F]{2})/g, (_, $1) => {
     return String.fromCharCode(parseInt($1, 16));
   })).replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
 }
 function base64Decode(s) {
-  return decodeURIComponent(atob((s || '').replace(/-/g, '+').replace(/_/g, '/')).split('').map(function (c) {
+  return decodeURIComponent(atob((s || '').replace(/-/g, '+').replace(/_/g, '/')).split('').map(c => {
     return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
   }).join(''));
 }
-var _replace = ami_twig/* default.stdlib._replace */.Z.stdlib._replace;
-var _textToHtmlX = ['&', '"', '<', '>'];
-var _textToHtmlY = ['&amp;', '&quot;', '&lt;', '&gt;'];
+const _replace = ami_twig/* default.stdlib._replace */.Z.stdlib._replace;
+const _textToHtmlX = ['&', '"', '<', '>'];
+const _textToHtmlY = ['&amp;', '&quot;', '&lt;', '&gt;'];
 function textToHtml(s) {
   return _replace(s || '', _textToHtmlX, _textToHtmlY);
 }
 function htmlToText(s) {
   return _replace(s || '', _textToHtmlY, _textToHtmlX);
 }
-var _textToStringX = ['\\', '\r', '\n', '"', '\''];
-var _textToStringY = ['\\\\', '\\r', '\\n', '\\"', '\\\''];
+const _textToStringX = ['\\', '\r', '\n', '"', '\''];
+const _textToStringY = ['\\\\', '\\r', '\\n', '\\"', '\\\''];
 function textToString(s) {
   return _replace(s || '', _textToStringX, _textToStringY);
 }
 function stringToText(s) {
   return _replace(s || '', _textToStringY, _textToStringX);
 }
-var _htmlToStringX = ['\\', '\r', '\n', '&quot;', '\''];
-var _htmlToStringY = ['\\\\', '\\r', '\\n', '\\&quot;', '\\\''];
+const _htmlToStringX = ['\\', '\r', '\n', '&quot;', '\''];
+const _htmlToStringY = ['\\\\', '\\r', '\\n', '\\&quot;', '\\\''];
 function htmlToString(s) {
   return _replace(s || '', _htmlToStringX, _htmlToStringY);
 }
 function stringToHtml(s) {
   return _replace(s || '', _htmlToStringY, _htmlToStringX);
 }
-var _textToSQLX = ['\''];
-var _textToSQLY = ['\'\''];
+const _textToSQLX = ['\''];
+const _textToSQLY = ['\'\''];
 function textToSQL(s) {
   return _replace(s || '', _textToSQLX, _textToSQLY);
 }
@@ -13978,23 +13952,21 @@ var twigs_message = __webpack_require__(3988);
 
 
 
-var _linkExp = /\[\s*([^\s\]]*)\s*]\(\s*([^\s)]*)\s*\)/g;
+const _linkExp = /\[\s*([^\s\]]*)\s*]\(\s*([^\s)]*)\s*\)/g;
 
 function _publishAlert(clazz, title, message, fadeOut) {
   if (Array.isArray(message)) {
-    message = message.map(function (MESSAGE) {
-      return (MESSAGE || '').toString();
-    }).join('. ');
+    message = message.map(MESSAGE => (MESSAGE || '').toString()).join('. ');
   } else {
     message = (message || '').toString();
   }
 
-  var hash = message.hashCode();
-  var date = moment().format('DD MMM, HH:mm:ss');
-  var toast = $("#ami_alert_content > .toast[data-ami-hash=\"" + hash + "\"]");
+  const hash = message.hashCode();
+  const date = moment().format('DD MMM, HH:mm:ss');
+  const toast = $("#ami_alert_content > .toast[data-ami-hash=\"" + hash + "\"]");
 
   if (toast.length === 0) {
-    var html = formatTWIG(twigs_message, {
+    const html = formatTWIG(twigs_message, {
       date: date,
       hash: hash,
       clazz: clazz,
@@ -14002,7 +13974,7 @@ function _publishAlert(clazz, title, message, fadeOut) {
       fadeOut: fadeOut,
       message: message
     });
-    $('#ami_alert_content').append(html.replace(_linkExp, '<a href="$1" target="_blank">$2</a>')).promise().done(function () {
+    $('#ami_alert_content').append(html.replace(_linkExp, '<a href="$1" target="_blank">$2</a>')).promise().done(() => {
       $("#ami_alert_content > .toast[data-ami-hash=\"" + hash + "\"]").toast('show');
     });
   } else {
@@ -16554,12 +16526,10 @@ if (typeof window !== "undefined") {
 
 
 function fillBreadcrumb(items) {
-  var s;
+  let s;
 
   if (isArray(items)) {
-    s = items.map(function (item) {
-      return "<li class=\"breadcrumb-item\">" + item.replace(/{{ORIGIN_URL}}/g, js_AMIRouter.getOriginURL).replace(/{{WEBAPP_URL}}/g, js_AMIRouter.getWebAppURL()) + "</li>";
-    }).join('');
+    s = items.map(item => "<li class=\"breadcrumb-item\">" + item.replace(/{{ORIGIN_URL}}/g, js_AMIRouter.getOriginURL).replace(/{{WEBAPP_URL}}/g, js_AMIRouter.getWebAppURL()) + "</li>").join('');
   } else if (isString(items)) {
     s = items.replace(/{{ORIGIN_URL}}/g, js_AMIRouter.getOriginURL).replace(/{{WEBAPP_URL}}/g, js_AMIRouter.getWebAppURL());
   } else {
@@ -16568,11 +16538,11 @@ function fillBreadcrumb(items) {
 
   $('#ami_breadcrumb_content').html(s);
 }
-var _idRegExp = /[a-zA-Z][a-zA-Z0-9]{7}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{12}/g;
-var _datetimeFormat = 'yyyy-MM-dd HH:mm:ss.SSSSSS';
-var _dateFormat = 'yyyy-MM-dd';
-var _timeHMSFormat = 'HH:mm:ss.SSSSSS';
-var _timeHMFormat = 'HH:mm';
+const _idRegExp = /[a-zA-Z][a-zA-Z0-9]{7}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{12}/g;
+let _datetimeFormat = 'yyyy-MM-dd HH:mm:ss.SSSSSS';
+let _dateFormat = 'yyyy-MM-dd';
+let _timeHMSFormat = 'HH:mm:ss.SSSSSS';
+let _timeHMFormat = 'HH:mm';
 
 function _parseDatetime(s, format) {
   format = moment().toMomentFormatString(format);
@@ -16585,23 +16555,23 @@ function _formatDatetime(date, format) {
 }
 
 function _injectMonaco(editors, monaco) {
-  editors.each(function (_, item) {
-    var textarea = $(item);
-    var div = $('<div>', {
+  editors.each((_, item) => {
+    const textarea = $(item);
+    const div = $('<div>', {
       'class': textarea.attr('class').replace(/form-editor[\-a-zA-Z]*/g, 'form-editor-monaco'),
       'style': textarea.attr('style')
     });
-    div.insertAfter(textarea).promise().done(function () {
-      var lang = textarea.attr('data-lang') || '';
-      var theme = textarea.attr('data-theme') || 'vs';
-      var wordWrap = textarea.attr('data-word-wrap') || 'false';
-      var readOnly = textarea.attr('data-read-only') || 'false';
-      var showGutter = textarea.attr('data-show-gutter') || 'false';
-      var showMiniMap = textarea.attr('data-show-minimap') || 'false';
-      var automaticLayout = textarea.attr('data-automatic-layout') || 'false';
-      var renderWhitespace = textarea.attr('data-render-whitespace') || 'false';
-      var highlightActiveLine = textarea.attr('data-highlight-active-line') || 'false';
-      var editor = monaco.editor.create(div[0], {
+    div.insertAfter(textarea).promise().done(() => {
+      const lang = textarea.attr('data-lang') || '';
+      const theme = textarea.attr('data-theme') || 'vs';
+      const wordWrap = textarea.attr('data-word-wrap') || 'false';
+      const readOnly = textarea.attr('data-read-only') || 'false';
+      const showGutter = textarea.attr('data-show-gutter') || 'false';
+      const showMiniMap = textarea.attr('data-show-minimap') || 'false';
+      const automaticLayout = textarea.attr('data-automatic-layout') || 'false';
+      const renderWhitespace = textarea.attr('data-render-whitespace') || 'false';
+      const highlightActiveLine = textarea.attr('data-highlight-active-line') || 'false';
+      const editor = monaco.editor.create(div[0], {
         value: item.value,
         theme: theme,
         language: lang,
@@ -16624,18 +16594,18 @@ function _injectMonaco(editors, monaco) {
         }
       });
       textarea.data('editor', editor);
-      editor.onDidChangeModelContent(function () {
+      editor.onDidChangeModelContent(() => {
         item.value = editor.getValue();
         $(item).trigger('change');
       });
 
-      var updateHeight = function updateHeight() {
+      const updateHeight = () => {
         try {
           editor.layout({
             width: div.width(),
             height: editor.getContentHeight()
           });
-        } catch (_unused) {}
+        } catch {}
       };
 
       editor.onDidContentSizeChange(updateHeight);
@@ -16645,23 +16615,18 @@ function _injectMonaco(editors, monaco) {
 }
 
 function _xxxHTML(selector, twig, mode, options) {
-  var result = $.Deferred();
-
-  var _tools$setup = setup(['context', 'scope', 'dict', 'twigs'], [result, null, {}, {}], options),
-      context = _tools$setup[0],
-      scope = _tools$setup[1],
-      dict = _tools$setup[2],
-      twigs = _tools$setup[3];
+  const result = $.Deferred();
+  const [context, scope, dict, twigs] = setup(['context', 'scope', 'dict', 'twigs'], [result, null, {}, {}], options);
 
   if (scope) {
-    twig = twig.replace(_idRegExp, function (id) {
+    twig = twig.replace(_idRegExp, id => {
       return id + "_scope" + scope;
     });
   }
 
-  var html = formatTWIG(twig, dict, twigs);
-  var promise;
-  var el = $(selector),
+  const html = formatTWIG(twig, dict, twigs);
+  let promise;
+  let el = $(selector),
       el2;
 
   switch (mode) {
@@ -16687,16 +16652,12 @@ function _xxxHTML(selector, twig, mode, options) {
       throw 'internal error';
   }
 
-  promise.done(function () {
-    var _find = mode === 3 ? function (_selector) {
-      return el.find(_selector).addBack(_selector);
-    } : function (_selector) {
-      return el.find(_selector);
-    };
+  promise.done(() => {
+    const _find = mode === 3 ? _selector => el.find(_selector).addBack(_selector) : _selector => el.find(_selector);
 
     if (js_AMIWebApp.bootstrapVersion < 5) {
-      _find('*').each(function (idx, element) {
-        $(element.attributes).each(function (idx, attribute) {
+      _find('*').each((idx, element) => {
+        $(element.attributes).each((idx, attribute) => {
           if (attribute.name.startsWith('data-bs-')) {
             element.setAttribute("data-" + attribute.name.substring(8), attribute.value);
           }
@@ -16764,11 +16725,11 @@ function _xxxHTML(selector, twig, mode, options) {
       formatDate: _formatDatetime
     });
 
-    var editors = _find('.form-editor:not(.form-editor-done)').addClass('form-editor-done');
+    const editors = _find('.form-editor:not(.form-editor-done)').addClass('form-editor-done');
 
     if (editors.length > 0) {
       if (typeof window.monaco === 'undefined') {
-        Promise.all(/* import() */[__webpack_require__.e(552), __webpack_require__.e(164)]).then(__webpack_require__.bind(__webpack_require__, 1401)).then(function (windowMonaco) {
+        Promise.all(/* import() */[__webpack_require__.e(552), __webpack_require__.e(164)]).then(__webpack_require__.bind(__webpack_require__, 1401)).then(windowMonaco => {
           _injectMonaco(editors, window.monaco = windowMonaco);
 
           result.resolveWith(context, [el, html]);
@@ -16785,13 +16746,13 @@ function _xxxHTML(selector, twig, mode, options) {
   return result.promise();
 }
 
-function view_replaceHTML(selector, twig, options) {
+function replaceHTML(selector, twig, options) {
   return _xxxHTML(selector, twig, 0, options);
 }
-function view_prependHTML(selector, twig, options) {
+function prependHTML(selector, twig, options) {
   return _xxxHTML(selector, twig, 1, options);
 }
-function view_appendHTML(selector, twig, options) {
+function appendHTML(selector, twig, options) {
   return _xxxHTML(selector, twig, 2, options);
 }
 function parentHTML(selector, twig, options) {
@@ -16812,9 +16773,9 @@ function setDateTimeFormats(datetimePrecision, datetimeFormat, dateFormat, timeP
   }
 }
 function formatTWIG(twig, dict, twigs) {
-  var result = [];
+  const result = [];
 
-  var render = function render(twig, dict, twigs) {
+  const render = (twig, dict, twigs) => {
     if (!isMap(dict)) {
       dict = {};
     }
@@ -16829,7 +16790,7 @@ function formatTWIG(twig, dict, twigs) {
     return ami_twig/* default.engine.render */.Z.engine.render(twig, dict, twigs);
   };
 
-  asArray(dict).forEach(function (DICT) {
+  asArray(dict).forEach(DICT => {
     try {
       result.push(render(twig, DICT, twigs));
     } catch (e) {
@@ -16845,7 +16806,7 @@ function jsdoc_createForOfIteratorHelperLoose(o, allowArrayLike) { var it = type
 
 function jsdoc_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return jsdoc_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return jsdoc_arrayLikeToArray(o, minLen); }
 
-function jsdoc_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+function jsdoc_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 
 function jsdoc_classPrivateFieldLooseBase(receiver, privateKey) { if (!Object.prototype.hasOwnProperty.call(receiver, privateKey)) { throw new TypeError("attempted to use private field on non-instance"); } return receiver; }
 
@@ -16895,52 +16856,53 @@ var _makeDetails = jsdoc_classPrivateFieldLooseKey("makeDetails");
 
 var _makeExamples = jsdoc_classPrivateFieldLooseKey("makeExamples");
 
-var AMIJSDoc = function AMIJSDoc(menuSelector, bodySelector, json) {
-  Object.defineProperty(this, _makeContent, {
-    value: _makeContent2
-  });
-  Object.defineProperty(this, _makeSubMenu, {
-    value: _makeSubMenu2
-  });
-  Object.defineProperty(this, _makeMenu, {
-    value: _makeMenu2
-  });
-  Object.defineProperty(this, _menuSelector, {
-    writable: true,
-    value: null
-  });
-  Object.defineProperty(this, _bodySelector, {
-    writable: true,
-    value: null
-  });
-  Object.defineProperty(this, _json, {
-    writable: true,
-    value: null
-  });
-  jsdoc_classPrivateFieldLooseBase(this, _menuSelector)[_menuSelector] = menuSelector;
-  jsdoc_classPrivateFieldLooseBase(this, _bodySelector)[_bodySelector] = bodySelector;
-  jsdoc_classPrivateFieldLooseBase(this, _json)[_json] = json;
+class AMIJSDoc {
+  constructor(menuSelector, bodySelector, json) {
+    Object.defineProperty(this, _makeContent, {
+      value: _makeContent2
+    });
+    Object.defineProperty(this, _makeSubMenu, {
+      value: _makeSubMenu2
+    });
+    Object.defineProperty(this, _makeMenu, {
+      value: _makeMenu2
+    });
+    Object.defineProperty(this, _menuSelector, {
+      writable: true,
+      value: null
+    });
+    Object.defineProperty(this, _bodySelector, {
+      writable: true,
+      value: null
+    });
+    Object.defineProperty(this, _json, {
+      writable: true,
+      value: null
+    });
+    jsdoc_classPrivateFieldLooseBase(this, _menuSelector)[_menuSelector] = menuSelector;
+    jsdoc_classPrivateFieldLooseBase(this, _bodySelector)[_bodySelector] = bodySelector;
+    jsdoc_classPrivateFieldLooseBase(this, _json)[_json] = json;
 
-  jsdoc_classPrivateFieldLooseBase(this, _makeMenu)[_makeMenu]();
-};
+    jsdoc_classPrivateFieldLooseBase(this, _makeMenu)[_makeMenu]();
+  }
+
+}
 
 function _makeMenu2() {
-  var _this = this;
-
-  var s = "\n<a class=\"list-group-item list-group-item-action p-2\" href=\"\">\n\t<i class=\"bi bi-house\"></i> Home\n</a>\n\n<div class=\"list-group-item list-group-item-action p-2\">\n\n\t" + jsdoc_classPrivateFieldLooseBase(this, _makeSubMenu)[_makeSubMenu]('Global', 'global') + "\n\t" + jsdoc_classPrivateFieldLooseBase(this, _makeSubMenu)[_makeSubMenu]('Namespace', 'namespaces') + "\n\t" + jsdoc_classPrivateFieldLooseBase(this, _makeSubMenu)[_makeSubMenu]('Interface', 'interfaces') + "\n\t" + jsdoc_classPrivateFieldLooseBase(this, _makeSubMenu)[_makeSubMenu]('Class', 'classes') + "\n\n</div>\n";
-  $(jsdoc_classPrivateFieldLooseBase(this, _menuSelector)[_menuSelector]).html(s.trim()).promise().done(function (_) {
-    $(jsdoc_classPrivateFieldLooseBase(_this, _menuSelector)[_menuSelector]).find('a[data-name][data-cat][data-name]').click(function (e) {
-      var el = $(e.currentTarget);
+  const s = "\n<a class=\"list-group-item list-group-item-action p-2\" href=\"\">\n\t<i class=\"bi bi-house\"></i> Home\n</a>\n\n<div class=\"list-group-item list-group-item-action p-2\">\n\n\t" + jsdoc_classPrivateFieldLooseBase(this, _makeSubMenu)[_makeSubMenu]('Global', 'global') + "\n\t" + jsdoc_classPrivateFieldLooseBase(this, _makeSubMenu)[_makeSubMenu]('Namespace', 'namespaces') + "\n\t" + jsdoc_classPrivateFieldLooseBase(this, _makeSubMenu)[_makeSubMenu]('Interface', 'interfaces') + "\n\t" + jsdoc_classPrivateFieldLooseBase(this, _makeSubMenu)[_makeSubMenu]('Class', 'classes') + "\n\n</div>\n";
+  $(jsdoc_classPrivateFieldLooseBase(this, _menuSelector)[_menuSelector]).html(s.trim()).promise().done(_ => {
+    $(jsdoc_classPrivateFieldLooseBase(this, _menuSelector)[_menuSelector]).find('a[data-name][data-cat][data-name]').click(e => {
+      const el = $(e.currentTarget);
       e.preventDefault();
 
-      jsdoc_classPrivateFieldLooseBase(_this, _makeContent)[_makeContent](el.attr('data-title'), el.attr('data-cat'), el.attr('data-name'));
+      jsdoc_classPrivateFieldLooseBase(this, _makeContent)[_makeContent](el.attr('data-title'), el.attr('data-cat'), el.attr('data-name'));
     });
   });
 }
 
 function _makeSubMenu2(title, cat) {
-  var result = [];
-  var items;
+  const result = [];
+  let items;
 
   if (cat === 'global') {
     items = [];
@@ -16959,9 +16921,7 @@ function _makeSubMenu2(title, cat) {
   if (Array.isArray(items) && items.length > 0) {
     result.push('<div>');
     result.push("<a href=\"#jsdoc_menu_" + title.toLowerCase() + "\" data-toggle=\"collapse\" data-bs-toggle=\"collapse\"><i class=\"bi bi-book\"></i> " + textToHtml(title) + "</a>");
-    result.push("<ul class=\"collapse mb-0\" id=\"jsdoc_menu_" + title.toLowerCase() + "\">" + items.map(function (_item) {
-      return "<li><a href=\"#\" data-title=\"" + textToHtml(title) + "\" data-cat=\"" + textToHtml(cat) + "\" data-name=\"" + textToHtml(_item.name) + "\">" + textToHtml(_item.name) + "</a></li>";
-    }).join('') + "</ul>");
+    result.push("<ul class=\"collapse mb-0\" id=\"jsdoc_menu_" + title.toLowerCase() + "\">" + items.map(_item => "<li><a href=\"#\" data-title=\"" + textToHtml(title) + "\" data-cat=\"" + textToHtml(cat) + "\" data-name=\"" + textToHtml(_item.name) + "\">" + textToHtml(_item.name) + "</a></li>").join('') + "</ul>");
     result.push('</div>');
   }
 
@@ -16969,8 +16929,8 @@ function _makeSubMenu2(title, cat) {
 }
 
 function _makeContent2(title, cat, name) {
-  var s = [];
-  var item;
+  const s = [];
+  let item;
 
   if (cat === 'global') {
     item = {
@@ -16979,9 +16939,7 @@ function _makeContent2(title, cat, name) {
       functions: jsdoc_classPrivateFieldLooseBase(this, _json)[_json]['functions']
     };
   } else {
-    item = jsdoc_classPrivateFieldLooseBase(this, _json)[_json][cat].filter(function (item) {
-      return item.name === name;
-    })[0];
+    item = jsdoc_classPrivateFieldLooseBase(this, _json)[_json][cat].filter(item => item.name === name)[0];
   }
 
   s.push('<div class="card">');
@@ -17002,7 +16960,7 @@ function _makeContent2(title, cat, name) {
     s.push('<h4 class="mt-3">Members</h4>');
 
     for (var _iterator = jsdoc_createForOfIteratorHelperLoose(item.variables), _step; !(_step = _iterator()).done;) {
-      var _variable = _step.value;
+      const _variable = _step.value;
       s.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeVariable)[_makeVariable](_variable));
     }
   }
@@ -17011,7 +16969,7 @@ function _makeContent2(title, cat, name) {
     s.push('<h4 class="mt-3">Methods</h4>');
 
     for (var _iterator2 = jsdoc_createForOfIteratorHelperLoose(item.functions), _step2; !(_step2 = _iterator2()).done;) {
-      var _function = _step2.value;
+      const _function = _step2.value;
       s.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeFunction)[_makeFunction](_function));
     }
   }
@@ -17020,7 +16978,7 @@ function _makeContent2(title, cat, name) {
     s.push('<h4 class="mt-3">Events</h4>');
 
     for (var _iterator3 = jsdoc_createForOfIteratorHelperLoose(item.events), _step3; !(_step3 = _iterator3()).done;) {
-      var _event = _step3.value;
+      const _event = _step3.value;
       s.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeFunction)[_makeFunction](_event));
     }
   }
@@ -17029,7 +16987,7 @@ function _makeContent2(title, cat, name) {
 }
 
 function _makeVariable2(variable) {
-  var result = [];
+  const result = [];
   result.push("<hr id=\"jsdoc_variable_" + variable.name + "\" />");
   result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeVariableSignature)[_makeVariableSignature](variable));
   result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeAlias)[_makeAlias](variable));
@@ -17039,14 +16997,14 @@ function _makeVariable2(variable) {
 }
 
 function _makeVariableSignature2(variable) {
-  var result = [];
+  const result = [];
   result.push("<span class=\"signature-name\">" + textToHtml(variable.name) + "</span>");
   result.push("<span class=\"signature-attrs\">: {" + jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeType)[_makeType](variable) + "}</span>");
   return result.join('');
 }
 
 function _makeFunction2(method) {
-  var result = [];
+  const result = [];
   result.push("<hr id=\"jsdoc_method_" + method.name + "\" />");
   result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeFunctionSignature)[_makeFunctionSignature](method));
   result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeAlias)[_makeAlias](method));
@@ -17060,38 +17018,33 @@ function _makeFunction2(method) {
 }
 
 function _makeFunctionSignature2(method) {
-  var result = [];
+  const result = [];
   result.push("<span class=\"signature-name\">" + textToHtml(method.name) + "</span>");
 
   if (method.params) {
-    var L = method.params.map(function (_param) {
-      return jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeParam)[_makeParam](_param);
-    });
+    const L = method.params.map(_param => jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeParam)[_makeParam](_param));
     result.push("<span class=\"signature-params\">(" + L.join(', ') + ")</span>");
   }
 
   if (method.returns) {
-    var _L = method.returns.map(function (_return) {
-      return jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeType)[_makeType](_return);
-    });
-
-    result.push("<span class=\"signature-attrs\"> &rarr; {" + _L.join(' or ') + "}</span>");
+    const L = method.returns.map(_return => jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeType)[_makeType](_return));
+    result.push("<span class=\"signature-attrs\"> &rarr; {" + L.join(' or ') + "}</span>");
   }
 
   return result.join('');
 }
 
 function _makeFunctionParameters2(method) {
-  var result = [];
+  const result = [];
 
   if (method.params.length > 0) {
-    var L1 = [],
-        L2 = [],
-        L3 = [],
-        L4 = [],
-        L5 = [],
-        L6 = [];
-    var cnt1 = 0,
+    const L1 = [],
+          L2 = [],
+          L3 = [],
+          L4 = [],
+          L5 = [],
+          L6 = [];
+    let cnt1 = 0,
         cnt2 = 0,
         cnt3 = 0,
         cnt4 = 0,
@@ -17099,7 +17052,7 @@ function _makeFunctionParameters2(method) {
         cnt6 = 0;
 
     for (var _iterator4 = jsdoc_createForOfIteratorHelperLoose(method.params), _step4; !(_step4 = _iterator4()).done;) {
-      var _params = _step4.value;
+      const _params = _step4.value;
       L1.push(textToHtml(_params['name']));
       L2.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeType)[_makeType](_params));
       L3.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeDesc)[_makeDesc](_params));
@@ -17165,7 +17118,7 @@ function _makeFunctionParameters2(method) {
     result.push('</thead>');
     result.push('<tbody>');
 
-    for (var i in method.params) {
+    for (const i in method.params) {
       result.push('<tr>');
 
       if (cnt1 > 0) {
@@ -17203,11 +17156,11 @@ function _makeFunctionParameters2(method) {
 }
 
 function _makeFunctionExceptions2(method) {
-  var result = [];
+  const result = [];
 
   if (Array.isArray(method.exceptions)) {
     for (var _iterator5 = jsdoc_createForOfIteratorHelperLoose(method.exceptions), _step5; !(_step5 = _iterator5()).done;) {
-      var _exception = _step5.value;
+      const _exception = _step5.value;
       result.push('<h5 class="mt-2"><strong>Throws:</strong></h5>');
       result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeDesc)[_makeDesc](_exception));
       result.push("<div>Type: <span class=\"signature-attrs\">" + jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeType)[_makeType](_exception) + "</span></div>");
@@ -17218,11 +17171,11 @@ function _makeFunctionExceptions2(method) {
 }
 
 function _makeFunctionReturn2(method) {
-  var result = [];
+  const result = [];
 
   if (Array.isArray(method.returns)) {
     for (var _iterator6 = jsdoc_createForOfIteratorHelperLoose(method.returns), _step6; !(_step6 = _iterator6()).done;) {
-      var _return = _step6.value;
+      const _return = _step6.value;
       result.push('<h5 class="mt-2"><strong>Returns:</strong></h5>');
       result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeDesc)[_makeDesc](_return));
       result.push("<div>Type: <span class=\"signature-attrs\">" + jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeType)[_makeType](_return) + "</span></div>");
@@ -17233,7 +17186,7 @@ function _makeFunctionReturn2(method) {
 }
 
 function _makeAlias2(x) {
-  var result = [];
+  const result = [];
 
   if (x.alias) {
     result.push('<div>');
@@ -17245,11 +17198,11 @@ function _makeAlias2(x) {
 }
 
 function _makeDesc2(x) {
-  var result = [];
+  const result = [];
 
   if (x.desc) {
     result.push('<div>');
-    result.push(textToHtml(x.desc).replace(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, jsdoc_linkExp)[jsdoc_linkExp], function (_, x, y) {
+    result.push(textToHtml(x.desc).replace(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, jsdoc_linkExp)[jsdoc_linkExp], (_, x, y) => {
       return "<a href=\"" + y + "\">" + (x || y) + "</a>";
     }));
     result.push('</div>');
@@ -17259,7 +17212,7 @@ function _makeDesc2(x) {
 }
 
 function _makeParam2(x) {
-  var result = [];
+  const result = [];
   result.push(textToHtml(x.name));
 
   if (x.optional) {
@@ -17274,13 +17227,11 @@ function _makeParam2(x) {
 }
 
 function _makeType2(x) {
-  return x.type.map(function (y) {
-    return "<i>" + textToHtml(y.replace(/\s*/g, '')) + "</i>";
-  }).join(' or ');
+  return x.type.map(y => "<i>" + textToHtml(y.replace(/\s*/g, '')) + "</i>").join(' or ');
 }
 
 function _makeDetails2(x) {
-  var result = [];
+  const result = [];
 
   if (Array.isArray(x.implements) && x.implements.length > 0) {
     result.push("<div>Implements: " + textToHtml(x.implements.join(', ')) + "</div>");
@@ -17290,9 +17241,9 @@ function _makeDetails2(x) {
     result.push("<div>Inherits: " + textToHtml(x.inherits.join(', ')) + "</div>");
   }
 
-  var version = [];
-  var author = [];
-  var see = [];
+  const version = [];
+  const author = [];
+  const see = [];
 
   if (x.version) {
     version.push("<dt>Version:</dt><dd>" + textToHtml(x.version) + "</dd>");
@@ -17300,9 +17251,9 @@ function _makeDetails2(x) {
 
   if (Array.isArray(x.author)) {
     for (var _iterator7 = jsdoc_createForOfIteratorHelperLoose(x.author), _step7; !(_step7 = _iterator7()).done;) {
-      var _author = _step7.value;
+      const _author = _step7.value;
 
-      var _AUTHOR = _author.replace(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, jsdoc_linkExp)[jsdoc_linkExp], function (_, x, y) {
+      const _AUTHOR = _author.replace(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, jsdoc_linkExp)[jsdoc_linkExp], (_, x, y) => {
         return "<a href=\"" + y + "\">" + (x || y) + "</a>";
       });
 
@@ -17312,9 +17263,9 @@ function _makeDetails2(x) {
 
   if (Array.isArray(x.see)) {
     for (var _iterator8 = jsdoc_createForOfIteratorHelperLoose(x.see), _step8; !(_step8 = _iterator8()).done;) {
-      var _see = _step8.value;
+      const _see = _step8.value;
 
-      var _SEE = _see.replace(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, jsdoc_linkExp)[jsdoc_linkExp], function (_, x, y) {
+      const _SEE = _see.replace(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, jsdoc_linkExp)[jsdoc_linkExp], (_, x, y) => {
         return "<a href=\"" + y + "\">" + (x || y) + "</a>";
       });
 
@@ -17334,11 +17285,11 @@ function _makeDetails2(x) {
 }
 
 function _makeExamples2(x, mode) {
-  var result = [];
+  const result = [];
 
   if (Array.isArray(x.examples)) {
     for (var _iterator9 = jsdoc_createForOfIteratorHelperLoose(x.examples), _step9; !(_step9 = _iterator9()).done;) {
-      var _example = _step9.value;
+      const _example = _step9.value;
       result.push('<h5 class="mt-2"><strong>Example:</strong></h5>');
       result.push("<textarea class=\"form-editor\" data-mode=\"" + textToHtml(mode) + "\">" + textToHtml(_example) + "</textarea>");
     }
@@ -17402,34 +17353,31 @@ function renderJSDoc(menuSelector, bodySelector, json) {
 
 
 
-var _controls = {};
+const _controls = {};
 function loadControl(control, options) {
-  var result = $.Deferred();
-
-  var _tools$setup = setup(['context', 'cache'], [result, false], options),
-      context = _tools$setup[0],
-      cache = _tools$setup[1];
+  const result = $.Deferred();
+  const [context, cache] = setup(['context', 'cache'], [result, false], options);
 
   if (control.indexOf('ctrl:') === 0) {
     control = control.substring(5);
   }
 
-  var descr = _controls[control.toLowerCase()];
+  const descr = _controls[control.toLowerCase()];
 
   if (descr) {
     try {
       loadScripts(js_AMIRouter.getOriginURL() + "/" + descr.file, {
         cache: cache
-      }).then(function (loaded) {
-        var clazz = window[descr.clazz];
-        var promise = loaded[0] ? clazz.prototype.onReady.apply(clazz.prototype) : null;
+      }).then(loaded => {
+        const clazz = window[descr.clazz];
+        const promise = loaded[0] ? clazz.prototype.onReady.apply(clazz.prototype) : null;
 
-        _internal_then(promise, function () {
+        _internal_then(promise, () => {
           result.resolveWith(context, [clazz]);
-        }, function (message) {
+        }, message => {
           result.rejectWith(context, ["cannot load control '" + control + "': " + message]);
         });
-      }, function (message) {
+      }, message => {
         result.rejectWith(context, ["cannot load control '" + control + "': " + message]);
       });
     } catch (message) {
@@ -17441,14 +17389,11 @@ function loadControl(control, options) {
 
   return result.promise();
 }
-function controls_createControl(parent, owner, control, params, options) {
-  var result = $.Deferred();
-
-  var _tools$setup2 = setup(['context'], [result], options),
-      context = _tools$setup2[0];
-
-  loadControl(control, options).done(function (constructor) {
-    var instance = new constructor(parent, owner);
+function createControl(parent, owner, control, params, options) {
+  const result = $.Deferred();
+  const [context] = setup(['context'], [result], options);
+  loadControl(control, options).done(constructor => {
+    const instance = new constructor(parent, owner);
 
     _internal_then(constructor.prototype.render.apply(instance, params), function () {
       for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
@@ -17456,41 +17401,39 @@ function controls_createControl(parent, owner, control, params, options) {
       }
 
       result.resolveWith(context, [instance].concat(args));
-    }, function (message) {
+    }, message => {
       result.rejectWith(context, [message]);
     });
-  }).fail(function (message) {
+  }).fail(message => {
     result.rejectWith(context, [message]);
   });
   return result.promise();
 }
-function controls_createControlInBody(parent, owner, control, controlParams, controlOptions, ownerOptions, options) {
-  var result = $.Deferred();
-
-  var _tools$setup3 = setup(['context'], [result], options),
-      context = _tools$setup3[0];
+function createControlInBody(parent, owner, control, controlParams, controlOptions, ownerOptions, options) {
+  const result = $.Deferred();
+  const [context] = setup(['context'], [result], options);
 
   try {
-    var PARAMS = [];
-    var OPTIONS = {};
+    const PARAMS = [];
+    const OPTIONS = {};
 
-    for (var key in ownerOptions) {
+    for (let key in ownerOptions) {
       OPTIONS[key] = ownerOptions[key];
     }
 
-    for (var _key2 in controlOptions) {
-      OPTIONS[_key2] = controlOptions[_key2];
+    for (let key in controlOptions) {
+      OPTIONS[key] = controlOptions[key];
     }
 
     Array.prototype.push.apply(PARAMS, controlParams);
     PARAMS.push(OPTIONS);
-    controls_createControl(parent, owner, control, PARAMS).done(function () {
-      for (var _len2 = arguments.length, args = new Array(_len2), _key3 = 0; _key3 < _len2; _key3++) {
-        args[_key3] = arguments[_key3];
+    createControl(parent, owner, control, PARAMS).done(function () {
+      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        args[_key2] = arguments[_key2];
       }
 
       result.resolveWith(context, args);
-    }).fail(function (message) {
+    }).fail(message => {
       result.rejectWith(context, [message]);
     });
   } catch (message) {
@@ -17499,35 +17442,33 @@ function controls_createControlInBody(parent, owner, control, controlParams, con
 
   return result.promise();
 }
-function controls_createControlInContainer(parent, owner, control, controlParams, controlOptions, ownerOptions, icon, title, options) {
-  var result = $.Deferred();
-
-  var _tools$setup4 = setup(['context'], [result], options),
-      context = _tools$setup4[0];
+function createControlInContainer(parent, owner, control, controlParams, controlOptions, ownerOptions, icon, title, options) {
+  const result = $.Deferred();
+  const [context] = setup(['context'], [result], options);
 
   try {
-    parent.appendItem("<i class=\"bi bi-" + textToHtml(icon) + "\"></i> " + textToHtml(title)).done(function (selector) {
-      var PARAMS = [];
-      var OPTIONS = {};
+    parent.appendItem("<i class=\"bi bi-" + textToHtml(icon) + "\"></i> " + textToHtml(title)).done(selector => {
+      const PARAMS = [];
+      const OPTIONS = {};
 
-      for (var key in ownerOptions) {
+      for (let key in ownerOptions) {
         OPTIONS[key] = ownerOptions[key];
       }
 
-      for (var _key4 in controlOptions) {
-        OPTIONS[_key4] = controlOptions[_key4];
+      for (let key in controlOptions) {
+        OPTIONS[key] = controlOptions[key];
       }
 
       PARAMS.push(selector);
       Array.prototype.push.apply(PARAMS, controlParams);
       PARAMS.push(OPTIONS);
-      controls_createControl(parent, owner, control, PARAMS).done(function () {
-        for (var _len3 = arguments.length, args = new Array(_len3), _key5 = 0; _key5 < _len3; _key5++) {
-          args[_key5] = arguments[_key5];
+      createControl(parent, owner, control, PARAMS).done(function () {
+        for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+          args[_key3] = arguments[_key3];
         }
 
         result.resolveWith(context, args);
-      }).fail(function (message) {
+      }).fail(message => {
         result.rejectWith(context, [message]);
       });
     });
@@ -17546,25 +17487,25 @@ function _parseJSON(s, _default) {
   }
 }
 
-function controls_createControlFromWebLink(parent, owner, el, ownerOptions, options) {
-  var dataCtrl = el.hasAttribute('data-ctrl') ? el.getAttribute('data-ctrl') : '';
-  var dataCtrlLocation = el.hasAttribute('data-ctrl-location') ? el.getAttribute('data-ctrl-location') : '';
-  var dataParams = el.hasAttribute('data-params') ? _parseJSON(el.getAttribute('data-params'), []) : [];
-  var dataOptions = el.hasAttribute('data-options') ? _parseJSON(el.getAttribute('data-options'), {}) : el.hasAttribute('data-settings') ? _parseJSON(el.getAttribute('data-settings'), {}) : {};
-  var dataIcon = el.hasAttribute('data-icon') ? el.getAttribute('data-icon') : 'question';
-  var dataTitle = el.hasAttribute('data-title') ? el.getAttribute('data-title') : 'Unknown';
+function createControlFromWebLink(parent, owner, el, ownerOptions, options) {
+  const dataCtrl = el.hasAttribute('data-ctrl') ? el.getAttribute('data-ctrl') : '';
+  const dataCtrlLocation = el.hasAttribute('data-ctrl-location') ? el.getAttribute('data-ctrl-location') : '';
+  const dataParams = el.hasAttribute('data-params') ? _parseJSON(el.getAttribute('data-params'), []) : [];
+  const dataOptions = el.hasAttribute('data-options') ? _parseJSON(el.getAttribute('data-options'), {}) : el.hasAttribute('data-settings') ? _parseJSON(el.getAttribute('data-settings'), {}) : {};
+  const dataIcon = el.hasAttribute('data-icon') ? el.getAttribute('data-icon') : 'question';
+  const dataTitle = el.hasAttribute('data-title') ? el.getAttribute('data-title') : 'Unknown';
   lock();
 
   if (dataCtrlLocation === 'body') {
-    return controls_createControlInBody(parent, owner, dataCtrl, dataParams, dataOptions, ownerOptions, options).done(function () {
+    return createControlInBody(parent, owner, dataCtrl, dataParams, dataOptions, ownerOptions, options).done(() => {
       unlock();
-    }).fail(function (message) {
+    }).fail(message => {
       error(message);
     });
   } else {
-    return controls_createControlInContainer(parent, owner, dataCtrl, dataParams, dataOptions, ownerOptions, dataIcon, dataTitle, options).done(function () {
+    return createControlInContainer(parent, owner, dataCtrl, dataParams, dataOptions, ownerOptions, dataIcon, dataTitle, options).done(() => {
       unlock();
-    }).fail(function (message) {
+    }).fail(message => {
       error(message);
     });
   }
@@ -17575,16 +17516,16 @@ function controls_createControlFromWebLink(parent, owner, el, ownerOptions, opti
 
 
 
-var _sheets = [];
-var _scripts = [];
+const _sheets = [];
+const _scripts = [];
 
 function _getExtension(url) {
-  var idx = url.lastIndexOf('.');
+  const idx = url.lastIndexOf('.');
   return idx > 0 ? url.substring(idx) : '';
 }
 
 function _getDataType(url, dataType) {
-  var result;
+  let result;
 
   if (dataType === 'auto') {
     if (url.indexOf('ctrl:') === 0) {
@@ -17627,27 +17568,27 @@ function __loadXXX(deferred, result, urls, dataType, context, cache) {
     return;
   }
 
-  var url = urls.shift().trim();
+  const url = urls.shift().trim();
 
-  var dataTYPE = _getDataType(url, dataType);
+  const dataTYPE = _getDataType(url, dataType);
 
   switch (dataTYPE) {
     case 'control':
-      loadControl(url).then(function (data) {
+      loadControl(url).then(data => {
         result.push(data);
 
         __loadXXX(deferred, result, urls, dataType, context, cache);
-      }, function (message) {
+      }, message => {
         deferred.rejectWith(context, [message]);
       });
       break;
 
     case 'subapp':
-      loadSubApp(url).then(function (data) {
+      loadSubApp(url).then(data => {
         result.push(data);
 
         __loadXXX(deferred, result, urls, dataType, context, cache);
-      }, function (message) {
+      }, message => {
         deferred.rejectWith(context, [message]);
       });
       break;
@@ -17664,13 +17605,13 @@ function __loadXXX(deferred, result, urls, dataType, context, cache) {
           cache: cache,
           crossDomain: true,
           dataType: dataTYPE
-        }).then(function () {
+        }).then(() => {
           result.push(true);
 
           _sheets.push(url);
 
           __loadXXX(deferred, result, urls, dataType, context, cache);
-        }, function () {
+        }, () => {
           deferred.rejectWith(context, ["cannot load '" + url + "'"]);
         });
       }
@@ -17689,13 +17630,13 @@ function __loadXXX(deferred, result, urls, dataType, context, cache) {
           cache: cache,
           crossDomain: true,
           dataType: dataTYPE
-        }).then(function () {
+        }).then(() => {
           result.push(true);
 
           _scripts.push(url);
 
           __loadXXX(deferred, result, urls, dataType, context, cache);
-        }, function () {
+        }, () => {
           deferred.rejectWith(context, ["cannot load '" + url + "'"]);
         });
       }
@@ -17709,11 +17650,11 @@ function __loadXXX(deferred, result, urls, dataType, context, cache) {
         cache: cache,
         crossDomain: true,
         dataType: dataTYPE
-      }).then(function (data) {
+      }).then(data => {
         result.push(data);
 
         __loadXXX(deferred, result, urls, dataType, context, cache);
-      }, function () {
+      }, () => {
         deferred.rejectWith(context, ["cannot load '" + url + "'"]);
       });
       break;
@@ -17721,11 +17662,8 @@ function __loadXXX(deferred, result, urls, dataType, context, cache) {
 }
 
 function _loadXXX(urls, dataType, options) {
-  var deferred = $.Deferred();
-
-  var _tools$setup = setup(['context', 'cache'], [deferred, false], options),
-      context = _tools$setup[0],
-      cache = _tools$setup[1];
+  const deferred = $.Deferred();
+  const [context, cache] = setup(['context', 'cache'], [deferred, false], options);
 
   __loadXXX(deferred, [], asArray(urls), dataType, context, cache);
 
@@ -17779,8 +17717,6 @@ var browser = __webpack_require__(2592);
 ;// CONCATENATED MODULE: ./src/js/AMIAuth.js
 
 
-function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
 function AMIAuth_classPrivateFieldLooseBase(receiver, privateKey) { if (!Object.prototype.hasOwnProperty.call(receiver, privateKey)) { throw new TypeError("attempted to use private field on non-instance"); } return receiver; }
 
 var AMIAuth_id = 0;
@@ -17823,8 +17759,8 @@ var _clean = AMIAuth_classPrivateFieldLooseKey("clean");
 
 var _update = AMIAuth_classPrivateFieldLooseKey("update");
 
-var AMIAuth = function () {
-  function AMIAuth() {
+class AMIAuth {
+  constructor() {
     Object.defineProperty(this, _update, {
       value: _update2
     });
@@ -17854,12 +17790,8 @@ var AMIAuth = function () {
     });
   }
 
-  var _proto = AMIAuth.prototype;
-
-  _proto.init = function init(signInImageURL, signInText, ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, signOutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed, dashboardsAllowed) {
-    var _this = this;
-
-    var result = $.Deferred();
+  init(signInImageURL, signInText, ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, signOutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed, dashboardsAllowed) {
+    const result = $.Deferred();
     AMIAuth_classPrivateFieldLooseBase(this, _flags)[_flags] = {
       signInImageURL: signInImageURL,
       signInText: signInText,
@@ -17878,41 +17810,41 @@ var AMIAuth = function () {
     };
     js_AMIWebApp.appendHTML('body', sign_in_modal + change_info_modal + change_pass_modal + change_cert_modal + account_modal, {
       dict: AMIAuth_classPrivateFieldLooseBase(this, _flags)[_flags]
-    }).done(function () {
-      $('#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73').submit(function (e) {
-        _this.form_login(e);
+    }).done(() => {
+      $('#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73').submit(e => {
+        this.form_login(e);
       });
-      $('#EE055CD4_E58F_4834_8020_986AE3F8D67D').submit(function (e) {
-        _this.form_addUser(e);
+      $('#EE055CD4_E58F_4834_8020_986AE3F8D67D').submit(e => {
+        this.form_addUser(e);
       });
-      $('#DA2047A2_9E5D_420D_B6E7_FA261D2EF10F').submit(function (e) {
-        _this.form_remindPass(e);
+      $('#DA2047A2_9E5D_420D_B6E7_FA261D2EF10F').submit(e => {
+        this.form_remindPass(e);
       });
-      $('#D9EAF998_ED8E_44D2_A0BE_8C5CF5E438BD').submit(function (e) {
-        _this.form_changeInfo(e);
+      $('#D9EAF998_ED8E_44D2_A0BE_8C5CF5E438BD').submit(e => {
+        this.form_changeInfo(e);
       });
-      $('#E92A1097_983B_4857_875F_07E4659B41B0').submit(function (e) {
-        _this.form_changePass(e);
+      $('#E92A1097_983B_4857_875F_07E4659B41B0').submit(e => {
+        this.form_changePass(e);
       });
-      $('#E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388,#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').change(function () {
-        var el1 = $('#E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388');
-        var el2 = $('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187');
-        var pass1 = el1.val();
-        var pass2 = el2.val();
+      $('#E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388,#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').change(() => {
+        const el1 = $('#E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388');
+        const el2 = $('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187');
+        const pass1 = el1.val();
+        const pass2 = el2.val();
         el2.get(0).setCustomValidity(pass1.length > 0 && pass2.length > 0 && pass1 !== pass2 ? 'Passwords don\'t match.' : '');
       });
-      $('#D487FE72_8D95_4048_BEA3_252274862AF4,#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').change(function () {
-        var el1 = $('#D487FE72_8D95_4048_BEA3_252274862AF4');
-        var el2 = $('#EE1DA58C_3761_4734_A9C2_E808CDD7EE77');
-        var pass1 = el1.val();
-        var pass2 = el2.val();
+      $('#D487FE72_8D95_4048_BEA3_252274862AF4,#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').change(() => {
+        const el1 = $('#D487FE72_8D95_4048_BEA3_252274862AF4');
+        const el2 = $('#EE1DA58C_3761_4734_A9C2_E808CDD7EE77');
+        const pass1 = el1.val();
+        const pass2 = el2.val();
         el2.get(0).setCustomValidity(pass1.length > 0 && pass2.length > 0 && pass1 !== pass2 ? 'Passwords don\'t match.' : '');
       });
     });
 
-    window.onmessage = function (e) {
+    window.onmessage = e => {
       if (js_AMIRouter.getOriginURL().startsWith(e.origin)) {
-        var promise;
+        let promise;
 
         if ('oidc_code' in e.data) {
           js_AMIWebApp.lock();
@@ -17924,14 +17856,14 @@ var AMIAuth = function () {
           return;
         }
 
-        promise.fail(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
-          AMIAuth_classPrivateFieldLooseBase(_this, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).always(function () {
+        promise.fail((data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) => {
+          AMIAuth_classPrivateFieldLooseBase(this, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).always(() => {
             js_AMIWebApp.error(message, true);
           });
-        }).done(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
-          AMIAuth_classPrivateFieldLooseBase(_this, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).fail(function (message) {
+        }).done((data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) => {
+          AMIAuth_classPrivateFieldLooseBase(this, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).fail(message => {
             js_AMIWebApp.error(message, true);
-          }).done(function () {
+          }).done(() => {
             if ((userInfo.AMIUser || 'guest') === (userInfo.guestUser || 'guest')) {
               js_AMIWebApp.error('Authentification failed', true);
             } else {
@@ -17946,184 +17878,178 @@ var AMIAuth = function () {
       }
     };
 
-    var userdata = js_AMIRouter.getWebAppArgs()['userdata'] || '';
-    js_AMICommand.signInByCertificate().fail(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
-      AMIAuth_classPrivateFieldLooseBase(_this, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).always(function () {
+    const userdata = js_AMIRouter.getWebAppArgs()['userdata'] || '';
+    js_AMICommand.signInByCertificate().fail((data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) => {
+      AMIAuth_classPrivateFieldLooseBase(this, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).always(() => {
         result.reject(message);
       });
-    }).done(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
-      _internal_then(js_AMIWebApp.onReady(userdata), function () {
+    }).done((data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) => {
+      _internal_then(js_AMIWebApp.onReady(userdata), () => {
         js_AMIWebApp._isReady = true;
 
-        AMIAuth_classPrivateFieldLooseBase(_this, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).then(function (message) {
+        AMIAuth_classPrivateFieldLooseBase(this, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).then(message => {
           result.resolve(message);
-        }, function (message) {
+        }, message => {
           result.reject(message);
         });
-      }, function (message) {
+      }, message => {
         js_AMIWebApp._isReady = true;
 
-        AMIAuth_classPrivateFieldLooseBase(_this, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).then(function () {
+        AMIAuth_classPrivateFieldLooseBase(this, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).then(() => {
           result.reject(message);
-        }, function () {
+        }, () => {
           result.reject(message);
         });
       });
     });
     return result;
-  };
+  }
 
-  _proto.getMqttEndpoint = function getMqttEndpoint() {
+  getMqttEndpoint() {
     return AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].mqttEndpoint || '';
-  };
+  }
 
-  _proto.getMqttToken = function getMqttToken() {
+  getMqttToken() {
     return AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].mqttToken || '';
-  };
+  }
 
-  _proto.getUserInfo = function getUserInfo() {
+  getUserInfo() {
     return AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo];
-  };
+  }
 
-  _proto.getRoleInfo = function getRoleInfo() {
+  getRoleInfo() {
     return AMIAuth_classPrivateFieldLooseBase(this, _roleInfo)[_roleInfo];
-  };
+  }
 
-  _proto.getBookmarkInfo = function getBookmarkInfo() {
+  getBookmarkInfo() {
     return AMIAuth_classPrivateFieldLooseBase(this, _bookmarkInfo)[_bookmarkInfo];
-  };
+  }
 
-  _proto.getDashboardInfo = function getDashboardInfo() {
+  getDashboardInfo() {
     return AMIAuth_classPrivateFieldLooseBase(this, _dashboardInfo)[_dashboardInfo];
-  };
+  }
 
-  _proto.getAWFInfo = function getAWFInfo() {
+  getAWFInfo() {
     return AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo];
-  };
+  }
 
-  _proto.getUser = function getUser() {
+  getUser() {
     return AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].AMIUser || 'guest';
-  };
+  }
 
-  _proto.getGuest = function getGuest() {
+  getGuest() {
     return AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].guestUser || 'guest';
-  };
+  }
 
-  _proto.getNotBeforeDate = function getNotBeforeDate() {
+  getNotBeforeDate() {
     return AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].notBefore || '';
-  };
+  }
 
-  _proto.getNotAfterDate = function getNotAfterDate() {
+  getNotAfterDate() {
     return AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].notAfter || '';
-  };
+  }
 
-  _proto.getClientDN = function getClientDN() {
+  getClientDN() {
     return AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].clientDNInSession || '';
-  };
+  }
 
-  _proto.getIssuerDN = function getIssuerDN() {
+  getIssuerDN() {
     return AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].issuerDNInSession || '';
-  };
+  }
 
-  _proto.isValid = function isValid() {
+  isValid() {
     return (AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].valid || 'false') !== 'false';
-  };
+  }
 
-  _proto.isAuthenticated = function isAuthenticated() {
+  isAuthenticated() {
     return this.getUser() !== this.getGuest();
-  };
+  }
 
-  _proto.hasRole = function hasRole(roleName) {
+  hasRole(roleName) {
     return roleName in AMIAuth_classPrivateFieldLooseBase(this, _roleInfo)[_roleInfo];
-  };
+  }
 
-  _proto.update = function update() {
-    var _this2 = this;
-
+  update() {
     js_AMIWebApp.lock();
-    return js_AMICommand.signInByCertificate().done(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
-      AMIAuth_classPrivateFieldLooseBase(_this2, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).always(function () {
+    return js_AMICommand.signInByCertificate().done((data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) => {
+      AMIAuth_classPrivateFieldLooseBase(this, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).always(() => {
         js_AMIWebApp.unlock();
       });
     });
-  };
+  }
 
-  _proto.sso = function sso() {
+  sso() {
     AMIAuth_classPrivateFieldLooseBase(AMIAuth, _clean)[_clean]();
 
     window.open(AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoAuthURL ? AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoAuthURL + "?response_type=code&client_id=" + encodeURIComponent(AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoClientId || '') + "&redirect_uri=" + encodeURIComponent(js_AMIRouter.getOriginURL()) + "/docs/sso.html" : js_AMIRouter.getOriginURL() + "/docs/sso_not_configured.html", AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoLabel || 'Single Sign-On', 'location=no, menubar=no, status=no, scrollbars=no, width=800, height=525');
-  };
+  }
 
-  _proto.signIn = function signIn() {
+  signIn() {
     AMIAuth_classPrivateFieldLooseBase(AMIAuth, _clean)[_clean]();
 
     if (AMIAuth_classPrivateFieldLooseBase(this, _flags)[_flags].captchaAllowed) {
-      js_AMICommand.execute('GenerateCaptcha').then(function (data) {
-        var image = js_AMIWebApp.jspath('..field{.@name==="image"}.$', data)[0] || '';
-        var hash = js_AMIWebApp.jspath('..field{.@name==="hash"}.$', data)[0] || '';
+      js_AMICommand.execute('GenerateCaptcha').then(data => {
+        const image = js_AMIWebApp.jspath('..field{.@name==="image"}.$', data)[0] || '';
+        const hash = js_AMIWebApp.jspath('..field{.@name==="hash"}.$', data)[0] || '';
         $('#AC9836E6_2A20_8711_39D5_0E8340561078').css('background-image', "url('" + image + "')");
         $('#EA79605C_6EFF_4C77_9D70_88254B00FD52').css('background-image', "url('" + image + "')");
         $('#FD95B3FA_C808_0E08_2D1E_0FE0E3871101').val(hash);
         $('#A63C0110_E591_6FCE_6D7A_02EEBC094199').val(hash);
         $('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('show');
-      }, function (data, message) {
+      }, (data, message) => {
         js_AMIWebApp.error(message);
       });
     } else {
       $('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('show');
     }
-  };
+  }
 
-  _proto.signOut = function signOut() {
-    var _this3 = this;
-
+  signOut() {
     js_AMIWebApp.lock();
-    return js_AMICommand.signOut().always(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
-      AMIAuth_classPrivateFieldLooseBase(_this3, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).then(function () {
+    return js_AMICommand.signOut().always((data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) => {
+      AMIAuth_classPrivateFieldLooseBase(this, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).then(() => {
         js_AMIWebApp.unlock();
-      }, function (message) {
+      }, message => {
         js_AMIWebApp.error(message, true);
       });
     });
-  };
+  }
 
-  _proto.changeInfo = function changeInfo() {
+  changeInfo() {
     AMIAuth_classPrivateFieldLooseBase(AMIAuth, _clean)[_clean]();
 
     $('#D9EAF998_ED8E_44D2_A0BE_8C5CF5E438BD').modal('show');
-  };
+  }
 
-  _proto.changePass = function changePass() {
+  changePass() {
     AMIAuth_classPrivateFieldLooseBase(AMIAuth, _clean)[_clean]();
 
     $('#E92A1097_983B_4857_875F_07E4659B41B0').modal('show');
-  };
+  }
 
-  _proto.changeCertificate = function changeCertificate() {
+  changeCertificate() {
     AMIAuth_classPrivateFieldLooseBase(AMIAuth, _clean)[_clean]();
 
     $('#ECB92A89_A706_7C76_E248_E57D14C8B205').modal('show');
-  };
+  }
 
-  _proto.accountStatus = function accountStatus() {
+  accountStatus() {
     AMIAuth_classPrivateFieldLooseBase(AMIAuth, _clean)[_clean]();
 
     $('#AB1CB183_96EB_4116_8A9E_4409BE058F34').modal('show');
-  };
+  }
 
-  _proto.form_login = function form_login(e) {
+  form_login(e) {
     e.preventDefault();
-    var values = $(e.target).serializeObject();
+    const values = $(e.target).serializeObject();
     return this.form_login2(values['username'], values['password']);
-  };
+  }
 
-  _proto.form_login2 = function form_login2(username, password) {
-    var _this4 = this;
-
-    var promise = username && password ? js_AMICommand.signInByPassword(username.trim(), password.trim()) : js_AMICommand.signInByCertificate();
+  form_login2(username, password) {
+    const promise = username && password ? js_AMICommand.signInByPassword(username.trim(), password.trim()) : js_AMICommand.signInByCertificate();
     js_AMIWebApp.lock();
-    promise.then(function (data, message, userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo) {
-      AMIAuth_classPrivateFieldLooseBase(_this4, _update)[_update](userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo).then(function () {
+    promise.then((data, message, userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo) => {
+      AMIAuth_classPrivateFieldLooseBase(this, _update)[_update](userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo).then(() => {
         if ((userInfo.AMIUser || 'guest') !== (userInfo.guestUser || 'guest')) {
           $('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('hide');
 
@@ -18131,7 +18057,7 @@ var AMIAuth = function () {
 
           js_AMIWebApp.unlock();
         }
-      }, function (message) {
+      }, message => {
         if ((userInfo.AMIUser || 'guest') !== (userInfo.guestUser || 'guest')) {
           $('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('hide');
           js_AMIWebApp.error(message, true);
@@ -18139,112 +18065,107 @@ var AMIAuth = function () {
       });
 
       if ((userInfo.AMIUser || 'guest') === (userInfo.guestUser || 'guest')) {
-        var _message = 'Authentication failed.';
+        let message = 'Authentication failed.';
 
         if (userInfo.clientDNInSession || userInfo.issuerDNInSession) {
-          _message += "Client DN in session: " + js_AMIWebApp.textToHtml(userInfo.clientDNInSession) + "." + ("Issuer DN in session: " + js_AMIWebApp.textToHtml(userInfo.issuerDNInSession) + ".");
+          message += "Client DN in session: " + js_AMIWebApp.textToHtml(userInfo.clientDNInSession) + "." + ("Issuer DN in session: " + js_AMIWebApp.textToHtml(userInfo.issuerDNInSession) + ".");
         }
 
-        js_AMIWebApp.error(_message, true);
+        js_AMIWebApp.error(message, true);
       }
-    }, function (data, message, userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo) {
-      AMIAuth_classPrivateFieldLooseBase(_this4, _update)[_update](userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo).always(function () {
+    }, (data, message, userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo) => {
+      AMIAuth_classPrivateFieldLooseBase(this, _update)[_update](userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo).always(() => {
         js_AMIWebApp.error(message, true);
       });
     });
     return promise;
-  };
+  }
 
-  _proto.form_addUser = function form_addUser(e) {
+  form_addUser(e) {
     e.preventDefault();
-    var values = $(e.target).serializeObject();
+    const values = $(e.target).serializeObject();
     js_AMIWebApp.lock();
-    js_AMICommand.addUser(values['username'], values['password'], values['first_name'], values['last_name'], values['email'], values['captcha_hash'], values['captcha_text'], 'attachCert' in values, 'agree' in values).then(function (data, message) {
+    js_AMICommand.addUser(values['username'], values['password'], values['first_name'], values['last_name'], values['email'], values['captcha_hash'], values['captcha_text'], 'attachCert' in values, 'agree' in values).then((data, message) => {
       js_AMIWebApp.success(message, true);
-    }, function (data, message) {
+    }, (data, message) => {
       js_AMIWebApp.error(message, true);
     });
-  };
+  }
 
-  _proto.form_remindPass = function form_remindPass(e) {
+  form_remindPass(e) {
     e.preventDefault();
-    var values = $(e.target).serializeObject();
+    const values = $(e.target).serializeObject();
     js_AMIWebApp.lock();
-    js_AMICommand.resetPassword(values['username'], values['captcha_hash'], values['captcha_text']).then(function (data, message) {
+    js_AMICommand.resetPassword(values['username'], values['captcha_hash'], values['captcha_text']).then((data, message) => {
       js_AMIWebApp.success(message, true);
-    }, function (data, message) {
+    }, (data, message) => {
       js_AMIWebApp.error(message, true);
     });
-  };
+  }
 
-  _proto.form_changeInfo = function form_changeInfo(e) {
+  form_changeInfo(e) {
     e.preventDefault();
-    var values = $(e.target).serializeObject();
+    const values = $(e.target).serializeObject();
     js_AMIWebApp.lock();
-    js_AMICommand.changeInfo(values['first_name'], values['last_name'], values['email']).then(function (data, message) {
+    js_AMICommand.changeInfo(values['first_name'], values['last_name'], values['email']).then((data, message) => {
       js_AMIWebApp.success(message, true);
-    }, function (data, message) {
+    }, (data, message) => {
       js_AMIWebApp.error(message, true);
     });
-  };
+  }
 
-  _proto.form_changePass = function form_changePass(e) {
+  form_changePass(e) {
     e.preventDefault();
-    var values = $(e.target).serializeObject();
+    const values = $(e.target).serializeObject();
     js_AMIWebApp.lock();
-    js_AMICommand.changePassword(AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].AMIUser || 'guest', values['old_password'], values['new_password']).then(function (data, message) {
+    js_AMICommand.changePassword(AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].AMIUser || 'guest', values['old_password'], values['new_password']).then((data, message) => {
       js_AMIWebApp.success(message, true);
-    }, function (data, message) {
+    }, (data, message) => {
       js_AMIWebApp.error(message, true);
     });
-  };
+  }
 
-  _proto.form_attachCert = function form_attachCert() {
-    var _this5 = this;
-
+  form_attachCert() {
     js_AMIWebApp.lock();
-    return js_AMICommand.attachCertificate().then(function (data, message) {
-      $('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').val(AMIAuth_classPrivateFieldLooseBase(_this5, _userInfo)[_userInfo].issuerDNInAMI = AMIAuth_classPrivateFieldLooseBase(_this5, _userInfo)[_userInfo].issuerDNInSession);
-      $('#D4B29AC0_4867_815B_8657_5A1D623C29CF').val(AMIAuth_classPrivateFieldLooseBase(_this5, _userInfo)[_userInfo].clientDNInAMI = AMIAuth_classPrivateFieldLooseBase(_this5, _userInfo)[_userInfo].clientDNInSession);
+    return js_AMICommand.attachCertificate().then((data, message) => {
+      $('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').val(AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].issuerDNInAMI = AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].issuerDNInSession);
+      $('#D4B29AC0_4867_815B_8657_5A1D623C29CF').val(AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].clientDNInAMI = AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].clientDNInSession);
       $('#DB0223B3_D721_7EEB_50B8_032A04C7D218').prop('disabled', true);
       $('#B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2').prop('disabled', false);
 
-      AMIAuth_classPrivateFieldLooseBase(_this5, _update)[_update](AMIAuth_classPrivateFieldLooseBase(_this5, _userInfo)[_userInfo], AMIAuth_classPrivateFieldLooseBase(_this5, _roleInfo)[_roleInfo], AMIAuth_classPrivateFieldLooseBase(_this5, _bookmarkInfo)[_bookmarkInfo], AMIAuth_classPrivateFieldLooseBase(_this5, _dashboardInfo)[_dashboardInfo], AMIAuth_classPrivateFieldLooseBase(_this5, _awfInfo)[_awfInfo]).then(function () {
+      AMIAuth_classPrivateFieldLooseBase(this, _update)[_update](AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo], AMIAuth_classPrivateFieldLooseBase(this, _roleInfo)[_roleInfo], AMIAuth_classPrivateFieldLooseBase(this, _bookmarkInfo)[_bookmarkInfo], AMIAuth_classPrivateFieldLooseBase(this, _dashboardInfo)[_dashboardInfo], AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo]).then(() => {
         js_AMIWebApp.success(message, true);
-      }, function (message) {
+      }, message => {
         js_AMIWebApp.error(message, true);
       });
-    }, function (data, message) {
+    }, (data, message) => {
       js_AMIWebApp.error(message, true);
     });
-  };
+  }
 
-  _proto.form_detachCert = function form_detachCert() {
-    var _this6 = this;
-
+  form_detachCert() {
     js_AMIWebApp.lock();
-    return js_AMICommand.detachCertificate().then(function (data, message) {
-      $('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').val(AMIAuth_classPrivateFieldLooseBase(_this6, _userInfo)[_userInfo].issuerDNInAMI = '');
-      $('#D4B29AC0_4867_815B_8657_5A1D623C29CF').val(AMIAuth_classPrivateFieldLooseBase(_this6, _userInfo)[_userInfo].clientDNInAMI = '');
-      $('#DB0223B3_D721_7EEB_50B8_032A04C7D218').prop('disabled', !AMIAuth_classPrivateFieldLooseBase(_this6, _userInfo)[_userInfo].clientDNInSession || !AMIAuth_classPrivateFieldLooseBase(_this6, _userInfo)[_userInfo].issuerDNInSession);
+    return js_AMICommand.detachCertificate().then((data, message) => {
+      $('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').val(AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].issuerDNInAMI = '');
+      $('#D4B29AC0_4867_815B_8657_5A1D623C29CF').val(AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].clientDNInAMI = '');
+      $('#DB0223B3_D721_7EEB_50B8_032A04C7D218').prop('disabled', !AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].clientDNInSession || !AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].issuerDNInSession);
       $('#B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2').prop('disabled', true);
 
-      AMIAuth_classPrivateFieldLooseBase(_this6, _update)[_update](AMIAuth_classPrivateFieldLooseBase(_this6, _userInfo)[_userInfo], AMIAuth_classPrivateFieldLooseBase(_this6, _roleInfo)[_roleInfo], AMIAuth_classPrivateFieldLooseBase(_this6, _bookmarkInfo)[_bookmarkInfo], AMIAuth_classPrivateFieldLooseBase(_this6, _dashboardInfo)[_dashboardInfo], AMIAuth_classPrivateFieldLooseBase(_this6, _awfInfo)[_awfInfo]).then(function () {
+      AMIAuth_classPrivateFieldLooseBase(this, _update)[_update](AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo], AMIAuth_classPrivateFieldLooseBase(this, _roleInfo)[_roleInfo], AMIAuth_classPrivateFieldLooseBase(this, _bookmarkInfo)[_bookmarkInfo], AMIAuth_classPrivateFieldLooseBase(this, _dashboardInfo)[_dashboardInfo], AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo]).then(() => {
         js_AMIWebApp.success(message, true);
-      }, function (message) {
+      }, message => {
         js_AMIWebApp.error(message, true);
       });
-    }, function (data, message) {
+    }, (data, message) => {
       js_AMIWebApp.error(message, true);
     });
-  };
+  }
 
-  return AMIAuth;
-}();
+}
 
 function _setupAWF2(awfInfo) {
   try {
-    var result = JSON.parse(base64Decode(awfInfo.config));
+    const result = JSON.parse(base64Decode(awfInfo.config));
     setDateTimeFormats(result['datetimePrecision'], result['datetimeFormat'], result['dateFormat'], result['timePrecision'], result['timeHMSFormat'], result['timeHMFormat']);
     return result;
   } catch (e) {
@@ -18260,34 +18181,32 @@ function _clean2() {
 }
 
 function _update2(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
-  var result = $.Deferred();
+  const result = $.Deferred();
   awfInfo = AMIAuth_classPrivateFieldLooseBase(AMIAuth, _setupAWF)[_setupAWF](awfInfo);
   $('#A09AE316_7068_4BC1_96A9_6B87D28863FE').prop('disabled', !userInfo.clientDNInSession || !userInfo.issuerDNInSession);
   $('#C3E94F6D_48E0_86C0_3534_691728E492F4').attr('src', awfInfo.privacyPolicyURL || js_AMIWebApp.originURL + "/docs/privacy_policy.html");
   $('#E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27').attr('src', awfInfo.privacyPolicyURL || js_AMIWebApp.originURL + "/docs/privacy_policy.html");
-
-  var dict = _extends({}, AMIAuth_classPrivateFieldLooseBase(this, _flags)[_flags], {
+  const dict = { ...AMIAuth_classPrivateFieldLooseBase(this, _flags)[_flags],
     userInfo: AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo] = userInfo,
     roleInfo: AMIAuth_classPrivateFieldLooseBase(this, _roleInfo)[_roleInfo] = roleInfo,
     bookmarkInfo: AMIAuth_classPrivateFieldLooseBase(this, _bookmarkInfo)[_bookmarkInfo] = bookmarkInfo,
     dashboardInfo: AMIAuth_classPrivateFieldLooseBase(this, _dashboardInfo)[_dashboardInfo] = dashboardInfo,
     awfInfo: AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo] = awfInfo
-  });
-
-  var user = userInfo.AMIUser || 'guest';
-  var guest = userInfo.guestUser || 'guest';
+  };
+  const user = userInfo.AMIUser || 'guest';
+  const guest = userInfo.guestUser || 'guest';
 
   if (user !== guest) {
-    var firstName = userInfo.firstName || '';
-    var lastName = userInfo.lastName || '';
-    var email = userInfo.email || '';
-    var clientDNInSession = userInfo.clientDNInSession || '';
-    var issuerDNInSession = userInfo.issuerDNInSession || '';
-    var clientDNInAMI = userInfo.clientDNInAMI || '';
-    var issuerDNInAMI = userInfo.issuerDNInAMI || '';
-    var notBefore = userInfo.notBefore || '';
-    var notAfter = userInfo.notAfter || '';
-    var valid = userInfo.valid || 'false';
+    const firstName = userInfo.firstName || '';
+    const lastName = userInfo.lastName || '';
+    const email = userInfo.email || '';
+    const clientDNInSession = userInfo.clientDNInSession || '';
+    const issuerDNInSession = userInfo.issuerDNInSession || '';
+    const clientDNInAMI = userInfo.clientDNInAMI || '';
+    const issuerDNInAMI = userInfo.issuerDNInAMI || '';
+    const notBefore = userInfo.notBefore || '';
+    const notAfter = userInfo.notAfter || '';
+    const valid = userInfo.valid || 'false';
     $('#E513F27D_5521_4B08_BF61_52AFB81356F7').val(firstName);
     $('#AFF0B5C0_BEEC_4842_916D_DCBA7F589195').val(lastName);
     $('#C587486B_62C0_4B6E_9288_D8F9F89D157B').val(email);
@@ -18319,9 +18238,9 @@ function _update2(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
       $('#B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2').prop('disabled', true);
     }
 
-    var table = [];
+    const table = [];
 
-    for (var role in roleInfo) {
+    for (const role in roleInfo) {
       table.push('<tr>');
       table.push("<td>" + js_AMIWebApp.textToHtml(roleInfo[role].name || 'N/A') + "</td>");
       table.push("<td>" + js_AMIWebApp.textToHtml(roleInfo[role].description || 'N/A') + "</td>");
@@ -18329,10 +18248,10 @@ function _update2(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
     }
 
     $('#BB07676B_EACA_9B42_ED51_477DB2976041').html(table.join(''));
-    var icon = '';
-    var message = '';
-    var bgColor;
-    var fgColor;
+    let icon = '';
+    let message = '';
+    let bgColor;
+    let fgColor;
 
     if (valid !== 'false') {
       if (!AMIAuth_classPrivateFieldLooseBase(this, _flags)[_flags].ssoAutoAuthentication) {
@@ -18378,20 +18297,20 @@ function _update2(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
     dict['icon'] = icon;
     js_AMIWebApp.replaceHTML('#ami_login_menu_content', sign_out_button, {
       dict: dict
-    }).done(function () {
-      triggerLogin().then(function () {
+    }).done(() => {
+      triggerLogin().then(() => {
         result.resolve();
-      }, function (message) {
+      }, message => {
         result.reject(message);
       });
     });
   } else {
     js_AMIWebApp.replaceHTML('#ami_login_menu_content', sign_in_button, {
       dict: dict
-    }).done(function () {
-      triggerLogout().then(function () {
+    }).done(() => {
+      triggerLogout().then(() => {
         result.resolve();
-      }, function (message) {
+      }, message => {
         result.reject(message);
       });
     });
@@ -18420,9 +18339,9 @@ Object.defineProperty(AMIAuth, _setupAWF, {
 
 
 
-var _subapps = {};
+const _subapps = {};
 
-var _currentSubappInstance = new function () {
+let _currentSubappInstance = new function () {
   this.onReady = function () {};
 
   this.onExit = function () {};
@@ -18432,17 +18351,17 @@ var _currentSubappInstance = new function () {
   this.onLogout = function () {};
 }();
 
-var _currentUserdata = null;
+let _currentUserdata = null;
 function triggerLogin() {
-  var result = $.Deferred();
+  const result = $.Deferred();
 
   if (js_AMIWebApp._isReady) {
-    _internal_then(_currentSubappInstance.onLogin(_currentUserdata), function (message) {
-      _internal_always(js_AMIWebApp.onRefresh(true), function () {
+    _internal_then(_currentSubappInstance.onLogin(_currentUserdata), message => {
+      _internal_always(js_AMIWebApp.onRefresh(true), () => {
         result.resolve(message);
       });
-    }, function (message) {
-      _internal_always(js_AMIWebApp.onRefresh(true), function () {
+    }, message => {
+      _internal_always(js_AMIWebApp.onRefresh(true), () => {
         result.reject(message);
       });
     });
@@ -18453,15 +18372,15 @@ function triggerLogin() {
   return result.promise();
 }
 function triggerLogout() {
-  var result = $.Deferred();
+  const result = $.Deferred();
 
   if (js_AMIWebApp._isReady) {
-    _internal_then(_currentSubappInstance.onLogout(_currentUserdata), function (message) {
-      _internal_always(js_AMIWebApp.onRefresh(false), function () {
+    _internal_then(_currentSubappInstance.onLogout(_currentUserdata), message => {
+      _internal_always(js_AMIWebApp.onRefresh(false), () => {
         result.resolve(message);
       });
-    }, function (message) {
-      _internal_always(js_AMIWebApp.onRefresh(false), function () {
+    }, message => {
+      _internal_always(js_AMIWebApp.onRefresh(false), () => {
         result.reject(message);
       });
     });
@@ -18472,14 +18391,9 @@ function triggerLogout() {
   return result.promise();
 }
 function loadSubApp(subapp, userdata, options) {
-  var result = $.Deferred();
-
-  var _tools$setup = setup(['context', 'hash', 'cache'], [result, null, false], options),
-      context = _tools$setup[0],
-      hash = _tools$setup[1],
-      cache = _tools$setup[2];
-
-  result.always(function () {
+  const result = $.Deferred();
+  const [context, hash, cache] = setup(['context', 'hash', 'cache'], [result, null, false], options);
+  result.always(() => {
     unlock();
   });
   lock();
@@ -18488,20 +18402,20 @@ function loadSubApp(subapp, userdata, options) {
     subapp = subapp.substring(7);
   }
 
-  var descr = _subapps[subapp.toLowerCase()];
+  const descr = _subapps[subapp.toLowerCase()];
 
   if (descr) {
     try {
       loadScripts(js_AMIRouter.getOriginURL() + "/" + descr.file, {
         cache: cache
-      }).then(function () {
-        _internal_always(_currentSubappInstance.onExit(userdata), function () {
+      }).then(() => {
+        _internal_always(_currentSubappInstance.onExit(userdata), () => {
           _currentSubappInstance = window[descr.instance];
           _currentUserdata = userdata;
 
-          _internal_then(_currentSubappInstance.onReady(userdata), function () {
-            var promise = js_AMIAuth.isAuthenticated() ? triggerLogin() : triggerLogout();
-            promise.then(function () {
+          _internal_then(_currentSubappInstance.onReady(userdata), () => {
+            const promise = js_AMIAuth.isAuthenticated() ? triggerLogin() : triggerLogout();
+            promise.then(() => {
               js_AMIRouter.appendHistoryEntry({
                 searchParams: {
                   'subapp': subapp,
@@ -18511,14 +18425,14 @@ function loadSubApp(subapp, userdata, options) {
               });
               fillBreadcrumb(descr.breadcrumb);
               result.resolveWith(context, [_currentSubappInstance]);
-            }, function (message) {
+            }, message => {
               result.rejectWith(context, ["cannot load subapp '" + subapp + "': " + message]);
             });
-          }, function (message) {
+          }, message => {
             result.rejectWith(context, ["cannot load subapp '" + subapp + "': " + message]);
           });
         });
-      }, function (message) {
+      }, message => {
         result.rejectWith(context, ["cannot load subapp '" + subapp + "': " + message]);
       });
     } catch (message) {
@@ -18531,21 +18445,21 @@ function loadSubApp(subapp, userdata, options) {
   return result.promise();
 }
 function loadSubAppAlt(subapp, userdata, options) {
-  loadSubApp(subapp, userdata, options).fail(function (message) {
+  loadSubApp(subapp, userdata, options).fail(message => {
     error(message);
   });
 }
 function loadSubAppByURL(defaultSubApp, defaultUserData) {
-  var result = $.Deferred();
-  var args = js_AMIRouter.getWebAppArgs();
+  const result = $.Deferred();
+  const args = js_AMIRouter.getWebAppArgs();
 
   if (args['v']) {
     js_AMICommand.execute('GetHashInfo -hash=?', {
       params: [args['v']]
-    }).fail(function (data, message) {
+    }).fail((data, message) => {
       result.reject(message);
-    }).done(function (data) {
-      var json;
+    }).done(data => {
+      let json;
 
       try {
         json = JSON.parse(jspath_default().apply('..field{.@name==="json"}.$', data)[0] || '{}');
@@ -18553,23 +18467,23 @@ function loadSubAppByURL(defaultSubApp, defaultUserData) {
         json = {};
       }
 
-      var subapp = json['subapp'] || defaultSubApp;
-      var userdata = json['userdata'] || defaultUserData;
+      const subapp = json['subapp'] || defaultSubApp;
+      const userdata = json['userdata'] || defaultUserData;
       loadSubApp(subapp, userdata, {
         defaultSubApp: defaultSubApp
-      }).then(function () {
+      }).then(() => {
         result.resolve();
-      }, function (message) {
+      }, message => {
         result.reject(message);
       });
     });
   } else {
     if (!js_AMIRouter.check()) {
-      var subapp = args['subapp'] || defaultSubApp;
-      var userdata = args['userdata'] || defaultUserData;
-      loadSubApp(subapp, userdata).then(function () {
+      const subapp = args['subapp'] || defaultSubApp;
+      const userdata = args['userdata'] || defaultUserData;
+      loadSubApp(subapp, userdata).then(() => {
         result.resolve();
-      }, function (message) {
+      }, message => {
         result.reject(message);
       });
     }
@@ -18584,23 +18498,23 @@ function loadSubAppByURL(defaultSubApp, defaultUserData) {
 /* harmony default export */ function AMIExtension() {
   if (!String.prototype.startsWith) {
     String.prototype.startsWith = function (s) {
-      var base = 0x00000000000000000000;
+      const base = 0x00000000000000000000;
       return this.indexOf(s, base) === base;
     };
   }
 
   if (!String.prototype.endsWith) {
     String.prototype.endsWith = function (s) {
-      var base = this.length - s.length;
+      const base = this.length - s.length;
       return this.indexOf(s, base) === base;
     };
   }
 
   if (!String.prototype.hashCode) {
     String.prototype.hashCode = function () {
-      var hash = 0;
+      let hash = 0;
 
-      for (var i = 0; i < this.length; i++) {
+      for (let i = 0; i < this.length; i++) {
         hash = (hash << 5) - hash + this.charCodeAt(i);
         hash |= 0;
       }
@@ -18609,16 +18523,12 @@ function loadSubAppByURL(defaultSubApp, defaultUserData) {
     };
   }
 
-  var _ami_internal_jQueryAjax = jQuery.ajax;
+  const _ami_internal_jQueryAjax = jQuery.ajax;
 
   jQuery.ajax = function (options) {
     if (typeof options === 'object' && options.dataType === 'sheet') {
-      var result = $.Deferred();
-
-      var _tools$setup = setup(['context', 'media', 'url'], [result, 'screen', ''], options),
-          context = _tools$setup[0],
-          media = _tools$setup[1],
-          url = _tools$setup[2];
+      const result = $.Deferred();
+      const [context, media, url] = setup(['context', 'media', 'url'], [result, 'screen', ''], options);
 
       if (url) {
         $(document.createElement('link')).attr({
@@ -18626,9 +18536,9 @@ function loadSubAppByURL(defaultSubApp, defaultUserData) {
           type: 'text/css',
           media: media,
           href: url
-        }).on('load', function () {
+        }).on('load', () => {
           result.resolveWith(context);
-        }).on('error', function () {
+        }).on('error', () => {
           result.rejectWith(context);
         }).appendTo('head');
       } else {
@@ -18641,15 +18551,15 @@ function loadSubAppByURL(defaultSubApp, defaultUserData) {
     }
   };
 
-  var _ami_internal_jQueryVal = jQuery.fn.val;
-  var _ami_internal_jQueryRemove = jQuery.fn.remove;
+  const _ami_internal_jQueryVal = jQuery.fn.val;
+  const _ami_internal_jQueryRemove = jQuery.fn.remove;
 
-  var _ami_internal_jQueryRemoveEvent = new jQuery.Event('remove');
+  const _ami_internal_jQueryRemoveEvent = new jQuery.Event('remove');
 
   jQuery.fn.extend({
-    serializeObject: function serializeObject() {
-      var result = {};
-      this.serializeArray().forEach(function (item) {
+    serializeObject: function () {
+      const result = {};
+      this.serializeArray().forEach(item => {
         if (item.name in result) {
           if (Object.prototype.toString.call(result[item.name]) === '[object String]') {
             result[item.name] = [result[item.name]];
@@ -18662,25 +18572,24 @@ function loadSubAppByURL(defaultSubApp, defaultUserData) {
       });
       return result;
     },
-    val: function val() {
+    val: function () {
       if (arguments.length === 0) {
           if (this.hasClass('form-editor-done')) {
-            var editor = this.data('editor');
+            const editor = this.data('editor');
             if (editor) return editor.getValue();
             return '';
           }
         } else if (arguments.length === 1) {
           if (this.hasClass('form-editor-done')) {
-            var _editor = this.data('editor');
-
-            if (_editor) _editor.setValue(arguments[0]);
+            const editor = this.data('editor');
+            if (editor) editor.setValue(arguments[0]);
             return this;
           }
         }
 
       return _ami_internal_jQueryVal.apply(this, arguments);
     },
-    remove: function remove() {
+    remove: function () {
       $(this).trigger(_ami_internal_jQueryRemoveEvent);
       return _ami_internal_jQueryRemove.apply(this, arguments);
     }
@@ -18697,9 +18606,7 @@ function loadSubAppByURL(defaultSubApp, defaultUserData) {
 function _setupCtx(ctxImmutables, ctxDefaults, ctxOptions, ctx, immutables, defaults, options) {
   if (options) {
     for (var _i = 0, _Object$entries = Object.entries(options); _i < _Object$entries.length; _i++) {
-      var _Object$entries$_i = _Object$entries[_i],
-          key = _Object$entries$_i[0],
-          val = _Object$entries$_i[1];
+      let [key, val] = _Object$entries[_i];
       ctxOptions[key] = val;
       ctx[key] = val;
     }
@@ -18707,28 +18614,24 @@ function _setupCtx(ctxImmutables, ctxDefaults, ctxOptions, ctx, immutables, defa
 
   if (defaults) {
     for (var _i2 = 0, _Object$entries2 = Object.entries(defaults); _i2 < _Object$entries2.length; _i2++) {
-      var _Object$entries2$_i = _Object$entries2[_i2],
-          _key = _Object$entries2$_i[0],
-          _val = _Object$entries2$_i[1];
+      let [key, val] = _Object$entries2[_i2];
 
-      if (!(_key in ctx)) {
-        if (_key !== 'context') {
-          ctxDefaults[_key] = _val;
-          ctxOptions[_key] = _val;
+      if (!(key in ctx)) {
+        if (key !== 'context') {
+          ctxDefaults[key] = val;
+          ctxOptions[key] = val;
         }
 
-        ctx[_key] = _val;
+        ctx[key] = val;
       }
     }
   }
 
   if (immutables) {
     for (var _i3 = 0, _Object$entries3 = Object.entries(immutables); _i3 < _Object$entries3.length; _i3++) {
-      var _Object$entries3$_i = _Object$entries3[_i3],
-          _key2 = _Object$entries3$_i[0],
-          _val2 = _Object$entries3$_i[1];
-      ctxImmutables[_key2] = _val2;
-      ctx[_key2] = _val2;
+      let [key, val] = _Object$entries3[_i3];
+      ctxImmutables[key] = val;
+      ctx[key] = val;
     }
   }
 
@@ -18739,27 +18642,27 @@ function _setupCtx(ctxImmutables, ctxDefaults, ctxOptions, ctx, immutables, defa
 
 /* harmony default export */ function AMIInterface() {
   $AMIInterface('ami.IControl', {
-    onReady: function onReady() {},
-    onRemove: function onRemove() {},
-    patchId: function patchId(id) {},
-    replaceHTML: function replaceHTML(selector, twig, options) {},
-    prependHTML: function prependHTML(selector, twig, options) {},
-    appendHTML: function appendHTML(selector, twig, options) {}
+    onReady: function () {},
+    onRemove: function () {},
+    patchId: function (id) {},
+    replaceHTML: function (selector, twig, options) {},
+    prependHTML: function (selector, twig, options) {},
+    appendHTML: function (selector, twig, options) {}
   });
   $AMIInterface('ami.IContainer', {
-    render: function render(selector, options) {},
-    prependItem: function prependItem(title, options) {},
-    appendItem: function appendItem(title, options) {},
-    removeItem: function removeItem(itemId) {},
-    removeAllItems: function removeAllItems() {},
-    isEmpty: function isEmpty() {}
+    render: function (selector, options) {},
+    prependItem: function (title, options) {},
+    appendItem: function (title, options) {},
+    removeItem: function (itemId) {},
+    removeAllItems: function () {},
+    isEmpty: function () {}
   });
   $AMIClass('ami.Control', {
     $implements: [ami.IControl],
-    $: function $() {
+    $: function () {
       ami.Control._instanceScopeCnt = 1;
     },
-    $init: function $init(parent, owner) {
+    $init: function (parent, owner) {
       this.ctxImmutables = {};
       this.ctxDefaults = {};
       this.ctxOptions = {};
@@ -18768,100 +18671,98 @@ function _setupCtx(ctxImmutables, ctxDefaults, ctxOptions, ctx, immutables, defa
       this._owner = owner || this;
       this._instanceScope = ami.Control._instanceScopeCnt++;
     },
-    onReady: function onReady() {},
-    onRemove: function onRemove() {},
-    setParent: function setParent(parent) {
+    onReady: function () {},
+    onRemove: function () {},
+    setParent: function (parent) {
       return this._parent = parent || this;
     },
-    getParent: function getParent() {
+    getParent: function () {
       return this._parent;
     },
-    setOwner: function setOwner(owner) {
+    setOwner: function (owner) {
       return this._owner = owner || this;
     },
-    getOwner: function getOwner() {
+    getOwner: function () {
       return this._owner;
     },
-    setSelector: function setSelector(selector) {
-      var _this = this;
-
+    setSelector: function (selector) {
       if (selector) {
-        $(selector).off('remove').on('remove', function () {
-          _this.onRemove();
+        $(selector).off('remove').on('remove', () => {
+          this.onRemove();
         });
       }
 
       return this._selector = selector || '';
     },
-    getSelector: function getSelector() {
+    getSelector: function () {
       return this._selector;
     },
-    setupCtx: function setupCtx(immutables, defaults, options) {
+    setupCtx: function (immutables, defaults, options) {
       return _setupCtx(this.ctxImmutables, this.ctxDefaults, this.ctxOptions, this.ctx, immutables, defaults, options);
     },
-    patchId: function patchId(id) {
+    patchId: function (id) {
       return id + "_scope" + this._instanceScope;
     },
-    replaceHTML: function replaceHTML(selector, twig, options) {
+    replaceHTML: function (selector, twig, options) {
       options = options || {};
       options.scope = this._instanceScope;
-      return view_replaceHTML(selector, twig, options);
+      return replaceHTML(selector, twig, options);
     },
-    prependHTML: function prependHTML(selector, twig, options) {
+    prependHTML: function (selector, twig, options) {
       options = options || {};
       options.scope = this._instanceScope;
-      return view_prependHTML(selector, twig, options);
+      return prependHTML(selector, twig, options);
     },
-    appendHTML: function appendHTML(selector, twig, options) {
+    appendHTML: function (selector, twig, options) {
       options = options || {};
       options.scope = this._instanceScope;
-      return view_appendHTML(selector, twig, options);
+      return appendHTML(selector, twig, options);
     },
-    createControl: function createControl(parent, control, params, options) {
-      return controls_createControl(parent, this, control, params, options);
+    createControl: function (parent, control, params, options) {
+      return createControl(parent, this, control, params, options);
     },
-    createControlInBody: function createControlInBody(parent, control, controlParams, controlOptions, options) {
-      return controls_createControlInBody(parent, this, control, controlParams, controlOptions, this.ctx, options);
+    createControlInBody: function (parent, control, controlParams, controlOptions, options) {
+      return createControlInBody(parent, this, control, controlParams, controlOptions, this.ctx, options);
     },
-    createControlInContainer: function createControlInContainer(parent, control, controlParams, controlOptions, icon, title, options) {
-      return controls_createControlInContainer(parent, this, control, controlParams, controlOptions, this.ctx, icon, title, options);
+    createControlInContainer: function (parent, control, controlParams, controlOptions, icon, title, options) {
+      return createControlInContainer(parent, this, control, controlParams, controlOptions, this.ctx, icon, title, options);
     },
-    createControlFromWebLink: function createControlFromWebLink(parent, el, options) {
-      return controls_createControlFromWebLink(parent, this, el, this.ctx, options);
+    createControlFromWebLink: function (parent, el, options) {
+      return createControlFromWebLink(parent, this, el, this.ctx, options);
     }
   });
   $AMIInterface('ami.ISubApp', {
-    onReady: function onReady(userdata) {},
-    onExit: function onExit(userdata) {},
-    onLogin: function onLogin(userdata) {},
-    onLogout: function onLogout(userdata) {}
+    onReady: function (userdata) {},
+    onExit: function (userdata) {},
+    onLogin: function (userdata) {},
+    onLogout: function (userdata) {}
   });
   $AMIClass('ami.SubApp', {
     $implements: [ami.ISubApp],
-    $init: function $init() {
+    $init: function () {
       this.ctxImmutables = {};
       this.ctxDefaults = {};
       this.ctxOptions = {};
       this.ctx = {};
     },
-    onReady: function onReady() {},
-    onExit: function onExit() {},
-    onLogin: function onLogin() {},
-    onLogout: function onLogout() {},
-    setupCtx: function setupCtx(immutables, defaults, options) {
+    onReady: function () {},
+    onExit: function () {},
+    onLogin: function () {},
+    onLogout: function () {},
+    setupCtx: function (immutables, defaults, options) {
       return _setupCtx(this.ctxImmutables, this.ctxDefaults, this.ctxOptions, this.ctx, immutables, defaults, options);
     },
-    createControl: function createControl(parent, control, params, options) {
-      return controls_createControl(parent, this, control, params, options);
+    createControl: function (parent, control, params, options) {
+      return createControl(parent, this, control, params, options);
     },
-    createControlInBody: function createControlInBody(parent, control, controlParams, controlOptions, options) {
-      return controls_createControlInBody(parent, this, control, controlParams, controlOptions, this.ctx, options);
+    createControlInBody: function (parent, control, controlParams, controlOptions, options) {
+      return createControlInBody(parent, this, control, controlParams, controlOptions, this.ctx, options);
     },
-    createControlInContainer: function createControlInContainer(parent, control, controlParams, controlOptions, icon, title, options) {
-      return controls_createControlInContainer(parent, this, control, controlParams, controlOptions, this.ctx, icon, title, options);
+    createControlInContainer: function (parent, control, controlParams, controlOptions, icon, title, options) {
+      return createControlInContainer(parent, this, control, controlParams, controlOptions, this.ctx, icon, title, options);
     },
-    createControlFromWebLink: function createControlFromWebLink(parent, el, options) {
-      return controls_createControlFromWebLink(parent, this, el, this.ctx, options);
+    createControlFromWebLink: function (parent, el, options) {
+      return createControlFromWebLink(parent, this, el, this.ctx, options);
     }
   });
 }
@@ -18922,10 +18823,8 @@ var _noSelect = AMIWebApp_classPrivateFieldLooseKey("noSelect2");
 
 var _globalDeferred = AMIWebApp_classPrivateFieldLooseKey("globalDeferred");
 
-var AMIWebApp = function () {
-  function AMIWebApp() {
-    var _this = this;
-
+class AMIWebApp {
+  constructor() {
     Object.defineProperty(this, _embedded, {
       writable: true,
       value: false
@@ -18986,9 +18885,9 @@ var AMIWebApp = function () {
     this.textToSQL = textToSQL;
     this.sqlToText = sqlToText;
     this.fillBreadcrumb = fillBreadcrumb;
-    this.replaceHTML = view_replaceHTML;
-    this.prependHTML = view_prependHTML;
-    this.appendHTML = view_appendHTML;
+    this.replaceHTML = replaceHTML;
+    this.prependHTML = prependHTML;
+    this.appendHTML = appendHTML;
     this.parentHTML = parentHTML;
     this.formatTWIG = formatTWIG;
     this.renderJSDoc = renderJSDoc;
@@ -19007,10 +18906,10 @@ var AMIWebApp = function () {
     this.loadSubAppByURL = loadSubAppByURL;
     this._controls = _controls;
     this.loadControl = loadControl;
-    this.createControl = controls_createControl;
-    this.createControlInBody = controls_createControlInBody;
-    this.createControlInContainer = controls_createControlInContainer;
-    this.createControlFromWebLink = controls_createControlFromWebLink;
+    this.createControl = createControl;
+    this.createControlInBody = createControlInBody;
+    this.createControlInContainer = createControlInContainer;
+    this.createControlFromWebLink = createControlFromWebLink;
     $AMINamespace('ami', {
       awf: {
         buildVersion: '2.0.0',
@@ -19026,7 +18925,7 @@ var AMIWebApp = function () {
     });
     AMIExtension();
     AMIInterface();
-    var scriptArgs = js_AMIRouter.getScriptArgs();
+    const scriptArgs = js_AMIRouter.getScriptArgs();
     AMIWebApp_classPrivateFieldLooseBase(this, _embedded)[_embedded] = 'embedded' in scriptArgs;
     AMIWebApp_classPrivateFieldLooseBase(this, _noBootstrap)[_noBootstrap] = 'nobootstrap' in scriptArgs;
     AMIWebApp_classPrivateFieldLooseBase(this, _noSelect)[_noSelect] = 'noselect2' in scriptArgs;
@@ -19042,8 +18941,8 @@ var AMIWebApp = function () {
       this.bootstrapVersion = 4;
     }
 
-    var resourcesCSS = [];
-    var resourcesJS = [];
+    const resourcesCSS = [];
+    const resourcesJS = [];
 
     if (!AMIWebApp_classPrivateFieldLooseBase(this, _noBootstrap)[_noBootstrap] && typeof jQuery.fn.modal !== 'function') {
       if (this.bootstrapVersion === 4) {
@@ -19064,77 +18963,49 @@ var AMIWebApp = function () {
       resourcesJS.push(this.originURL + "/js/assets/js/moment.min.js");
     }
 
-    loadResources([].concat(resourcesCSS, resourcesJS), {
+    loadResources([...resourcesCSS, ...resourcesJS], {
       cache: true
-    }).done(function (resources) {
+    }).done(resources => {
       window.JSPath = (jspath_default());
 
       __webpack_require__(7371);
 
       __webpack_require__(2340)(window.moment);
 
-      AMIWebApp_classPrivateFieldLooseBase(_this, _globalDeferred)[_globalDeferred].resolve(resources);
-    }).fail(function (message) {
-      AMIWebApp_classPrivateFieldLooseBase(_this, _globalDeferred)[_globalDeferred].reject(message);
+      AMIWebApp_classPrivateFieldLooseBase(this, _globalDeferred)[_globalDeferred].resolve(resources);
+    }).fail(message => {
+      AMIWebApp_classPrivateFieldLooseBase(this, _globalDeferred)[_globalDeferred].reject(message);
     });
   }
 
-  var _proto = AMIWebApp.prototype;
-
-  _proto.isEmbedded = function isEmbedded() {
+  isEmbedded() {
     return AMIWebApp_classPrivateFieldLooseBase(this, _embedded)[_embedded];
-  };
+  }
 
-  _proto.onReady = function onReady(userdata) {
+  onReady(userdata) {
     if (!AMIWebApp_classPrivateFieldLooseBase(this, _embedded)[_embedded]) {
       alert('error: \'amiWebApp.onReady()\' must be overloaded!');
     }
 
     return null;
-  };
+  }
 
-  _proto.onRefresh = function onRefresh(isAuth) {
+  onRefresh(isAuth) {
     if (!AMIWebApp_classPrivateFieldLooseBase(this, _embedded)[_embedded]) {
       alert('error: \'amiWebApp.onRefresh()\' must be overloaded!');
     }
 
     return null;
-  };
+  }
 
-  _proto.start = function start(options) {
-    var _this2 = this;
-
-    AMIWebApp_classPrivateFieldLooseBase(this, _globalDeferred)[_globalDeferred].done(function () {
-      var _tools$setup = setup(['logo_url', 'background_url', 'sign_in_image_url', 'home_url', 'contact_email', 'about_url', 'default_theme_url', 'dashboard_theme_url', 'locker_url', 'endpoint_url', 'sign_in_text', 'sso_auto_authentication', 'sso_authentication_allowed', 'password_authentication_allowed', 'certificate_authentication_allowed', 'sign_out_allowed', 'create_account_allowed', 'change_info_allowed', 'change_password_allowed', 'change_certificate_allowed', 'captcha_allowed', 'bookmarks_allowed', 'dashboards_allowed'], [logo, background, sign_in_image, _this2.webAppURL, 'ami@lpsc.in2p3.fr', 'https://cern.ch/ami/', _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Themes/blue.twig", _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Themes/cloud.twig", _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Lockers/default.twig", _this2.originURL + "/AMI/FrontEnd", 'Welcome in AMI!', false, false, true, true, true, true, true, true, true, true, true, true], options),
-          logoURL = _tools$setup[0],
-          backgroundURL = _tools$setup[1],
-          signInImageURL = _tools$setup[2],
-          homeURL = _tools$setup[3],
-          contactEmail = _tools$setup[4],
-          aboutURL = _tools$setup[5],
-          defaultThemeURL = _tools$setup[6],
-          dashboardThemeURL = _tools$setup[7],
-          lockerURL = _tools$setup[8],
-          endpointURL = _tools$setup[9],
-          signInText = _tools$setup[10],
-          ssoAutoAuthentication = _tools$setup[11],
-          ssoAuthenticationAllowed = _tools$setup[12],
-          passwordAuthenticationAllowed = _tools$setup[13],
-          certificateAuthenticationAllowed = _tools$setup[14],
-          signOutAllowed = _tools$setup[15],
-          createAccountAllowed = _tools$setup[16],
-          changeInfoAllowed = _tools$setup[17],
-          changePasswordAllowed = _tools$setup[18],
-          changeCertificateAllowed = _tools$setup[19],
-          captchaAllowed = _tools$setup[20],
-          bookmarksAllowed = _tools$setup[21],
-          dashboardsAllowed = _tools$setup[22];
-
+  start(options) {
+    AMIWebApp_classPrivateFieldLooseBase(this, _globalDeferred)[_globalDeferred].done(() => {
+      const [logoURL, backgroundURL, signInImageURL, homeURL, contactEmail, aboutURL, defaultThemeURL, dashboardThemeURL, lockerURL, endpointURL, signInText, ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, signOutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed, dashboardsAllowed] = setup(['logo_url', 'background_url', 'sign_in_image_url', 'home_url', 'contact_email', 'about_url', 'default_theme_url', 'dashboard_theme_url', 'locker_url', 'endpoint_url', 'sign_in_text', 'sso_auto_authentication', 'sso_authentication_allowed', 'password_authentication_allowed', 'certificate_authentication_allowed', 'sign_out_allowed', 'create_account_allowed', 'change_info_allowed', 'change_password_allowed', 'change_certificate_allowed', 'captcha_allowed', 'bookmarks_allowed', 'dashboards_allowed'], [logo, background, sign_in_image, this.webAppURL, 'ami@lpsc.in2p3.fr', 'https://cern.ch/ami/', this.originURL + "/twig/v" + this.bootstrapVersion + "/Themes/blue.twig", this.originURL + "/twig/v" + this.bootstrapVersion + "/Themes/cloud.twig", this.originURL + "/twig/v" + this.bootstrapVersion + "/Lockers/default.twig", this.originURL + "/AMI/FrontEnd", 'Welcome in AMI!', false, false, true, true, true, true, true, true, true, true, true, true], options);
       js_AMICommand.initHttpClient(endpointURL);
 
-      window.onbeforeunload = function (e) {
+      window.onbeforeunload = e => {
         if (!_canLeave) {
-          var f = e || window.event;
+          const f = e || window.event;
 
           if (f) {
             f.returnValue = 'Confirm that you want to leave this page?';
@@ -19144,65 +19015,65 @@ var AMIWebApp = function () {
         }
       };
 
-      var controlsURL = _this2.originURL + "/controls/CONTROLS.json";
-      var subappsURL = _this2.originURL + "/subapps/SUBAPPS.json";
+      const controlsURL = this.originURL + "/controls/CONTROLS.json";
+      const subappsURL = this.originURL + "/subapps/SUBAPPS.json";
       $.ajax({
         url: controlsURL,
         cache: false,
         crossDomain: true,
         dataType: 'json'
-      }).then(function (data1) {
+      }).then(data1 => {
         $.ajax({
           url: subappsURL,
           cache: false,
           crossDomain: true,
           dataType: 'json'
-        }).then(function (data2) {
-          for (var name in data1) {
+        }).then(data2 => {
+          for (const name in data1) {
             _controls[name.toLowerCase()] = data1[name];
           }
 
-          for (var _name in data2) {
-            _subapps[_name.toLowerCase()] = data2[_name];
+          for (const name in data2) {
+            _subapps[name.toLowerCase()] = data2[name];
           }
 
-          if (!AMIWebApp_classPrivateFieldLooseBase(_this2, _embedded)[_embedded]) {
-            var dict = {
+          if (!AMIWebApp_classPrivateFieldLooseBase(this, _embedded)[_embedded]) {
+            const dict = {
               LOGO_URL: logoURL,
               BACKGROUND_URL: backgroundURL,
               HOME_URL: homeURL,
               CONTACT_EMAIL: contactEmail,
               ABOUT_URL: aboutURL
             };
-            var themeURL = (js_AMIRouter.getWebAppArgs()['subapp'] || '').toLowerCase() === 'userdashboard' ? dashboardThemeURL : defaultThemeURL;
+            const themeURL = (js_AMIRouter.getWebAppArgs()['subapp'] || '').toLowerCase() === 'userdashboard' ? dashboardThemeURL : defaultThemeURL;
             $.ajax({
               url: themeURL,
               cache: true,
               crossDomain: true,
               dataType: 'text'
-            }).then(function (data3) {
+            }).then(data3 => {
               $.ajax({
                 url: lockerURL,
                 cache: true,
                 crossDomain: true,
                 dataType: 'text'
-              }).then(function (data4) {
-                $('body').append(formatTWIG(data3, dict) + data4).promise().done(function () {
+              }).then(data4 => {
+                $('body').append(formatTWIG(data3, dict) + data4).promise().done(() => {
                   lock();
-                  js_AMIAuth.init(signInImageURL, signInText, ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, signOutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed, dashboardsAllowed).done(function () {
+                  js_AMIAuth.init(signInImageURL, signInText, ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, signOutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed, dashboardsAllowed).done(() => {
                     unlock();
-                  }).fail(function (message) {
+                  }).fail(message => {
                     error(message);
                   });
                 });
-              }, function () {
+              }, () => {
                 alert("could not open '" + lockerURL + "', please reload the page...");
               });
-            }, function () {
+            }, () => {
               alert("could not open '" + themeURL + "', please reload the page...");
             });
           } else {
-            var data3 = '';
+            let data3 = '';
 
             if ($('#ami_alert_content').length === 0) {
               data3 += '<div id="ami_alert_content"></div>';
@@ -19217,32 +19088,31 @@ var AMIWebApp = function () {
               cache: true,
               crossDomain: true,
               dataType: 'text'
-            }).done(function (data4) {
-              $('body').prepend(data3 + data4).promise().done(function () {
+            }).done(data4 => {
+              $('body').prepend(data3 + data4).promise().done(() => {
                 lock();
-                js_AMIAuth.init(signInImageURL, signInText, ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, signOutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed, dashboardsAllowed).done(function () {
+                js_AMIAuth.init(signInImageURL, signInText, ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, signOutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed, dashboardsAllowed).done(() => {
                   unlock();
-                }).fail(function (message) {
+                }).fail(message => {
                   error(message);
                 });
               });
             });
           }
-        }, function () {
+        }, () => {
           alert("cannot open '" + subappsURL + "', please reload the page...");
         });
-      }, function () {
+      }, () => {
         alert("cannot open '" + controlsURL + "', please reload the page...");
       });
-    }).fail(function (message) {
+    }).fail(message => {
       alert(message);
     });
 
     return this;
-  };
+  }
 
-  return AMIWebApp;
-}();
+}
 
 /* harmony default export */ const js_AMIWebApp = (new AMIWebApp());
 ;// CONCATENATED MODULE: ./src/js/AMIDoc.js

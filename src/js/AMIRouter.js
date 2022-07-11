@@ -66,6 +66,8 @@ class AMIRouter
 		this.#webAppArgs = AMIRouter.#searchParamToDict(webappUrl);
 		this.#webAppHash = webappUrl.hash.substring(1);
 
+		/*------------------------------------------------------------------------------------------------------------*/
+
 		this.#scriptURL = scriptUrl.protocol === 'file:' ? `file://${scriptUrl.pathname}`
 		                                                 : `${scriptUrl.origin}${scriptUrl.pathname}`
 		;
