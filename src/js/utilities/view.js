@@ -115,11 +115,13 @@ function createCodeInstance(editors) {
 
 			const dynamicLang = await LanguageDescription.matchLanguageName(languages, lang).load();
 
+			const Lang = new Compartment();
+
 			let startState = EditorState.create({
 				doc: item.value,
 				extensions: [
 					keymap.of(defaultKeymap),
-					dynamicLang,
+					Lang.of(dynamicLang),
 					lineNumbers(),
 					syntaxHighlighting(defaultHighlightStyle),
 					wordWrap && EditorView.lineWrapping,
@@ -137,7 +139,7 @@ function createCodeInstance(editors) {
 				parent: div[0]
 			});
 
-			view.test = new Compartment;
+			view.test = Lang;
 		});
 	})
 }
