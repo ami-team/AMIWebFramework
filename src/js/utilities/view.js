@@ -139,6 +139,12 @@ function _injectCodeMirror(editors)
 					cm_language.foldGutter(),
 					cm_language.syntaxHighlighting(cm_language.defaultHighlightStyle),
 					/**/
+					cm_view.EditorView.baseTheme({
+						'&.cm-editor': {
+							'fontSize': '13px',
+						},
+					}),
+					/**/
 					cm_view.EditorView.updateListener.of((update) => {
 
 						if(item.value !== update.state.doc.toString())

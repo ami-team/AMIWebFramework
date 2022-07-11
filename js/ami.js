@@ -33932,7 +33932,11 @@ function _injectCodeMirror(editors) {
         const readOnly = textarea.attr('data-read-only') || 'false';
         const wordWrap = textarea.attr('data-word-wrap') || 'false';
         const showGutter = textarea.attr('data-show-gutter') || 'true';
-        const extensions = [editorConf.of(dynamicLang), state_dist/* EditorState.tabSize.of */.yy.tabSize.of(4), dist/* keymap.of */.$f.of(defaultKeymap), dist/* EditorView.editable.of */.tk.editable.of(readOnly !== 'true'), language_dist/* foldGutter */.mi(), language_dist/* syntaxHighlighting */.nF(language_dist/* defaultHighlightStyle */.R_), dist/* EditorView.updateListener.of */.tk.updateListener.of(update => {
+        const extensions = [editorConf.of(dynamicLang), state_dist/* EditorState.tabSize.of */.yy.tabSize.of(4), dist/* keymap.of */.$f.of(defaultKeymap), dist/* EditorView.editable.of */.tk.editable.of(readOnly !== 'true'), language_dist/* foldGutter */.mi(), language_dist/* syntaxHighlighting */.nF(language_dist/* defaultHighlightStyle */.R_), dist/* EditorView.baseTheme */.tk.baseTheme({
+          '&.cm-editor': {
+            'fontSize': '13px'
+          }
+        }), dist/* EditorView.updateListener.of */.tk.updateListener.of(update => {
           if (item.value !== update.state.doc.toString()) {
             item.value = update.state.doc.toString();
             $(item).trigger('change');
