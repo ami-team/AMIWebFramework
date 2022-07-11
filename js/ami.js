@@ -33934,7 +33934,7 @@ function _injectCodeMirror(editors) {
         const showBorder = textarea.attr('data-show-border') || 'true';
         const showGutter = textarea.attr('data-show-gutter') || 'true';
         const rounded = textarea.attr('data-rounded') || 'true';
-        const extensions = [editorConf.of(dynamicLang), state_dist/* EditorState.tabSize.of */.yy.tabSize.of(4), dist/* keymap.of */.$f.of(defaultKeymap), dist/* EditorView.editable.of */.tk.editable.of(readOnly !== 'true'), language_dist/* foldGutter */.mi(), language_dist/* syntaxHighlighting */.nF(language_dist/* defaultHighlightStyle */.R_), dist/* EditorView.baseTheme */.tk.baseTheme({
+        const extensions = [editorConf.of(dynamicLang), state_dist/* EditorState.tabSize.of */.yy.tabSize.of(4), dist/* keymap.of */.$f.of(defaultKeymap), dist/* EditorView.editable.of */.tk.editable.of(readOnly !== 'true'), language_dist/* foldGutter */.mi(), language_dist/* syntaxHighlighting */.nF(language_dist/* defaultHighlightStyle */.R_), dist/* EditorView.theme */.tk.theme({
           '&.cm-editor': {
             'fontSize': '13px',
             'border': showBorder === 'true' ? '1px solid #ced4da' : 'inherit',

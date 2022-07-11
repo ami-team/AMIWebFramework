@@ -141,7 +141,7 @@ function _injectCodeMirror(editors)
 					cm_language.foldGutter(),
 					cm_language.syntaxHighlighting(cm_language.defaultHighlightStyle),
 					/**/
-					cm_view.EditorView.baseTheme({
+					cm_view.EditorView.theme({
 						'&.cm-editor': {
 							'fontSize': '13px',
 							'border': showBorder === 'true' ? '1px solid #ced4da'
