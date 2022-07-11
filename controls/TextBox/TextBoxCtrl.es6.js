@@ -42,6 +42,14 @@ $AMIClass('TextBoxCtrl', {
 
 			$('#B8927006_7FCE_87BD_FC8D_C7575D69C362').on('hidden.bs.modal', () => {
 
+				// const editor = EditorView.findFromDOM($('.form-editor-codemirror.form-editor-codemirror')[0]);
+				//
+				// let transaction = editor.state.update({
+				// 	changes: { from: 0, to: editor.state.doc.length, insert: '' }
+				// });
+				//
+				// editor.dispatch(transaction)
+
 				amiWebApp.modalLeave();
 
 				_class.deferred.resolveWith(_class.context || _class.deferred);
@@ -122,16 +130,12 @@ $AMIClass('TextBoxCtrl', {
 		$('#B6FA759D_D2DD_D079_B591_5023C422B87F').text(params.title);
 		$('#AF62E47C_F3A6_FEB6_A48B_CCD3BAFE6647').text(params.lang);
 
-		const editor = $('#B8927006_7FCE_87BD_FC8D_C7575D69C362 .form-editor').val(this.format(params.text, params.lang)).data('editor');
+		$('#B8927006_7FCE_87BD_FC8D_C7575D69C362 .form-editor').attr('data-lang', params.lang !== 'mql' ? params.lang : 'sql').val(this.format(params.text, params.lang));
 
 		$('#B8927006_7FCE_87BD_FC8D_C7575D69C362').modal('show');
 
 		this.$class.deferred = /**/deferred/**/;
 		this.$class.context = params.context;
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		monaco.editor.setModelLanguage(editor.getModel(), params.lang !== 'mql' ? params.lang : 'sql'); /* TEMP */
 
 		/*------------------------------------------------------------------------------------------------------------*/
 

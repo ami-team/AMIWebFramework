@@ -22,6 +22,12 @@ import amiTwig from 'ami-twig';
 import 'flatpickr/dist/flatpickr.min.css';
 import /*-------*/'flatpickr'/*-------*/;
 
+import * as cm_view from '@codemirror/view';
+import * as cm_state from '@codemirror/state';
+import * as cm_command from '@codemirror/commands';
+import * as cm_language from '@codemirror/language';
+import * as cm_language_data from '@codemirror/language-data';
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* BREADCRUMB                                                                                                         */
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -88,112 +94,96 @@ function _formatDatetime(date, format)
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-function _injectMonaco(editors, monaco)
+function _injectCodeMirror(editors)
 {
-	editors.each((_, item) => {
+	let nb = editors.length;
 
-		/*------------------------------------------------------------------------------------------------------------*/
+	const result = $.Deferred();
+
+	editors.each((_, item) => {
 
 		const textarea = $(item);
 
-		/*------------------------------------------------------------------------------------------------------------*/
-
 		const div = $('<div>', {
 			'class': textarea.attr('class')
-			                 .replace(/form-editor[\-a-zA-Z]*/g, 'form-editor-monaco'),
+			                 .replace(/form-editor[\-a-zA-Z]*/g, 'form-editor-codemirror'),
 			'style': textarea.attr('style'),
 		});
 
-		/*------------------------------------------------------------------------------------------------------------*/
-
 		div.insertAfter(textarea).promise().done(() => {
 
-			/*--------------------------------------------------------------------------------------------------------*/
+			const lang = textarea.attr('data-lang') || 'js';
 
-			const lang = textarea.attr('data-lang') || '';
-			const theme = textarea.attr('data-theme') || 'vs';
+			cm_language.LanguageDescription.matchLanguageName(cm_language_data.languages, lang).load().then((dynamicLang) => {
 
-			/**/
+				/*----------------------------------------------------------------------------------------------------*/
 
-			const wordWrap = textarea.attr('data-word-wrap') || 'false';
-			const readOnly = textarea.attr('data-read-only') || 'false';
-			const showGutter = textarea.attr('data-show-gutter') || 'false';
-			const showMiniMap = textarea.attr('data-show-minimap') || 'false';
-			const automaticLayout = textarea.attr('data-automatic-layout') || 'false';
-			const renderWhitespace = textarea.attr('data-render-whitespace') || 'false';
-			const highlightActiveLine = textarea.attr('data-highlight-active-line') || 'false';
+				const editorConf = new cm_state.Compartment();
 
-			/*--------------------------------------------------------------------------------------------------------*/
+				/*----------------------------------------------------------------------------------------------------*/
 
-			const editor = monaco.editor.create(div[0], {
-				/* VALUE */
-				value: item.value,
-				/* OPTIONS */
-				theme: theme,
-				language: lang,
-				/**/
-				wordWrap: wordWrap === 'true',
-				readOnly: readOnly === 'true',
-				minimap: {
-					enabled: showMiniMap === 'true'
-				},
-				automaticLayout: automaticLayout === 'true',
-				renderWhitespace: renderWhitespace === 'true',
-				/**/
-				lineNumbers: showGutter === 'true' ? 'on' : 'off',
-				renderLineHighlight: highlightActiveLine === 'true' ? 'line' : 'none',
-				/**/
-				insertSpaces: false,
-				overviewRulerLanes: 0x00,
-				overviewRulerBorder: false,
-				scrollBeyondLastLine: false,
-				hideCursorInOverviewRuler: true,
-				scrollbar: {
-					alwaysConsumeMouseWheel: false,
+				const readOnly = textarea.attr('data-read-only') || 'false';
+				const wordWrap = textarea.attr('data-word-wrap') || 'false';
+				const showGutter = textarea.attr('data-show-gutter') || 'true';
+
+				/*----------------------------------------------------------------------------------------------------*/
+
+				const extensions = [
+					editorConf.of(dynamicLang),
+					cm_state.EditorState.tabSize.of(4),
+					cm_view.keymap.of(cm_command.defaultKeymap),
+					cm_view.EditorView.editable.of(readOnly !== 'true'),
+					cm_language.syntaxHighlighting(cm_language.defaultHighlightStyle),
+					/**/
+					cm_view.EditorView.updateListener.of((update) => {
+
+						if(item.value !== update.state.doc.toString())
+						{
+							item.value = update.state.doc.toString();
+
+							$(item).trigger('change');
+						}
+					}),
+				];
+
+				if(showGutter === 'true') {
+					extensions.push(cm_view.lineNumbers());
 				}
-			});
 
-			/*--------------------------------------------------------------------------------------------------------*/
+				if(wordWrap === 'true') {
+					extensions.push(cm_view.EditorView.lineWrapping);
+				}
 
-			textarea.data('editor', editor);
+				/*----------------------------------------------------------------------------------------------------*/
 
-			/*--------------------------------------------------------------------------------------------------------*/
+				const editorState = cm_state.EditorState.create({
+					extensions: extensions,
+					doc: item.value,
+				});
 
-			editor.onDidChangeModelContent(() => {
+				const editorView = new cm_view.EditorView({
+					state: editorState,
+					parent: div[0],
+				});
 
-				item.value = editor.getValue();
+				/*----------------------------------------------------------------------------------------------------*/
 
-				$(item).trigger('change');
-			});
+				textarea.data('editorConf', editorConf);
+				textarea.data('editorView', editorView);
 
-			/*--------------------------------------------------------------------------------------------------------*/
+				/*----------------------------------------------------------------------------------------------------*/
 
-			const updateHeight = () => {
-
-				try
+				if(--nb === 0)
 				{
-					editor.layout({
-						width: div.width(),
-						height: editor.getContentHeight(),
-					});
+					return result.resolve();
 				}
-				catch
-				{
-					/* IGNORE */
-				}
-			};
 
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			editor.onDidContentSizeChange(
-				updateHeight
-			);
-
-			updateHeight();
-
-			/*--------------------------------------------------------------------------------------------------------*/
+				/*----------------------------------------------------------------------------------------------------*/
+			});
 		});
-	});
+	})
+
+	return result;
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -360,21 +350,10 @@ function _xxxHTML(selector, twig, mode, options)
 
 		if(editors.length > 0)
 		{
-			if(typeof window.monaco === 'undefined')
-			{
-				import('monaco-editor/esm/vs/editor/editor.api').then((windowMonaco) => {
-
-					_injectMonaco(editors, window.monaco = windowMonaco);
-
-					result.resolveWith(context, [el, html]);
-				});
-			}
-			else
-			{
-				_injectMonaco(editors, /*---*/ window.monaco /*---*/);
+			_injectCodeMirror(editors).done(() => {
 
 				result.resolveWith(context, [el, html]);
-			}
+			});
 		}
 		else
 		{

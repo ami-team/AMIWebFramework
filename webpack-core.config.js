@@ -59,7 +59,6 @@ const CopyPlugin = require('copy-webpack-plugin');
 const JsDocPlugin = require('jsdoc-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -225,16 +224,6 @@ const config = {
 		}),
 		new ESLintPlugin({
 			'failOnWarning': true
-		}),
-		new MonacoWebpackPlugin({
-			'filename': 'assets/js/workers/[name].min.js',
-			'languages': [
-				'sql',
-				'shell',
-				'xml', 'json', 'yaml',
-				'text', 'html', 'markdown',
-				'javascript', 'java',
-			]
 		}),
 		new webpack.BannerPlugin({
 			'banner': BANNER

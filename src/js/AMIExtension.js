@@ -12,6 +12,9 @@
 'use strict';
 
 import * as tools from './utilities/tools';
+import {LanguageDescription} from '@codemirror/language';
+import {languages} from '@codemirror/language-data';
+import {javascript} from '@codemirror/lang-javascript';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* $.Deferred                                                                                                         */
@@ -271,27 +274,24 @@ export default function()
 
 		val: function()
 		{
-			/**/ if(arguments.length === 0) // getter
+			if(arguments.length === 1 && this.hasClass('form-editor-done')) // setter on editor
 			{
-				if(this.hasClass('form-editor-done'))
+				const editorConf = this.data('editorConf');
+				const editorView = this.data('editorView');
+				const dataLang = this.attr('data-lang');
+
+				if(editorView)
 				{
-					const editor = this.data('editor');
+					LanguageDescription.matchLanguageName(languages, dataLang).load().then((dynamicLang) => {
 
-					if(editor) return editor.getValue();
-
-					return ('');
+						editorView.dispatch(editorView.state.update({
+							effects: editorConf.reconfigure(dynamicLang),
+							changes: {from: 0, to: editorView.state.doc.length, insert: arguments[0]},
+						}));
+					});
 				}
-			}
-			else if(arguments.length === 1) // setter
-			{
-				if(this.hasClass('form-editor-done'))
-				{
-					const editor = this.data('editor');
 
-					if(editor) editor.setValue(arguments[0]);
-
-					return this;
-				}
+				return this;
 			}
 
 			return _ami_internal_jQueryVal.apply(this, arguments);

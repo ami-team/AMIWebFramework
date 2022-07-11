@@ -34,24 +34,11 @@
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
-/* MONACAO                                                                                                            */
+/* CODEMIRROR                                                                                                         */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-.monaco-editor,
-.monaco-editor .overflow-guard {
-	border-radius: calc(0.2rem + 1px);
-}
-
-.monaco-editor .margin-view-overlays {
-	background: rgb(248, 249, 250) url("../images/stripe2.png");
-}
-
-.monaco-editor .lines-content {
-	padding-left: 0.125rem;
-}
-
 .form-editor,
-.form-editor-monaco {
+.form-editor-codemirror {
 	border: 1px solid rgb(206, 212, 218);
 	border-radius: 0.2rem;
 	width: 100%;
