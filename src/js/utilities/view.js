@@ -124,7 +124,9 @@ function _injectCodeMirror(editors)
 
 				const readOnly = textarea.attr('data-read-only') || 'false';
 				const wordWrap = textarea.attr('data-word-wrap') || 'false';
+				const showBorder = textarea.attr('data-show-border') || 'true';
 				const showGutter = textarea.attr('data-show-gutter') || 'true';
+				const rounded = textarea.attr('data-rounded') || 'true';
 
 				/*----------------------------------------------------------------------------------------------------*/
 
@@ -142,6 +144,10 @@ function _injectCodeMirror(editors)
 					cm_view.EditorView.baseTheme({
 						'&.cm-editor': {
 							'fontSize': '13px',
+							'border': showBorder === 'true' ? '1px solid #ced4da'
+							                                : 'inherit',
+							'border-radius': rounded === 'true' ? '0.25rem'
+							                                    : 'inherit',
 						},
 					}),
 					/**/
