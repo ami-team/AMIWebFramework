@@ -266,32 +266,38 @@ module.exports = (env, argv) => {
 
 	if(argv.mode === 'development')
 	{
-		config.module.rules[0].use.push({
-			'loader': 'esbuild-loader',
-			'options': {
-				'target': 'es2015',
-				'legalComments': 'none'
-			}
+		config.module.rules.push({
+			'test': /\.js$/,
+			'use': [{
+				'loader': 'esbuild-loader',
+				'options': {
+					'target': 'es2015',
+					'legalComments': 'none'
+				}
+			}]
 		});
 	}
 	else
 	{
-		config.module.rules[0].use.push({
-			'loader': 'babel-loader',
-			'options': {
-				'shouldPrintComment': () => false,
-				'plugins': [
-					['@babel/plugin-transform-for-of', {
-						'loose': true
-					}]
-				],
-				'presets': [
-					['@babel/preset-env', {
-						'loose': true,
-						'targets': BROWSER_LIST
-					}]
-				]
-			}
+		config.module.rules.push({
+			'test': /\.js$/,
+			'use': [{
+				'loader': 'babel-loader',
+				'options': {
+					'shouldPrintComment': () => false,
+					'plugins': [
+						['@babel/plugin-transform-for-of', {
+							'loose': true
+						}]
+					],
+					'presets': [
+						['@babel/preset-env', {
+							'loose': true,
+							'targets': BROWSER_LIST
+						}]
+					]
+				}
+			}]
 		});
 	}
 
