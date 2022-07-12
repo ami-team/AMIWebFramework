@@ -135,19 +135,22 @@ function _injectCodeMirror(editors)
 					/**/
 					cm_state.EditorState.tabSize.of(4),
 					/**/
-					cm_view.keymap.of(cm_command.defaultKeymap),
+					cm_view.highlightSpecialChars(),
 					cm_view.EditorView.editable.of(readOnly !== 'true'),
 					/**/
-					cm_language.foldGutter(),
-					cm_language.syntaxHighlighting(cm_language.defaultHighlightStyle),
+					cm_view.keymap.of([
+						...cm_command.defaultKeymap,
+						...cm_command.historyKeymap,
+					]),
 					/**/
-					cm_view.EditorView.theme({
+					cm_command.history(),
+					/**/
+					cm_language.foldGutter(),
+					cm_language.syntaxHighlighting(cm_language.defaultHighlightStyle, {fallback: true}),
+					/**/
+					cm_view.EditorView.baseTheme({
 						'&.cm-editor': {
 							'fontSize': '13px',
-							'border': showBorder === 'true' ? '1px solid #ced4da'
-							                                : 'inherit',
-							'border-radius': rounded === 'true' ? '0.25rem'
-							                                    : 'inherit',
 						},
 					}),
 					/**/
@@ -161,6 +164,16 @@ function _injectCodeMirror(editors)
 						}
 					}),
 				];
+
+				/*----------------------------------------------------------------------------------------------------*/
+
+				if(showBorder === 'true') {
+					div.addClass('border');
+				}
+
+				if(rounded === 'true') {
+					div.addClass('rounded');
+				}
 
 				if(showGutter === 'true') {
 					extensions.push(cm_view.lineNumbers());

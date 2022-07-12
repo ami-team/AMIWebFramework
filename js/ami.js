@@ -14081,13 +14081,14 @@ __webpack_require__.d(__webpack_exports__, {
   "l9": () => (/* binding */ WidgetType),
   "gB": () => (/* binding */ getTooltip),
   "v5": () => (/* binding */ gutter),
+  "AE": () => (/* binding */ highlightSpecialChars),
   "$f": () => (/* binding */ keymap),
   "Eu": () => (/* binding */ lineNumbers),
   "OO": () => (/* binding */ logException),
   "hJ": () => (/* binding */ showTooltip)
 });
 
-// UNUSED EXPORTS: BidiSpan, BlockInfo, BlockType, MatchDecorator, ViewUpdate, __test, closeHoverTooltips, crosshairCursor, drawSelection, dropCursor, getPanel, gutterLineClass, gutters, hasHoverTooltips, highlightActiveLine, highlightActiveLineGutter, highlightSpecialChars, hoverTooltip, lineNumberMarkers, panels, placeholder, rectangularSelection, repositionTooltips, runScopeHandlers, scrollPastEnd, showPanel, tooltips
+// UNUSED EXPORTS: BidiSpan, BlockInfo, BlockType, MatchDecorator, ViewUpdate, __test, closeHoverTooltips, crosshairCursor, drawSelection, dropCursor, getPanel, gutterLineClass, gutters, hasHoverTooltips, highlightActiveLine, highlightActiveLineGutter, hoverTooltip, lineNumberMarkers, panels, placeholder, rectangularSelection, repositionTooltips, runScopeHandlers, scrollPastEnd, showPanel, tooltips
 
 // EXTERNAL MODULE: ./node_modules/@codemirror/state/dist/index.js
 var state_dist = __webpack_require__(5854);
@@ -21997,7 +21998,7 @@ class MatchDecorator {
   }
 
   createDeco(view) {
-    let build = new RangeSetBuilder();
+    let build = new state_dist/* RangeSetBuilder */.f_();
 
     for (var _iterator66 = _createForOfIteratorHelperLoose(matchRanges(view, this.maxLength)), _step66; !(_step66 = _iterator66()).done;) {
       let {
@@ -22152,12 +22153,12 @@ function specialCharPlugin() {
           let {
             doc
           } = view.state;
-          let code = codePointAt(m[0], 0);
+          let code = (0,state_dist/* codePointAt */.gm)(m[0], 0);
 
           if (code == 9) {
             let line = doc.lineAt(pos);
             let size = view.state.tabSize,
-                col = countColumn(line.text, size, pos - line.from);
+                col = (0,state_dist/* countColumn */.IS)(line.text, size, pos - line.from);
             return Decoration.replace({
               widget: new TabWidget((size - col % size) * this.view.defaultCharacterWidth)
             });
@@ -22195,7 +22196,7 @@ function placeholder$1(code) {
   return String.fromCharCode(9216 + code);
 }
 
-class SpecialCharWidget extends (/* unused pure expression or super */ null && (WidgetType)) {
+class SpecialCharWidget extends WidgetType {
   constructor(options, code) {
     super();
     this.options = options;
@@ -22225,7 +22226,7 @@ class SpecialCharWidget extends (/* unused pure expression or super */ null && (
 
 }
 
-class TabWidget extends (/* unused pure expression or super */ null && (WidgetType)) {
+class TabWidget extends WidgetType {
   constructor(width) {
     super();
     this.width = width;
@@ -31257,7 +31258,7 @@ function dist_history(config) {
     config = {};
   }
 
-  return [historyField_, historyConfig.of(config), EditorView.domEventHandlers({
+  return [historyField_, historyConfig.of(config), dist/* EditorView.domEventHandlers */.tk.domEventHandlers({
     beforeinput(e, view) {
       let command = e.inputType == "historyUndo" ? undo : e.inputType == "historyRedo" ? redo : null;
       if (!command) return false;
@@ -33934,11 +33935,11 @@ function _injectCodeMirror(editors) {
         const showBorder = textarea.attr('data-show-border') || 'true';
         const showGutter = textarea.attr('data-show-gutter') || 'true';
         const rounded = textarea.attr('data-rounded') || 'true';
-        const extensions = [editorConf.of(dynamicLang), state_dist/* EditorState.tabSize.of */.yy.tabSize.of(4), dist/* keymap.of */.$f.of(defaultKeymap), dist/* EditorView.editable.of */.tk.editable.of(readOnly !== 'true'), language_dist/* foldGutter */.mi(), language_dist/* syntaxHighlighting */.nF(language_dist/* defaultHighlightStyle */.R_), dist/* EditorView.theme */.tk.theme({
+        const extensions = [editorConf.of(dynamicLang), state_dist/* EditorState.tabSize.of */.yy.tabSize.of(4), dist/* highlightSpecialChars */.AE(), dist/* EditorView.editable.of */.tk.editable.of(readOnly !== 'true'), dist/* keymap.of */.$f.of([...defaultKeymap, ...historyKeymap]), dist_history(), language_dist/* foldGutter */.mi(), language_dist/* syntaxHighlighting */.nF(language_dist/* defaultHighlightStyle */.R_, {
+          fallback: true
+        }), dist/* EditorView.baseTheme */.tk.baseTheme({
           '&.cm-editor': {
-            'fontSize': '13px',
-            'border': showBorder === 'true' ? '1px solid #ced4da' : 'inherit',
-            'border-radius': rounded === 'true' ? '0.25rem' : 'inherit'
+            'fontSize': '13px'
           }
         }), dist/* EditorView.updateListener.of */.tk.updateListener.of(update => {
           if (item.value !== update.state.doc.toString()) {
@@ -33946,6 +33947,14 @@ function _injectCodeMirror(editors) {
             $(item).trigger('change');
           }
         })];
+
+        if (showBorder === 'true') {
+          div.addClass('border');
+        }
+
+        if (rounded === 'true') {
+          div.addClass('rounded');
+        }
 
         if (showGutter === 'true') {
           extensions.push(dist/* lineNumbers */.Eu());
