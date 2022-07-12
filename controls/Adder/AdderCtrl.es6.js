@@ -141,7 +141,7 @@ $AMIClass('AdderCtrl', {
 
 		amiWebApp.lock();
 
-		return (this._table = new this._tableCtor()).render(this.patchId('#D6FDA711_E893_7CB9_9B97_4161B2CDE139'), `SearchQuery -catalog="${amiWebApp.textToString(this.ctx.catalog)}" -entity="${amiWebApp.textToString(this.ctx.entity)}" -mql="${amiWebApp.textToString(mql)}"`, this.ctx).done(() => {
+		return (this._table = new this._tableCtor()).render(this.patchId('#D6FDA711_E893_7CB9_9B97_4161B2CDE139'), `BrowseQuery -catalog="${amiWebApp.textToString(this.ctx.catalog)}" -entity="${amiWebApp.textToString(this.ctx.entity)}" -mql="${amiWebApp.textToString(mql)}"`, this.ctx).done(() => {
 
 			amiWebApp.unlock();
 
