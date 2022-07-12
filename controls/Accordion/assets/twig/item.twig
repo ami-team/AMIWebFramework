@@ -4,7 +4,7 @@
 
 		<div class="row align-items-center">
 			<div class="col-md-6">
-				<button class="btn btn-link text-{% if BOOTSTRAP_VERSION > 4 %}start{% else %}left{% endif %} w-100" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="collapse" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}target="#{{ id|e }}_collapse">
+				<button class="btn btn-link text-{% if BOOTSTRAP_VERSION > 4 %}start{% else %}left{% endif %} w-100" data-bs-toggle="collapse" data-bs-target="#{{ id|e }}_collapse">
 					{{ title }}
 				</button>
 			</div>

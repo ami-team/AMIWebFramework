@@ -3,11 +3,11 @@
 {% if showToolBar %}
 <nav class="navbar navbar-expand-lg navbar-light bg-light rounded-top border mb-1" style="padding: 0.1rem 0.75rem 0.1rem 1.0rem;">
 
-	<span class="navbar-brand" data{% if BOOTSTRAP_VERSION > 4 %}-bs{% endif %}-toggle="tooltip" data{% if BOOTSTRAP_VERSION > 4 %}-bs{% endif %}-placement="bottom" title="{{catalog|e}}::{{entity|e}}">
+	<span class="navbar-brand" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{catalog|e}}::{{entity|e}}">
 		<i class="bi bi-info-circle"></i>
 	</span>
 
-	<button type="button" class="navbar-toggler" data{% if BOOTSTRAP_VERSION > 4 %}-bs{% endif %}-toggle="collapse" data-target="#E0C44E70_07E8_24BC_72DD_DCB120E25FAE">
+	<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#E0C44E70_07E8_24BC_72DD_DCB120E25FAE">
 		<span class="navbar-toggler-icon"></span>
 	</button>
 
@@ -44,7 +44,7 @@
 
 		<ul class="navbar-nav m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-sm-2 my-2 my-lg-0">
 			<div class="nav-item dropdown">
-				<a href="#" class="nav-link dropdown-toggle" data{% if BOOTSTRAP_VERSION > 4 %}-bs{% endif %}-toggle="dropdown">More...</a>
+				<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">More...</a>
 				<div class="dropdown-menu">
 					<a href="#" class="dropdown-item" id="BF7E7885_DB34_7993_9F17_37990DDD4BF3">View command</a>
 					<div class="dropdown-divider"></div>
@@ -55,7 +55,7 @@
 		</ul>
 
 		<span class="navbar-text m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-auto">
-			<button class="btn btn-link" type="button" id="A29F1487_C747_18BF_94B1_9F3C32DA838C" data{% if BOOTSTRAP_VERSION > 4 %}-bs{% endif %}-toggle="tooltip" data{% if BOOTSTRAP_VERSION > 4 %}-bs{% endif %}-placement="bottom" title="Bookmark this result">
+			<button class="btn btn-link" type="button" id="A29F1487_C747_18BF_94B1_9F3C32DA838C" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Bookmark this result">
 				<i class="bi bi-star-fill text-secondary"></i>
 			</button>
 		</span>
