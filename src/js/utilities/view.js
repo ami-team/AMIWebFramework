@@ -148,9 +148,13 @@ function _injectCodeMirror(editors)
 					cm_language.foldGutter(),
 					cm_language.syntaxHighlighting(cm_language.defaultHighlightStyle, {fallback: true}),
 					/**/
-					cm_view.EditorView.baseTheme({
+					cm_view.EditorView.theme({
 						'&.cm-editor': {
 							'fontSize': '13px',
+						},
+						'&.cm-gutters': {
+							'border-top-left-radius': rounded === 'true' ? '0.25rem' : '0',
+							'border-bottom-left-radius': rounded === 'true' ? '0.25rem' : '0',
 						},
 					}),
 					/**/
