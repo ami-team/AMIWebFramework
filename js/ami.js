@@ -33941,7 +33941,7 @@ function _injectCodeMirror(editors) {
           '&.cm-editor': {
             'fontSize': '13px'
           },
-          '&.cm-gutters': {
+          '.cm-gutters': {
             'border-top-left-radius': rounded === 'true' ? '0.25rem' : '0',
             'border-bottom-left-radius': rounded === 'true' ? '0.25rem' : '0'
           }
