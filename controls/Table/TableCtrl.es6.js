@@ -381,7 +381,7 @@ $AMIClass('TableCtrl', {
 
 			$(this.patchId('#F4F0EB6C_6535_7714_54F7_4BC28C254872')).click(() => {
 
-				amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.mql, {lang: 'sql'}]);
+				amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.mql, {lang: 'mql'}]);
 			});
 
 			$(this.patchId('#EF739EE0_DB79_0A4E_9FDD_7BA3C0F74F92')).click(() => {

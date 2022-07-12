@@ -2050,7 +2050,7 @@ $AMIClass('SearchCtrl', {
 
 	showMQL: function()
 	{
-		amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.mql, {lang: 'sql'}]);
+		amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.mql, {lang: 'mql'}]);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
