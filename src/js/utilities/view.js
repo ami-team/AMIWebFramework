@@ -179,8 +179,10 @@ function _injectCodeMirror(editors)
 					div.addClass('rounded');
 				}
 
+				// In order to display the lineNumbers before the foldGutter icon we need to push this extension before
+				// the foldGutter extension
 				if(showGutter === 'true') {
-					extensions.push(cm_view.lineNumbers());
+					extensions.unshift(cm_view.lineNumbers());
 				}
 
 				if(wordWrap === 'true') {
