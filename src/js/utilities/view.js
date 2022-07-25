@@ -112,13 +112,13 @@ function _injectCodeMirror(editors)
 
 		div.insertAfter(textarea).promise().done(() => {
 
-			const lang = textarea.attr('data-lang') || 'js';
+			const lang = textarea.attr('data-lang') || 'json';
 
 			cm_language.LanguageDescription.matchLanguageName(cm_language_data.languages, lang).load().then((dynamicLang) => {
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				const editorConf = new cm_state.Compartment();
+				const editorLang = new cm_state.Compartment();
 
 				/*----------------------------------------------------------------------------------------------------*/
 
@@ -131,19 +131,18 @@ function _injectCodeMirror(editors)
 				/*----------------------------------------------------------------------------------------------------*/
 
 				const extensions = [
-					editorConf.of(dynamicLang),
-					/**/
 					cm_state.EditorState.tabSize.of(0x00000000000000004),
 					/**/
 					cm_view.EditorView.editable.of(readOnly !== 'true'),
 					cm_view.highlightSpecialChars(),
-					/**/
 					cm_view.keymap.of([
 						...cm_command.defaultKeymap,
 						...cm_command.historyKeymap,
 					]),
 					/**/
 					cm_command.history(),
+					/**/
+					editorLang.of(dynamicLang),
 					/**/
 					cm_language.syntaxHighlighting(cm_language.defaultHighlightStyle, {fallback: true}),
 					/**/
@@ -201,7 +200,7 @@ function _injectCodeMirror(editors)
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				textarea.data('editorConf', editorConf);
+				textarea.data('editorLang', editorLang);
 				textarea.data('editorView', editorView);
 
 				/*----------------------------------------------------------------------------------------------------*/

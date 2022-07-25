@@ -12,9 +12,10 @@
 'use strict';
 
 import * as tools from './utilities/tools';
-import {LanguageDescription} from '@codemirror/language';
+
+import jsonLang from '@codemirror/lang-json';
 import {languages} from '@codemirror/language-data';
-import {javascript} from '@codemirror/lang-javascript';
+import {LanguageDescription} from '@codemirror/language';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* $.Deferred                                                                                                         */
@@ -276,19 +277,29 @@ export default function()
 		{
 			if(arguments.length === 1 && this.hasClass('form-editor-done')) // setter on editor
 			{
-				const editorConf = this.data('editorConf');
 				const editorView = this.data('editorView');
+				const editorLang = this.data('editorLang');
 				const dataLang = this.attr('data-lang');
 
-				if(editorView)
+				if(editorView && editorLang)
 				{
-					LanguageDescription.matchLanguageName(languages, dataLang).load().then((dynamicLang) => {
+					if(dataLang)
+					{
+						LanguageDescription.matchLanguageName(languages, dataLang).load().then((dynamicLang) => {
 
+							editorView.dispatch(editorView.state.update({
+								effects: editorLang.reconfigure(dynamicLang),
+								changes: {from: 0, to: editorView.state.doc.length, insert: arguments[0]},
+							}));
+						});
+					}
+					else
+					{
 						editorView.dispatch(editorView.state.update({
-							effects: editorConf.reconfigure(dynamicLang),
+							effects: editorLang.reconfigure(jsonLang),
 							changes: {from: 0, to: editorView.state.doc.length, insert: arguments[0]},
 						}));
-					});
+					}
 				}
 
 				return this;
