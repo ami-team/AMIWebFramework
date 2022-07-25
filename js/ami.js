@@ -33935,7 +33935,7 @@ function _injectCodeMirror(editors) {
         const showBorder = textarea.attr('data-show-border') || 'true';
         const showGutter = textarea.attr('data-show-gutter') || 'true';
         const rounded = textarea.attr('data-rounded') || 'true';
-        const extensions = [editorConf.of(dynamicLang), state_dist/* EditorState.tabSize.of */.yy.tabSize.of(4), dist/* highlightSpecialChars */.AE(), dist/* EditorView.editable.of */.tk.editable.of(readOnly !== 'true'), dist/* keymap.of */.$f.of([...defaultKeymap, ...historyKeymap]), dist_history(), language_dist/* syntaxHighlighting */.nF(language_dist/* defaultHighlightStyle */.R_, {
+        const extensions = [editorConf.of(dynamicLang), state_dist/* EditorState.tabSize.of */.yy.tabSize.of(0x00000000000000004), dist/* EditorView.editable.of */.tk.editable.of(readOnly !== 'true'), dist/* highlightSpecialChars */.AE(), dist/* keymap.of */.$f.of([...defaultKeymap, ...historyKeymap]), dist_history(), language_dist/* syntaxHighlighting */.nF(language_dist/* defaultHighlightStyle */.R_, {
           fallback: true
         }), dist/* EditorView.theme */.tk.theme({
           '&.cm-editor': {
