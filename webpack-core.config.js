@@ -216,7 +216,7 @@ const config = {
 				}
 
 				/*----------------------------------------------------------------------------------------------------*/
-			],
+			]
 		}),
 		new JsDocPlugin({
 			'conf': './src/jsdoc/config.js',
@@ -244,7 +244,7 @@ const config = {
 			})
 		]
 	},
-	'performance' : {
+	'performance': {
 		'hints': false
 	}
 };

@@ -145,7 +145,6 @@ function _injectCodeMirror(editors)
 					/**/
 					cm_command.history(),
 					/**/
-					cm_language.foldGutter(),
 					cm_language.syntaxHighlighting(cm_language.defaultHighlightStyle, {fallback: true}),
 					/**/
 					cm_view.EditorView.theme({
@@ -181,6 +180,7 @@ function _injectCodeMirror(editors)
 
 				if(showGutter === 'true') {
 					extensions.push(cm_view.lineNumbers());
+					extensions.push(cm_language.foldGutter());
 				}
 
 				if(wordWrap === 'true') {
