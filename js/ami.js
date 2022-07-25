@@ -35587,7 +35587,10 @@ const languages = [language_dist/* LanguageDescription.of */.c6.of({
 
 })];
 
+// EXTERNAL MODULE: ./node_modules/@codemirror/lang-json/dist/index.js + 1 modules
+var lang_json_dist = __webpack_require__(6744);
 ;// CONCATENATED MODULE: ./src/js/utilities/view.js
+
 
 
 
@@ -35631,9 +35634,63 @@ function _formatDatetime(date, format) {
   return moment(date).format(format);
 }
 
-function _injectCodeMirror(editors) {
+function _injectCodeMirrorStep1(editors) {
   let nb = editors.length;
   const result = $.Deferred();
+
+  const _injectCodeMirrorStep2 = (div, textarea, dynamicLang) => {
+    const readOnly = textarea.attr('data-read-only') || 'false';
+    const wordWrap = textarea.attr('data-word-wrap') || 'false';
+    const showBorder = textarea.attr('data-show-border') || 'true';
+    const showGutter = textarea.attr('data-show-gutter') || 'true';
+    const rounded = textarea.attr('data-rounded') || 'true';
+    const editorLang = new state_dist/* Compartment */.F6();
+    const extensions = [state_dist/* EditorState.tabSize.of */.yy.tabSize.of(0x00000000000000004), dist/* EditorView.editable.of */.tk.editable.of(readOnly !== 'true'), dist/* highlightSpecialChars */.AE(), dist/* keymap.of */.$f.of([...defaultKeymap, ...historyKeymap]), dist_history(), editorLang.of(dynamicLang), language_dist/* syntaxHighlighting */.nF(language_dist/* defaultHighlightStyle */.R_, {
+      fallback: true
+    }), dist/* EditorView.theme */.tk.theme({
+      '&.cm-editor': {
+        'fontSize': '13px'
+      },
+      '.cm-gutters': {
+        'border-top-left-radius': rounded === 'true' ? '0.25rem' : '0',
+        'border-bottom-left-radius': rounded === 'true' ? '0.25rem' : '0'
+      }
+    }), dist/* EditorView.updateListener.of */.tk.updateListener.of(update => {
+      if (textarea[0].value !== update.state.doc.toString()) {
+        textarea[0].value = update.state.doc.toString();
+        textarea.trigger('change');
+      }
+    })];
+
+    if (showBorder === 'true') {
+      div.addClass('border');
+    }
+
+    if (rounded === 'true') {
+      div.addClass('rounded');
+    }
+
+    if (showGutter === 'true') {
+      extensions.push(dist/* lineNumbers */.Eu());
+      extensions.push(language_dist/* foldGutter */.mi());
+    }
+
+    if (wordWrap === 'true') {
+      extensions.push(dist/* EditorView.lineWrapping */.tk.lineWrapping);
+    }
+
+    const editorState = state_dist/* EditorState.create */.yy.create({
+      extensions: extensions,
+      doc: textarea.val()
+    });
+    const editorView = new dist/* EditorView */.tk({
+      state: editorState,
+      parent: div[0]
+    });
+    textarea.data('editorLang', editorLang);
+    textarea.data('editorView', editorView);
+  };
+
   editors.each((_, item) => {
     const textarea = $(item);
     const div = $('<div>', {
@@ -35641,63 +35698,23 @@ function _injectCodeMirror(editors) {
       'style': textarea.attr('style')
     });
     div.insertAfter(textarea).promise().done(() => {
-      const lang = textarea.attr('data-lang') || 'json';
-      language_dist/* LanguageDescription.matchLanguageName */.c6.matchLanguageName(languages, lang).load().then(dynamicLang => {
-        const editorLang = new state_dist/* Compartment */.F6();
-        const readOnly = textarea.attr('data-read-only') || 'false';
-        const wordWrap = textarea.attr('data-word-wrap') || 'false';
-        const showBorder = textarea.attr('data-show-border') || 'true';
-        const showGutter = textarea.attr('data-show-gutter') || 'true';
-        const rounded = textarea.attr('data-rounded') || 'true';
-        const extensions = [state_dist/* EditorState.tabSize.of */.yy.tabSize.of(0x00000000000000004), dist/* EditorView.editable.of */.tk.editable.of(readOnly !== 'true'), dist/* highlightSpecialChars */.AE(), dist/* keymap.of */.$f.of([...defaultKeymap, ...historyKeymap]), dist_history(), editorLang.of(dynamicLang), language_dist/* syntaxHighlighting */.nF(language_dist/* defaultHighlightStyle */.R_, {
-          fallback: true
-        }), dist/* EditorView.theme */.tk.theme({
-          '&.cm-editor': {
-            'fontSize': '13px'
-          },
-          '.cm-gutters': {
-            'border-top-left-radius': rounded === 'true' ? '0.25rem' : '0',
-            'border-bottom-left-radius': rounded === 'true' ? '0.25rem' : '0'
+      const descr = language_dist/* LanguageDescription.matchLanguageName */.c6.matchLanguageName(languages, textarea.attr('data-lang') || 'json');
+
+      if (descr) {
+        descr.load().then(dynamicLang => {
+          _injectCodeMirrorStep2(div, textarea, dynamicLang);
+
+          if (--nb === 0) {
+            result.resolve();
           }
-        }), dist/* EditorView.updateListener.of */.tk.updateListener.of(update => {
-          if (item.value !== update.state.doc.toString()) {
-            item.value = update.state.doc.toString();
-            $(item).trigger('change');
-          }
-        })];
-
-        if (showBorder === 'true') {
-          div.addClass('border');
-        }
-
-        if (rounded === 'true') {
-          div.addClass('rounded');
-        }
-
-        if (showGutter === 'true') {
-          extensions.push(dist/* lineNumbers */.Eu());
-          extensions.push(language_dist/* foldGutter */.mi());
-        }
-
-        if (wordWrap === 'true') {
-          extensions.push(dist/* EditorView.lineWrapping */.tk.lineWrapping);
-        }
-
-        const editorState = state_dist/* EditorState.create */.yy.create({
-          extensions: extensions,
-          doc: item.value
         });
-        const editorView = new dist/* EditorView */.tk({
-          state: editorState,
-          parent: div[0]
-        });
-        textarea.data('editorLang', editorLang);
-        textarea.data('editorView', editorView);
+      } else {
+        _injectCodeMirrorStep2(div, textarea, lang_json_dist["default"]);
 
         if (--nb === 0) {
-          return result.resolve();
+          result.resolve();
         }
-      });
+      }
     });
   });
   return result;
@@ -35817,7 +35834,7 @@ function _xxxHTML(selector, twig, mode, options) {
     const editors = _find('.form-editor:not(.form-editor-done)').addClass('form-editor-done');
 
     if (editors.length > 0) {
-      _injectCodeMirror(editors).done(() => {
+      _injectCodeMirrorStep1(editors).done(() => {
         result.resolveWith(context, [el, html]);
       });
     } else {
@@ -37572,8 +37589,6 @@ function loadSubAppByURL(defaultSubApp, defaultUserData) {
 
   return result.promise();
 }
-// EXTERNAL MODULE: ./node_modules/@codemirror/lang-json/dist/index.js + 1 modules
-var lang_json_dist = __webpack_require__(6744);
 ;// CONCATENATED MODULE: ./src/js/AMIExtension.js
 
 
@@ -37662,10 +37677,9 @@ var lang_json_dist = __webpack_require__(6744);
       if (arguments.length === 1 && this.hasClass('form-editor-done')) {
           const editorView = this.data('editorView');
           const editorLang = this.data('editorLang');
-          const dataLang = this.attr('data-lang');
 
           if (editorView && editorLang) {
-            const descr = language_dist/* LanguageDescription.matchLanguageName */.c6.matchLanguageName(languages, dataLang || 'json');
+            const descr = language_dist/* LanguageDescription.matchLanguageName */.c6.matchLanguageName(languages, this.attr('data-lang') || 'json');
 
             if (descr) {
               descr.load().then(dynamicLang => {

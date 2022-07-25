@@ -279,11 +279,10 @@ export default function()
 			{
 				const editorView = this.data('editorView');
 				const editorLang = this.data('editorLang');
-				const dataLang = this.attr('data-lang');
 
 				if(editorView && editorLang)
 				{
-					const descr = LanguageDescription.matchLanguageName(languages, dataLang || 'json');
+					const descr = LanguageDescription.matchLanguageName(languages, this.attr('data-lang') || 'json');
 
 					if(descr)
 					{

@@ -28,6 +28,8 @@ import * as cm_command from '@codemirror/commands';
 import * as cm_language from '@codemirror/language';
 import * as cm_language_data from '@codemirror/language-data';
 
+import defaultLang from '@codemirror/lang-json';
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* BREADCRUMB                                                                                                         */
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -94,11 +96,109 @@ function _formatDatetime(date, format)
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-function _injectCodeMirror(editors)
+function _injectCodeMirrorStep1(editors)
 {
+	/*----------------------------------------------------------------------------------------------------------------*/
+
 	let nb = editors.length;
 
 	const result = $.Deferred();
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	const _injectCodeMirrorStep2 = (div, textarea, dynamicLang) => {
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		const readOnly = textarea.attr('data-read-only') || 'false';
+		const wordWrap = textarea.attr('data-word-wrap') || 'false';
+		const showBorder = textarea.attr('data-show-border') || 'true';
+		const showGutter = textarea.attr('data-show-gutter') || 'true';
+		const rounded = textarea.attr('data-rounded') || 'true';
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		const editorLang = new cm_state.Compartment();
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		const extensions = [
+			cm_state.EditorState.tabSize.of(0x00000000000000004),
+			/**/
+			cm_view.EditorView.editable.of(readOnly !== 'true'),
+			cm_view.highlightSpecialChars(),
+			cm_view.keymap.of([
+				...cm_command.defaultKeymap,
+				...cm_command.historyKeymap,
+			]),
+			/**/
+			cm_command.history(),
+			/**/
+			editorLang.of(dynamicLang),
+			/**/
+			cm_language.syntaxHighlighting(cm_language.defaultHighlightStyle, {fallback: true}),
+			/**/
+			cm_view.EditorView.theme({
+				'&.cm-editor': {
+					'fontSize': '13px',
+				},
+				'.cm-gutters': {
+					'border-top-left-radius': rounded === 'true' ? '0.25rem' : '0',
+					'border-bottom-left-radius': rounded === 'true' ? '0.25rem' : '0',
+				},
+			}),
+			/**/
+			cm_view.EditorView.updateListener.of((update) => {
+
+				if(textarea[0].value !== update.state.doc.toString())
+				{
+					textarea[0].value = update.state.doc.toString();
+
+					textarea.trigger('change');
+				}
+			}),
+		];
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		if(showBorder === 'true') {
+			div.addClass('border');
+		}
+
+		if(rounded === 'true') {
+			div.addClass('rounded');
+		}
+
+		if(showGutter === 'true') {
+			extensions.push(cm_view.lineNumbers());
+			extensions.push(cm_language.foldGutter());
+		}
+
+		if(wordWrap === 'true') {
+			extensions.push(cm_view.EditorView.lineWrapping);
+		}
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		const editorState = cm_state.EditorState.create({
+			extensions: extensions,
+			doc: textarea.val(),
+		});
+
+		const editorView = new cm_view.EditorView({
+			state: editorState,
+			parent: div[0],
+		});
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		textarea.data('editorLang', editorLang);
+		textarea.data('editorView', editorView);
+
+		/*------------------------------------------------------------------------------------------------------------*/
+	};
+
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	editors.each((_, item) => {
 
@@ -112,108 +212,35 @@ function _injectCodeMirror(editors)
 
 		div.insertAfter(textarea).promise().done(() => {
 
-			const lang = textarea.attr('data-lang') || 'json';
+			const descr = cm_language.LanguageDescription.matchLanguageName(cm_language_data.languages, textarea.attr('data-lang') || 'json');
 
-			cm_language.LanguageDescription.matchLanguageName(cm_language_data.languages, lang).load().then((dynamicLang) => {
+			if(descr)
+			{
+				descr.load().then((dynamicLang) => {
 
-				/*----------------------------------------------------------------------------------------------------*/
+					_injectCodeMirrorStep2(div, textarea, dynamicLang);
 
-				const editorLang = new cm_state.Compartment();
-
-				/*----------------------------------------------------------------------------------------------------*/
-
-				const readOnly = textarea.attr('data-read-only') || 'false';
-				const wordWrap = textarea.attr('data-word-wrap') || 'false';
-				const showBorder = textarea.attr('data-show-border') || 'true';
-				const showGutter = textarea.attr('data-show-gutter') || 'true';
-				const rounded = textarea.attr('data-rounded') || 'true';
-
-				/*----------------------------------------------------------------------------------------------------*/
-
-				const extensions = [
-					cm_state.EditorState.tabSize.of(0x00000000000000004),
-					/**/
-					cm_view.EditorView.editable.of(readOnly !== 'true'),
-					cm_view.highlightSpecialChars(),
-					cm_view.keymap.of([
-						...cm_command.defaultKeymap,
-						...cm_command.historyKeymap,
-					]),
-					/**/
-					cm_command.history(),
-					/**/
-					editorLang.of(dynamicLang),
-					/**/
-					cm_language.syntaxHighlighting(cm_language.defaultHighlightStyle, {fallback: true}),
-					/**/
-					cm_view.EditorView.theme({
-						'&.cm-editor': {
-							'fontSize': '13px',
-						},
-						'.cm-gutters': {
-							'border-top-left-radius': rounded === 'true' ? '0.25rem' : '0',
-							'border-bottom-left-radius': rounded === 'true' ? '0.25rem' : '0',
-						},
-					}),
-					/**/
-					cm_view.EditorView.updateListener.of((update) => {
-
-						if(item.value !== update.state.doc.toString())
-						{
-							item.value = update.state.doc.toString();
-
-							$(item).trigger('change');
-						}
-					}),
-				];
-
-				/*----------------------------------------------------------------------------------------------------*/
-
-				if(showBorder === 'true') {
-					div.addClass('border');
-				}
-
-				if(rounded === 'true') {
-					div.addClass('rounded');
-				}
-
-				if(showGutter === 'true') {
-					extensions.push(cm_view.lineNumbers());
-					extensions.push(cm_language.foldGutter());
-				}
-
-				if(wordWrap === 'true') {
-					extensions.push(cm_view.EditorView.lineWrapping);
-				}
-
-				/*----------------------------------------------------------------------------------------------------*/
-
-				const editorState = cm_state.EditorState.create({
-					extensions: extensions,
-					doc: item.value,
+					if(--nb === 0)
+					{
+						result.resolve();
+					}
 				});
-
-				const editorView = new cm_view.EditorView({
-					state: editorState,
-					parent: div[0],
-				});
-
-				/*----------------------------------------------------------------------------------------------------*/
-
-				textarea.data('editorLang', editorLang);
-				textarea.data('editorView', editorView);
-
-				/*----------------------------------------------------------------------------------------------------*/
+			}
+			else
+			{
+				_injectCodeMirrorStep2(div, textarea, defaultLang);
 
 				if(--nb === 0)
 				{
-					return result.resolve();
+					result.resolve();
 				}
-
-				/*----------------------------------------------------------------------------------------------------*/
-			});
+			}
 		});
-	})
+
+		/*------------------------------------------------------------------------------------------------------------*/
+	});
+
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	return result;
 }
@@ -382,7 +409,7 @@ function _xxxHTML(selector, twig, mode, options)
 
 		if(editors.length > 0)
 		{
-			_injectCodeMirror(editors).done(() => {
+			_injectCodeMirrorStep1(editors).done(() => {
 
 				result.resolveWith(context, [el, html]);
 			});
