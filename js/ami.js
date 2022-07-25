@@ -37665,8 +37665,10 @@ var lang_json_dist = __webpack_require__(6744);
           const dataLang = this.attr('data-lang');
 
           if (editorView && editorLang) {
-            if (dataLang) {
-              language_dist/* LanguageDescription.matchLanguageName */.c6.matchLanguageName(languages, dataLang).load().then(dynamicLang => {
+            const descr = language_dist/* LanguageDescription.matchLanguageName */.c6.matchLanguageName(languages, dataLang || 'json');
+
+            if (descr) {
+              descr.load().then(dynamicLang => {
                 editorView.dispatch(editorView.state.update({
                   effects: editorLang.reconfigure(dynamicLang),
                   changes: {

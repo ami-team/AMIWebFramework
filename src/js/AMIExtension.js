@@ -13,7 +13,7 @@
 
 import * as tools from './utilities/tools';
 
-import jsonLang from '@codemirror/lang-json';
+import defaultLang from '@codemirror/lang-json';
 import {languages} from '@codemirror/language-data';
 import {LanguageDescription} from '@codemirror/language';
 
@@ -283,9 +283,11 @@ export default function()
 
 				if(editorView && editorLang)
 				{
-					if(dataLang)
+					const descr = LanguageDescription.matchLanguageName(languages, dataLang || 'json');
+
+					if(descr)
 					{
-						LanguageDescription.matchLanguageName(languages, dataLang).load().then((dynamicLang) => {
+						descr.load().then((dynamicLang) => {
 
 							editorView.dispatch(editorView.state.update({
 								effects: editorLang.reconfigure(dynamicLang),
@@ -296,7 +298,7 @@ export default function()
 					else
 					{
 						editorView.dispatch(editorView.state.update({
-							effects: editorLang.reconfigure(jsonLang),
+							effects: editorLang.reconfigure(defaultLang),
 							changes: {from: 0, to: editorView.state.doc.length, insert: arguments[0]},
 						}));
 					}
