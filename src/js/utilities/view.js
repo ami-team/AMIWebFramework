@@ -202,6 +202,8 @@ function _injectCodeMirrorStep1(editors)
 
 	editors.each((_, item) => {
 
+		/*------------------------------------------------------------------------------------------------------------*/
+
 		const textarea = $(item);
 
 		const div = $('<div>', {
@@ -209,6 +211,8 @@ function _injectCodeMirrorStep1(editors)
 			                 .replace(/form-editor[\-a-zA-Z]*/g, 'form-editor-codemirror'),
 			'style': textarea.attr('style'),
 		});
+
+		/*------------------------------------------------------------------------------------------------------------*/
 
 		div.insertAfter(textarea).promise().done(() => {
 
