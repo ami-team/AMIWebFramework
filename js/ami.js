@@ -37675,10 +37675,10 @@ function loadSubAppByURL(defaultSubApp, defaultUserData) {
     },
     val: function () {
       if (arguments.length === 1 && this.hasClass('form-editor-done')) {
-          const editorView = this.data('editorView');
           const editorLang = this.data('editorLang');
+          const editorView = this.data('editorView');
 
-          if (editorView && editorLang) {
+          if (editorLang && editorView) {
             const descr = language_dist/* LanguageDescription.matchLanguageName */.c6.matchLanguageName(languages, this.attr('data-lang') || 'json');
 
             if (descr) {

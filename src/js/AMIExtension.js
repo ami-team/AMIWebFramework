@@ -277,10 +277,10 @@ export default function()
 		{
 			if(arguments.length === 1 && this.hasClass('form-editor-done')) // setter on editor
 			{
-				const editorView = this.data('editorView');
 				const editorLang = this.data('editorLang');
+				const editorView = this.data('editorView');
 
-				if(editorView && editorLang)
+				if(editorLang && editorView)
 				{
 					const descr = LanguageDescription.matchLanguageName(languages, this.attr('data-lang') || 'json');
 
