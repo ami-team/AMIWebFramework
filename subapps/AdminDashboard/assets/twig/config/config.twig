@@ -15,6 +15,7 @@
 		<li class="nav-item"><a class="nav-link active" href="#AECB0E11_094F_F4DB_103A_5D673E09A36F" data-bs-toggle="tab">General</a></li>
 		<li class="nav-item"><a class="nav-link xxxxxx" href="#EFC2B445_664B_FDFB_42FF_1987B77BE7B4" data-bs-toggle="tab">Pools & caches</a></li>
 		<li class="nav-item"><a class="nav-link xxxxxx" href="#C5C6F02C_F104_9E65_87A0_2DD60A595BFC" data-bs-toggle="tab">Emails & logs</a></li>
+		<li class="nav-item"><a class="nav-link xxxxxx" href="#BA829CDC_82E6_4262_2631_5DC83B5C5D1E" data-bs-toggle="tab">MQTT</a></li>
 		<li class="nav-item"><a class="nav-link xxxxxx" href="#BBA48F7F_8D3B_4FF0_C29F_6CABF23B3F70" data-bs-toggle="tab">Users</a></li>
 		<li class="nav-item"><a class="nav-link xxxxxx" href="#B18672FB_F009_6F9F_77FC_3334CEA56959" data-bs-toggle="tab">Misc.</a></li>
 	</ul>
@@ -65,21 +66,6 @@
 							<div class="mb-2">
 								<label class="form-label" for="BF66E3A1_3D90_2314_B168_79BF6A1ED2E6">sudoer_pass <span onclick="window.adminDashboardApp.subsubapp.togglePasswordVisibility($(this));"><i class="bi bi-eye"></i></span></label>
 								<input class="form-control form-control-sm" type="password" name="sudoer_pass" value="" id="BF66E3A1_3D90_2314_B168_79BF6A1ED2E6" readonly="readonly" />
-							</div>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col-md-6">
-							<div class="mb-2">
-								<label class="form-label" for="D9887508_5B6E_C64C_DE12_DEA38203C6DF">sso_user</label>
-								<input class="form-control form-control-sm" type="text" name="sso_user" value="" id="D9887508_5B6E_C64C_DE12_DEA38203C6DF" readonly="readonly" />
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="mb-2">
-								<label class="form-label" for="AB80987C_03D2_3D21_1ED4_6BD61BE638B4">sso_pass <span onclick="window.adminDashboardApp.subsubapp.togglePasswordVisibility($(this));"><i class="bi bi-eye"></i></span></label>
-								<input class="form-control form-control-sm" type="password" name="sso_pass" value="" id="AB80987C_03D2_3D21_1ED4_6BD61BE638B4" readonly="readonly" />
 							</div>
 						</div>
 					</div>
@@ -333,12 +319,12 @@
 									<input class="form-control" type="email" value="" id="EF7B0FC2_4754_7B61_BC0F_5CF7DDD630A6" placeholder="Email adresse" />
 									{% if BOOTSTRAP_VERSION > 4 %}
 									<button class="btn btn-outline-success" type="button" onclick="window.adminDashboardApp.subsubapp.testEmail($('#EF7B0FC2_4754_7B61_BC0F_5CF7DDD630A6').val());">
-										<i class="bi bi-check-lg"></i>
+										<i class="bi bi-send-check"></i>
 									</button>
 									{% else %}
 									<div class="input-group-append">
 										<button class="btn btn-outline-success" type="button" onclick="window.adminDashboardApp.subsubapp.testEmail($('#EF7B0FC2_4754_7B61_BC0F_5CF7DDD630A6').val());">
-											<i class="bi bi-check-lg"></i>
+											<i class="bi bi-send-check"></i>
 										</button>
 									</div>
 									{% endif %}
@@ -399,28 +385,26 @@
 
 		<!-- ******************************************************************************************************* -->
 
-		<div class="tab-pane" id="BBA48F7F_8D3B_4FF0_C29F_6CABF23B3F70">
+		<div class="tab-pane" id="BA829CDC_82E6_4262_2631_5DC83B5C5D1E">
 
 			<div class="card mx-auto mt-3">
 
-				<h5 class="card-header p-2"><i class="bi bi-shield text-primary"></i> User data protection</h5>
+				<h5 class="card-header p-2"><i class="bi bi-send text-primary"></i> MQTT</h5>
 
 				<div class="card-body">
 
-					<div class="mb-2">
-						<label class="form-label" for="F6E3FA68_5910_D015_24E9_82CFAD648B24">privacy_policy_url</label>
-						<input class="form-control form-control-sm" type="text" name="privacy_policy_url" value="@NULL" id="F6E3FA68_5910_D015_24E9_82CFAD648B24" />
+					<div class="mb-0">
+						Authentication plugin <a class="badge rounded-pill text-bg-success" href="https://github.com/odier-io/mosquitto-ip-jwt-auth/" target="_blank">mosquitto-ip-jwt-auth</a> with encryption algorithm <span class="badge rounded-pill text-bg-success">HS512</span>.
 					</div>
 
-				</div>
+					<hr />
 
-			</div>
+					<div class="mb-2">
+						<label class="form-label" for="B59BC2EB_E3D8_DA57_4DA4_2DCE7FB0DAF3">mqtt_broker_url</label>
+						<input class="form-control form-control-sm" type="text" name="mqtt_broker_url" value="@NULL" id="B59BC2EB_E3D8_DA57_4DA4_2DCE7FB0DAF3" />
+					</div>
 
-			<div class="card mx-auto mt-3">
-
-				<h5 class="card-header p-2"><i class="bi bi-key text-primary"></i> MQTT JWT Tokens</h5>
-
-				<div class="card-body">
+					<hr />
 
 					<div class="mb-2">
 						<label class="form-label" for="A964411D_AC2B_F956_8AA3_0006B1545080">mqtt_jwt_issuer</label>
@@ -432,10 +416,40 @@
 						<input class="form-control form-control-sm" type="text" name="mqtt_jwt_secret" value="@NULL" id="B79F3FBB_5A64_3304_AB14_5958040D08DD" />
 					</div>
 
-					<hr />
+				</div>
 
-					<div class="mb-0">
-						Encryption algorithm: <span class="badge rounded-pill text-bg-success">HS512</span>
+			</div>
+
+			<div class="card mx-auto mt-3">
+
+				<h5 class="card-header p-2"><i class="bi bi-node-red text-primary"></i> Node-RED</h5>
+
+				<div class="card-body">
+
+					<div class="mb-2">
+						<label class="form-label" for="DADEDC8C_9E86_8AF1_4E5A_48C8FE489712">node_red_url</label>
+						<input class="form-control form-control-sm" type="text" name="node_red_url" value="@NULL" id="DADEDC8C_9E86_8AF1_4E5A_48C8FE489712" />
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+		<!-- ******************************************************************************************************* -->
+
+		<div class="tab-pane" id="BBA48F7F_8D3B_4FF0_C29F_6CABF23B3F70">
+
+			<div class="card mx-auto mt-3">
+
+				<h5 class="card-header p-2"><i class="bi bi-shield text-primary"></i> User data protection</h5>
+
+				<div class="card-body">
+
+					<div class="mb-2">
+						<label class="form-label" for="F6E3FA68_5910_D015_24E9_82CFAD648B24">privacy_policy_url</label>
+						<input class="form-control form-control-sm" type="text" name="privacy_policy_url" value="@NULL" id="F6E3FA68_5910_D015_24E9_82CFAD648B24" />
 					</div>
 
 				</div>
@@ -602,21 +616,6 @@
 					<div class="mb-2">
 						<label class="form-label" for="F01BE439_40DC_2339_B70F_9C3328F29B85">time_hm_format</label>
 						<input class="form-control form-control-sm" type="text" name="time_hm_format" value="HH:mm" id="F01BE439_40DC_2339_B70F_9C3328F29B85" />
-					</div>
-
-				</div>
-
-			</div>
-
-			<div class="card mx-auto mt-3">
-
-				<h5 class="card-header p-2"><i class="bi bi-node-red text-primary"></i> Node-RED</h5>
-
-				<div class="card-body">
-
-					<div class="mb-2">
-						<label class="form-label" for="DADEDC8C_9E86_8AF1_4E5A_48C8FE489712">node_red_url</label>
-						<input class="form-control form-control-sm" type="text" name="node_red_url" value="@NULL" id="DADEDC8C_9E86_8AF1_4E5A_48C8FE489712" />
 					</div>
 
 				</div>
