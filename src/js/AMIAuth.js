@@ -32,6 +32,7 @@ import greenCertificateImage from '../images/certificate-green.png';
 import pinkCertificateImage from '../images/certificate-pink.png';
 
 import QRCode from 'qrcode';
+import ClipboardJS from 'clipboard';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -201,6 +202,10 @@ class AMIAuth
 					pass1.length > 0 && pass2.length > 0 && pass1 !== pass2 ? 'Passwords don\'t match.' : ''
 				);
 			});
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			new ClipboardJS('#A3C9E9DE_B73C_2DE2_8BB2_A93982940E77');
 
 			/*--------------------------------------------------------------------------------------------------------*/
 		});
@@ -395,6 +400,8 @@ class AMIAuth
 			const notBefore = userInfo.notBefore || '';
 			const notAfter = userInfo.notAfter || '';
 
+			const mqttToken = userInfo.mqttToken || '';
+
 			const valid = userInfo.valid || 'false';
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -417,6 +424,10 @@ class AMIAuth
 			$('#F42FAF6B_2C8D_4142_8BD9_E5BCDCAA05AA').val(issuerDNInAMI);
 			$('#C76805D7_1E86_4231_9071_1D04783423BB').val(clientDNInSession);
 			$('#D1BEE3BF_9161_41DC_BC53_C44FFE4D2522').val(clientDNInAMI);
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			$('#F640BF27_60A4_C092_B78A_E5F4C688C8F3').val(mqttToken);
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -639,7 +650,7 @@ class AMIAuth
 
 	getMqttToken()
 	{
-		return this.#awfInfo.mqttToken || '';
+		return this.#userInfo.mqttToken || '';
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/

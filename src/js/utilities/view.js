@@ -28,7 +28,7 @@ import * as cm_command from '@codemirror/commands';
 import * as cm_language from '@codemirror/language';
 import * as cm_language_data from '@codemirror/language-data';
 
-import defaultLang from '@codemirror/lang-json';
+import {json} from '@codemirror/lang-json';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* BREADCRUMB                                                                                                         */
@@ -232,7 +232,7 @@ function _injectCodeMirrorStep1(editors)
 			}
 			else
 			{
-				_injectCodeMirrorStep2(div, textarea, defaultLang);
+				_injectCodeMirrorStep2(div, textarea, json());
 
 				if(--nb === 0)
 				{

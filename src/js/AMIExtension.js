@@ -13,7 +13,7 @@
 
 import * as tools from './utilities/tools';
 
-import defaultLang from '@codemirror/lang-json';
+import {json} from '@codemirror/lang-json';
 import {languages} from '@codemirror/language-data';
 import {LanguageDescription} from '@codemirror/language';
 
@@ -297,7 +297,7 @@ export default function()
 					else
 					{
 						editorView.dispatch(editorView.state.update({
-							effects: editorLang.reconfigure(defaultLang),
+							effects: editorLang.reconfigure(json()),
 							changes: {from: 0, to: editorView.state.doc.length, insert: arguments[0]},
 						}));
 					}

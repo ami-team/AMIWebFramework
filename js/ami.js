@@ -1965,6 +1965,693 @@ amiTwig.expr.interpreter = {
 
 /***/ }),
 
+/***/ 6920:
+/***/ (function(module) {
+
+(function webpackUniversalModuleDefinition(root, factory) {
+  if (true) module.exports = factory();else {}
+})(this, function () {
+  return function () {
+    var __webpack_modules__ = {
+      686: function (__unused_webpack_module, __webpack_exports__, __nested_webpack_require_481__) {
+        "use strict";
+
+        __nested_webpack_require_481__.d(__webpack_exports__, {
+          "default": function () {
+            return clipboard;
+          }
+        });
+
+        var tiny_emitter = __nested_webpack_require_481__(279);
+
+        var tiny_emitter_default = __nested_webpack_require_481__.n(tiny_emitter);
+
+        var listen = __nested_webpack_require_481__(370);
+
+        var listen_default = __nested_webpack_require_481__.n(listen);
+
+        var src_select = __nested_webpack_require_481__(817);
+
+        var select_default = __nested_webpack_require_481__.n(src_select);
+
+        ;
+
+        function command(type) {
+          try {
+            return document.execCommand(type);
+          } catch (err) {
+            return false;
+          }
+        }
+
+        ;
+
+        var ClipboardActionCut = function ClipboardActionCut(target) {
+          var selectedText = select_default()(target);
+          command('cut');
+          return selectedText;
+        };
+
+        var actions_cut = ClipboardActionCut;
+        ;
+
+        function createFakeElement(value) {
+          var isRTL = document.documentElement.getAttribute('dir') === 'rtl';
+          var fakeElement = document.createElement('textarea');
+          fakeElement.style.fontSize = '12pt';
+          fakeElement.style.border = '0';
+          fakeElement.style.padding = '0';
+          fakeElement.style.margin = '0';
+          fakeElement.style.position = 'absolute';
+          fakeElement.style[isRTL ? 'right' : 'left'] = '-9999px';
+          var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+          fakeElement.style.top = "".concat(yPosition, "px");
+          fakeElement.setAttribute('readonly', '');
+          fakeElement.value = value;
+          return fakeElement;
+        }
+
+        ;
+
+        var fakeCopyAction = function fakeCopyAction(value, options) {
+          var fakeElement = createFakeElement(value);
+          options.container.appendChild(fakeElement);
+          var selectedText = select_default()(fakeElement);
+          command('copy');
+          fakeElement.remove();
+          return selectedText;
+        };
+
+        var ClipboardActionCopy = function ClipboardActionCopy(target) {
+          var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
+            container: document.body
+          };
+          var selectedText = '';
+
+          if (typeof target === 'string') {
+            selectedText = fakeCopyAction(target, options);
+          } else if (target instanceof HTMLInputElement && !['text', 'search', 'url', 'tel', 'password'].includes(target === null || target === void 0 ? void 0 : target.type)) {
+            selectedText = fakeCopyAction(target.value, options);
+          } else {
+            selectedText = select_default()(target);
+            command('copy');
+          }
+
+          return selectedText;
+        };
+
+        var actions_copy = ClipboardActionCopy;
+        ;
+
+        function _typeof(obj) {
+          "@babel/helpers - typeof";
+
+          if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+            _typeof = function _typeof(obj) {
+              return typeof obj;
+            };
+          } else {
+            _typeof = function _typeof(obj) {
+              return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+            };
+          }
+
+          return _typeof(obj);
+        }
+
+        var ClipboardActionDefault = function ClipboardActionDefault() {
+          var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+          var _options$action = options.action,
+              action = _options$action === void 0 ? 'copy' : _options$action,
+              container = options.container,
+              target = options.target,
+              text = options.text;
+
+          if (action !== 'copy' && action !== 'cut') {
+            throw new Error('Invalid "action" value, use either "copy" or "cut"');
+          }
+
+          if (target !== undefined) {
+            if (target && _typeof(target) === 'object' && target.nodeType === 1) {
+              if (action === 'copy' && target.hasAttribute('disabled')) {
+                throw new Error('Invalid "target" attribute. Please use "readonly" instead of "disabled" attribute');
+              }
+
+              if (action === 'cut' && (target.hasAttribute('readonly') || target.hasAttribute('disabled'))) {
+                throw new Error('Invalid "target" attribute. You can\'t cut text from elements with "readonly" or "disabled" attributes');
+              }
+            } else {
+              throw new Error('Invalid "target" value, use a valid Element');
+            }
+          }
+
+          if (text) {
+            return actions_copy(text, {
+              container: container
+            });
+          }
+
+          if (target) {
+            return action === 'cut' ? actions_cut(target) : actions_copy(target, {
+              container: container
+            });
+          }
+        };
+
+        var actions_default = ClipboardActionDefault;
+        ;
+
+        function clipboard_typeof(obj) {
+          "@babel/helpers - typeof";
+
+          if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+            clipboard_typeof = function _typeof(obj) {
+              return typeof obj;
+            };
+          } else {
+            clipboard_typeof = function _typeof(obj) {
+              return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+            };
+          }
+
+          return clipboard_typeof(obj);
+        }
+
+        function _classCallCheck(instance, Constructor) {
+          if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+          }
+        }
+
+        function _defineProperties(target, props) {
+          for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if ("value" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, descriptor.key, descriptor);
+          }
+        }
+
+        function _createClass(Constructor, protoProps, staticProps) {
+          if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+          if (staticProps) _defineProperties(Constructor, staticProps);
+          return Constructor;
+        }
+
+        function _inherits(subClass, superClass) {
+          if (typeof superClass !== "function" && superClass !== null) {
+            throw new TypeError("Super expression must either be null or a function");
+          }
+
+          subClass.prototype = Object.create(superClass && superClass.prototype, {
+            constructor: {
+              value: subClass,
+              writable: true,
+              configurable: true
+            }
+          });
+          if (superClass) _setPrototypeOf(subClass, superClass);
+        }
+
+        function _setPrototypeOf(o, p) {
+          _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+            o.__proto__ = p;
+            return o;
+          };
+
+          return _setPrototypeOf(o, p);
+        }
+
+        function _createSuper(Derived) {
+          var hasNativeReflectConstruct = _isNativeReflectConstruct();
+
+          return function _createSuperInternal() {
+            var Super = _getPrototypeOf(Derived),
+                result;
+
+            if (hasNativeReflectConstruct) {
+              var NewTarget = _getPrototypeOf(this).constructor;
+
+              result = Reflect.construct(Super, arguments, NewTarget);
+            } else {
+              result = Super.apply(this, arguments);
+            }
+
+            return _possibleConstructorReturn(this, result);
+          };
+        }
+
+        function _possibleConstructorReturn(self, call) {
+          if (call && (clipboard_typeof(call) === "object" || typeof call === "function")) {
+            return call;
+          }
+
+          return _assertThisInitialized(self);
+        }
+
+        function _assertThisInitialized(self) {
+          if (self === void 0) {
+            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+          }
+
+          return self;
+        }
+
+        function _isNativeReflectConstruct() {
+          if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+          if (Reflect.construct.sham) return false;
+          if (typeof Proxy === "function") return true;
+
+          try {
+            Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
+            return true;
+          } catch (e) {
+            return false;
+          }
+        }
+
+        function _getPrototypeOf(o) {
+          _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+            return o.__proto__ || Object.getPrototypeOf(o);
+          };
+          return _getPrototypeOf(o);
+        }
+
+        function getAttributeValue(suffix, element) {
+          var attribute = "data-clipboard-".concat(suffix);
+
+          if (!element.hasAttribute(attribute)) {
+            return;
+          }
+
+          return element.getAttribute(attribute);
+        }
+
+        var Clipboard = function (_Emitter) {
+          _inherits(Clipboard, _Emitter);
+
+          var _super = _createSuper(Clipboard);
+
+          function Clipboard(trigger, options) {
+            var _this;
+
+            _classCallCheck(this, Clipboard);
+
+            _this = _super.call(this);
+
+            _this.resolveOptions(options);
+
+            _this.listenClick(trigger);
+
+            return _this;
+          }
+
+          _createClass(Clipboard, [{
+            key: "resolveOptions",
+            value: function resolveOptions() {
+              var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+              this.action = typeof options.action === 'function' ? options.action : this.defaultAction;
+              this.target = typeof options.target === 'function' ? options.target : this.defaultTarget;
+              this.text = typeof options.text === 'function' ? options.text : this.defaultText;
+              this.container = clipboard_typeof(options.container) === 'object' ? options.container : document.body;
+            }
+          }, {
+            key: "listenClick",
+            value: function listenClick(trigger) {
+              var _this2 = this;
+
+              this.listener = listen_default()(trigger, 'click', function (e) {
+                return _this2.onClick(e);
+              });
+            }
+          }, {
+            key: "onClick",
+            value: function onClick(e) {
+              var trigger = e.delegateTarget || e.currentTarget;
+              var action = this.action(trigger) || 'copy';
+              var text = actions_default({
+                action: action,
+                container: this.container,
+                target: this.target(trigger),
+                text: this.text(trigger)
+              });
+              this.emit(text ? 'success' : 'error', {
+                action: action,
+                text: text,
+                trigger: trigger,
+                clearSelection: function clearSelection() {
+                  if (trigger) {
+                    trigger.focus();
+                  }
+
+                  window.getSelection().removeAllRanges();
+                }
+              });
+            }
+          }, {
+            key: "defaultAction",
+            value: function defaultAction(trigger) {
+              return getAttributeValue('action', trigger);
+            }
+          }, {
+            key: "defaultTarget",
+            value: function defaultTarget(trigger) {
+              var selector = getAttributeValue('target', trigger);
+
+              if (selector) {
+                return document.querySelector(selector);
+              }
+            }
+          }, {
+            key: "defaultText",
+            value: function defaultText(trigger) {
+              return getAttributeValue('text', trigger);
+            }
+          }, {
+            key: "destroy",
+            value: function destroy() {
+              this.listener.destroy();
+            }
+          }], [{
+            key: "copy",
+            value: function copy(target) {
+              var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
+                container: document.body
+              };
+              return actions_copy(target, options);
+            }
+          }, {
+            key: "cut",
+            value: function cut(target) {
+              return actions_cut(target);
+            }
+          }, {
+            key: "isSupported",
+            value: function isSupported() {
+              var action = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : ['copy', 'cut'];
+              var actions = typeof action === 'string' ? [action] : action;
+              var support = !!document.queryCommandSupported;
+              actions.forEach(function (action) {
+                support = support && !!document.queryCommandSupported(action);
+              });
+              return support;
+            }
+          }]);
+
+          return Clipboard;
+        }(tiny_emitter_default());
+
+        var clipboard = Clipboard;
+      },
+      828: function (module) {
+        var DOCUMENT_NODE_TYPE = 9;
+
+        if (typeof Element !== 'undefined' && !Element.prototype.matches) {
+          var proto = Element.prototype;
+          proto.matches = proto.matchesSelector || proto.mozMatchesSelector || proto.msMatchesSelector || proto.oMatchesSelector || proto.webkitMatchesSelector;
+        }
+
+        function closest(element, selector) {
+          while (element && element.nodeType !== DOCUMENT_NODE_TYPE) {
+            if (typeof element.matches === 'function' && element.matches(selector)) {
+              return element;
+            }
+
+            element = element.parentNode;
+          }
+        }
+
+        module.exports = closest;
+      },
+      438: function (module, __unused_webpack_exports, __nested_webpack_require_14657__) {
+        var closest = __nested_webpack_require_14657__(828);
+
+        function _delegate(element, selector, type, callback, useCapture) {
+          var listenerFn = listener.apply(this, arguments);
+          element.addEventListener(type, listenerFn, useCapture);
+          return {
+            destroy: function () {
+              element.removeEventListener(type, listenerFn, useCapture);
+            }
+          };
+        }
+
+        function delegate(elements, selector, type, callback, useCapture) {
+          if (typeof elements.addEventListener === 'function') {
+            return _delegate.apply(null, arguments);
+          }
+
+          if (typeof type === 'function') {
+            return _delegate.bind(null, document).apply(null, arguments);
+          }
+
+          if (typeof elements === 'string') {
+            elements = document.querySelectorAll(elements);
+          }
+
+          return Array.prototype.map.call(elements, function (element) {
+            return _delegate(element, selector, type, callback, useCapture);
+          });
+        }
+
+        function listener(element, selector, type, callback) {
+          return function (e) {
+            e.delegateTarget = closest(e.target, selector);
+
+            if (e.delegateTarget) {
+              callback.call(element, e);
+            }
+          };
+        }
+
+        module.exports = delegate;
+      },
+      879: function (__unused_webpack_module, exports) {
+        exports.node = function (value) {
+          return value !== undefined && value instanceof HTMLElement && value.nodeType === 1;
+        };
+
+        exports.nodeList = function (value) {
+          var type = Object.prototype.toString.call(value);
+          return value !== undefined && (type === '[object NodeList]' || type === '[object HTMLCollection]') && 'length' in value && (value.length === 0 || exports.node(value[0]));
+        };
+
+        exports.string = function (value) {
+          return typeof value === 'string' || value instanceof String;
+        };
+
+        exports.fn = function (value) {
+          var type = Object.prototype.toString.call(value);
+          return type === '[object Function]';
+        };
+      },
+      370: function (module, __unused_webpack_exports, __nested_webpack_require_16896__) {
+        var is = __nested_webpack_require_16896__(879);
+
+        var delegate = __nested_webpack_require_16896__(438);
+
+        function listen(target, type, callback) {
+          if (!target && !type && !callback) {
+            throw new Error('Missing required arguments');
+          }
+
+          if (!is.string(type)) {
+            throw new TypeError('Second argument must be a String');
+          }
+
+          if (!is.fn(callback)) {
+            throw new TypeError('Third argument must be a Function');
+          }
+
+          if (is.node(target)) {
+            return listenNode(target, type, callback);
+          } else if (is.nodeList(target)) {
+            return listenNodeList(target, type, callback);
+          } else if (is.string(target)) {
+            return listenSelector(target, type, callback);
+          } else {
+            throw new TypeError('First argument must be a String, HTMLElement, HTMLCollection, or NodeList');
+          }
+        }
+
+        function listenNode(node, type, callback) {
+          node.addEventListener(type, callback);
+          return {
+            destroy: function () {
+              node.removeEventListener(type, callback);
+            }
+          };
+        }
+
+        function listenNodeList(nodeList, type, callback) {
+          Array.prototype.forEach.call(nodeList, function (node) {
+            node.addEventListener(type, callback);
+          });
+          return {
+            destroy: function () {
+              Array.prototype.forEach.call(nodeList, function (node) {
+                node.removeEventListener(type, callback);
+              });
+            }
+          };
+        }
+
+        function listenSelector(selector, type, callback) {
+          return delegate(document.body, selector, type, callback);
+        }
+
+        module.exports = listen;
+      },
+      817: function (module) {
+        function select(element) {
+          var selectedText;
+
+          if (element.nodeName === 'SELECT') {
+            element.focus();
+            selectedText = element.value;
+          } else if (element.nodeName === 'INPUT' || element.nodeName === 'TEXTAREA') {
+            var isReadOnly = element.hasAttribute('readonly');
+
+            if (!isReadOnly) {
+              element.setAttribute('readonly', '');
+            }
+
+            element.select();
+            element.setSelectionRange(0, element.value.length);
+
+            if (!isReadOnly) {
+              element.removeAttribute('readonly');
+            }
+
+            selectedText = element.value;
+          } else {
+            if (element.hasAttribute('contenteditable')) {
+              element.focus();
+            }
+
+            var selection = window.getSelection();
+            var range = document.createRange();
+            range.selectNodeContents(element);
+            selection.removeAllRanges();
+            selection.addRange(range);
+            selectedText = selection.toString();
+          }
+
+          return selectedText;
+        }
+
+        module.exports = select;
+      },
+      279: function (module) {
+        function E() {}
+
+        E.prototype = {
+          on: function (name, callback, ctx) {
+            var e = this.e || (this.e = {});
+            (e[name] || (e[name] = [])).push({
+              fn: callback,
+              ctx: ctx
+            });
+            return this;
+          },
+          once: function (name, callback, ctx) {
+            var self = this;
+
+            function listener() {
+              self.off(name, listener);
+              callback.apply(ctx, arguments);
+            }
+
+            ;
+            listener._ = callback;
+            return this.on(name, listener, ctx);
+          },
+          emit: function (name) {
+            var data = [].slice.call(arguments, 1);
+            var evtArr = ((this.e || (this.e = {}))[name] || []).slice();
+            var i = 0;
+            var len = evtArr.length;
+
+            for (i; i < len; i++) {
+              evtArr[i].fn.apply(evtArr[i].ctx, data);
+            }
+
+            return this;
+          },
+          off: function (name, callback) {
+            var e = this.e || (this.e = {});
+            var evts = e[name];
+            var liveEvents = [];
+
+            if (evts && callback) {
+              for (var i = 0, len = evts.length; i < len; i++) {
+                if (evts[i].fn !== callback && evts[i].fn._ !== callback) liveEvents.push(evts[i]);
+              }
+            }
+
+            liveEvents.length ? e[name] = liveEvents : delete e[name];
+            return this;
+          }
+        };
+        module.exports = E;
+        module.exports.TinyEmitter = E;
+      }
+    };
+    var __webpack_module_cache__ = {};
+
+    function __nested_webpack_require_21559__(moduleId) {
+      if (__webpack_module_cache__[moduleId]) {
+        return __webpack_module_cache__[moduleId].exports;
+      }
+
+      var module = __webpack_module_cache__[moduleId] = {
+        exports: {}
+      };
+
+      __webpack_modules__[moduleId](module, module.exports, __nested_webpack_require_21559__);
+
+      return module.exports;
+    }
+
+    !function () {
+      __nested_webpack_require_21559__.n = function (module) {
+        var getter = module && module.__esModule ? function () {
+          return module['default'];
+        } : function () {
+          return module;
+        };
+
+        __nested_webpack_require_21559__.d(getter, {
+          a: getter
+        });
+
+        return getter;
+      };
+    }();
+    !function () {
+      __nested_webpack_require_21559__.d = function (exports, definition) {
+        for (var key in definition) {
+          if (__nested_webpack_require_21559__.o(definition, key) && !__nested_webpack_require_21559__.o(exports, key)) {
+            Object.defineProperty(exports, key, {
+              enumerable: true,
+              get: definition[key]
+            });
+          }
+        }
+      };
+    }();
+    !function () {
+      __nested_webpack_require_21559__.o = function (obj, prop) {
+        return Object.prototype.hasOwnProperty.call(obj, prop);
+      };
+    }();
+    return __nested_webpack_require_21559__(686);
+  }().default;
+});
+
+/***/ }),
+
 /***/ 9279:
 /***/ ((module) => {
 
@@ -28995,6 +29682,7 @@ function _guest2() {
     issuerDNInSession: '',
     notBefore: '',
     notAfter: '',
+    mqttToken: '',
     firstName: 'guest',
     lastName: 'guest',
     email: 'N/A',
@@ -35709,7 +36397,7 @@ function _injectCodeMirrorStep1(editors) {
           }
         });
       } else {
-        _injectCodeMirrorStep2(div, textarea, lang_json_dist["default"]);
+        _injectCodeMirrorStep2(div, textarea, (0,lang_json_dist.json)());
 
         if (--nb === 0) {
           result.resolve();
@@ -36805,13 +37493,16 @@ const change_pass_modal_namespaceObject = "<form class=\"modal fade\" role=\"dia
 ;// CONCATENATED MODULE: ./src/twigs/Modals/change_cert_modal.twig
 const change_cert_modal_namespaceObject = "<div class=\"modal fade\" role=\"dialog\" id=\"ECB92A89_A706_7C76_E248_E57D14C8B205\">\n\t<div class=\"modal-dialog modal-dialog-centered modal-lg\" role=\"document\">\n\t\t<div class=\"modal-content\">\n\t\t\t<div class=\"modal-header\">\n\t\t\t\t<h4 class=\"modal-title\">Change Certificate</h4>\n\t\t\t\t{% if BOOTSTRAP_VERSION > 4 %}\n\t\t\t\t<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\"></button>\n\t\t\t\t{% else %}\n\t\t\t\t<button type=\"button\" class=\"close\" data-dismiss=\"modal\"><i class=\"bi bi-x-lg\"></i></button>\n\t\t\t\t{% endif %}\n\t\t\t</div>\n\t\t\t<div class=\"modal-body\">\n\n\t\t\t\t<!-- *********************************************************************************************** -->\n\n\t\t\t\t<div class=\"card mb-2\">\n\t\t\t\t\t<div class=\"card-body\">\n\t\t\t\t\t\t<h5 class=\"card-title d-flex justify-content-between\">\n\t\t\t\t\t\t\t<span>Certificate in session</span>\n\t\t\t\t\t\t\t<button class=\"btn btn-sm btn-primary\" onclick=\"amiAuth.form_attachCert();\" id=\"DB0223B3_D721_7EEB_50B8_032A04C7D218\">\n\t\t\t\t\t\t\t\tAttach this certificate\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t<input class=\"form-control form-control-sm border-0 mb-1\" type=\"text\" readonly=\"readonly\" id=\"C8B8F968_CCAA_26DF_8665_2B518189E3DE\" />\n\t\t\t\t\t\t<input class=\"form-control form-control-sm border-0 mb-0\" type=\"text\" readonly=\"readonly\" id=\"A962ED59_DB71_C10C_6173_3615C6F48028\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\n\t\t\t\t<!-- *********************************************************************************************** -->\n\n\t\t\t\t<div class=\"card mb-0\">\n\t\t\t\t\t<div class=\"card-body\">\n\t\t\t\t\t\t<h5 class=\"card-title d-flex justify-content-between\">\n\t\t\t\t\t\t\t<span>Certificate in AMI</span>\n\t\t\t\t\t\t\t<button class=\"btn btn-sm btn-danger\" onclick=\"amiAuth.form_detachCert();\" id=\"B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2\">\n\t\t\t\t\t\t\t\tDetach this certificate\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t<input class=\"form-control form-control-sm border-0 mb-1\" type=\"text\" readonly=\"readonly\" id=\"C9297C00_920D_4AE6_8A20_B0DDB383CC6A\" />\n\t\t\t\t\t\t<input class=\"form-control form-control-sm border-0 mb-0\" type=\"text\" readonly=\"readonly\" id=\"D4B29AC0_4867_815B_8657_5A1D623C29CF\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\n\t\t\t\t<!-- *********************************************************************************************** -->\n\n\t\t\t</div>\n\t\t\t<div class=\"modal-footer\">\n\t\t\t\t<button class=\"btn btn-outline-secondary\" type=\"button\" data-bs-dismiss=\"modal\">Close</button>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n";
 ;// CONCATENATED MODULE: ./src/twigs/Modals/account_modal.twig
-const account_modal_namespaceObject = "<div class=\"modal fade\" role=\"dialog\" id=\"AB1CB183_96EB_4116_8A9E_4409BE058F34\">\n\t<div class=\"modal-dialog modal-lg\" role=\"document\">\n\t\t<div class=\"modal-content\">\n\t\t\t<div class=\"modal-header\">\n\t\t\t\t<h4 class=\"modal-title\">Account</h4>\n\t\t\t\t{% if BOOTSTRAP_VERSION > 4 %}\n\t\t\t\t<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\"></button>\n\t\t\t\t{% else %}\n\t\t\t\t<button type=\"button\" class=\"close\" data-dismiss=\"modal\"><i class=\"bi bi-x-lg\"></i></button>\n\t\t\t\t{% endif %}\n\t\t\t</div>\n\t\t\t<div class=\"modal-body\">\n\t\t\t\t<h5 id=\"D944B01D_2E8D_4EE9_9DCC_2691438BBA16\"></h5>\n\n\t\t\t\t<nav class=\"mb-2\">\n\t\t\t\t\t<div class=\"nav nav-tabs\" role=\"tablist\">\n\t\t\t\t\t\t<button class=\"nav-link active\" data-bs-toggle=\"tab\" data-bs-target=\"#B89A9E2D_8969_41F4_B266_230B782FA17D\" type=\"button\" role=\"tab\">Account status</button>\n\t\t\t\t\t\t<button class=\"nav-link xxxxxx\" data-bs-toggle=\"tab\" data-bs-target=\"#F22A8AD8_08EB_434C_B6F8_DC92FC0F69AC\" type=\"button\" role=\"tab\">User information</button>\n\t\t\t\t\t\t<button class=\"nav-link xxxxxx\" data-bs-toggle=\"tab\" data-bs-target=\"#D827345F_6762_32F6_1D2D_DB40676804AE\" type=\"button\" role=\"tab\">User roles</button>\n\t\t\t\t\t</div>\n\t\t\t\t</nav>\n\n\t\t\t\t<div class=\"tab-content\">\n\n\t\t\t\t\t<!-- ******************************************************************************************* -->\n\n\t\t\t\t\t<div class=\"tab-pane active\" role=\"tabpanel\" id=\"B89A9E2D_8969_41F4_B266_230B782FA17D\">\n\t\t\t\t\t\t<div class=\"text-center rounded mx-auto px-5 py-2 mb-2\">\n\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t<div class=\"col-xl-3 d-flex flex-column align-items-center justify-content-between\">\n<!--\t\t\t\t\t\t\t\t<canvas id=\"EC948084_8C0A_CEBF_58C9_086046AB2456\" height=\"175\" width=\"175\"></canvas>\n-->\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"col-xl-6 d-flex flex-column align-items-center justify-content-between\">\n\t\t\t\t\t\t\t\t\t<div style=\"font-family: 'Open Sans Light'; font-size: 34pt;\" id=\"D579A431_DBE4_6B30_1CF6_5E23761B4E1A\">your account is</div>\n\t\t\t\t\t\t\t\t\t<div style=\"font-family: 'Open Sans Light'; font-size: 34pt;\" id=\"F3FF9F43_DE72_40BB_B1BA_B7B3C9002671\">???????????????</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"col-xl-3 d-flex flex-column align-items-center justify-content-between\">\n\t\t\t\t\t\t\t\t\t<canvas id=\"EC948084_8C0A_CEBF_58C9_086046AB2456\" height=\"175\" width=\"175\"></canvas>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"text-center\">\n\t\t\t\t\t\t\t<a href=\"#E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27\" data-bs-toggle=\"collapse\">privacy policy</a>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<iframe class=\"form-control collapse\" id=\"E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27\" style=\"padding: 1px; min-height: 350px; width: 100%;\"></iframe>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<!-- ******************************************************************************************* -->\n\n\t\t\t\t\t<div class=\"tab-pane xxxxxx\" role=\"tabpanel\" id=\"F22A8AD8_08EB_434C_B6F8_DC92FC0F69AC\">\n\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"ABEB0291_40B0_414A_A42B_E7EABB9B487E\" style=\"font-weight: normal;\">First name</label>\n\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"ABEB0291_40B0_414A_A42B_E7EABB9B487E\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"A5AFDB62_1034_4F66_A3E6_9341B31FA290\" style=\"font-weight: normal;\">Last name</label>\n\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"A5AFDB62_1034_4F66_A3E6_9341B31FA290\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"D730A774_05EA_47AB_A0C8_D92753802E3E\" style=\"font-weight: normal;\">Email</label>\n\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"D730A774_05EA_47AB_A0C8_D92753802E3E\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"FE2F6232_C256_4B80_939C_EBEC90320308\" style=\"font-weight: normal;\">Issuer cert. DN in session</label>\n\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"FE2F6232_C256_4B80_939C_EBEC90320308\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"F42FAF6B_2C8D_4142_8BD9_E5BCDCAA05AA\" style=\"font-weight: normal;\">Issuer cert. DN in account</label>\n\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"F42FAF6B_2C8D_4142_8BD9_E5BCDCAA05AA\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"mb-1 row\">\n\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"C76805D7_1E86_4231_9071_1D04783423BB\" style=\"font-weight: normal;\">Client cert. DN in session</label>\n\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"C76805D7_1E86_4231_9071_1D04783423BB\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t\t<div class=\"text-end\" style=\"margin-top: -0.65rem;\">\n\t\t\t\t\t\t\t\t\t<small class=\"badge rounded-pill text-white bg-dark\" id=\"E91280F6_E7C6_3E53_A457_646995C99317\">&nbsp;</small>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"D1BEE3BF_9161_41DC_BC53_C44FFE4D2522\" style=\"font-weight: normal;\">Client cert. DN in account</label>\n\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"D1BEE3BF_9161_41DC_BC53_C44FFE4D2522\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<!-- ******************************************************************************************* -->\n\n\t\t\t\t\t<div class=\"tab-pane xxxxxx\" role=\"tabpanel\" id=\"D827345F_6762_32F6_1D2D_DB40676804AE\">\n\t\t\t\t\t\t<table class=\"table table-sm table-striped\">\n\t\t\t\t\t\t\t<thead>\n\t\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t\t<th>Name</th>\n\t\t\t\t\t\t\t\t<th>Description</th>\n\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t</thead>\n\t\t\t\t\t\t\t<tbody id=\"BB07676B_EACA_9B42_ED51_477DB2976041\"></tbody>\n\t\t\t\t\t\t</table>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<!-- ******************************************************************************************* -->\n\n\t\t\t\t</div>\n\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n";
+const account_modal_namespaceObject = "<div class=\"modal fade\" role=\"dialog\" id=\"AB1CB183_96EB_4116_8A9E_4409BE058F34\">\n\t<div class=\"modal-dialog modal-lg\" role=\"document\">\n\t\t<div class=\"modal-content\">\n\t\t\t<div class=\"modal-header\">\n\t\t\t\t<h4 class=\"modal-title\">Account</h4>\n\t\t\t\t{% if BOOTSTRAP_VERSION > 4 %}\n\t\t\t\t<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\"></button>\n\t\t\t\t{% else %}\n\t\t\t\t<button type=\"button\" class=\"close\" data-dismiss=\"modal\"><i class=\"bi bi-x-lg\"></i></button>\n\t\t\t\t{% endif %}\n\t\t\t</div>\n\t\t\t<div class=\"modal-body\">\n\t\t\t\t<h5 id=\"D944B01D_2E8D_4EE9_9DCC_2691438BBA16\"></h5>\n\n\t\t\t\t<nav class=\"mb-2\">\n\t\t\t\t\t<div class=\"nav nav-tabs\" role=\"tablist\">\n\t\t\t\t\t\t<button class=\"nav-link active\" data-bs-toggle=\"tab\" data-bs-target=\"#B89A9E2D_8969_41F4_B266_230B782FA17D\" type=\"button\" role=\"tab\">Account status</button>\n\t\t\t\t\t\t<button class=\"nav-link xxxxxx\" data-bs-toggle=\"tab\" data-bs-target=\"#F22A8AD8_08EB_434C_B6F8_DC92FC0F69AC\" type=\"button\" role=\"tab\">User information</button>\n\t\t\t\t\t\t<button class=\"nav-link xxxxxx\" data-bs-toggle=\"tab\" data-bs-target=\"#D827345F_6762_32F6_1D2D_DB40676804AE\" type=\"button\" role=\"tab\">User roles</button>\n\t\t\t\t\t</div>\n\t\t\t\t</nav>\n\n\t\t\t\t<div class=\"tab-content\">\n\n\t\t\t\t\t<!-- ******************************************************************************************* -->\n\n\t\t\t\t\t<div class=\"tab-pane active\" role=\"tabpanel\" id=\"B89A9E2D_8969_41F4_B266_230B782FA17D\">\n\t\t\t\t\t\t<div class=\"text-center rounded mx-auto px-5 py-2 mb-2\">\n\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t<div class=\"col-xl-3 d-flex flex-column align-items-center justify-content-between\">\n<!--\t\t\t\t\t\t\t\t<canvas id=\"EC948084_8C0A_CEBF_58C9_086046AB2456\" height=\"175\" width=\"175\"></canvas>\n-->\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"col-xl-6 d-flex flex-column align-items-center justify-content-between\">\n\t\t\t\t\t\t\t\t\t<div style=\"font-family: 'Open Sans Light'; font-size: 34pt;\" id=\"D579A431_DBE4_6B30_1CF6_5E23761B4E1A\">your account is</div>\n\t\t\t\t\t\t\t\t\t<div style=\"font-family: 'Open Sans Light'; font-size: 34pt;\" id=\"F3FF9F43_DE72_40BB_B1BA_B7B3C9002671\">???????????????</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"col-xl-3 d-flex flex-column align-items-center justify-content-between\">\n\t\t\t\t\t\t\t\t\t<canvas id=\"EC948084_8C0A_CEBF_58C9_086046AB2456\" height=\"175\" width=\"175\"></canvas>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"text-center\">\n\t\t\t\t\t\t\t<a href=\"#E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27\" data-bs-toggle=\"collapse\">privacy policy</a>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<iframe class=\"form-control collapse\" id=\"E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27\" style=\"padding: 1px; min-height: 350px; width: 100%;\"></iframe>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<!-- ******************************************************************************************* -->\n\n\t\t\t\t\t<div class=\"tab-pane xxxxxx\" role=\"tabpanel\" id=\"F22A8AD8_08EB_434C_B6F8_DC92FC0F69AC\">\n\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"ABEB0291_40B0_414A_A42B_E7EABB9B487E\" style=\"font-weight: normal;\">First name</label>\n\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"ABEB0291_40B0_414A_A42B_E7EABB9B487E\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"A5AFDB62_1034_4F66_A3E6_9341B31FA290\" style=\"font-weight: normal;\">Last name</label>\n\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"A5AFDB62_1034_4F66_A3E6_9341B31FA290\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"D730A774_05EA_47AB_A0C8_D92753802E3E\" style=\"font-weight: normal;\">Email</label>\n\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"D730A774_05EA_47AB_A0C8_D92753802E3E\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"FE2F6232_C256_4B80_939C_EBEC90320308\" style=\"font-weight: normal;\">Issuer cert. DN in session</label>\n\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"FE2F6232_C256_4B80_939C_EBEC90320308\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"F42FAF6B_2C8D_4142_8BD9_E5BCDCAA05AA\" style=\"font-weight: normal;\">Issuer cert. DN in account</label>\n\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"F42FAF6B_2C8D_4142_8BD9_E5BCDCAA05AA\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"mb-1 row\">\n\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"C76805D7_1E86_4231_9071_1D04783423BB\" style=\"font-weight: normal;\">Client cert. DN in session</label>\n\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"C76805D7_1E86_4231_9071_1D04783423BB\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t\t<div class=\"text-end\" style=\"margin-top: -0.65rem;\">\n\t\t\t\t\t\t\t\t\t<small class=\"badge rounded-pill text-white bg-dark\" id=\"E91280F6_E7C6_3E53_A457_646995C99317\">&nbsp;</small>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"D1BEE3BF_9161_41DC_BC53_C44FFE4D2522\" style=\"font-weight: normal;\">Client cert. DN in account</label>\n\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"D1BEE3BF_9161_41DC_BC53_C44FFE4D2522\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<hr />\n\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"F640BF27_60A4_C092_B78A_E5F4C688C8F3\" style=\"font-weight: normal;\">MQTT token (admin only)</label>\n\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t<div class=\"input-group\">\n\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"F640BF27_60A4_C092_B78A_E5F4C688C8F3\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t\t\t<button class=\"btn btn-outline-secondary\" type=\"button\" id=\"A3C9E9DE_B73C_2DE2_8BB2_A93982940E77\" data-clipboard-target=\"#F640BF27_60A4_C092_B78A_E5F4C688C8F3\">\n\t\t\t\t\t\t\t\t\t\t<i class=\"bi bi-clipboard\"></i>\n\t\t\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<!-- ******************************************************************************************* -->\n\n\t\t\t\t\t<div class=\"tab-pane xxxxxx\" role=\"tabpanel\" id=\"D827345F_6762_32F6_1D2D_DB40676804AE\">\n\t\t\t\t\t\t<table class=\"table table-sm table-striped\">\n\t\t\t\t\t\t\t<thead>\n\t\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t\t<th>Name</th>\n\t\t\t\t\t\t\t\t<th>Description</th>\n\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t</thead>\n\t\t\t\t\t\t\t<tbody id=\"BB07676B_EACA_9B42_ED51_477DB2976041\"></tbody>\n\t\t\t\t\t\t</table>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<!-- ******************************************************************************************* -->\n\n\t\t\t\t</div>\n\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n";
 ;// CONCATENATED MODULE: ./src/images/certificate-green.png
 const certificate_green_namespaceObject = __webpack_require__.p + "assets/images/certificate-green.png";
 ;// CONCATENATED MODULE: ./src/images/certificate-pink.png
 const certificate_pink_namespaceObject = __webpack_require__.p + "assets/images/certificate-pink.png";
 // EXTERNAL MODULE: ./node_modules/qrcode/lib/browser.js
 var browser = __webpack_require__(379);
+// EXTERNAL MODULE: ./node_modules/clipboard/dist/clipboard.js
+var clipboard = __webpack_require__(6920);
+var clipboard_default = /*#__PURE__*/__webpack_require__.n(clipboard);
 ;// CONCATENATED MODULE: ./src/js/AMIAuth.js
 
 
@@ -36820,6 +37511,7 @@ function AMIAuth_classPrivateFieldLooseBase(receiver, privateKey) { if (!Object.
 var AMIAuth_id = 0;
 
 function AMIAuth_classPrivateFieldLooseKey(name) { return "__private_" + AMIAuth_id++ + "_" + name; }
+
 
 
 
@@ -36938,6 +37630,7 @@ class AMIAuth {
         const pass2 = el2.val();
         el2.get(0).setCustomValidity(pass1.length > 0 && pass2.length > 0 && pass1 !== pass2 ? 'Passwords don\'t match.' : '');
       });
+      new (clipboard_default())('#A3C9E9DE_B73C_2DE2_8BB2_A93982940E77');
     });
 
     window.onmessage = e => {
@@ -37008,7 +37701,7 @@ class AMIAuth {
   }
 
   getMqttToken() {
-    return AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].mqttToken || '';
+    return AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].mqttToken || '';
   }
 
   getUserInfo() {
@@ -37304,6 +37997,7 @@ function _update2(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
     const issuerDNInAMI = userInfo.issuerDNInAMI || '';
     const notBefore = userInfo.notBefore || '';
     const notAfter = userInfo.notAfter || '';
+    const mqttToken = userInfo.mqttToken || '';
     const valid = userInfo.valid || 'false';
     $('#E513F27D_5521_4B08_BF61_52AFB81356F7').val(firstName);
     $('#AFF0B5C0_BEEC_4842_916D_DCBA7F589195').val(lastName);
@@ -37315,6 +38009,7 @@ function _update2(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
     $('#F42FAF6B_2C8D_4142_8BD9_E5BCDCAA05AA').val(issuerDNInAMI);
     $('#C76805D7_1E86_4231_9071_1D04783423BB').val(clientDNInSession);
     $('#D1BEE3BF_9161_41DC_BC53_C44FFE4D2522').val(clientDNInAMI);
+    $('#F640BF27_60A4_C092_B78A_E5F4C688C8F3').val(mqttToken);
 
     if (issuerDNInSession && clientDNInSession) {
       $('#C8B8F968_CCAA_26DF_8665_2B518189E3DE').val(issuerDNInSession);
@@ -37694,7 +38389,7 @@ function loadSubAppByURL(defaultSubApp, defaultUserData) {
               });
             } else {
               editorView.dispatch(editorView.state.update({
-                effects: editorLang.reconfigure(lang_json_dist["default"]),
+                effects: editorLang.reconfigure((0,lang_json_dist.json)()),
                 changes: {
                   from: 0,
                   to: editorView.state.doc.length,
