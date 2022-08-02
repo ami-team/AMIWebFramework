@@ -205,7 +205,9 @@ class AMIAuth
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			new ClipboardJS('#A3C9E9DE_B73C_2DE2_8BB2_A93982940E77');
+			new ClipboardJS('#A3C9E9DE_B73C_2DE2_8BB2_A93982940E77', {
+				container: document.getElementById('AB1CB183_96EB_4116_8A9E_4409BE058F34')
+			});
 
 			/*--------------------------------------------------------------------------------------------------------*/
 		});
@@ -400,7 +402,7 @@ class AMIAuth
 			const notBefore = userInfo.notBefore || '';
 			const notAfter = userInfo.notAfter || '';
 
-			const mqttToken = userInfo.mqttToken || '';
+			const mqttToken = userInfo.mqttToken || 'N/A';
 
 			const valid = userInfo.valid || 'false';
 
@@ -427,7 +429,14 @@ class AMIAuth
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			$('#F640BF27_60A4_C092_B78A_E5F4C688C8F3').val(mqttToken);
+			const tokenButton = $('#A3C9E9DE_B73C_2DE2_8BB2_A93982940E77').attr('data-clipboard-text', mqttToken);
+
+			if(this.hasRole('AMI_ADMIN')) {
+				tokenButton.show();
+			}
+			else {
+				tokenButton.hide();
+			}
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
