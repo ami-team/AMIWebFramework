@@ -29794,6 +29794,8 @@ var _L = client_classPrivateFieldLooseKey("L");
 
 var _cnt = client_classPrivateFieldLooseKey("cnt");
 
+var _connected = client_classPrivateFieldLooseKey("connected");
+
 var client_converter = client_classPrivateFieldLooseKey("converter");
 
 var client_paramRegExp = client_classPrivateFieldLooseKey("paramRegExp");
@@ -29832,6 +29834,10 @@ class AMIMQTTClient {
     Object.defineProperty(this, _cnt, {
       writable: true,
       value: 0x01
+    });
+    Object.defineProperty(this, _connected, {
+      writable: true,
+      value: false
     });
     Object.defineProperty(this, client_converter, {
       writable: true,
@@ -29894,6 +29900,26 @@ class AMIMQTTClient {
     };
   }
 
+  setOnConnected(onConnected) {
+    this._userOnConnected = onConnected;
+    return this;
+  }
+
+  setOnConnectionLost(onConnectionLost) {
+    this._userOnConnectionLost = onConnectionLost;
+    return this;
+  }
+
+  setOnMessageArrived(onMessageArrived) {
+    this._userOnMessageArrived = onMessageArrived;
+    return this;
+  }
+
+  setOnMessageDelivered(onMessageDelivered) {
+    this._userOnMessageDelivered = onMessageDelivered;
+    return this;
+  }
+
   signInByToken(password, serverName) {
     const result = $.Deferred();
     const username = parseJwt(password).sub;
@@ -29933,6 +29959,10 @@ class AMIMQTTClient {
     }
 
     return result.promise();
+  }
+
+  isConnected() {
+    return client_classPrivateFieldLooseBase(this, _connected)[_connected];
   }
 
   getUUID() {
@@ -30034,6 +30064,8 @@ class AMIMQTTClient {
 }
 
 function _onConnected2(reconnect, serverURL) {
+  client_classPrivateFieldLooseBase(this, _connected)[_connected] = true;
+
   if (reconnect) {
     console.log("onConnected: client `" + this._uuid + "` reconnected to server URL `" + serverURL + "`");
   } else {
@@ -30042,17 +30074,19 @@ function _onConnected2(reconnect, serverURL) {
 
   this.subscribe(this._uuid).always(() => {
     if (this._userOnConnected) {
-      this._userOnConnected(reconnect, serverURL);
+      this._userOnConnected(this, reconnect, serverURL);
     }
   });
 }
 
 function _onConnectionLost2(responseObject) {
+  client_classPrivateFieldLooseBase(this, _connected)[_connected] = false;
+
   if (responseObject.errorCode !== 0) {
     console.log("onConnectionLost: client `" + this._uuid + "` disconnected, cause: " + responseObject.errorMessage);
 
     if (this._userOnConnectionLost) {
-      this._userOnConnectionLost(responseObject.errorMessage);
+      this._userOnConnectionLost(this, responseObject.errorMessage);
     }
   }
 }
@@ -30084,14 +30118,14 @@ function _onMessageArrived2(message) {
     }
   } else {
     if (this._userOnMessageArrived) {
-      this._userOnMessageArrived(message.topic, message.payloadString, message.qos, message.retained);
+      this._userOnMessageArrived(this, message.topic, message.payloadString, message.qos, message.retained);
     }
   }
 }
 
 function _onMessageDelivered2(message) {
   if (this._userOnMessageDelivered) {
-    this._userOnMessageDelivered(message.token);
+    this._userOnMessageDelivered(this, message.token);
   }
 }
 
