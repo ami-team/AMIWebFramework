@@ -14943,7 +14943,8 @@ var base = {
   219: "[",
   220: "\\",
   221: "]",
-  222: "'"
+  222: "'",
+  229: "q"
 };
 var shift = {
   48: ")",
@@ -14969,13 +14970,15 @@ var shift = {
   219: "{",
   220: "|",
   221: "}",
-  222: "\""
+  222: "\"",
+  229: "Q"
 };
 var chrome = typeof navigator != "undefined" && /Chrome\/(\d+)/.exec(navigator.userAgent);
+var safari = typeof navigator != "undefined" && /Apple Computer/.test(navigator.vendor);
 var gecko = typeof navigator != "undefined" && /Gecko\/\d+/.test(navigator.userAgent);
 var mac = typeof navigator != "undefined" && /Mac/.test(navigator.platform);
 var ie = typeof navigator != "undefined" && /MSIE \d|Trident\/(?:[7-9]|\d{2,})\..*rv:(\d+)/.exec(navigator.userAgent);
-var brokenModifierNames = mac || chrome && +chrome[1] < 57;
+var brokenModifierNames = chrome && (mac || +chrome[1] < 57) || gecko && mac;
 
 for (var i = 0; i < 10; i++) base[48 + i] = base[96 + i] = String(i);
 
@@ -14989,7 +14992,7 @@ for (var i = 65; i <= 90; i++) {
 for (var code in base) if (!shift.hasOwnProperty(code)) shift[code] = base[code];
 
 function keyName(event) {
-  var ignoreKey = brokenModifierNames && (event.ctrlKey || event.altKey || event.metaKey) || ie && event.shiftKey && event.key && event.key.length == 1 || event.key == "Unidentified";
+  var ignoreKey = brokenModifierNames && (event.ctrlKey || event.altKey || event.metaKey) || (safari || ie) && event.shiftKey && event.key && event.key.length == 1;
   var name = !ignoreKey && event.key || (event.shiftKey ? shift : base)[event.keyCode] || event.key || "Unidentified";
   if (name == "Esc") name = "Escape";
   if (name == "Del") name = "Delete";
@@ -15740,8 +15743,8 @@ const dist_ie = !!(ie_upto10 || ie_11up || ie_edge);
 const dist_gecko = !dist_ie && /gecko\/(\d+)/i.test(nav.userAgent);
 const dist_chrome = !dist_ie && /Chrome\/(\d+)/.exec(nav.userAgent);
 const webkit = ("webkitFontSmoothing" in doc.documentElement.style);
-const safari = !dist_ie && /Apple Computer/.test(nav.vendor);
-const ios = safari && (/Mobile\/\w+/.test(nav.userAgent) || nav.maxTouchPoints > 2);
+const dist_safari = !dist_ie && /Apple Computer/.test(nav.vendor);
+const ios = dist_safari && (/Mobile\/\w+/.test(nav.userAgent) || nav.maxTouchPoints > 2);
 var browser = {
   mac: ios || /Mac/.test(nav.platform),
   windows: /Win/.test(nav.platform),
@@ -15755,7 +15758,7 @@ var browser = {
   ios,
   android: /Android\b/.test(nav.userAgent),
   webkit,
-  safari,
+  safari: dist_safari,
   webkit_version: webkit ? +(/\bAppleWebKit\/(\d+)/.exec(navigator.userAgent) || [0, 0])[1] : 0,
   tabSize: doc.documentElement.style.tabSize != null ? "tab-size" : "-moz-tab-size"
 };
@@ -28684,12 +28687,12 @@ class LRParser extends _lezer_common__WEBPACK_IMPORTED_MODULE_0__/* .Parser */ .
     this.bufferLength = _lezer_common__WEBPACK_IMPORTED_MODULE_0__/* .DefaultBufferLength */ .L3;
     let tokenArray = decodeArray(spec.tokenData);
     this.context = spec.context;
-    this.specializerSpecs = spec.specialized || [];
-    this.specialized = new Uint16Array(this.specializerSpecs.length);
-
-    for (let i = 0; i < this.specializerSpecs.length; i++) this.specialized[i] = this.specializerSpecs[i].term;
-
-    this.specializers = this.specializerSpecs.map(getSpecializer);
+    this.specialized = new Uint16Array(spec.specialized ? spec.specialized.length : 0);
+    this.specializers = [];
+    if (spec.specialized) for (let i = 0; i < spec.specialized.length; i++) {
+      this.specialized[i] = spec.specialized[i].term;
+      this.specializers[i] = spec.specialized[i].get;
+    }
     this.states = decodeArray(spec.states, Uint32Array);
     this.data = decodeArray(spec.stateData);
     this.goto = decodeArray(spec.goto);
@@ -28808,20 +28811,10 @@ class LRParser extends _lezer_common__WEBPACK_IMPORTED_MODULE_0__/* .Parser */ .
       let found = config.tokenizers.find(r => r.from == t);
       return found ? found.to : t;
     });
-
-    if (config.specializers) {
-      copy.specializers = this.specializers.slice();
-      copy.specializerSpecs = this.specializerSpecs.map((s, i) => {
-        let found = config.specializers.find(r => r.from == s.external);
-        if (!found) return s;
-        let spec = Object.assign(Object.assign({}, s), {
-          external: found.to
-        });
-        copy.specializers[i] = getSpecializer(spec);
-        return spec;
-      });
-    }
-
+    if (config.specializers) copy.specializers = this.specializers.map(s => {
+      let found = config.specializers.find(r => r.from == s);
+      return found ? found.to : s;
+    });
     if (config.contextTracker) copy.context = config.contextTracker;
     if (config.dialect) copy.dialect = this.parseDialect(config.dialect);
     if (config.strict != null) copy.strict = config.strict;
@@ -28898,15 +28891,6 @@ function findFinished(stacks) {
   }
 
   return best;
-}
-
-function getSpecializer(spec) {
-  if (spec.external) {
-    let mask = spec.extend ? 1 : 0;
-    return (value, stack) => spec.external(value, stack) << 1 | mask;
-  }
-
-  return spec.get;
 }
 
 
