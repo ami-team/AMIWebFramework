@@ -29922,6 +29922,7 @@ class AMIMQTTClient {
 
   signInByToken(password, serverName) {
     const result = $.Deferred();
+    serverName = serverName || '<null>';
     const username = parseJwt(password).sub;
 
     if (username) {
@@ -29975,6 +29976,14 @@ class AMIMQTTClient {
 
   getUsername() {
     return this._username;
+  }
+
+  getServerName() {
+    return this._serverName;
+  }
+
+  setServerName(serverName) {
+    this._serverName = serverName;
   }
 
   subscribe(topic, options) {
