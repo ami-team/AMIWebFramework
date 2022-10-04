@@ -6494,7 +6494,12 @@ const Mode = __webpack_require__(7076);
 
 function ByteData(data) {
   this.mode = Mode.BYTE;
-  this.data = new Uint8Array(encodeUtf8(data));
+
+  if (typeof data === 'string') {
+    data = encodeUtf8(data);
+  }
+
+  this.data = new Uint8Array(data);
 }
 
 ByteData.getBitsLength = function getBitsLength(length) {
@@ -8176,13 +8181,13 @@ exports.qrToImageData = function qrToImageData(imgData, qr, opts) {
 
 
 
-var ___CSS_LOADER_URL_IMPORT_0___ = new URL(/* asset import */ __webpack_require__(6988), __webpack_require__.b);
-var ___CSS_LOADER_URL_IMPORT_1___ = new URL(/* asset import */ __webpack_require__(7890), __webpack_require__.b);
+var ___CSS_LOADER_URL_IMPORT_0___ = new URL(/* asset import */ __webpack_require__(7484), __webpack_require__.b);
+var ___CSS_LOADER_URL_IMPORT_1___ = new URL(/* asset import */ __webpack_require__(4070), __webpack_require__.b);
 var ___CSS_LOADER_EXPORT___ = _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 var ___CSS_LOADER_URL_REPLACEMENT_0___ = _css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_0___);
 var ___CSS_LOADER_URL_REPLACEMENT_1___ = _css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_1___);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "@font-face {\n  font-family: \"bootstrap-icons\";\n  src: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ") format(\"woff2\"),\nurl(" + ___CSS_LOADER_URL_REPLACEMENT_1___ + ") format(\"woff\");\n}\n\n.bi::before,\n[class^=\"bi-\"]::before,\n[class*=\" bi-\"]::before {\n  display: inline-block;\n  font-display: block;\n  font-family: bootstrap-icons !important;\n  font-style: normal;\n  font-weight: normal !important;\n  font-variant: normal;\n  text-transform: none;\n  line-height: 1;\n  vertical-align: -.125em;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\n\n.bi-123::before { content: \"\\f67f\"; }\n.bi-alarm-fill::before { content: \"\\f101\"; }\n.bi-alarm::before { content: \"\\f102\"; }\n.bi-align-bottom::before { content: \"\\f103\"; }\n.bi-align-center::before { content: \"\\f104\"; }\n.bi-align-end::before { content: \"\\f105\"; }\n.bi-align-middle::before { content: \"\\f106\"; }\n.bi-align-start::before { content: \"\\f107\"; }\n.bi-align-top::before { content: \"\\f108\"; }\n.bi-alt::before { content: \"\\f109\"; }\n.bi-app-indicator::before { content: \"\\f10a\"; }\n.bi-app::before { content: \"\\f10b\"; }\n.bi-archive-fill::before { content: \"\\f10c\"; }\n.bi-archive::before { content: \"\\f10d\"; }\n.bi-arrow-90deg-down::before { content: \"\\f10e\"; }\n.bi-arrow-90deg-left::before { content: \"\\f10f\"; }\n.bi-arrow-90deg-right::before { content: \"\\f110\"; }\n.bi-arrow-90deg-up::before { content: \"\\f111\"; }\n.bi-arrow-bar-down::before { content: \"\\f112\"; }\n.bi-arrow-bar-left::before { content: \"\\f113\"; }\n.bi-arrow-bar-right::before { content: \"\\f114\"; }\n.bi-arrow-bar-up::before { content: \"\\f115\"; }\n.bi-arrow-clockwise::before { content: \"\\f116\"; }\n.bi-arrow-counterclockwise::before { content: \"\\f117\"; }\n.bi-arrow-down-circle-fill::before { content: \"\\f118\"; }\n.bi-arrow-down-circle::before { content: \"\\f119\"; }\n.bi-arrow-down-left-circle-fill::before { content: \"\\f11a\"; }\n.bi-arrow-down-left-circle::before { content: \"\\f11b\"; }\n.bi-arrow-down-left-square-fill::before { content: \"\\f11c\"; }\n.bi-arrow-down-left-square::before { content: \"\\f11d\"; }\n.bi-arrow-down-left::before { content: \"\\f11e\"; }\n.bi-arrow-down-right-circle-fill::before { content: \"\\f11f\"; }\n.bi-arrow-down-right-circle::before { content: \"\\f120\"; }\n.bi-arrow-down-right-square-fill::before { content: \"\\f121\"; }\n.bi-arrow-down-right-square::before { content: \"\\f122\"; }\n.bi-arrow-down-right::before { content: \"\\f123\"; }\n.bi-arrow-down-short::before { content: \"\\f124\"; }\n.bi-arrow-down-square-fill::before { content: \"\\f125\"; }\n.bi-arrow-down-square::before { content: \"\\f126\"; }\n.bi-arrow-down-up::before { content: \"\\f127\"; }\n.bi-arrow-down::before { content: \"\\f128\"; }\n.bi-arrow-left-circle-fill::before { content: \"\\f129\"; }\n.bi-arrow-left-circle::before { content: \"\\f12a\"; }\n.bi-arrow-left-right::before { content: \"\\f12b\"; }\n.bi-arrow-left-short::before { content: \"\\f12c\"; }\n.bi-arrow-left-square-fill::before { content: \"\\f12d\"; }\n.bi-arrow-left-square::before { content: \"\\f12e\"; }\n.bi-arrow-left::before { content: \"\\f12f\"; }\n.bi-arrow-repeat::before { content: \"\\f130\"; }\n.bi-arrow-return-left::before { content: \"\\f131\"; }\n.bi-arrow-return-right::before { content: \"\\f132\"; }\n.bi-arrow-right-circle-fill::before { content: \"\\f133\"; }\n.bi-arrow-right-circle::before { content: \"\\f134\"; }\n.bi-arrow-right-short::before { content: \"\\f135\"; }\n.bi-arrow-right-square-fill::before { content: \"\\f136\"; }\n.bi-arrow-right-square::before { content: \"\\f137\"; }\n.bi-arrow-right::before { content: \"\\f138\"; }\n.bi-arrow-up-circle-fill::before { content: \"\\f139\"; }\n.bi-arrow-up-circle::before { content: \"\\f13a\"; }\n.bi-arrow-up-left-circle-fill::before { content: \"\\f13b\"; }\n.bi-arrow-up-left-circle::before { content: \"\\f13c\"; }\n.bi-arrow-up-left-square-fill::before { content: \"\\f13d\"; }\n.bi-arrow-up-left-square::before { content: \"\\f13e\"; }\n.bi-arrow-up-left::before { content: \"\\f13f\"; }\n.bi-arrow-up-right-circle-fill::before { content: \"\\f140\"; }\n.bi-arrow-up-right-circle::before { content: \"\\f141\"; }\n.bi-arrow-up-right-square-fill::before { content: \"\\f142\"; }\n.bi-arrow-up-right-square::before { content: \"\\f143\"; }\n.bi-arrow-up-right::before { content: \"\\f144\"; }\n.bi-arrow-up-short::before { content: \"\\f145\"; }\n.bi-arrow-up-square-fill::before { content: \"\\f146\"; }\n.bi-arrow-up-square::before { content: \"\\f147\"; }\n.bi-arrow-up::before { content: \"\\f148\"; }\n.bi-arrows-angle-contract::before { content: \"\\f149\"; }\n.bi-arrows-angle-expand::before { content: \"\\f14a\"; }\n.bi-arrows-collapse::before { content: \"\\f14b\"; }\n.bi-arrows-expand::before { content: \"\\f14c\"; }\n.bi-arrows-fullscreen::before { content: \"\\f14d\"; }\n.bi-arrows-move::before { content: \"\\f14e\"; }\n.bi-aspect-ratio-fill::before { content: \"\\f14f\"; }\n.bi-aspect-ratio::before { content: \"\\f150\"; }\n.bi-asterisk::before { content: \"\\f151\"; }\n.bi-at::before { content: \"\\f152\"; }\n.bi-award-fill::before { content: \"\\f153\"; }\n.bi-award::before { content: \"\\f154\"; }\n.bi-back::before { content: \"\\f155\"; }\n.bi-backspace-fill::before { content: \"\\f156\"; }\n.bi-backspace-reverse-fill::before { content: \"\\f157\"; }\n.bi-backspace-reverse::before { content: \"\\f158\"; }\n.bi-backspace::before { content: \"\\f159\"; }\n.bi-badge-3d-fill::before { content: \"\\f15a\"; }\n.bi-badge-3d::before { content: \"\\f15b\"; }\n.bi-badge-4k-fill::before { content: \"\\f15c\"; }\n.bi-badge-4k::before { content: \"\\f15d\"; }\n.bi-badge-8k-fill::before { content: \"\\f15e\"; }\n.bi-badge-8k::before { content: \"\\f15f\"; }\n.bi-badge-ad-fill::before { content: \"\\f160\"; }\n.bi-badge-ad::before { content: \"\\f161\"; }\n.bi-badge-ar-fill::before { content: \"\\f162\"; }\n.bi-badge-ar::before { content: \"\\f163\"; }\n.bi-badge-cc-fill::before { content: \"\\f164\"; }\n.bi-badge-cc::before { content: \"\\f165\"; }\n.bi-badge-hd-fill::before { content: \"\\f166\"; }\n.bi-badge-hd::before { content: \"\\f167\"; }\n.bi-badge-tm-fill::before { content: \"\\f168\"; }\n.bi-badge-tm::before { content: \"\\f169\"; }\n.bi-badge-vo-fill::before { content: \"\\f16a\"; }\n.bi-badge-vo::before { content: \"\\f16b\"; }\n.bi-badge-vr-fill::before { content: \"\\f16c\"; }\n.bi-badge-vr::before { content: \"\\f16d\"; }\n.bi-badge-wc-fill::before { content: \"\\f16e\"; }\n.bi-badge-wc::before { content: \"\\f16f\"; }\n.bi-bag-check-fill::before { content: \"\\f170\"; }\n.bi-bag-check::before { content: \"\\f171\"; }\n.bi-bag-dash-fill::before { content: \"\\f172\"; }\n.bi-bag-dash::before { content: \"\\f173\"; }\n.bi-bag-fill::before { content: \"\\f174\"; }\n.bi-bag-plus-fill::before { content: \"\\f175\"; }\n.bi-bag-plus::before { content: \"\\f176\"; }\n.bi-bag-x-fill::before { content: \"\\f177\"; }\n.bi-bag-x::before { content: \"\\f178\"; }\n.bi-bag::before { content: \"\\f179\"; }\n.bi-bar-chart-fill::before { content: \"\\f17a\"; }\n.bi-bar-chart-line-fill::before { content: \"\\f17b\"; }\n.bi-bar-chart-line::before { content: \"\\f17c\"; }\n.bi-bar-chart-steps::before { content: \"\\f17d\"; }\n.bi-bar-chart::before { content: \"\\f17e\"; }\n.bi-basket-fill::before { content: \"\\f17f\"; }\n.bi-basket::before { content: \"\\f180\"; }\n.bi-basket2-fill::before { content: \"\\f181\"; }\n.bi-basket2::before { content: \"\\f182\"; }\n.bi-basket3-fill::before { content: \"\\f183\"; }\n.bi-basket3::before { content: \"\\f184\"; }\n.bi-battery-charging::before { content: \"\\f185\"; }\n.bi-battery-full::before { content: \"\\f186\"; }\n.bi-battery-half::before { content: \"\\f187\"; }\n.bi-battery::before { content: \"\\f188\"; }\n.bi-bell-fill::before { content: \"\\f189\"; }\n.bi-bell::before { content: \"\\f18a\"; }\n.bi-bezier::before { content: \"\\f18b\"; }\n.bi-bezier2::before { content: \"\\f18c\"; }\n.bi-bicycle::before { content: \"\\f18d\"; }\n.bi-binoculars-fill::before { content: \"\\f18e\"; }\n.bi-binoculars::before { content: \"\\f18f\"; }\n.bi-blockquote-left::before { content: \"\\f190\"; }\n.bi-blockquote-right::before { content: \"\\f191\"; }\n.bi-book-fill::before { content: \"\\f192\"; }\n.bi-book-half::before { content: \"\\f193\"; }\n.bi-book::before { content: \"\\f194\"; }\n.bi-bookmark-check-fill::before { content: \"\\f195\"; }\n.bi-bookmark-check::before { content: \"\\f196\"; }\n.bi-bookmark-dash-fill::before { content: \"\\f197\"; }\n.bi-bookmark-dash::before { content: \"\\f198\"; }\n.bi-bookmark-fill::before { content: \"\\f199\"; }\n.bi-bookmark-heart-fill::before { content: \"\\f19a\"; }\n.bi-bookmark-heart::before { content: \"\\f19b\"; }\n.bi-bookmark-plus-fill::before { content: \"\\f19c\"; }\n.bi-bookmark-plus::before { content: \"\\f19d\"; }\n.bi-bookmark-star-fill::before { content: \"\\f19e\"; }\n.bi-bookmark-star::before { content: \"\\f19f\"; }\n.bi-bookmark-x-fill::before { content: \"\\f1a0\"; }\n.bi-bookmark-x::before { content: \"\\f1a1\"; }\n.bi-bookmark::before { content: \"\\f1a2\"; }\n.bi-bookmarks-fill::before { content: \"\\f1a3\"; }\n.bi-bookmarks::before { content: \"\\f1a4\"; }\n.bi-bookshelf::before { content: \"\\f1a5\"; }\n.bi-bootstrap-fill::before { content: \"\\f1a6\"; }\n.bi-bootstrap-reboot::before { content: \"\\f1a7\"; }\n.bi-bootstrap::before { content: \"\\f1a8\"; }\n.bi-border-all::before { content: \"\\f1a9\"; }\n.bi-border-bottom::before { content: \"\\f1aa\"; }\n.bi-border-center::before { content: \"\\f1ab\"; }\n.bi-border-inner::before { content: \"\\f1ac\"; }\n.bi-border-left::before { content: \"\\f1ad\"; }\n.bi-border-middle::before { content: \"\\f1ae\"; }\n.bi-border-outer::before { content: \"\\f1af\"; }\n.bi-border-right::before { content: \"\\f1b0\"; }\n.bi-border-style::before { content: \"\\f1b1\"; }\n.bi-border-top::before { content: \"\\f1b2\"; }\n.bi-border-width::before { content: \"\\f1b3\"; }\n.bi-border::before { content: \"\\f1b4\"; }\n.bi-bounding-box-circles::before { content: \"\\f1b5\"; }\n.bi-bounding-box::before { content: \"\\f1b6\"; }\n.bi-box-arrow-down-left::before { content: \"\\f1b7\"; }\n.bi-box-arrow-down-right::before { content: \"\\f1b8\"; }\n.bi-box-arrow-down::before { content: \"\\f1b9\"; }\n.bi-box-arrow-in-down-left::before { content: \"\\f1ba\"; }\n.bi-box-arrow-in-down-right::before { content: \"\\f1bb\"; }\n.bi-box-arrow-in-down::before { content: \"\\f1bc\"; }\n.bi-box-arrow-in-left::before { content: \"\\f1bd\"; }\n.bi-box-arrow-in-right::before { content: \"\\f1be\"; }\n.bi-box-arrow-in-up-left::before { content: \"\\f1bf\"; }\n.bi-box-arrow-in-up-right::before { content: \"\\f1c0\"; }\n.bi-box-arrow-in-up::before { content: \"\\f1c1\"; }\n.bi-box-arrow-left::before { content: \"\\f1c2\"; }\n.bi-box-arrow-right::before { content: \"\\f1c3\"; }\n.bi-box-arrow-up-left::before { content: \"\\f1c4\"; }\n.bi-box-arrow-up-right::before { content: \"\\f1c5\"; }\n.bi-box-arrow-up::before { content: \"\\f1c6\"; }\n.bi-box-seam::before { content: \"\\f1c7\"; }\n.bi-box::before { content: \"\\f1c8\"; }\n.bi-braces::before { content: \"\\f1c9\"; }\n.bi-bricks::before { content: \"\\f1ca\"; }\n.bi-briefcase-fill::before { content: \"\\f1cb\"; }\n.bi-briefcase::before { content: \"\\f1cc\"; }\n.bi-brightness-alt-high-fill::before { content: \"\\f1cd\"; }\n.bi-brightness-alt-high::before { content: \"\\f1ce\"; }\n.bi-brightness-alt-low-fill::before { content: \"\\f1cf\"; }\n.bi-brightness-alt-low::before { content: \"\\f1d0\"; }\n.bi-brightness-high-fill::before { content: \"\\f1d1\"; }\n.bi-brightness-high::before { content: \"\\f1d2\"; }\n.bi-brightness-low-fill::before { content: \"\\f1d3\"; }\n.bi-brightness-low::before { content: \"\\f1d4\"; }\n.bi-broadcast-pin::before { content: \"\\f1d5\"; }\n.bi-broadcast::before { content: \"\\f1d6\"; }\n.bi-brush-fill::before { content: \"\\f1d7\"; }\n.bi-brush::before { content: \"\\f1d8\"; }\n.bi-bucket-fill::before { content: \"\\f1d9\"; }\n.bi-bucket::before { content: \"\\f1da\"; }\n.bi-bug-fill::before { content: \"\\f1db\"; }\n.bi-bug::before { content: \"\\f1dc\"; }\n.bi-building::before { content: \"\\f1dd\"; }\n.bi-bullseye::before { content: \"\\f1de\"; }\n.bi-calculator-fill::before { content: \"\\f1df\"; }\n.bi-calculator::before { content: \"\\f1e0\"; }\n.bi-calendar-check-fill::before { content: \"\\f1e1\"; }\n.bi-calendar-check::before { content: \"\\f1e2\"; }\n.bi-calendar-date-fill::before { content: \"\\f1e3\"; }\n.bi-calendar-date::before { content: \"\\f1e4\"; }\n.bi-calendar-day-fill::before { content: \"\\f1e5\"; }\n.bi-calendar-day::before { content: \"\\f1e6\"; }\n.bi-calendar-event-fill::before { content: \"\\f1e7\"; }\n.bi-calendar-event::before { content: \"\\f1e8\"; }\n.bi-calendar-fill::before { content: \"\\f1e9\"; }\n.bi-calendar-minus-fill::before { content: \"\\f1ea\"; }\n.bi-calendar-minus::before { content: \"\\f1eb\"; }\n.bi-calendar-month-fill::before { content: \"\\f1ec\"; }\n.bi-calendar-month::before { content: \"\\f1ed\"; }\n.bi-calendar-plus-fill::before { content: \"\\f1ee\"; }\n.bi-calendar-plus::before { content: \"\\f1ef\"; }\n.bi-calendar-range-fill::before { content: \"\\f1f0\"; }\n.bi-calendar-range::before { content: \"\\f1f1\"; }\n.bi-calendar-week-fill::before { content: \"\\f1f2\"; }\n.bi-calendar-week::before { content: \"\\f1f3\"; }\n.bi-calendar-x-fill::before { content: \"\\f1f4\"; }\n.bi-calendar-x::before { content: \"\\f1f5\"; }\n.bi-calendar::before { content: \"\\f1f6\"; }\n.bi-calendar2-check-fill::before { content: \"\\f1f7\"; }\n.bi-calendar2-check::before { content: \"\\f1f8\"; }\n.bi-calendar2-date-fill::before { content: \"\\f1f9\"; }\n.bi-calendar2-date::before { content: \"\\f1fa\"; }\n.bi-calendar2-day-fill::before { content: \"\\f1fb\"; }\n.bi-calendar2-day::before { content: \"\\f1fc\"; }\n.bi-calendar2-event-fill::before { content: \"\\f1fd\"; }\n.bi-calendar2-event::before { content: \"\\f1fe\"; }\n.bi-calendar2-fill::before { content: \"\\f1ff\"; }\n.bi-calendar2-minus-fill::before { content: \"\\f200\"; }\n.bi-calendar2-minus::before { content: \"\\f201\"; }\n.bi-calendar2-month-fill::before { content: \"\\f202\"; }\n.bi-calendar2-month::before { content: \"\\f203\"; }\n.bi-calendar2-plus-fill::before { content: \"\\f204\"; }\n.bi-calendar2-plus::before { content: \"\\f205\"; }\n.bi-calendar2-range-fill::before { content: \"\\f206\"; }\n.bi-calendar2-range::before { content: \"\\f207\"; }\n.bi-calendar2-week-fill::before { content: \"\\f208\"; }\n.bi-calendar2-week::before { content: \"\\f209\"; }\n.bi-calendar2-x-fill::before { content: \"\\f20a\"; }\n.bi-calendar2-x::before { content: \"\\f20b\"; }\n.bi-calendar2::before { content: \"\\f20c\"; }\n.bi-calendar3-event-fill::before { content: \"\\f20d\"; }\n.bi-calendar3-event::before { content: \"\\f20e\"; }\n.bi-calendar3-fill::before { content: \"\\f20f\"; }\n.bi-calendar3-range-fill::before { content: \"\\f210\"; }\n.bi-calendar3-range::before { content: \"\\f211\"; }\n.bi-calendar3-week-fill::before { content: \"\\f212\"; }\n.bi-calendar3-week::before { content: \"\\f213\"; }\n.bi-calendar3::before { content: \"\\f214\"; }\n.bi-calendar4-event::before { content: \"\\f215\"; }\n.bi-calendar4-range::before { content: \"\\f216\"; }\n.bi-calendar4-week::before { content: \"\\f217\"; }\n.bi-calendar4::before { content: \"\\f218\"; }\n.bi-camera-fill::before { content: \"\\f219\"; }\n.bi-camera-reels-fill::before { content: \"\\f21a\"; }\n.bi-camera-reels::before { content: \"\\f21b\"; }\n.bi-camera-video-fill::before { content: \"\\f21c\"; }\n.bi-camera-video-off-fill::before { content: \"\\f21d\"; }\n.bi-camera-video-off::before { content: \"\\f21e\"; }\n.bi-camera-video::before { content: \"\\f21f\"; }\n.bi-camera::before { content: \"\\f220\"; }\n.bi-camera2::before { content: \"\\f221\"; }\n.bi-capslock-fill::before { content: \"\\f222\"; }\n.bi-capslock::before { content: \"\\f223\"; }\n.bi-card-checklist::before { content: \"\\f224\"; }\n.bi-card-heading::before { content: \"\\f225\"; }\n.bi-card-image::before { content: \"\\f226\"; }\n.bi-card-list::before { content: \"\\f227\"; }\n.bi-card-text::before { content: \"\\f228\"; }\n.bi-caret-down-fill::before { content: \"\\f229\"; }\n.bi-caret-down-square-fill::before { content: \"\\f22a\"; }\n.bi-caret-down-square::before { content: \"\\f22b\"; }\n.bi-caret-down::before { content: \"\\f22c\"; }\n.bi-caret-left-fill::before { content: \"\\f22d\"; }\n.bi-caret-left-square-fill::before { content: \"\\f22e\"; }\n.bi-caret-left-square::before { content: \"\\f22f\"; }\n.bi-caret-left::before { content: \"\\f230\"; }\n.bi-caret-right-fill::before { content: \"\\f231\"; }\n.bi-caret-right-square-fill::before { content: \"\\f232\"; }\n.bi-caret-right-square::before { content: \"\\f233\"; }\n.bi-caret-right::before { content: \"\\f234\"; }\n.bi-caret-up-fill::before { content: \"\\f235\"; }\n.bi-caret-up-square-fill::before { content: \"\\f236\"; }\n.bi-caret-up-square::before { content: \"\\f237\"; }\n.bi-caret-up::before { content: \"\\f238\"; }\n.bi-cart-check-fill::before { content: \"\\f239\"; }\n.bi-cart-check::before { content: \"\\f23a\"; }\n.bi-cart-dash-fill::before { content: \"\\f23b\"; }\n.bi-cart-dash::before { content: \"\\f23c\"; }\n.bi-cart-fill::before { content: \"\\f23d\"; }\n.bi-cart-plus-fill::before { content: \"\\f23e\"; }\n.bi-cart-plus::before { content: \"\\f23f\"; }\n.bi-cart-x-fill::before { content: \"\\f240\"; }\n.bi-cart-x::before { content: \"\\f241\"; }\n.bi-cart::before { content: \"\\f242\"; }\n.bi-cart2::before { content: \"\\f243\"; }\n.bi-cart3::before { content: \"\\f244\"; }\n.bi-cart4::before { content: \"\\f245\"; }\n.bi-cash-stack::before { content: \"\\f246\"; }\n.bi-cash::before { content: \"\\f247\"; }\n.bi-cast::before { content: \"\\f248\"; }\n.bi-chat-dots-fill::before { content: \"\\f249\"; }\n.bi-chat-dots::before { content: \"\\f24a\"; }\n.bi-chat-fill::before { content: \"\\f24b\"; }\n.bi-chat-left-dots-fill::before { content: \"\\f24c\"; }\n.bi-chat-left-dots::before { content: \"\\f24d\"; }\n.bi-chat-left-fill::before { content: \"\\f24e\"; }\n.bi-chat-left-quote-fill::before { content: \"\\f24f\"; }\n.bi-chat-left-quote::before { content: \"\\f250\"; }\n.bi-chat-left-text-fill::before { content: \"\\f251\"; }\n.bi-chat-left-text::before { content: \"\\f252\"; }\n.bi-chat-left::before { content: \"\\f253\"; }\n.bi-chat-quote-fill::before { content: \"\\f254\"; }\n.bi-chat-quote::before { content: \"\\f255\"; }\n.bi-chat-right-dots-fill::before { content: \"\\f256\"; }\n.bi-chat-right-dots::before { content: \"\\f257\"; }\n.bi-chat-right-fill::before { content: \"\\f258\"; }\n.bi-chat-right-quote-fill::before { content: \"\\f259\"; }\n.bi-chat-right-quote::before { content: \"\\f25a\"; }\n.bi-chat-right-text-fill::before { content: \"\\f25b\"; }\n.bi-chat-right-text::before { content: \"\\f25c\"; }\n.bi-chat-right::before { content: \"\\f25d\"; }\n.bi-chat-square-dots-fill::before { content: \"\\f25e\"; }\n.bi-chat-square-dots::before { content: \"\\f25f\"; }\n.bi-chat-square-fill::before { content: \"\\f260\"; }\n.bi-chat-square-quote-fill::before { content: \"\\f261\"; }\n.bi-chat-square-quote::before { content: \"\\f262\"; }\n.bi-chat-square-text-fill::before { content: \"\\f263\"; }\n.bi-chat-square-text::before { content: \"\\f264\"; }\n.bi-chat-square::before { content: \"\\f265\"; }\n.bi-chat-text-fill::before { content: \"\\f266\"; }\n.bi-chat-text::before { content: \"\\f267\"; }\n.bi-chat::before { content: \"\\f268\"; }\n.bi-check-all::before { content: \"\\f269\"; }\n.bi-check-circle-fill::before { content: \"\\f26a\"; }\n.bi-check-circle::before { content: \"\\f26b\"; }\n.bi-check-square-fill::before { content: \"\\f26c\"; }\n.bi-check-square::before { content: \"\\f26d\"; }\n.bi-check::before { content: \"\\f26e\"; }\n.bi-check2-all::before { content: \"\\f26f\"; }\n.bi-check2-circle::before { content: \"\\f270\"; }\n.bi-check2-square::before { content: \"\\f271\"; }\n.bi-check2::before { content: \"\\f272\"; }\n.bi-chevron-bar-contract::before { content: \"\\f273\"; }\n.bi-chevron-bar-down::before { content: \"\\f274\"; }\n.bi-chevron-bar-expand::before { content: \"\\f275\"; }\n.bi-chevron-bar-left::before { content: \"\\f276\"; }\n.bi-chevron-bar-right::before { content: \"\\f277\"; }\n.bi-chevron-bar-up::before { content: \"\\f278\"; }\n.bi-chevron-compact-down::before { content: \"\\f279\"; }\n.bi-chevron-compact-left::before { content: \"\\f27a\"; }\n.bi-chevron-compact-right::before { content: \"\\f27b\"; }\n.bi-chevron-compact-up::before { content: \"\\f27c\"; }\n.bi-chevron-contract::before { content: \"\\f27d\"; }\n.bi-chevron-double-down::before { content: \"\\f27e\"; }\n.bi-chevron-double-left::before { content: \"\\f27f\"; }\n.bi-chevron-double-right::before { content: \"\\f280\"; }\n.bi-chevron-double-up::before { content: \"\\f281\"; }\n.bi-chevron-down::before { content: \"\\f282\"; }\n.bi-chevron-expand::before { content: \"\\f283\"; }\n.bi-chevron-left::before { content: \"\\f284\"; }\n.bi-chevron-right::before { content: \"\\f285\"; }\n.bi-chevron-up::before { content: \"\\f286\"; }\n.bi-circle-fill::before { content: \"\\f287\"; }\n.bi-circle-half::before { content: \"\\f288\"; }\n.bi-circle-square::before { content: \"\\f289\"; }\n.bi-circle::before { content: \"\\f28a\"; }\n.bi-clipboard-check::before { content: \"\\f28b\"; }\n.bi-clipboard-data::before { content: \"\\f28c\"; }\n.bi-clipboard-minus::before { content: \"\\f28d\"; }\n.bi-clipboard-plus::before { content: \"\\f28e\"; }\n.bi-clipboard-x::before { content: \"\\f28f\"; }\n.bi-clipboard::before { content: \"\\f290\"; }\n.bi-clock-fill::before { content: \"\\f291\"; }\n.bi-clock-history::before { content: \"\\f292\"; }\n.bi-clock::before { content: \"\\f293\"; }\n.bi-cloud-arrow-down-fill::before { content: \"\\f294\"; }\n.bi-cloud-arrow-down::before { content: \"\\f295\"; }\n.bi-cloud-arrow-up-fill::before { content: \"\\f296\"; }\n.bi-cloud-arrow-up::before { content: \"\\f297\"; }\n.bi-cloud-check-fill::before { content: \"\\f298\"; }\n.bi-cloud-check::before { content: \"\\f299\"; }\n.bi-cloud-download-fill::before { content: \"\\f29a\"; }\n.bi-cloud-download::before { content: \"\\f29b\"; }\n.bi-cloud-drizzle-fill::before { content: \"\\f29c\"; }\n.bi-cloud-drizzle::before { content: \"\\f29d\"; }\n.bi-cloud-fill::before { content: \"\\f29e\"; }\n.bi-cloud-fog-fill::before { content: \"\\f29f\"; }\n.bi-cloud-fog::before { content: \"\\f2a0\"; }\n.bi-cloud-fog2-fill::before { content: \"\\f2a1\"; }\n.bi-cloud-fog2::before { content: \"\\f2a2\"; }\n.bi-cloud-hail-fill::before { content: \"\\f2a3\"; }\n.bi-cloud-hail::before { content: \"\\f2a4\"; }\n.bi-cloud-haze-1::before { content: \"\\f2a5\"; }\n.bi-cloud-haze-fill::before { content: \"\\f2a6\"; }\n.bi-cloud-haze::before { content: \"\\f2a7\"; }\n.bi-cloud-haze2-fill::before { content: \"\\f2a8\"; }\n.bi-cloud-lightning-fill::before { content: \"\\f2a9\"; }\n.bi-cloud-lightning-rain-fill::before { content: \"\\f2aa\"; }\n.bi-cloud-lightning-rain::before { content: \"\\f2ab\"; }\n.bi-cloud-lightning::before { content: \"\\f2ac\"; }\n.bi-cloud-minus-fill::before { content: \"\\f2ad\"; }\n.bi-cloud-minus::before { content: \"\\f2ae\"; }\n.bi-cloud-moon-fill::before { content: \"\\f2af\"; }\n.bi-cloud-moon::before { content: \"\\f2b0\"; }\n.bi-cloud-plus-fill::before { content: \"\\f2b1\"; }\n.bi-cloud-plus::before { content: \"\\f2b2\"; }\n.bi-cloud-rain-fill::before { content: \"\\f2b3\"; }\n.bi-cloud-rain-heavy-fill::before { content: \"\\f2b4\"; }\n.bi-cloud-rain-heavy::before { content: \"\\f2b5\"; }\n.bi-cloud-rain::before { content: \"\\f2b6\"; }\n.bi-cloud-slash-fill::before { content: \"\\f2b7\"; }\n.bi-cloud-slash::before { content: \"\\f2b8\"; }\n.bi-cloud-sleet-fill::before { content: \"\\f2b9\"; }\n.bi-cloud-sleet::before { content: \"\\f2ba\"; }\n.bi-cloud-snow-fill::before { content: \"\\f2bb\"; }\n.bi-cloud-snow::before { content: \"\\f2bc\"; }\n.bi-cloud-sun-fill::before { content: \"\\f2bd\"; }\n.bi-cloud-sun::before { content: \"\\f2be\"; }\n.bi-cloud-upload-fill::before { content: \"\\f2bf\"; }\n.bi-cloud-upload::before { content: \"\\f2c0\"; }\n.bi-cloud::before { content: \"\\f2c1\"; }\n.bi-clouds-fill::before { content: \"\\f2c2\"; }\n.bi-clouds::before { content: \"\\f2c3\"; }\n.bi-cloudy-fill::before { content: \"\\f2c4\"; }\n.bi-cloudy::before { content: \"\\f2c5\"; }\n.bi-code-slash::before { content: \"\\f2c6\"; }\n.bi-code-square::before { content: \"\\f2c7\"; }\n.bi-code::before { content: \"\\f2c8\"; }\n.bi-collection-fill::before { content: \"\\f2c9\"; }\n.bi-collection-play-fill::before { content: \"\\f2ca\"; }\n.bi-collection-play::before { content: \"\\f2cb\"; }\n.bi-collection::before { content: \"\\f2cc\"; }\n.bi-columns-gap::before { content: \"\\f2cd\"; }\n.bi-columns::before { content: \"\\f2ce\"; }\n.bi-command::before { content: \"\\f2cf\"; }\n.bi-compass-fill::before { content: \"\\f2d0\"; }\n.bi-compass::before { content: \"\\f2d1\"; }\n.bi-cone-striped::before { content: \"\\f2d2\"; }\n.bi-cone::before { content: \"\\f2d3\"; }\n.bi-controller::before { content: \"\\f2d4\"; }\n.bi-cpu-fill::before { content: \"\\f2d5\"; }\n.bi-cpu::before { content: \"\\f2d6\"; }\n.bi-credit-card-2-back-fill::before { content: \"\\f2d7\"; }\n.bi-credit-card-2-back::before { content: \"\\f2d8\"; }\n.bi-credit-card-2-front-fill::before { content: \"\\f2d9\"; }\n.bi-credit-card-2-front::before { content: \"\\f2da\"; }\n.bi-credit-card-fill::before { content: \"\\f2db\"; }\n.bi-credit-card::before { content: \"\\f2dc\"; }\n.bi-crop::before { content: \"\\f2dd\"; }\n.bi-cup-fill::before { content: \"\\f2de\"; }\n.bi-cup-straw::before { content: \"\\f2df\"; }\n.bi-cup::before { content: \"\\f2e0\"; }\n.bi-cursor-fill::before { content: \"\\f2e1\"; }\n.bi-cursor-text::before { content: \"\\f2e2\"; }\n.bi-cursor::before { content: \"\\f2e3\"; }\n.bi-dash-circle-dotted::before { content: \"\\f2e4\"; }\n.bi-dash-circle-fill::before { content: \"\\f2e5\"; }\n.bi-dash-circle::before { content: \"\\f2e6\"; }\n.bi-dash-square-dotted::before { content: \"\\f2e7\"; }\n.bi-dash-square-fill::before { content: \"\\f2e8\"; }\n.bi-dash-square::before { content: \"\\f2e9\"; }\n.bi-dash::before { content: \"\\f2ea\"; }\n.bi-diagram-2-fill::before { content: \"\\f2eb\"; }\n.bi-diagram-2::before { content: \"\\f2ec\"; }\n.bi-diagram-3-fill::before { content: \"\\f2ed\"; }\n.bi-diagram-3::before { content: \"\\f2ee\"; }\n.bi-diamond-fill::before { content: \"\\f2ef\"; }\n.bi-diamond-half::before { content: \"\\f2f0\"; }\n.bi-diamond::before { content: \"\\f2f1\"; }\n.bi-dice-1-fill::before { content: \"\\f2f2\"; }\n.bi-dice-1::before { content: \"\\f2f3\"; }\n.bi-dice-2-fill::before { content: \"\\f2f4\"; }\n.bi-dice-2::before { content: \"\\f2f5\"; }\n.bi-dice-3-fill::before { content: \"\\f2f6\"; }\n.bi-dice-3::before { content: \"\\f2f7\"; }\n.bi-dice-4-fill::before { content: \"\\f2f8\"; }\n.bi-dice-4::before { content: \"\\f2f9\"; }\n.bi-dice-5-fill::before { content: \"\\f2fa\"; }\n.bi-dice-5::before { content: \"\\f2fb\"; }\n.bi-dice-6-fill::before { content: \"\\f2fc\"; }\n.bi-dice-6::before { content: \"\\f2fd\"; }\n.bi-disc-fill::before { content: \"\\f2fe\"; }\n.bi-disc::before { content: \"\\f2ff\"; }\n.bi-discord::before { content: \"\\f300\"; }\n.bi-display-fill::before { content: \"\\f301\"; }\n.bi-display::before { content: \"\\f302\"; }\n.bi-distribute-horizontal::before { content: \"\\f303\"; }\n.bi-distribute-vertical::before { content: \"\\f304\"; }\n.bi-door-closed-fill::before { content: \"\\f305\"; }\n.bi-door-closed::before { content: \"\\f306\"; }\n.bi-door-open-fill::before { content: \"\\f307\"; }\n.bi-door-open::before { content: \"\\f308\"; }\n.bi-dot::before { content: \"\\f309\"; }\n.bi-download::before { content: \"\\f30a\"; }\n.bi-droplet-fill::before { content: \"\\f30b\"; }\n.bi-droplet-half::before { content: \"\\f30c\"; }\n.bi-droplet::before { content: \"\\f30d\"; }\n.bi-earbuds::before { content: \"\\f30e\"; }\n.bi-easel-fill::before { content: \"\\f30f\"; }\n.bi-easel::before { content: \"\\f310\"; }\n.bi-egg-fill::before { content: \"\\f311\"; }\n.bi-egg-fried::before { content: \"\\f312\"; }\n.bi-egg::before { content: \"\\f313\"; }\n.bi-eject-fill::before { content: \"\\f314\"; }\n.bi-eject::before { content: \"\\f315\"; }\n.bi-emoji-angry-fill::before { content: \"\\f316\"; }\n.bi-emoji-angry::before { content: \"\\f317\"; }\n.bi-emoji-dizzy-fill::before { content: \"\\f318\"; }\n.bi-emoji-dizzy::before { content: \"\\f319\"; }\n.bi-emoji-expressionless-fill::before { content: \"\\f31a\"; }\n.bi-emoji-expressionless::before { content: \"\\f31b\"; }\n.bi-emoji-frown-fill::before { content: \"\\f31c\"; }\n.bi-emoji-frown::before { content: \"\\f31d\"; }\n.bi-emoji-heart-eyes-fill::before { content: \"\\f31e\"; }\n.bi-emoji-heart-eyes::before { content: \"\\f31f\"; }\n.bi-emoji-laughing-fill::before { content: \"\\f320\"; }\n.bi-emoji-laughing::before { content: \"\\f321\"; }\n.bi-emoji-neutral-fill::before { content: \"\\f322\"; }\n.bi-emoji-neutral::before { content: \"\\f323\"; }\n.bi-emoji-smile-fill::before { content: \"\\f324\"; }\n.bi-emoji-smile-upside-down-fill::before { content: \"\\f325\"; }\n.bi-emoji-smile-upside-down::before { content: \"\\f326\"; }\n.bi-emoji-smile::before { content: \"\\f327\"; }\n.bi-emoji-sunglasses-fill::before { content: \"\\f328\"; }\n.bi-emoji-sunglasses::before { content: \"\\f329\"; }\n.bi-emoji-wink-fill::before { content: \"\\f32a\"; }\n.bi-emoji-wink::before { content: \"\\f32b\"; }\n.bi-envelope-fill::before { content: \"\\f32c\"; }\n.bi-envelope-open-fill::before { content: \"\\f32d\"; }\n.bi-envelope-open::before { content: \"\\f32e\"; }\n.bi-envelope::before { content: \"\\f32f\"; }\n.bi-eraser-fill::before { content: \"\\f330\"; }\n.bi-eraser::before { content: \"\\f331\"; }\n.bi-exclamation-circle-fill::before { content: \"\\f332\"; }\n.bi-exclamation-circle::before { content: \"\\f333\"; }\n.bi-exclamation-diamond-fill::before { content: \"\\f334\"; }\n.bi-exclamation-diamond::before { content: \"\\f335\"; }\n.bi-exclamation-octagon-fill::before { content: \"\\f336\"; }\n.bi-exclamation-octagon::before { content: \"\\f337\"; }\n.bi-exclamation-square-fill::before { content: \"\\f338\"; }\n.bi-exclamation-square::before { content: \"\\f339\"; }\n.bi-exclamation-triangle-fill::before { content: \"\\f33a\"; }\n.bi-exclamation-triangle::before { content: \"\\f33b\"; }\n.bi-exclamation::before { content: \"\\f33c\"; }\n.bi-exclude::before { content: \"\\f33d\"; }\n.bi-eye-fill::before { content: \"\\f33e\"; }\n.bi-eye-slash-fill::before { content: \"\\f33f\"; }\n.bi-eye-slash::before { content: \"\\f340\"; }\n.bi-eye::before { content: \"\\f341\"; }\n.bi-eyedropper::before { content: \"\\f342\"; }\n.bi-eyeglasses::before { content: \"\\f343\"; }\n.bi-facebook::before { content: \"\\f344\"; }\n.bi-file-arrow-down-fill::before { content: \"\\f345\"; }\n.bi-file-arrow-down::before { content: \"\\f346\"; }\n.bi-file-arrow-up-fill::before { content: \"\\f347\"; }\n.bi-file-arrow-up::before { content: \"\\f348\"; }\n.bi-file-bar-graph-fill::before { content: \"\\f349\"; }\n.bi-file-bar-graph::before { content: \"\\f34a\"; }\n.bi-file-binary-fill::before { content: \"\\f34b\"; }\n.bi-file-binary::before { content: \"\\f34c\"; }\n.bi-file-break-fill::before { content: \"\\f34d\"; }\n.bi-file-break::before { content: \"\\f34e\"; }\n.bi-file-check-fill::before { content: \"\\f34f\"; }\n.bi-file-check::before { content: \"\\f350\"; }\n.bi-file-code-fill::before { content: \"\\f351\"; }\n.bi-file-code::before { content: \"\\f352\"; }\n.bi-file-diff-fill::before { content: \"\\f353\"; }\n.bi-file-diff::before { content: \"\\f354\"; }\n.bi-file-earmark-arrow-down-fill::before { content: \"\\f355\"; }\n.bi-file-earmark-arrow-down::before { content: \"\\f356\"; }\n.bi-file-earmark-arrow-up-fill::before { content: \"\\f357\"; }\n.bi-file-earmark-arrow-up::before { content: \"\\f358\"; }\n.bi-file-earmark-bar-graph-fill::before { content: \"\\f359\"; }\n.bi-file-earmark-bar-graph::before { content: \"\\f35a\"; }\n.bi-file-earmark-binary-fill::before { content: \"\\f35b\"; }\n.bi-file-earmark-binary::before { content: \"\\f35c\"; }\n.bi-file-earmark-break-fill::before { content: \"\\f35d\"; }\n.bi-file-earmark-break::before { content: \"\\f35e\"; }\n.bi-file-earmark-check-fill::before { content: \"\\f35f\"; }\n.bi-file-earmark-check::before { content: \"\\f360\"; }\n.bi-file-earmark-code-fill::before { content: \"\\f361\"; }\n.bi-file-earmark-code::before { content: \"\\f362\"; }\n.bi-file-earmark-diff-fill::before { content: \"\\f363\"; }\n.bi-file-earmark-diff::before { content: \"\\f364\"; }\n.bi-file-earmark-easel-fill::before { content: \"\\f365\"; }\n.bi-file-earmark-easel::before { content: \"\\f366\"; }\n.bi-file-earmark-excel-fill::before { content: \"\\f367\"; }\n.bi-file-earmark-excel::before { content: \"\\f368\"; }\n.bi-file-earmark-fill::before { content: \"\\f369\"; }\n.bi-file-earmark-font-fill::before { content: \"\\f36a\"; }\n.bi-file-earmark-font::before { content: \"\\f36b\"; }\n.bi-file-earmark-image-fill::before { content: \"\\f36c\"; }\n.bi-file-earmark-image::before { content: \"\\f36d\"; }\n.bi-file-earmark-lock-fill::before { content: \"\\f36e\"; }\n.bi-file-earmark-lock::before { content: \"\\f36f\"; }\n.bi-file-earmark-lock2-fill::before { content: \"\\f370\"; }\n.bi-file-earmark-lock2::before { content: \"\\f371\"; }\n.bi-file-earmark-medical-fill::before { content: \"\\f372\"; }\n.bi-file-earmark-medical::before { content: \"\\f373\"; }\n.bi-file-earmark-minus-fill::before { content: \"\\f374\"; }\n.bi-file-earmark-minus::before { content: \"\\f375\"; }\n.bi-file-earmark-music-fill::before { content: \"\\f376\"; }\n.bi-file-earmark-music::before { content: \"\\f377\"; }\n.bi-file-earmark-person-fill::before { content: \"\\f378\"; }\n.bi-file-earmark-person::before { content: \"\\f379\"; }\n.bi-file-earmark-play-fill::before { content: \"\\f37a\"; }\n.bi-file-earmark-play::before { content: \"\\f37b\"; }\n.bi-file-earmark-plus-fill::before { content: \"\\f37c\"; }\n.bi-file-earmark-plus::before { content: \"\\f37d\"; }\n.bi-file-earmark-post-fill::before { content: \"\\f37e\"; }\n.bi-file-earmark-post::before { content: \"\\f37f\"; }\n.bi-file-earmark-ppt-fill::before { content: \"\\f380\"; }\n.bi-file-earmark-ppt::before { content: \"\\f381\"; }\n.bi-file-earmark-richtext-fill::before { content: \"\\f382\"; }\n.bi-file-earmark-richtext::before { content: \"\\f383\"; }\n.bi-file-earmark-ruled-fill::before { content: \"\\f384\"; }\n.bi-file-earmark-ruled::before { content: \"\\f385\"; }\n.bi-file-earmark-slides-fill::before { content: \"\\f386\"; }\n.bi-file-earmark-slides::before { content: \"\\f387\"; }\n.bi-file-earmark-spreadsheet-fill::before { content: \"\\f388\"; }\n.bi-file-earmark-spreadsheet::before { content: \"\\f389\"; }\n.bi-file-earmark-text-fill::before { content: \"\\f38a\"; }\n.bi-file-earmark-text::before { content: \"\\f38b\"; }\n.bi-file-earmark-word-fill::before { content: \"\\f38c\"; }\n.bi-file-earmark-word::before { content: \"\\f38d\"; }\n.bi-file-earmark-x-fill::before { content: \"\\f38e\"; }\n.bi-file-earmark-x::before { content: \"\\f38f\"; }\n.bi-file-earmark-zip-fill::before { content: \"\\f390\"; }\n.bi-file-earmark-zip::before { content: \"\\f391\"; }\n.bi-file-earmark::before { content: \"\\f392\"; }\n.bi-file-easel-fill::before { content: \"\\f393\"; }\n.bi-file-easel::before { content: \"\\f394\"; }\n.bi-file-excel-fill::before { content: \"\\f395\"; }\n.bi-file-excel::before { content: \"\\f396\"; }\n.bi-file-fill::before { content: \"\\f397\"; }\n.bi-file-font-fill::before { content: \"\\f398\"; }\n.bi-file-font::before { content: \"\\f399\"; }\n.bi-file-image-fill::before { content: \"\\f39a\"; }\n.bi-file-image::before { content: \"\\f39b\"; }\n.bi-file-lock-fill::before { content: \"\\f39c\"; }\n.bi-file-lock::before { content: \"\\f39d\"; }\n.bi-file-lock2-fill::before { content: \"\\f39e\"; }\n.bi-file-lock2::before { content: \"\\f39f\"; }\n.bi-file-medical-fill::before { content: \"\\f3a0\"; }\n.bi-file-medical::before { content: \"\\f3a1\"; }\n.bi-file-minus-fill::before { content: \"\\f3a2\"; }\n.bi-file-minus::before { content: \"\\f3a3\"; }\n.bi-file-music-fill::before { content: \"\\f3a4\"; }\n.bi-file-music::before { content: \"\\f3a5\"; }\n.bi-file-person-fill::before { content: \"\\f3a6\"; }\n.bi-file-person::before { content: \"\\f3a7\"; }\n.bi-file-play-fill::before { content: \"\\f3a8\"; }\n.bi-file-play::before { content: \"\\f3a9\"; }\n.bi-file-plus-fill::before { content: \"\\f3aa\"; }\n.bi-file-plus::before { content: \"\\f3ab\"; }\n.bi-file-post-fill::before { content: \"\\f3ac\"; }\n.bi-file-post::before { content: \"\\f3ad\"; }\n.bi-file-ppt-fill::before { content: \"\\f3ae\"; }\n.bi-file-ppt::before { content: \"\\f3af\"; }\n.bi-file-richtext-fill::before { content: \"\\f3b0\"; }\n.bi-file-richtext::before { content: \"\\f3b1\"; }\n.bi-file-ruled-fill::before { content: \"\\f3b2\"; }\n.bi-file-ruled::before { content: \"\\f3b3\"; }\n.bi-file-slides-fill::before { content: \"\\f3b4\"; }\n.bi-file-slides::before { content: \"\\f3b5\"; }\n.bi-file-spreadsheet-fill::before { content: \"\\f3b6\"; }\n.bi-file-spreadsheet::before { content: \"\\f3b7\"; }\n.bi-file-text-fill::before { content: \"\\f3b8\"; }\n.bi-file-text::before { content: \"\\f3b9\"; }\n.bi-file-word-fill::before { content: \"\\f3ba\"; }\n.bi-file-word::before { content: \"\\f3bb\"; }\n.bi-file-x-fill::before { content: \"\\f3bc\"; }\n.bi-file-x::before { content: \"\\f3bd\"; }\n.bi-file-zip-fill::before { content: \"\\f3be\"; }\n.bi-file-zip::before { content: \"\\f3bf\"; }\n.bi-file::before { content: \"\\f3c0\"; }\n.bi-files-alt::before { content: \"\\f3c1\"; }\n.bi-files::before { content: \"\\f3c2\"; }\n.bi-film::before { content: \"\\f3c3\"; }\n.bi-filter-circle-fill::before { content: \"\\f3c4\"; }\n.bi-filter-circle::before { content: \"\\f3c5\"; }\n.bi-filter-left::before { content: \"\\f3c6\"; }\n.bi-filter-right::before { content: \"\\f3c7\"; }\n.bi-filter-square-fill::before { content: \"\\f3c8\"; }\n.bi-filter-square::before { content: \"\\f3c9\"; }\n.bi-filter::before { content: \"\\f3ca\"; }\n.bi-flag-fill::before { content: \"\\f3cb\"; }\n.bi-flag::before { content: \"\\f3cc\"; }\n.bi-flower1::before { content: \"\\f3cd\"; }\n.bi-flower2::before { content: \"\\f3ce\"; }\n.bi-flower3::before { content: \"\\f3cf\"; }\n.bi-folder-check::before { content: \"\\f3d0\"; }\n.bi-folder-fill::before { content: \"\\f3d1\"; }\n.bi-folder-minus::before { content: \"\\f3d2\"; }\n.bi-folder-plus::before { content: \"\\f3d3\"; }\n.bi-folder-symlink-fill::before { content: \"\\f3d4\"; }\n.bi-folder-symlink::before { content: \"\\f3d5\"; }\n.bi-folder-x::before { content: \"\\f3d6\"; }\n.bi-folder::before { content: \"\\f3d7\"; }\n.bi-folder2-open::before { content: \"\\f3d8\"; }\n.bi-folder2::before { content: \"\\f3d9\"; }\n.bi-fonts::before { content: \"\\f3da\"; }\n.bi-forward-fill::before { content: \"\\f3db\"; }\n.bi-forward::before { content: \"\\f3dc\"; }\n.bi-front::before { content: \"\\f3dd\"; }\n.bi-fullscreen-exit::before { content: \"\\f3de\"; }\n.bi-fullscreen::before { content: \"\\f3df\"; }\n.bi-funnel-fill::before { content: \"\\f3e0\"; }\n.bi-funnel::before { content: \"\\f3e1\"; }\n.bi-gear-fill::before { content: \"\\f3e2\"; }\n.bi-gear-wide-connected::before { content: \"\\f3e3\"; }\n.bi-gear-wide::before { content: \"\\f3e4\"; }\n.bi-gear::before { content: \"\\f3e5\"; }\n.bi-gem::before { content: \"\\f3e6\"; }\n.bi-geo-alt-fill::before { content: \"\\f3e7\"; }\n.bi-geo-alt::before { content: \"\\f3e8\"; }\n.bi-geo-fill::before { content: \"\\f3e9\"; }\n.bi-geo::before { content: \"\\f3ea\"; }\n.bi-gift-fill::before { content: \"\\f3eb\"; }\n.bi-gift::before { content: \"\\f3ec\"; }\n.bi-github::before { content: \"\\f3ed\"; }\n.bi-globe::before { content: \"\\f3ee\"; }\n.bi-globe2::before { content: \"\\f3ef\"; }\n.bi-google::before { content: \"\\f3f0\"; }\n.bi-graph-down::before { content: \"\\f3f1\"; }\n.bi-graph-up::before { content: \"\\f3f2\"; }\n.bi-grid-1x2-fill::before { content: \"\\f3f3\"; }\n.bi-grid-1x2::before { content: \"\\f3f4\"; }\n.bi-grid-3x2-gap-fill::before { content: \"\\f3f5\"; }\n.bi-grid-3x2-gap::before { content: \"\\f3f6\"; }\n.bi-grid-3x2::before { content: \"\\f3f7\"; }\n.bi-grid-3x3-gap-fill::before { content: \"\\f3f8\"; }\n.bi-grid-3x3-gap::before { content: \"\\f3f9\"; }\n.bi-grid-3x3::before { content: \"\\f3fa\"; }\n.bi-grid-fill::before { content: \"\\f3fb\"; }\n.bi-grid::before { content: \"\\f3fc\"; }\n.bi-grip-horizontal::before { content: \"\\f3fd\"; }\n.bi-grip-vertical::before { content: \"\\f3fe\"; }\n.bi-hammer::before { content: \"\\f3ff\"; }\n.bi-hand-index-fill::before { content: \"\\f400\"; }\n.bi-hand-index-thumb-fill::before { content: \"\\f401\"; }\n.bi-hand-index-thumb::before { content: \"\\f402\"; }\n.bi-hand-index::before { content: \"\\f403\"; }\n.bi-hand-thumbs-down-fill::before { content: \"\\f404\"; }\n.bi-hand-thumbs-down::before { content: \"\\f405\"; }\n.bi-hand-thumbs-up-fill::before { content: \"\\f406\"; }\n.bi-hand-thumbs-up::before { content: \"\\f407\"; }\n.bi-handbag-fill::before { content: \"\\f408\"; }\n.bi-handbag::before { content: \"\\f409\"; }\n.bi-hash::before { content: \"\\f40a\"; }\n.bi-hdd-fill::before { content: \"\\f40b\"; }\n.bi-hdd-network-fill::before { content: \"\\f40c\"; }\n.bi-hdd-network::before { content: \"\\f40d\"; }\n.bi-hdd-rack-fill::before { content: \"\\f40e\"; }\n.bi-hdd-rack::before { content: \"\\f40f\"; }\n.bi-hdd-stack-fill::before { content: \"\\f410\"; }\n.bi-hdd-stack::before { content: \"\\f411\"; }\n.bi-hdd::before { content: \"\\f412\"; }\n.bi-headphones::before { content: \"\\f413\"; }\n.bi-headset::before { content: \"\\f414\"; }\n.bi-heart-fill::before { content: \"\\f415\"; }\n.bi-heart-half::before { content: \"\\f416\"; }\n.bi-heart::before { content: \"\\f417\"; }\n.bi-heptagon-fill::before { content: \"\\f418\"; }\n.bi-heptagon-half::before { content: \"\\f419\"; }\n.bi-heptagon::before { content: \"\\f41a\"; }\n.bi-hexagon-fill::before { content: \"\\f41b\"; }\n.bi-hexagon-half::before { content: \"\\f41c\"; }\n.bi-hexagon::before { content: \"\\f41d\"; }\n.bi-hourglass-bottom::before { content: \"\\f41e\"; }\n.bi-hourglass-split::before { content: \"\\f41f\"; }\n.bi-hourglass-top::before { content: \"\\f420\"; }\n.bi-hourglass::before { content: \"\\f421\"; }\n.bi-house-door-fill::before { content: \"\\f422\"; }\n.bi-house-door::before { content: \"\\f423\"; }\n.bi-house-fill::before { content: \"\\f424\"; }\n.bi-house::before { content: \"\\f425\"; }\n.bi-hr::before { content: \"\\f426\"; }\n.bi-hurricane::before { content: \"\\f427\"; }\n.bi-image-alt::before { content: \"\\f428\"; }\n.bi-image-fill::before { content: \"\\f429\"; }\n.bi-image::before { content: \"\\f42a\"; }\n.bi-images::before { content: \"\\f42b\"; }\n.bi-inbox-fill::before { content: \"\\f42c\"; }\n.bi-inbox::before { content: \"\\f42d\"; }\n.bi-inboxes-fill::before { content: \"\\f42e\"; }\n.bi-inboxes::before { content: \"\\f42f\"; }\n.bi-info-circle-fill::before { content: \"\\f430\"; }\n.bi-info-circle::before { content: \"\\f431\"; }\n.bi-info-square-fill::before { content: \"\\f432\"; }\n.bi-info-square::before { content: \"\\f433\"; }\n.bi-info::before { content: \"\\f434\"; }\n.bi-input-cursor-text::before { content: \"\\f435\"; }\n.bi-input-cursor::before { content: \"\\f436\"; }\n.bi-instagram::before { content: \"\\f437\"; }\n.bi-intersect::before { content: \"\\f438\"; }\n.bi-journal-album::before { content: \"\\f439\"; }\n.bi-journal-arrow-down::before { content: \"\\f43a\"; }\n.bi-journal-arrow-up::before { content: \"\\f43b\"; }\n.bi-journal-bookmark-fill::before { content: \"\\f43c\"; }\n.bi-journal-bookmark::before { content: \"\\f43d\"; }\n.bi-journal-check::before { content: \"\\f43e\"; }\n.bi-journal-code::before { content: \"\\f43f\"; }\n.bi-journal-medical::before { content: \"\\f440\"; }\n.bi-journal-minus::before { content: \"\\f441\"; }\n.bi-journal-plus::before { content: \"\\f442\"; }\n.bi-journal-richtext::before { content: \"\\f443\"; }\n.bi-journal-text::before { content: \"\\f444\"; }\n.bi-journal-x::before { content: \"\\f445\"; }\n.bi-journal::before { content: \"\\f446\"; }\n.bi-journals::before { content: \"\\f447\"; }\n.bi-joystick::before { content: \"\\f448\"; }\n.bi-justify-left::before { content: \"\\f449\"; }\n.bi-justify-right::before { content: \"\\f44a\"; }\n.bi-justify::before { content: \"\\f44b\"; }\n.bi-kanban-fill::before { content: \"\\f44c\"; }\n.bi-kanban::before { content: \"\\f44d\"; }\n.bi-key-fill::before { content: \"\\f44e\"; }\n.bi-key::before { content: \"\\f44f\"; }\n.bi-keyboard-fill::before { content: \"\\f450\"; }\n.bi-keyboard::before { content: \"\\f451\"; }\n.bi-ladder::before { content: \"\\f452\"; }\n.bi-lamp-fill::before { content: \"\\f453\"; }\n.bi-lamp::before { content: \"\\f454\"; }\n.bi-laptop-fill::before { content: \"\\f455\"; }\n.bi-laptop::before { content: \"\\f456\"; }\n.bi-layer-backward::before { content: \"\\f457\"; }\n.bi-layer-forward::before { content: \"\\f458\"; }\n.bi-layers-fill::before { content: \"\\f459\"; }\n.bi-layers-half::before { content: \"\\f45a\"; }\n.bi-layers::before { content: \"\\f45b\"; }\n.bi-layout-sidebar-inset-reverse::before { content: \"\\f45c\"; }\n.bi-layout-sidebar-inset::before { content: \"\\f45d\"; }\n.bi-layout-sidebar-reverse::before { content: \"\\f45e\"; }\n.bi-layout-sidebar::before { content: \"\\f45f\"; }\n.bi-layout-split::before { content: \"\\f460\"; }\n.bi-layout-text-sidebar-reverse::before { content: \"\\f461\"; }\n.bi-layout-text-sidebar::before { content: \"\\f462\"; }\n.bi-layout-text-window-reverse::before { content: \"\\f463\"; }\n.bi-layout-text-window::before { content: \"\\f464\"; }\n.bi-layout-three-columns::before { content: \"\\f465\"; }\n.bi-layout-wtf::before { content: \"\\f466\"; }\n.bi-life-preserver::before { content: \"\\f467\"; }\n.bi-lightbulb-fill::before { content: \"\\f468\"; }\n.bi-lightbulb-off-fill::before { content: \"\\f469\"; }\n.bi-lightbulb-off::before { content: \"\\f46a\"; }\n.bi-lightbulb::before { content: \"\\f46b\"; }\n.bi-lightning-charge-fill::before { content: \"\\f46c\"; }\n.bi-lightning-charge::before { content: \"\\f46d\"; }\n.bi-lightning-fill::before { content: \"\\f46e\"; }\n.bi-lightning::before { content: \"\\f46f\"; }\n.bi-link-45deg::before { content: \"\\f470\"; }\n.bi-link::before { content: \"\\f471\"; }\n.bi-linkedin::before { content: \"\\f472\"; }\n.bi-list-check::before { content: \"\\f473\"; }\n.bi-list-nested::before { content: \"\\f474\"; }\n.bi-list-ol::before { content: \"\\f475\"; }\n.bi-list-stars::before { content: \"\\f476\"; }\n.bi-list-task::before { content: \"\\f477\"; }\n.bi-list-ul::before { content: \"\\f478\"; }\n.bi-list::before { content: \"\\f479\"; }\n.bi-lock-fill::before { content: \"\\f47a\"; }\n.bi-lock::before { content: \"\\f47b\"; }\n.bi-mailbox::before { content: \"\\f47c\"; }\n.bi-mailbox2::before { content: \"\\f47d\"; }\n.bi-map-fill::before { content: \"\\f47e\"; }\n.bi-map::before { content: \"\\f47f\"; }\n.bi-markdown-fill::before { content: \"\\f480\"; }\n.bi-markdown::before { content: \"\\f481\"; }\n.bi-mask::before { content: \"\\f482\"; }\n.bi-megaphone-fill::before { content: \"\\f483\"; }\n.bi-megaphone::before { content: \"\\f484\"; }\n.bi-menu-app-fill::before { content: \"\\f485\"; }\n.bi-menu-app::before { content: \"\\f486\"; }\n.bi-menu-button-fill::before { content: \"\\f487\"; }\n.bi-menu-button-wide-fill::before { content: \"\\f488\"; }\n.bi-menu-button-wide::before { content: \"\\f489\"; }\n.bi-menu-button::before { content: \"\\f48a\"; }\n.bi-menu-down::before { content: \"\\f48b\"; }\n.bi-menu-up::before { content: \"\\f48c\"; }\n.bi-mic-fill::before { content: \"\\f48d\"; }\n.bi-mic-mute-fill::before { content: \"\\f48e\"; }\n.bi-mic-mute::before { content: \"\\f48f\"; }\n.bi-mic::before { content: \"\\f490\"; }\n.bi-minecart-loaded::before { content: \"\\f491\"; }\n.bi-minecart::before { content: \"\\f492\"; }\n.bi-moisture::before { content: \"\\f493\"; }\n.bi-moon-fill::before { content: \"\\f494\"; }\n.bi-moon-stars-fill::before { content: \"\\f495\"; }\n.bi-moon-stars::before { content: \"\\f496\"; }\n.bi-moon::before { content: \"\\f497\"; }\n.bi-mouse-fill::before { content: \"\\f498\"; }\n.bi-mouse::before { content: \"\\f499\"; }\n.bi-mouse2-fill::before { content: \"\\f49a\"; }\n.bi-mouse2::before { content: \"\\f49b\"; }\n.bi-mouse3-fill::before { content: \"\\f49c\"; }\n.bi-mouse3::before { content: \"\\f49d\"; }\n.bi-music-note-beamed::before { content: \"\\f49e\"; }\n.bi-music-note-list::before { content: \"\\f49f\"; }\n.bi-music-note::before { content: \"\\f4a0\"; }\n.bi-music-player-fill::before { content: \"\\f4a1\"; }\n.bi-music-player::before { content: \"\\f4a2\"; }\n.bi-newspaper::before { content: \"\\f4a3\"; }\n.bi-node-minus-fill::before { content: \"\\f4a4\"; }\n.bi-node-minus::before { content: \"\\f4a5\"; }\n.bi-node-plus-fill::before { content: \"\\f4a6\"; }\n.bi-node-plus::before { content: \"\\f4a7\"; }\n.bi-nut-fill::before { content: \"\\f4a8\"; }\n.bi-nut::before { content: \"\\f4a9\"; }\n.bi-octagon-fill::before { content: \"\\f4aa\"; }\n.bi-octagon-half::before { content: \"\\f4ab\"; }\n.bi-octagon::before { content: \"\\f4ac\"; }\n.bi-option::before { content: \"\\f4ad\"; }\n.bi-outlet::before { content: \"\\f4ae\"; }\n.bi-paint-bucket::before { content: \"\\f4af\"; }\n.bi-palette-fill::before { content: \"\\f4b0\"; }\n.bi-palette::before { content: \"\\f4b1\"; }\n.bi-palette2::before { content: \"\\f4b2\"; }\n.bi-paperclip::before { content: \"\\f4b3\"; }\n.bi-paragraph::before { content: \"\\f4b4\"; }\n.bi-patch-check-fill::before { content: \"\\f4b5\"; }\n.bi-patch-check::before { content: \"\\f4b6\"; }\n.bi-patch-exclamation-fill::before { content: \"\\f4b7\"; }\n.bi-patch-exclamation::before { content: \"\\f4b8\"; }\n.bi-patch-minus-fill::before { content: \"\\f4b9\"; }\n.bi-patch-minus::before { content: \"\\f4ba\"; }\n.bi-patch-plus-fill::before { content: \"\\f4bb\"; }\n.bi-patch-plus::before { content: \"\\f4bc\"; }\n.bi-patch-question-fill::before { content: \"\\f4bd\"; }\n.bi-patch-question::before { content: \"\\f4be\"; }\n.bi-pause-btn-fill::before { content: \"\\f4bf\"; }\n.bi-pause-btn::before { content: \"\\f4c0\"; }\n.bi-pause-circle-fill::before { content: \"\\f4c1\"; }\n.bi-pause-circle::before { content: \"\\f4c2\"; }\n.bi-pause-fill::before { content: \"\\f4c3\"; }\n.bi-pause::before { content: \"\\f4c4\"; }\n.bi-peace-fill::before { content: \"\\f4c5\"; }\n.bi-peace::before { content: \"\\f4c6\"; }\n.bi-pen-fill::before { content: \"\\f4c7\"; }\n.bi-pen::before { content: \"\\f4c8\"; }\n.bi-pencil-fill::before { content: \"\\f4c9\"; }\n.bi-pencil-square::before { content: \"\\f4ca\"; }\n.bi-pencil::before { content: \"\\f4cb\"; }\n.bi-pentagon-fill::before { content: \"\\f4cc\"; }\n.bi-pentagon-half::before { content: \"\\f4cd\"; }\n.bi-pentagon::before { content: \"\\f4ce\"; }\n.bi-people-fill::before { content: \"\\f4cf\"; }\n.bi-people::before { content: \"\\f4d0\"; }\n.bi-percent::before { content: \"\\f4d1\"; }\n.bi-person-badge-fill::before { content: \"\\f4d2\"; }\n.bi-person-badge::before { content: \"\\f4d3\"; }\n.bi-person-bounding-box::before { content: \"\\f4d4\"; }\n.bi-person-check-fill::before { content: \"\\f4d5\"; }\n.bi-person-check::before { content: \"\\f4d6\"; }\n.bi-person-circle::before { content: \"\\f4d7\"; }\n.bi-person-dash-fill::before { content: \"\\f4d8\"; }\n.bi-person-dash::before { content: \"\\f4d9\"; }\n.bi-person-fill::before { content: \"\\f4da\"; }\n.bi-person-lines-fill::before { content: \"\\f4db\"; }\n.bi-person-plus-fill::before { content: \"\\f4dc\"; }\n.bi-person-plus::before { content: \"\\f4dd\"; }\n.bi-person-square::before { content: \"\\f4de\"; }\n.bi-person-x-fill::before { content: \"\\f4df\"; }\n.bi-person-x::before { content: \"\\f4e0\"; }\n.bi-person::before { content: \"\\f4e1\"; }\n.bi-phone-fill::before { content: \"\\f4e2\"; }\n.bi-phone-landscape-fill::before { content: \"\\f4e3\"; }\n.bi-phone-landscape::before { content: \"\\f4e4\"; }\n.bi-phone-vibrate-fill::before { content: \"\\f4e5\"; }\n.bi-phone-vibrate::before { content: \"\\f4e6\"; }\n.bi-phone::before { content: \"\\f4e7\"; }\n.bi-pie-chart-fill::before { content: \"\\f4e8\"; }\n.bi-pie-chart::before { content: \"\\f4e9\"; }\n.bi-pin-angle-fill::before { content: \"\\f4ea\"; }\n.bi-pin-angle::before { content: \"\\f4eb\"; }\n.bi-pin-fill::before { content: \"\\f4ec\"; }\n.bi-pin::before { content: \"\\f4ed\"; }\n.bi-pip-fill::before { content: \"\\f4ee\"; }\n.bi-pip::before { content: \"\\f4ef\"; }\n.bi-play-btn-fill::before { content: \"\\f4f0\"; }\n.bi-play-btn::before { content: \"\\f4f1\"; }\n.bi-play-circle-fill::before { content: \"\\f4f2\"; }\n.bi-play-circle::before { content: \"\\f4f3\"; }\n.bi-play-fill::before { content: \"\\f4f4\"; }\n.bi-play::before { content: \"\\f4f5\"; }\n.bi-plug-fill::before { content: \"\\f4f6\"; }\n.bi-plug::before { content: \"\\f4f7\"; }\n.bi-plus-circle-dotted::before { content: \"\\f4f8\"; }\n.bi-plus-circle-fill::before { content: \"\\f4f9\"; }\n.bi-plus-circle::before { content: \"\\f4fa\"; }\n.bi-plus-square-dotted::before { content: \"\\f4fb\"; }\n.bi-plus-square-fill::before { content: \"\\f4fc\"; }\n.bi-plus-square::before { content: \"\\f4fd\"; }\n.bi-plus::before { content: \"\\f4fe\"; }\n.bi-power::before { content: \"\\f4ff\"; }\n.bi-printer-fill::before { content: \"\\f500\"; }\n.bi-printer::before { content: \"\\f501\"; }\n.bi-puzzle-fill::before { content: \"\\f502\"; }\n.bi-puzzle::before { content: \"\\f503\"; }\n.bi-question-circle-fill::before { content: \"\\f504\"; }\n.bi-question-circle::before { content: \"\\f505\"; }\n.bi-question-diamond-fill::before { content: \"\\f506\"; }\n.bi-question-diamond::before { content: \"\\f507\"; }\n.bi-question-octagon-fill::before { content: \"\\f508\"; }\n.bi-question-octagon::before { content: \"\\f509\"; }\n.bi-question-square-fill::before { content: \"\\f50a\"; }\n.bi-question-square::before { content: \"\\f50b\"; }\n.bi-question::before { content: \"\\f50c\"; }\n.bi-rainbow::before { content: \"\\f50d\"; }\n.bi-receipt-cutoff::before { content: \"\\f50e\"; }\n.bi-receipt::before { content: \"\\f50f\"; }\n.bi-reception-0::before { content: \"\\f510\"; }\n.bi-reception-1::before { content: \"\\f511\"; }\n.bi-reception-2::before { content: \"\\f512\"; }\n.bi-reception-3::before { content: \"\\f513\"; }\n.bi-reception-4::before { content: \"\\f514\"; }\n.bi-record-btn-fill::before { content: \"\\f515\"; }\n.bi-record-btn::before { content: \"\\f516\"; }\n.bi-record-circle-fill::before { content: \"\\f517\"; }\n.bi-record-circle::before { content: \"\\f518\"; }\n.bi-record-fill::before { content: \"\\f519\"; }\n.bi-record::before { content: \"\\f51a\"; }\n.bi-record2-fill::before { content: \"\\f51b\"; }\n.bi-record2::before { content: \"\\f51c\"; }\n.bi-reply-all-fill::before { content: \"\\f51d\"; }\n.bi-reply-all::before { content: \"\\f51e\"; }\n.bi-reply-fill::before { content: \"\\f51f\"; }\n.bi-reply::before { content: \"\\f520\"; }\n.bi-rss-fill::before { content: \"\\f521\"; }\n.bi-rss::before { content: \"\\f522\"; }\n.bi-rulers::before { content: \"\\f523\"; }\n.bi-save-fill::before { content: \"\\f524\"; }\n.bi-save::before { content: \"\\f525\"; }\n.bi-save2-fill::before { content: \"\\f526\"; }\n.bi-save2::before { content: \"\\f527\"; }\n.bi-scissors::before { content: \"\\f528\"; }\n.bi-screwdriver::before { content: \"\\f529\"; }\n.bi-search::before { content: \"\\f52a\"; }\n.bi-segmented-nav::before { content: \"\\f52b\"; }\n.bi-server::before { content: \"\\f52c\"; }\n.bi-share-fill::before { content: \"\\f52d\"; }\n.bi-share::before { content: \"\\f52e\"; }\n.bi-shield-check::before { content: \"\\f52f\"; }\n.bi-shield-exclamation::before { content: \"\\f530\"; }\n.bi-shield-fill-check::before { content: \"\\f531\"; }\n.bi-shield-fill-exclamation::before { content: \"\\f532\"; }\n.bi-shield-fill-minus::before { content: \"\\f533\"; }\n.bi-shield-fill-plus::before { content: \"\\f534\"; }\n.bi-shield-fill-x::before { content: \"\\f535\"; }\n.bi-shield-fill::before { content: \"\\f536\"; }\n.bi-shield-lock-fill::before { content: \"\\f537\"; }\n.bi-shield-lock::before { content: \"\\f538\"; }\n.bi-shield-minus::before { content: \"\\f539\"; }\n.bi-shield-plus::before { content: \"\\f53a\"; }\n.bi-shield-shaded::before { content: \"\\f53b\"; }\n.bi-shield-slash-fill::before { content: \"\\f53c\"; }\n.bi-shield-slash::before { content: \"\\f53d\"; }\n.bi-shield-x::before { content: \"\\f53e\"; }\n.bi-shield::before { content: \"\\f53f\"; }\n.bi-shift-fill::before { content: \"\\f540\"; }\n.bi-shift::before { content: \"\\f541\"; }\n.bi-shop-window::before { content: \"\\f542\"; }\n.bi-shop::before { content: \"\\f543\"; }\n.bi-shuffle::before { content: \"\\f544\"; }\n.bi-signpost-2-fill::before { content: \"\\f545\"; }\n.bi-signpost-2::before { content: \"\\f546\"; }\n.bi-signpost-fill::before { content: \"\\f547\"; }\n.bi-signpost-split-fill::before { content: \"\\f548\"; }\n.bi-signpost-split::before { content: \"\\f549\"; }\n.bi-signpost::before { content: \"\\f54a\"; }\n.bi-sim-fill::before { content: \"\\f54b\"; }\n.bi-sim::before { content: \"\\f54c\"; }\n.bi-skip-backward-btn-fill::before { content: \"\\f54d\"; }\n.bi-skip-backward-btn::before { content: \"\\f54e\"; }\n.bi-skip-backward-circle-fill::before { content: \"\\f54f\"; }\n.bi-skip-backward-circle::before { content: \"\\f550\"; }\n.bi-skip-backward-fill::before { content: \"\\f551\"; }\n.bi-skip-backward::before { content: \"\\f552\"; }\n.bi-skip-end-btn-fill::before { content: \"\\f553\"; }\n.bi-skip-end-btn::before { content: \"\\f554\"; }\n.bi-skip-end-circle-fill::before { content: \"\\f555\"; }\n.bi-skip-end-circle::before { content: \"\\f556\"; }\n.bi-skip-end-fill::before { content: \"\\f557\"; }\n.bi-skip-end::before { content: \"\\f558\"; }\n.bi-skip-forward-btn-fill::before { content: \"\\f559\"; }\n.bi-skip-forward-btn::before { content: \"\\f55a\"; }\n.bi-skip-forward-circle-fill::before { content: \"\\f55b\"; }\n.bi-skip-forward-circle::before { content: \"\\f55c\"; }\n.bi-skip-forward-fill::before { content: \"\\f55d\"; }\n.bi-skip-forward::before { content: \"\\f55e\"; }\n.bi-skip-start-btn-fill::before { content: \"\\f55f\"; }\n.bi-skip-start-btn::before { content: \"\\f560\"; }\n.bi-skip-start-circle-fill::before { content: \"\\f561\"; }\n.bi-skip-start-circle::before { content: \"\\f562\"; }\n.bi-skip-start-fill::before { content: \"\\f563\"; }\n.bi-skip-start::before { content: \"\\f564\"; }\n.bi-slack::before { content: \"\\f565\"; }\n.bi-slash-circle-fill::before { content: \"\\f566\"; }\n.bi-slash-circle::before { content: \"\\f567\"; }\n.bi-slash-square-fill::before { content: \"\\f568\"; }\n.bi-slash-square::before { content: \"\\f569\"; }\n.bi-slash::before { content: \"\\f56a\"; }\n.bi-sliders::before { content: \"\\f56b\"; }\n.bi-smartwatch::before { content: \"\\f56c\"; }\n.bi-snow::before { content: \"\\f56d\"; }\n.bi-snow2::before { content: \"\\f56e\"; }\n.bi-snow3::before { content: \"\\f56f\"; }\n.bi-sort-alpha-down-alt::before { content: \"\\f570\"; }\n.bi-sort-alpha-down::before { content: \"\\f571\"; }\n.bi-sort-alpha-up-alt::before { content: \"\\f572\"; }\n.bi-sort-alpha-up::before { content: \"\\f573\"; }\n.bi-sort-down-alt::before { content: \"\\f574\"; }\n.bi-sort-down::before { content: \"\\f575\"; }\n.bi-sort-numeric-down-alt::before { content: \"\\f576\"; }\n.bi-sort-numeric-down::before { content: \"\\f577\"; }\n.bi-sort-numeric-up-alt::before { content: \"\\f578\"; }\n.bi-sort-numeric-up::before { content: \"\\f579\"; }\n.bi-sort-up-alt::before { content: \"\\f57a\"; }\n.bi-sort-up::before { content: \"\\f57b\"; }\n.bi-soundwave::before { content: \"\\f57c\"; }\n.bi-speaker-fill::before { content: \"\\f57d\"; }\n.bi-speaker::before { content: \"\\f57e\"; }\n.bi-speedometer::before { content: \"\\f57f\"; }\n.bi-speedometer2::before { content: \"\\f580\"; }\n.bi-spellcheck::before { content: \"\\f581\"; }\n.bi-square-fill::before { content: \"\\f582\"; }\n.bi-square-half::before { content: \"\\f583\"; }\n.bi-square::before { content: \"\\f584\"; }\n.bi-stack::before { content: \"\\f585\"; }\n.bi-star-fill::before { content: \"\\f586\"; }\n.bi-star-half::before { content: \"\\f587\"; }\n.bi-star::before { content: \"\\f588\"; }\n.bi-stars::before { content: \"\\f589\"; }\n.bi-stickies-fill::before { content: \"\\f58a\"; }\n.bi-stickies::before { content: \"\\f58b\"; }\n.bi-sticky-fill::before { content: \"\\f58c\"; }\n.bi-sticky::before { content: \"\\f58d\"; }\n.bi-stop-btn-fill::before { content: \"\\f58e\"; }\n.bi-stop-btn::before { content: \"\\f58f\"; }\n.bi-stop-circle-fill::before { content: \"\\f590\"; }\n.bi-stop-circle::before { content: \"\\f591\"; }\n.bi-stop-fill::before { content: \"\\f592\"; }\n.bi-stop::before { content: \"\\f593\"; }\n.bi-stoplights-fill::before { content: \"\\f594\"; }\n.bi-stoplights::before { content: \"\\f595\"; }\n.bi-stopwatch-fill::before { content: \"\\f596\"; }\n.bi-stopwatch::before { content: \"\\f597\"; }\n.bi-subtract::before { content: \"\\f598\"; }\n.bi-suit-club-fill::before { content: \"\\f599\"; }\n.bi-suit-club::before { content: \"\\f59a\"; }\n.bi-suit-diamond-fill::before { content: \"\\f59b\"; }\n.bi-suit-diamond::before { content: \"\\f59c\"; }\n.bi-suit-heart-fill::before { content: \"\\f59d\"; }\n.bi-suit-heart::before { content: \"\\f59e\"; }\n.bi-suit-spade-fill::before { content: \"\\f59f\"; }\n.bi-suit-spade::before { content: \"\\f5a0\"; }\n.bi-sun-fill::before { content: \"\\f5a1\"; }\n.bi-sun::before { content: \"\\f5a2\"; }\n.bi-sunglasses::before { content: \"\\f5a3\"; }\n.bi-sunrise-fill::before { content: \"\\f5a4\"; }\n.bi-sunrise::before { content: \"\\f5a5\"; }\n.bi-sunset-fill::before { content: \"\\f5a6\"; }\n.bi-sunset::before { content: \"\\f5a7\"; }\n.bi-symmetry-horizontal::before { content: \"\\f5a8\"; }\n.bi-symmetry-vertical::before { content: \"\\f5a9\"; }\n.bi-table::before { content: \"\\f5aa\"; }\n.bi-tablet-fill::before { content: \"\\f5ab\"; }\n.bi-tablet-landscape-fill::before { content: \"\\f5ac\"; }\n.bi-tablet-landscape::before { content: \"\\f5ad\"; }\n.bi-tablet::before { content: \"\\f5ae\"; }\n.bi-tag-fill::before { content: \"\\f5af\"; }\n.bi-tag::before { content: \"\\f5b0\"; }\n.bi-tags-fill::before { content: \"\\f5b1\"; }\n.bi-tags::before { content: \"\\f5b2\"; }\n.bi-telegram::before { content: \"\\f5b3\"; }\n.bi-telephone-fill::before { content: \"\\f5b4\"; }\n.bi-telephone-forward-fill::before { content: \"\\f5b5\"; }\n.bi-telephone-forward::before { content: \"\\f5b6\"; }\n.bi-telephone-inbound-fill::before { content: \"\\f5b7\"; }\n.bi-telephone-inbound::before { content: \"\\f5b8\"; }\n.bi-telephone-minus-fill::before { content: \"\\f5b9\"; }\n.bi-telephone-minus::before { content: \"\\f5ba\"; }\n.bi-telephone-outbound-fill::before { content: \"\\f5bb\"; }\n.bi-telephone-outbound::before { content: \"\\f5bc\"; }\n.bi-telephone-plus-fill::before { content: \"\\f5bd\"; }\n.bi-telephone-plus::before { content: \"\\f5be\"; }\n.bi-telephone-x-fill::before { content: \"\\f5bf\"; }\n.bi-telephone-x::before { content: \"\\f5c0\"; }\n.bi-telephone::before { content: \"\\f5c1\"; }\n.bi-terminal-fill::before { content: \"\\f5c2\"; }\n.bi-terminal::before { content: \"\\f5c3\"; }\n.bi-text-center::before { content: \"\\f5c4\"; }\n.bi-text-indent-left::before { content: \"\\f5c5\"; }\n.bi-text-indent-right::before { content: \"\\f5c6\"; }\n.bi-text-left::before { content: \"\\f5c7\"; }\n.bi-text-paragraph::before { content: \"\\f5c8\"; }\n.bi-text-right::before { content: \"\\f5c9\"; }\n.bi-textarea-resize::before { content: \"\\f5ca\"; }\n.bi-textarea-t::before { content: \"\\f5cb\"; }\n.bi-textarea::before { content: \"\\f5cc\"; }\n.bi-thermometer-half::before { content: \"\\f5cd\"; }\n.bi-thermometer-high::before { content: \"\\f5ce\"; }\n.bi-thermometer-low::before { content: \"\\f5cf\"; }\n.bi-thermometer-snow::before { content: \"\\f5d0\"; }\n.bi-thermometer-sun::before { content: \"\\f5d1\"; }\n.bi-thermometer::before { content: \"\\f5d2\"; }\n.bi-three-dots-vertical::before { content: \"\\f5d3\"; }\n.bi-three-dots::before { content: \"\\f5d4\"; }\n.bi-toggle-off::before { content: \"\\f5d5\"; }\n.bi-toggle-on::before { content: \"\\f5d6\"; }\n.bi-toggle2-off::before { content: \"\\f5d7\"; }\n.bi-toggle2-on::before { content: \"\\f5d8\"; }\n.bi-toggles::before { content: \"\\f5d9\"; }\n.bi-toggles2::before { content: \"\\f5da\"; }\n.bi-tools::before { content: \"\\f5db\"; }\n.bi-tornado::before { content: \"\\f5dc\"; }\n.bi-trash-fill::before { content: \"\\f5dd\"; }\n.bi-trash::before { content: \"\\f5de\"; }\n.bi-trash2-fill::before { content: \"\\f5df\"; }\n.bi-trash2::before { content: \"\\f5e0\"; }\n.bi-tree-fill::before { content: \"\\f5e1\"; }\n.bi-tree::before { content: \"\\f5e2\"; }\n.bi-triangle-fill::before { content: \"\\f5e3\"; }\n.bi-triangle-half::before { content: \"\\f5e4\"; }\n.bi-triangle::before { content: \"\\f5e5\"; }\n.bi-trophy-fill::before { content: \"\\f5e6\"; }\n.bi-trophy::before { content: \"\\f5e7\"; }\n.bi-tropical-storm::before { content: \"\\f5e8\"; }\n.bi-truck-flatbed::before { content: \"\\f5e9\"; }\n.bi-truck::before { content: \"\\f5ea\"; }\n.bi-tsunami::before { content: \"\\f5eb\"; }\n.bi-tv-fill::before { content: \"\\f5ec\"; }\n.bi-tv::before { content: \"\\f5ed\"; }\n.bi-twitch::before { content: \"\\f5ee\"; }\n.bi-twitter::before { content: \"\\f5ef\"; }\n.bi-type-bold::before { content: \"\\f5f0\"; }\n.bi-type-h1::before { content: \"\\f5f1\"; }\n.bi-type-h2::before { content: \"\\f5f2\"; }\n.bi-type-h3::before { content: \"\\f5f3\"; }\n.bi-type-italic::before { content: \"\\f5f4\"; }\n.bi-type-strikethrough::before { content: \"\\f5f5\"; }\n.bi-type-underline::before { content: \"\\f5f6\"; }\n.bi-type::before { content: \"\\f5f7\"; }\n.bi-ui-checks-grid::before { content: \"\\f5f8\"; }\n.bi-ui-checks::before { content: \"\\f5f9\"; }\n.bi-ui-radios-grid::before { content: \"\\f5fa\"; }\n.bi-ui-radios::before { content: \"\\f5fb\"; }\n.bi-umbrella-fill::before { content: \"\\f5fc\"; }\n.bi-umbrella::before { content: \"\\f5fd\"; }\n.bi-union::before { content: \"\\f5fe\"; }\n.bi-unlock-fill::before { content: \"\\f5ff\"; }\n.bi-unlock::before { content: \"\\f600\"; }\n.bi-upc-scan::before { content: \"\\f601\"; }\n.bi-upc::before { content: \"\\f602\"; }\n.bi-upload::before { content: \"\\f603\"; }\n.bi-vector-pen::before { content: \"\\f604\"; }\n.bi-view-list::before { content: \"\\f605\"; }\n.bi-view-stacked::before { content: \"\\f606\"; }\n.bi-vinyl-fill::before { content: \"\\f607\"; }\n.bi-vinyl::before { content: \"\\f608\"; }\n.bi-voicemail::before { content: \"\\f609\"; }\n.bi-volume-down-fill::before { content: \"\\f60a\"; }\n.bi-volume-down::before { content: \"\\f60b\"; }\n.bi-volume-mute-fill::before { content: \"\\f60c\"; }\n.bi-volume-mute::before { content: \"\\f60d\"; }\n.bi-volume-off-fill::before { content: \"\\f60e\"; }\n.bi-volume-off::before { content: \"\\f60f\"; }\n.bi-volume-up-fill::before { content: \"\\f610\"; }\n.bi-volume-up::before { content: \"\\f611\"; }\n.bi-vr::before { content: \"\\f612\"; }\n.bi-wallet-fill::before { content: \"\\f613\"; }\n.bi-wallet::before { content: \"\\f614\"; }\n.bi-wallet2::before { content: \"\\f615\"; }\n.bi-watch::before { content: \"\\f616\"; }\n.bi-water::before { content: \"\\f617\"; }\n.bi-whatsapp::before { content: \"\\f618\"; }\n.bi-wifi-1::before { content: \"\\f619\"; }\n.bi-wifi-2::before { content: \"\\f61a\"; }\n.bi-wifi-off::before { content: \"\\f61b\"; }\n.bi-wifi::before { content: \"\\f61c\"; }\n.bi-wind::before { content: \"\\f61d\"; }\n.bi-window-dock::before { content: \"\\f61e\"; }\n.bi-window-sidebar::before { content: \"\\f61f\"; }\n.bi-window::before { content: \"\\f620\"; }\n.bi-wrench::before { content: \"\\f621\"; }\n.bi-x-circle-fill::before { content: \"\\f622\"; }\n.bi-x-circle::before { content: \"\\f623\"; }\n.bi-x-diamond-fill::before { content: \"\\f624\"; }\n.bi-x-diamond::before { content: \"\\f625\"; }\n.bi-x-octagon-fill::before { content: \"\\f626\"; }\n.bi-x-octagon::before { content: \"\\f627\"; }\n.bi-x-square-fill::before { content: \"\\f628\"; }\n.bi-x-square::before { content: \"\\f629\"; }\n.bi-x::before { content: \"\\f62a\"; }\n.bi-youtube::before { content: \"\\f62b\"; }\n.bi-zoom-in::before { content: \"\\f62c\"; }\n.bi-zoom-out::before { content: \"\\f62d\"; }\n.bi-bank::before { content: \"\\f62e\"; }\n.bi-bank2::before { content: \"\\f62f\"; }\n.bi-bell-slash-fill::before { content: \"\\f630\"; }\n.bi-bell-slash::before { content: \"\\f631\"; }\n.bi-cash-coin::before { content: \"\\f632\"; }\n.bi-check-lg::before { content: \"\\f633\"; }\n.bi-coin::before { content: \"\\f634\"; }\n.bi-currency-bitcoin::before { content: \"\\f635\"; }\n.bi-currency-dollar::before { content: \"\\f636\"; }\n.bi-currency-euro::before { content: \"\\f637\"; }\n.bi-currency-exchange::before { content: \"\\f638\"; }\n.bi-currency-pound::before { content: \"\\f639\"; }\n.bi-currency-yen::before { content: \"\\f63a\"; }\n.bi-dash-lg::before { content: \"\\f63b\"; }\n.bi-exclamation-lg::before { content: \"\\f63c\"; }\n.bi-file-earmark-pdf-fill::before { content: \"\\f63d\"; }\n.bi-file-earmark-pdf::before { content: \"\\f63e\"; }\n.bi-file-pdf-fill::before { content: \"\\f63f\"; }\n.bi-file-pdf::before { content: \"\\f640\"; }\n.bi-gender-ambiguous::before { content: \"\\f641\"; }\n.bi-gender-female::before { content: \"\\f642\"; }\n.bi-gender-male::before { content: \"\\f643\"; }\n.bi-gender-trans::before { content: \"\\f644\"; }\n.bi-headset-vr::before { content: \"\\f645\"; }\n.bi-info-lg::before { content: \"\\f646\"; }\n.bi-mastodon::before { content: \"\\f647\"; }\n.bi-messenger::before { content: \"\\f648\"; }\n.bi-piggy-bank-fill::before { content: \"\\f649\"; }\n.bi-piggy-bank::before { content: \"\\f64a\"; }\n.bi-pin-map-fill::before { content: \"\\f64b\"; }\n.bi-pin-map::before { content: \"\\f64c\"; }\n.bi-plus-lg::before { content: \"\\f64d\"; }\n.bi-question-lg::before { content: \"\\f64e\"; }\n.bi-recycle::before { content: \"\\f64f\"; }\n.bi-reddit::before { content: \"\\f650\"; }\n.bi-safe-fill::before { content: \"\\f651\"; }\n.bi-safe2-fill::before { content: \"\\f652\"; }\n.bi-safe2::before { content: \"\\f653\"; }\n.bi-sd-card-fill::before { content: \"\\f654\"; }\n.bi-sd-card::before { content: \"\\f655\"; }\n.bi-skype::before { content: \"\\f656\"; }\n.bi-slash-lg::before { content: \"\\f657\"; }\n.bi-translate::before { content: \"\\f658\"; }\n.bi-x-lg::before { content: \"\\f659\"; }\n.bi-safe::before { content: \"\\f65a\"; }\n.bi-apple::before { content: \"\\f65b\"; }\n.bi-microsoft::before { content: \"\\f65d\"; }\n.bi-windows::before { content: \"\\f65e\"; }\n.bi-behance::before { content: \"\\f65c\"; }\n.bi-dribbble::before { content: \"\\f65f\"; }\n.bi-line::before { content: \"\\f660\"; }\n.bi-medium::before { content: \"\\f661\"; }\n.bi-paypal::before { content: \"\\f662\"; }\n.bi-pinterest::before { content: \"\\f663\"; }\n.bi-signal::before { content: \"\\f664\"; }\n.bi-snapchat::before { content: \"\\f665\"; }\n.bi-spotify::before { content: \"\\f666\"; }\n.bi-stack-overflow::before { content: \"\\f667\"; }\n.bi-strava::before { content: \"\\f668\"; }\n.bi-wordpress::before { content: \"\\f669\"; }\n.bi-vimeo::before { content: \"\\f66a\"; }\n.bi-activity::before { content: \"\\f66b\"; }\n.bi-easel2-fill::before { content: \"\\f66c\"; }\n.bi-easel2::before { content: \"\\f66d\"; }\n.bi-easel3-fill::before { content: \"\\f66e\"; }\n.bi-easel3::before { content: \"\\f66f\"; }\n.bi-fan::before { content: \"\\f670\"; }\n.bi-fingerprint::before { content: \"\\f671\"; }\n.bi-graph-down-arrow::before { content: \"\\f672\"; }\n.bi-graph-up-arrow::before { content: \"\\f673\"; }\n.bi-hypnotize::before { content: \"\\f674\"; }\n.bi-magic::before { content: \"\\f675\"; }\n.bi-person-rolodex::before { content: \"\\f676\"; }\n.bi-person-video::before { content: \"\\f677\"; }\n.bi-person-video2::before { content: \"\\f678\"; }\n.bi-person-video3::before { content: \"\\f679\"; }\n.bi-person-workspace::before { content: \"\\f67a\"; }\n.bi-radioactive::before { content: \"\\f67b\"; }\n.bi-webcam-fill::before { content: \"\\f67c\"; }\n.bi-webcam::before { content: \"\\f67d\"; }\n.bi-yin-yang::before { content: \"\\f67e\"; }\n.bi-bandaid-fill::before { content: \"\\f680\"; }\n.bi-bandaid::before { content: \"\\f681\"; }\n.bi-bluetooth::before { content: \"\\f682\"; }\n.bi-body-text::before { content: \"\\f683\"; }\n.bi-boombox::before { content: \"\\f684\"; }\n.bi-boxes::before { content: \"\\f685\"; }\n.bi-dpad-fill::before { content: \"\\f686\"; }\n.bi-dpad::before { content: \"\\f687\"; }\n.bi-ear-fill::before { content: \"\\f688\"; }\n.bi-ear::before { content: \"\\f689\"; }\n.bi-envelope-check-1::before { content: \"\\f68a\"; }\n.bi-envelope-check-fill::before { content: \"\\f68b\"; }\n.bi-envelope-check::before { content: \"\\f68c\"; }\n.bi-envelope-dash-1::before { content: \"\\f68d\"; }\n.bi-envelope-dash-fill::before { content: \"\\f68e\"; }\n.bi-envelope-dash::before { content: \"\\f68f\"; }\n.bi-envelope-exclamation-1::before { content: \"\\f690\"; }\n.bi-envelope-exclamation-fill::before { content: \"\\f691\"; }\n.bi-envelope-exclamation::before { content: \"\\f692\"; }\n.bi-envelope-plus-fill::before { content: \"\\f693\"; }\n.bi-envelope-plus::before { content: \"\\f694\"; }\n.bi-envelope-slash-1::before { content: \"\\f695\"; }\n.bi-envelope-slash-fill::before { content: \"\\f696\"; }\n.bi-envelope-slash::before { content: \"\\f697\"; }\n.bi-envelope-x-1::before { content: \"\\f698\"; }\n.bi-envelope-x-fill::before { content: \"\\f699\"; }\n.bi-envelope-x::before { content: \"\\f69a\"; }\n.bi-explicit-fill::before { content: \"\\f69b\"; }\n.bi-explicit::before { content: \"\\f69c\"; }\n.bi-git::before { content: \"\\f69d\"; }\n.bi-infinity::before { content: \"\\f69e\"; }\n.bi-list-columns-reverse::before { content: \"\\f69f\"; }\n.bi-list-columns::before { content: \"\\f6a0\"; }\n.bi-meta::before { content: \"\\f6a1\"; }\n.bi-mortorboard-fill::before { content: \"\\f6a2\"; }\n.bi-mortorboard::before { content: \"\\f6a3\"; }\n.bi-nintendo-switch::before { content: \"\\f6a4\"; }\n.bi-pc-display-horizontal::before { content: \"\\f6a5\"; }\n.bi-pc-display::before { content: \"\\f6a6\"; }\n.bi-pc-horizontal::before { content: \"\\f6a7\"; }\n.bi-pc::before { content: \"\\f6a8\"; }\n.bi-playstation::before { content: \"\\f6a9\"; }\n.bi-plus-slash-minus::before { content: \"\\f6aa\"; }\n.bi-projector-fill::before { content: \"\\f6ab\"; }\n.bi-projector::before { content: \"\\f6ac\"; }\n.bi-qr-code-scan::before { content: \"\\f6ad\"; }\n.bi-qr-code::before { content: \"\\f6ae\"; }\n.bi-quora::before { content: \"\\f6af\"; }\n.bi-quote::before { content: \"\\f6b0\"; }\n.bi-robot::before { content: \"\\f6b1\"; }\n.bi-send-check-fill::before { content: \"\\f6b2\"; }\n.bi-send-check::before { content: \"\\f6b3\"; }\n.bi-send-dash-fill::before { content: \"\\f6b4\"; }\n.bi-send-dash::before { content: \"\\f6b5\"; }\n.bi-send-exclamation-1::before { content: \"\\f6b6\"; }\n.bi-send-exclamation-fill::before { content: \"\\f6b7\"; }\n.bi-send-exclamation::before { content: \"\\f6b8\"; }\n.bi-send-fill::before { content: \"\\f6b9\"; }\n.bi-send-plus-fill::before { content: \"\\f6ba\"; }\n.bi-send-plus::before { content: \"\\f6bb\"; }\n.bi-send-slash-fill::before { content: \"\\f6bc\"; }\n.bi-send-slash::before { content: \"\\f6bd\"; }\n.bi-send-x-fill::before { content: \"\\f6be\"; }\n.bi-send-x::before { content: \"\\f6bf\"; }\n.bi-send::before { content: \"\\f6c0\"; }\n.bi-steam::before { content: \"\\f6c1\"; }\n.bi-terminal-dash-1::before { content: \"\\f6c2\"; }\n.bi-terminal-dash::before { content: \"\\f6c3\"; }\n.bi-terminal-plus::before { content: \"\\f6c4\"; }\n.bi-terminal-split::before { content: \"\\f6c5\"; }\n.bi-ticket-detailed-fill::before { content: \"\\f6c6\"; }\n.bi-ticket-detailed::before { content: \"\\f6c7\"; }\n.bi-ticket-fill::before { content: \"\\f6c8\"; }\n.bi-ticket-perforated-fill::before { content: \"\\f6c9\"; }\n.bi-ticket-perforated::before { content: \"\\f6ca\"; }\n.bi-ticket::before { content: \"\\f6cb\"; }\n.bi-tiktok::before { content: \"\\f6cc\"; }\n.bi-window-dash::before { content: \"\\f6cd\"; }\n.bi-window-desktop::before { content: \"\\f6ce\"; }\n.bi-window-fullscreen::before { content: \"\\f6cf\"; }\n.bi-window-plus::before { content: \"\\f6d0\"; }\n.bi-window-split::before { content: \"\\f6d1\"; }\n.bi-window-stack::before { content: \"\\f6d2\"; }\n.bi-window-x::before { content: \"\\f6d3\"; }\n.bi-xbox::before { content: \"\\f6d4\"; }\n.bi-ethernet::before { content: \"\\f6d5\"; }\n.bi-hdmi-fill::before { content: \"\\f6d6\"; }\n.bi-hdmi::before { content: \"\\f6d7\"; }\n.bi-usb-c-fill::before { content: \"\\f6d8\"; }\n.bi-usb-c::before { content: \"\\f6d9\"; }\n.bi-usb-fill::before { content: \"\\f6da\"; }\n.bi-usb-plug-fill::before { content: \"\\f6db\"; }\n.bi-usb-plug::before { content: \"\\f6dc\"; }\n.bi-usb-symbol::before { content: \"\\f6dd\"; }\n.bi-usb::before { content: \"\\f6de\"; }\n.bi-boombox-fill::before { content: \"\\f6df\"; }\n.bi-displayport-1::before { content: \"\\f6e0\"; }\n.bi-displayport::before { content: \"\\f6e1\"; }\n.bi-gpu-card::before { content: \"\\f6e2\"; }\n.bi-memory::before { content: \"\\f6e3\"; }\n.bi-modem-fill::before { content: \"\\f6e4\"; }\n.bi-modem::before { content: \"\\f6e5\"; }\n.bi-motherboard-fill::before { content: \"\\f6e6\"; }\n.bi-motherboard::before { content: \"\\f6e7\"; }\n.bi-optical-audio-fill::before { content: \"\\f6e8\"; }\n.bi-optical-audio::before { content: \"\\f6e9\"; }\n.bi-pci-card::before { content: \"\\f6ea\"; }\n.bi-router-fill::before { content: \"\\f6eb\"; }\n.bi-router::before { content: \"\\f6ec\"; }\n.bi-ssd-fill::before { content: \"\\f6ed\"; }\n.bi-ssd::before { content: \"\\f6ee\"; }\n.bi-thunderbolt-fill::before { content: \"\\f6ef\"; }\n.bi-thunderbolt::before { content: \"\\f6f0\"; }\n.bi-usb-drive-fill::before { content: \"\\f6f1\"; }\n.bi-usb-drive::before { content: \"\\f6f2\"; }\n.bi-usb-micro-fill::before { content: \"\\f6f3\"; }\n.bi-usb-micro::before { content: \"\\f6f4\"; }\n.bi-usb-mini-fill::before { content: \"\\f6f5\"; }\n.bi-usb-mini::before { content: \"\\f6f6\"; }\n.bi-cloud-haze2::before { content: \"\\f6f7\"; }\n.bi-device-hdd-fill::before { content: \"\\f6f8\"; }\n.bi-device-hdd::before { content: \"\\f6f9\"; }\n.bi-device-ssd-fill::before { content: \"\\f6fa\"; }\n.bi-device-ssd::before { content: \"\\f6fb\"; }\n.bi-displayport-fill::before { content: \"\\f6fc\"; }\n.bi-mortarboard-fill::before { content: \"\\f6fd\"; }\n.bi-mortarboard::before { content: \"\\f6fe\"; }\n.bi-terminal-x::before { content: \"\\f6ff\"; }\n.bi-arrow-through-heart-fill::before { content: \"\\f700\"; }\n.bi-arrow-through-heart::before { content: \"\\f701\"; }\n.bi-badge-sd-fill::before { content: \"\\f702\"; }\n.bi-badge-sd::before { content: \"\\f703\"; }\n.bi-bag-heart-fill::before { content: \"\\f704\"; }\n.bi-bag-heart::before { content: \"\\f705\"; }\n.bi-balloon-fill::before { content: \"\\f706\"; }\n.bi-balloon-heart-fill::before { content: \"\\f707\"; }\n.bi-balloon-heart::before { content: \"\\f708\"; }\n.bi-balloon::before { content: \"\\f709\"; }\n.bi-box2-fill::before { content: \"\\f70a\"; }\n.bi-box2-heart-fill::before { content: \"\\f70b\"; }\n.bi-box2-heart::before { content: \"\\f70c\"; }\n.bi-box2::before { content: \"\\f70d\"; }\n.bi-braces-asterisk::before { content: \"\\f70e\"; }\n.bi-calendar-heart-fill::before { content: \"\\f70f\"; }\n.bi-calendar-heart::before { content: \"\\f710\"; }\n.bi-calendar2-heart-fill::before { content: \"\\f711\"; }\n.bi-calendar2-heart::before { content: \"\\f712\"; }\n.bi-chat-heart-fill::before { content: \"\\f713\"; }\n.bi-chat-heart::before { content: \"\\f714\"; }\n.bi-chat-left-heart-fill::before { content: \"\\f715\"; }\n.bi-chat-left-heart::before { content: \"\\f716\"; }\n.bi-chat-right-heart-fill::before { content: \"\\f717\"; }\n.bi-chat-right-heart::before { content: \"\\f718\"; }\n.bi-chat-square-heart-fill::before { content: \"\\f719\"; }\n.bi-chat-square-heart::before { content: \"\\f71a\"; }\n.bi-clipboard-check-fill::before { content: \"\\f71b\"; }\n.bi-clipboard-data-fill::before { content: \"\\f71c\"; }\n.bi-clipboard-fill::before { content: \"\\f71d\"; }\n.bi-clipboard-heart-fill::before { content: \"\\f71e\"; }\n.bi-clipboard-heart::before { content: \"\\f71f\"; }\n.bi-clipboard-minus-fill::before { content: \"\\f720\"; }\n.bi-clipboard-plus-fill::before { content: \"\\f721\"; }\n.bi-clipboard-pulse::before { content: \"\\f722\"; }\n.bi-clipboard-x-fill::before { content: \"\\f723\"; }\n.bi-clipboard2-check-fill::before { content: \"\\f724\"; }\n.bi-clipboard2-check::before { content: \"\\f725\"; }\n.bi-clipboard2-data-fill::before { content: \"\\f726\"; }\n.bi-clipboard2-data::before { content: \"\\f727\"; }\n.bi-clipboard2-fill::before { content: \"\\f728\"; }\n.bi-clipboard2-heart-fill::before { content: \"\\f729\"; }\n.bi-clipboard2-heart::before { content: \"\\f72a\"; }\n.bi-clipboard2-minus-fill::before { content: \"\\f72b\"; }\n.bi-clipboard2-minus::before { content: \"\\f72c\"; }\n.bi-clipboard2-plus-fill::before { content: \"\\f72d\"; }\n.bi-clipboard2-plus::before { content: \"\\f72e\"; }\n.bi-clipboard2-pulse-fill::before { content: \"\\f72f\"; }\n.bi-clipboard2-pulse::before { content: \"\\f730\"; }\n.bi-clipboard2-x-fill::before { content: \"\\f731\"; }\n.bi-clipboard2-x::before { content: \"\\f732\"; }\n.bi-clipboard2::before { content: \"\\f733\"; }\n.bi-emoji-kiss-fill::before { content: \"\\f734\"; }\n.bi-emoji-kiss::before { content: \"\\f735\"; }\n.bi-envelope-heart-fill::before { content: \"\\f736\"; }\n.bi-envelope-heart::before { content: \"\\f737\"; }\n.bi-envelope-open-heart-fill::before { content: \"\\f738\"; }\n.bi-envelope-open-heart::before { content: \"\\f739\"; }\n.bi-envelope-paper-fill::before { content: \"\\f73a\"; }\n.bi-envelope-paper-heart-fill::before { content: \"\\f73b\"; }\n.bi-envelope-paper-heart::before { content: \"\\f73c\"; }\n.bi-envelope-paper::before { content: \"\\f73d\"; }\n.bi-filetype-aac::before { content: \"\\f73e\"; }\n.bi-filetype-ai::before { content: \"\\f73f\"; }\n.bi-filetype-bmp::before { content: \"\\f740\"; }\n.bi-filetype-cs::before { content: \"\\f741\"; }\n.bi-filetype-css::before { content: \"\\f742\"; }\n.bi-filetype-csv::before { content: \"\\f743\"; }\n.bi-filetype-doc::before { content: \"\\f744\"; }\n.bi-filetype-docx::before { content: \"\\f745\"; }\n.bi-filetype-exe::before { content: \"\\f746\"; }\n.bi-filetype-gif::before { content: \"\\f747\"; }\n.bi-filetype-heic::before { content: \"\\f748\"; }\n.bi-filetype-html::before { content: \"\\f749\"; }\n.bi-filetype-java::before { content: \"\\f74a\"; }\n.bi-filetype-jpg::before { content: \"\\f74b\"; }\n.bi-filetype-js::before { content: \"\\f74c\"; }\n.bi-filetype-jsx::before { content: \"\\f74d\"; }\n.bi-filetype-key::before { content: \"\\f74e\"; }\n.bi-filetype-m4p::before { content: \"\\f74f\"; }\n.bi-filetype-md::before { content: \"\\f750\"; }\n.bi-filetype-mdx::before { content: \"\\f751\"; }\n.bi-filetype-mov::before { content: \"\\f752\"; }\n.bi-filetype-mp3::before { content: \"\\f753\"; }\n.bi-filetype-mp4::before { content: \"\\f754\"; }\n.bi-filetype-otf::before { content: \"\\f755\"; }\n.bi-filetype-pdf::before { content: \"\\f756\"; }\n.bi-filetype-php::before { content: \"\\f757\"; }\n.bi-filetype-png::before { content: \"\\f758\"; }\n.bi-filetype-ppt-1::before { content: \"\\f759\"; }\n.bi-filetype-ppt::before { content: \"\\f75a\"; }\n.bi-filetype-psd::before { content: \"\\f75b\"; }\n.bi-filetype-py::before { content: \"\\f75c\"; }\n.bi-filetype-raw::before { content: \"\\f75d\"; }\n.bi-filetype-rb::before { content: \"\\f75e\"; }\n.bi-filetype-sass::before { content: \"\\f75f\"; }\n.bi-filetype-scss::before { content: \"\\f760\"; }\n.bi-filetype-sh::before { content: \"\\f761\"; }\n.bi-filetype-svg::before { content: \"\\f762\"; }\n.bi-filetype-tiff::before { content: \"\\f763\"; }\n.bi-filetype-tsx::before { content: \"\\f764\"; }\n.bi-filetype-ttf::before { content: \"\\f765\"; }\n.bi-filetype-txt::before { content: \"\\f766\"; }\n.bi-filetype-wav::before { content: \"\\f767\"; }\n.bi-filetype-woff::before { content: \"\\f768\"; }\n.bi-filetype-xls-1::before { content: \"\\f769\"; }\n.bi-filetype-xls::before { content: \"\\f76a\"; }\n.bi-filetype-xml::before { content: \"\\f76b\"; }\n.bi-filetype-yml::before { content: \"\\f76c\"; }\n.bi-heart-arrow::before { content: \"\\f76d\"; }\n.bi-heart-pulse-fill::before { content: \"\\f76e\"; }\n.bi-heart-pulse::before { content: \"\\f76f\"; }\n.bi-heartbreak-fill::before { content: \"\\f770\"; }\n.bi-heartbreak::before { content: \"\\f771\"; }\n.bi-hearts::before { content: \"\\f772\"; }\n.bi-hospital-fill::before { content: \"\\f773\"; }\n.bi-hospital::before { content: \"\\f774\"; }\n.bi-house-heart-fill::before { content: \"\\f775\"; }\n.bi-house-heart::before { content: \"\\f776\"; }\n.bi-incognito::before { content: \"\\f777\"; }\n.bi-magnet-fill::before { content: \"\\f778\"; }\n.bi-magnet::before { content: \"\\f779\"; }\n.bi-person-heart::before { content: \"\\f77a\"; }\n.bi-person-hearts::before { content: \"\\f77b\"; }\n.bi-phone-flip::before { content: \"\\f77c\"; }\n.bi-plugin::before { content: \"\\f77d\"; }\n.bi-postage-fill::before { content: \"\\f77e\"; }\n.bi-postage-heart-fill::before { content: \"\\f77f\"; }\n.bi-postage-heart::before { content: \"\\f780\"; }\n.bi-postage::before { content: \"\\f781\"; }\n.bi-postcard-fill::before { content: \"\\f782\"; }\n.bi-postcard-heart-fill::before { content: \"\\f783\"; }\n.bi-postcard-heart::before { content: \"\\f784\"; }\n.bi-postcard::before { content: \"\\f785\"; }\n.bi-search-heart-fill::before { content: \"\\f786\"; }\n.bi-search-heart::before { content: \"\\f787\"; }\n.bi-sliders2-vertical::before { content: \"\\f788\"; }\n.bi-sliders2::before { content: \"\\f789\"; }\n.bi-trash3-fill::before { content: \"\\f78a\"; }\n.bi-trash3::before { content: \"\\f78b\"; }\n.bi-valentine::before { content: \"\\f78c\"; }\n.bi-valentine2::before { content: \"\\f78d\"; }\n.bi-wrench-adjustable-circle-fill::before { content: \"\\f78e\"; }\n.bi-wrench-adjustable-circle::before { content: \"\\f78f\"; }\n.bi-wrench-adjustable::before { content: \"\\f790\"; }\n.bi-filetype-json::before { content: \"\\f791\"; }\n.bi-filetype-pptx::before { content: \"\\f792\"; }\n.bi-filetype-xlsx::before { content: \"\\f793\"; }\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "@font-face {\n  font-display: block;\n  font-family: \"bootstrap-icons\";\n  src: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ") format(\"woff2\"),\nurl(" + ___CSS_LOADER_URL_REPLACEMENT_1___ + ") format(\"woff\");\n}\n\n.bi::before,\n[class^=\"bi-\"]::before,\n[class*=\" bi-\"]::before {\n  display: inline-block;\n  font-family: bootstrap-icons !important;\n  font-style: normal;\n  font-weight: normal !important;\n  font-variant: normal;\n  text-transform: none;\n  line-height: 1;\n  vertical-align: -.125em;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\n\n.bi-123::before { content: \"\\f67f\"; }\n.bi-alarm-fill::before { content: \"\\f101\"; }\n.bi-alarm::before { content: \"\\f102\"; }\n.bi-align-bottom::before { content: \"\\f103\"; }\n.bi-align-center::before { content: \"\\f104\"; }\n.bi-align-end::before { content: \"\\f105\"; }\n.bi-align-middle::before { content: \"\\f106\"; }\n.bi-align-start::before { content: \"\\f107\"; }\n.bi-align-top::before { content: \"\\f108\"; }\n.bi-alt::before { content: \"\\f109\"; }\n.bi-app-indicator::before { content: \"\\f10a\"; }\n.bi-app::before { content: \"\\f10b\"; }\n.bi-archive-fill::before { content: \"\\f10c\"; }\n.bi-archive::before { content: \"\\f10d\"; }\n.bi-arrow-90deg-down::before { content: \"\\f10e\"; }\n.bi-arrow-90deg-left::before { content: \"\\f10f\"; }\n.bi-arrow-90deg-right::before { content: \"\\f110\"; }\n.bi-arrow-90deg-up::before { content: \"\\f111\"; }\n.bi-arrow-bar-down::before { content: \"\\f112\"; }\n.bi-arrow-bar-left::before { content: \"\\f113\"; }\n.bi-arrow-bar-right::before { content: \"\\f114\"; }\n.bi-arrow-bar-up::before { content: \"\\f115\"; }\n.bi-arrow-clockwise::before { content: \"\\f116\"; }\n.bi-arrow-counterclockwise::before { content: \"\\f117\"; }\n.bi-arrow-down-circle-fill::before { content: \"\\f118\"; }\n.bi-arrow-down-circle::before { content: \"\\f119\"; }\n.bi-arrow-down-left-circle-fill::before { content: \"\\f11a\"; }\n.bi-arrow-down-left-circle::before { content: \"\\f11b\"; }\n.bi-arrow-down-left-square-fill::before { content: \"\\f11c\"; }\n.bi-arrow-down-left-square::before { content: \"\\f11d\"; }\n.bi-arrow-down-left::before { content: \"\\f11e\"; }\n.bi-arrow-down-right-circle-fill::before { content: \"\\f11f\"; }\n.bi-arrow-down-right-circle::before { content: \"\\f120\"; }\n.bi-arrow-down-right-square-fill::before { content: \"\\f121\"; }\n.bi-arrow-down-right-square::before { content: \"\\f122\"; }\n.bi-arrow-down-right::before { content: \"\\f123\"; }\n.bi-arrow-down-short::before { content: \"\\f124\"; }\n.bi-arrow-down-square-fill::before { content: \"\\f125\"; }\n.bi-arrow-down-square::before { content: \"\\f126\"; }\n.bi-arrow-down-up::before { content: \"\\f127\"; }\n.bi-arrow-down::before { content: \"\\f128\"; }\n.bi-arrow-left-circle-fill::before { content: \"\\f129\"; }\n.bi-arrow-left-circle::before { content: \"\\f12a\"; }\n.bi-arrow-left-right::before { content: \"\\f12b\"; }\n.bi-arrow-left-short::before { content: \"\\f12c\"; }\n.bi-arrow-left-square-fill::before { content: \"\\f12d\"; }\n.bi-arrow-left-square::before { content: \"\\f12e\"; }\n.bi-arrow-left::before { content: \"\\f12f\"; }\n.bi-arrow-repeat::before { content: \"\\f130\"; }\n.bi-arrow-return-left::before { content: \"\\f131\"; }\n.bi-arrow-return-right::before { content: \"\\f132\"; }\n.bi-arrow-right-circle-fill::before { content: \"\\f133\"; }\n.bi-arrow-right-circle::before { content: \"\\f134\"; }\n.bi-arrow-right-short::before { content: \"\\f135\"; }\n.bi-arrow-right-square-fill::before { content: \"\\f136\"; }\n.bi-arrow-right-square::before { content: \"\\f137\"; }\n.bi-arrow-right::before { content: \"\\f138\"; }\n.bi-arrow-up-circle-fill::before { content: \"\\f139\"; }\n.bi-arrow-up-circle::before { content: \"\\f13a\"; }\n.bi-arrow-up-left-circle-fill::before { content: \"\\f13b\"; }\n.bi-arrow-up-left-circle::before { content: \"\\f13c\"; }\n.bi-arrow-up-left-square-fill::before { content: \"\\f13d\"; }\n.bi-arrow-up-left-square::before { content: \"\\f13e\"; }\n.bi-arrow-up-left::before { content: \"\\f13f\"; }\n.bi-arrow-up-right-circle-fill::before { content: \"\\f140\"; }\n.bi-arrow-up-right-circle::before { content: \"\\f141\"; }\n.bi-arrow-up-right-square-fill::before { content: \"\\f142\"; }\n.bi-arrow-up-right-square::before { content: \"\\f143\"; }\n.bi-arrow-up-right::before { content: \"\\f144\"; }\n.bi-arrow-up-short::before { content: \"\\f145\"; }\n.bi-arrow-up-square-fill::before { content: \"\\f146\"; }\n.bi-arrow-up-square::before { content: \"\\f147\"; }\n.bi-arrow-up::before { content: \"\\f148\"; }\n.bi-arrows-angle-contract::before { content: \"\\f149\"; }\n.bi-arrows-angle-expand::before { content: \"\\f14a\"; }\n.bi-arrows-collapse::before { content: \"\\f14b\"; }\n.bi-arrows-expand::before { content: \"\\f14c\"; }\n.bi-arrows-fullscreen::before { content: \"\\f14d\"; }\n.bi-arrows-move::before { content: \"\\f14e\"; }\n.bi-aspect-ratio-fill::before { content: \"\\f14f\"; }\n.bi-aspect-ratio::before { content: \"\\f150\"; }\n.bi-asterisk::before { content: \"\\f151\"; }\n.bi-at::before { content: \"\\f152\"; }\n.bi-award-fill::before { content: \"\\f153\"; }\n.bi-award::before { content: \"\\f154\"; }\n.bi-back::before { content: \"\\f155\"; }\n.bi-backspace-fill::before { content: \"\\f156\"; }\n.bi-backspace-reverse-fill::before { content: \"\\f157\"; }\n.bi-backspace-reverse::before { content: \"\\f158\"; }\n.bi-backspace::before { content: \"\\f159\"; }\n.bi-badge-3d-fill::before { content: \"\\f15a\"; }\n.bi-badge-3d::before { content: \"\\f15b\"; }\n.bi-badge-4k-fill::before { content: \"\\f15c\"; }\n.bi-badge-4k::before { content: \"\\f15d\"; }\n.bi-badge-8k-fill::before { content: \"\\f15e\"; }\n.bi-badge-8k::before { content: \"\\f15f\"; }\n.bi-badge-ad-fill::before { content: \"\\f160\"; }\n.bi-badge-ad::before { content: \"\\f161\"; }\n.bi-badge-ar-fill::before { content: \"\\f162\"; }\n.bi-badge-ar::before { content: \"\\f163\"; }\n.bi-badge-cc-fill::before { content: \"\\f164\"; }\n.bi-badge-cc::before { content: \"\\f165\"; }\n.bi-badge-hd-fill::before { content: \"\\f166\"; }\n.bi-badge-hd::before { content: \"\\f167\"; }\n.bi-badge-tm-fill::before { content: \"\\f168\"; }\n.bi-badge-tm::before { content: \"\\f169\"; }\n.bi-badge-vo-fill::before { content: \"\\f16a\"; }\n.bi-badge-vo::before { content: \"\\f16b\"; }\n.bi-badge-vr-fill::before { content: \"\\f16c\"; }\n.bi-badge-vr::before { content: \"\\f16d\"; }\n.bi-badge-wc-fill::before { content: \"\\f16e\"; }\n.bi-badge-wc::before { content: \"\\f16f\"; }\n.bi-bag-check-fill::before { content: \"\\f170\"; }\n.bi-bag-check::before { content: \"\\f171\"; }\n.bi-bag-dash-fill::before { content: \"\\f172\"; }\n.bi-bag-dash::before { content: \"\\f173\"; }\n.bi-bag-fill::before { content: \"\\f174\"; }\n.bi-bag-plus-fill::before { content: \"\\f175\"; }\n.bi-bag-plus::before { content: \"\\f176\"; }\n.bi-bag-x-fill::before { content: \"\\f177\"; }\n.bi-bag-x::before { content: \"\\f178\"; }\n.bi-bag::before { content: \"\\f179\"; }\n.bi-bar-chart-fill::before { content: \"\\f17a\"; }\n.bi-bar-chart-line-fill::before { content: \"\\f17b\"; }\n.bi-bar-chart-line::before { content: \"\\f17c\"; }\n.bi-bar-chart-steps::before { content: \"\\f17d\"; }\n.bi-bar-chart::before { content: \"\\f17e\"; }\n.bi-basket-fill::before { content: \"\\f17f\"; }\n.bi-basket::before { content: \"\\f180\"; }\n.bi-basket2-fill::before { content: \"\\f181\"; }\n.bi-basket2::before { content: \"\\f182\"; }\n.bi-basket3-fill::before { content: \"\\f183\"; }\n.bi-basket3::before { content: \"\\f184\"; }\n.bi-battery-charging::before { content: \"\\f185\"; }\n.bi-battery-full::before { content: \"\\f186\"; }\n.bi-battery-half::before { content: \"\\f187\"; }\n.bi-battery::before { content: \"\\f188\"; }\n.bi-bell-fill::before { content: \"\\f189\"; }\n.bi-bell::before { content: \"\\f18a\"; }\n.bi-bezier::before { content: \"\\f18b\"; }\n.bi-bezier2::before { content: \"\\f18c\"; }\n.bi-bicycle::before { content: \"\\f18d\"; }\n.bi-binoculars-fill::before { content: \"\\f18e\"; }\n.bi-binoculars::before { content: \"\\f18f\"; }\n.bi-blockquote-left::before { content: \"\\f190\"; }\n.bi-blockquote-right::before { content: \"\\f191\"; }\n.bi-book-fill::before { content: \"\\f192\"; }\n.bi-book-half::before { content: \"\\f193\"; }\n.bi-book::before { content: \"\\f194\"; }\n.bi-bookmark-check-fill::before { content: \"\\f195\"; }\n.bi-bookmark-check::before { content: \"\\f196\"; }\n.bi-bookmark-dash-fill::before { content: \"\\f197\"; }\n.bi-bookmark-dash::before { content: \"\\f198\"; }\n.bi-bookmark-fill::before { content: \"\\f199\"; }\n.bi-bookmark-heart-fill::before { content: \"\\f19a\"; }\n.bi-bookmark-heart::before { content: \"\\f19b\"; }\n.bi-bookmark-plus-fill::before { content: \"\\f19c\"; }\n.bi-bookmark-plus::before { content: \"\\f19d\"; }\n.bi-bookmark-star-fill::before { content: \"\\f19e\"; }\n.bi-bookmark-star::before { content: \"\\f19f\"; }\n.bi-bookmark-x-fill::before { content: \"\\f1a0\"; }\n.bi-bookmark-x::before { content: \"\\f1a1\"; }\n.bi-bookmark::before { content: \"\\f1a2\"; }\n.bi-bookmarks-fill::before { content: \"\\f1a3\"; }\n.bi-bookmarks::before { content: \"\\f1a4\"; }\n.bi-bookshelf::before { content: \"\\f1a5\"; }\n.bi-bootstrap-fill::before { content: \"\\f1a6\"; }\n.bi-bootstrap-reboot::before { content: \"\\f1a7\"; }\n.bi-bootstrap::before { content: \"\\f1a8\"; }\n.bi-border-all::before { content: \"\\f1a9\"; }\n.bi-border-bottom::before { content: \"\\f1aa\"; }\n.bi-border-center::before { content: \"\\f1ab\"; }\n.bi-border-inner::before { content: \"\\f1ac\"; }\n.bi-border-left::before { content: \"\\f1ad\"; }\n.bi-border-middle::before { content: \"\\f1ae\"; }\n.bi-border-outer::before { content: \"\\f1af\"; }\n.bi-border-right::before { content: \"\\f1b0\"; }\n.bi-border-style::before { content: \"\\f1b1\"; }\n.bi-border-top::before { content: \"\\f1b2\"; }\n.bi-border-width::before { content: \"\\f1b3\"; }\n.bi-border::before { content: \"\\f1b4\"; }\n.bi-bounding-box-circles::before { content: \"\\f1b5\"; }\n.bi-bounding-box::before { content: \"\\f1b6\"; }\n.bi-box-arrow-down-left::before { content: \"\\f1b7\"; }\n.bi-box-arrow-down-right::before { content: \"\\f1b8\"; }\n.bi-box-arrow-down::before { content: \"\\f1b9\"; }\n.bi-box-arrow-in-down-left::before { content: \"\\f1ba\"; }\n.bi-box-arrow-in-down-right::before { content: \"\\f1bb\"; }\n.bi-box-arrow-in-down::before { content: \"\\f1bc\"; }\n.bi-box-arrow-in-left::before { content: \"\\f1bd\"; }\n.bi-box-arrow-in-right::before { content: \"\\f1be\"; }\n.bi-box-arrow-in-up-left::before { content: \"\\f1bf\"; }\n.bi-box-arrow-in-up-right::before { content: \"\\f1c0\"; }\n.bi-box-arrow-in-up::before { content: \"\\f1c1\"; }\n.bi-box-arrow-left::before { content: \"\\f1c2\"; }\n.bi-box-arrow-right::before { content: \"\\f1c3\"; }\n.bi-box-arrow-up-left::before { content: \"\\f1c4\"; }\n.bi-box-arrow-up-right::before { content: \"\\f1c5\"; }\n.bi-box-arrow-up::before { content: \"\\f1c6\"; }\n.bi-box-seam::before { content: \"\\f1c7\"; }\n.bi-box::before { content: \"\\f1c8\"; }\n.bi-braces::before { content: \"\\f1c9\"; }\n.bi-bricks::before { content: \"\\f1ca\"; }\n.bi-briefcase-fill::before { content: \"\\f1cb\"; }\n.bi-briefcase::before { content: \"\\f1cc\"; }\n.bi-brightness-alt-high-fill::before { content: \"\\f1cd\"; }\n.bi-brightness-alt-high::before { content: \"\\f1ce\"; }\n.bi-brightness-alt-low-fill::before { content: \"\\f1cf\"; }\n.bi-brightness-alt-low::before { content: \"\\f1d0\"; }\n.bi-brightness-high-fill::before { content: \"\\f1d1\"; }\n.bi-brightness-high::before { content: \"\\f1d2\"; }\n.bi-brightness-low-fill::before { content: \"\\f1d3\"; }\n.bi-brightness-low::before { content: \"\\f1d4\"; }\n.bi-broadcast-pin::before { content: \"\\f1d5\"; }\n.bi-broadcast::before { content: \"\\f1d6\"; }\n.bi-brush-fill::before { content: \"\\f1d7\"; }\n.bi-brush::before { content: \"\\f1d8\"; }\n.bi-bucket-fill::before { content: \"\\f1d9\"; }\n.bi-bucket::before { content: \"\\f1da\"; }\n.bi-bug-fill::before { content: \"\\f1db\"; }\n.bi-bug::before { content: \"\\f1dc\"; }\n.bi-building::before { content: \"\\f1dd\"; }\n.bi-bullseye::before { content: \"\\f1de\"; }\n.bi-calculator-fill::before { content: \"\\f1df\"; }\n.bi-calculator::before { content: \"\\f1e0\"; }\n.bi-calendar-check-fill::before { content: \"\\f1e1\"; }\n.bi-calendar-check::before { content: \"\\f1e2\"; }\n.bi-calendar-date-fill::before { content: \"\\f1e3\"; }\n.bi-calendar-date::before { content: \"\\f1e4\"; }\n.bi-calendar-day-fill::before { content: \"\\f1e5\"; }\n.bi-calendar-day::before { content: \"\\f1e6\"; }\n.bi-calendar-event-fill::before { content: \"\\f1e7\"; }\n.bi-calendar-event::before { content: \"\\f1e8\"; }\n.bi-calendar-fill::before { content: \"\\f1e9\"; }\n.bi-calendar-minus-fill::before { content: \"\\f1ea\"; }\n.bi-calendar-minus::before { content: \"\\f1eb\"; }\n.bi-calendar-month-fill::before { content: \"\\f1ec\"; }\n.bi-calendar-month::before { content: \"\\f1ed\"; }\n.bi-calendar-plus-fill::before { content: \"\\f1ee\"; }\n.bi-calendar-plus::before { content: \"\\f1ef\"; }\n.bi-calendar-range-fill::before { content: \"\\f1f0\"; }\n.bi-calendar-range::before { content: \"\\f1f1\"; }\n.bi-calendar-week-fill::before { content: \"\\f1f2\"; }\n.bi-calendar-week::before { content: \"\\f1f3\"; }\n.bi-calendar-x-fill::before { content: \"\\f1f4\"; }\n.bi-calendar-x::before { content: \"\\f1f5\"; }\n.bi-calendar::before { content: \"\\f1f6\"; }\n.bi-calendar2-check-fill::before { content: \"\\f1f7\"; }\n.bi-calendar2-check::before { content: \"\\f1f8\"; }\n.bi-calendar2-date-fill::before { content: \"\\f1f9\"; }\n.bi-calendar2-date::before { content: \"\\f1fa\"; }\n.bi-calendar2-day-fill::before { content: \"\\f1fb\"; }\n.bi-calendar2-day::before { content: \"\\f1fc\"; }\n.bi-calendar2-event-fill::before { content: \"\\f1fd\"; }\n.bi-calendar2-event::before { content: \"\\f1fe\"; }\n.bi-calendar2-fill::before { content: \"\\f1ff\"; }\n.bi-calendar2-minus-fill::before { content: \"\\f200\"; }\n.bi-calendar2-minus::before { content: \"\\f201\"; }\n.bi-calendar2-month-fill::before { content: \"\\f202\"; }\n.bi-calendar2-month::before { content: \"\\f203\"; }\n.bi-calendar2-plus-fill::before { content: \"\\f204\"; }\n.bi-calendar2-plus::before { content: \"\\f205\"; }\n.bi-calendar2-range-fill::before { content: \"\\f206\"; }\n.bi-calendar2-range::before { content: \"\\f207\"; }\n.bi-calendar2-week-fill::before { content: \"\\f208\"; }\n.bi-calendar2-week::before { content: \"\\f209\"; }\n.bi-calendar2-x-fill::before { content: \"\\f20a\"; }\n.bi-calendar2-x::before { content: \"\\f20b\"; }\n.bi-calendar2::before { content: \"\\f20c\"; }\n.bi-calendar3-event-fill::before { content: \"\\f20d\"; }\n.bi-calendar3-event::before { content: \"\\f20e\"; }\n.bi-calendar3-fill::before { content: \"\\f20f\"; }\n.bi-calendar3-range-fill::before { content: \"\\f210\"; }\n.bi-calendar3-range::before { content: \"\\f211\"; }\n.bi-calendar3-week-fill::before { content: \"\\f212\"; }\n.bi-calendar3-week::before { content: \"\\f213\"; }\n.bi-calendar3::before { content: \"\\f214\"; }\n.bi-calendar4-event::before { content: \"\\f215\"; }\n.bi-calendar4-range::before { content: \"\\f216\"; }\n.bi-calendar4-week::before { content: \"\\f217\"; }\n.bi-calendar4::before { content: \"\\f218\"; }\n.bi-camera-fill::before { content: \"\\f219\"; }\n.bi-camera-reels-fill::before { content: \"\\f21a\"; }\n.bi-camera-reels::before { content: \"\\f21b\"; }\n.bi-camera-video-fill::before { content: \"\\f21c\"; }\n.bi-camera-video-off-fill::before { content: \"\\f21d\"; }\n.bi-camera-video-off::before { content: \"\\f21e\"; }\n.bi-camera-video::before { content: \"\\f21f\"; }\n.bi-camera::before { content: \"\\f220\"; }\n.bi-camera2::before { content: \"\\f221\"; }\n.bi-capslock-fill::before { content: \"\\f222\"; }\n.bi-capslock::before { content: \"\\f223\"; }\n.bi-card-checklist::before { content: \"\\f224\"; }\n.bi-card-heading::before { content: \"\\f225\"; }\n.bi-card-image::before { content: \"\\f226\"; }\n.bi-card-list::before { content: \"\\f227\"; }\n.bi-card-text::before { content: \"\\f228\"; }\n.bi-caret-down-fill::before { content: \"\\f229\"; }\n.bi-caret-down-square-fill::before { content: \"\\f22a\"; }\n.bi-caret-down-square::before { content: \"\\f22b\"; }\n.bi-caret-down::before { content: \"\\f22c\"; }\n.bi-caret-left-fill::before { content: \"\\f22d\"; }\n.bi-caret-left-square-fill::before { content: \"\\f22e\"; }\n.bi-caret-left-square::before { content: \"\\f22f\"; }\n.bi-caret-left::before { content: \"\\f230\"; }\n.bi-caret-right-fill::before { content: \"\\f231\"; }\n.bi-caret-right-square-fill::before { content: \"\\f232\"; }\n.bi-caret-right-square::before { content: \"\\f233\"; }\n.bi-caret-right::before { content: \"\\f234\"; }\n.bi-caret-up-fill::before { content: \"\\f235\"; }\n.bi-caret-up-square-fill::before { content: \"\\f236\"; }\n.bi-caret-up-square::before { content: \"\\f237\"; }\n.bi-caret-up::before { content: \"\\f238\"; }\n.bi-cart-check-fill::before { content: \"\\f239\"; }\n.bi-cart-check::before { content: \"\\f23a\"; }\n.bi-cart-dash-fill::before { content: \"\\f23b\"; }\n.bi-cart-dash::before { content: \"\\f23c\"; }\n.bi-cart-fill::before { content: \"\\f23d\"; }\n.bi-cart-plus-fill::before { content: \"\\f23e\"; }\n.bi-cart-plus::before { content: \"\\f23f\"; }\n.bi-cart-x-fill::before { content: \"\\f240\"; }\n.bi-cart-x::before { content: \"\\f241\"; }\n.bi-cart::before { content: \"\\f242\"; }\n.bi-cart2::before { content: \"\\f243\"; }\n.bi-cart3::before { content: \"\\f244\"; }\n.bi-cart4::before { content: \"\\f245\"; }\n.bi-cash-stack::before { content: \"\\f246\"; }\n.bi-cash::before { content: \"\\f247\"; }\n.bi-cast::before { content: \"\\f248\"; }\n.bi-chat-dots-fill::before { content: \"\\f249\"; }\n.bi-chat-dots::before { content: \"\\f24a\"; }\n.bi-chat-fill::before { content: \"\\f24b\"; }\n.bi-chat-left-dots-fill::before { content: \"\\f24c\"; }\n.bi-chat-left-dots::before { content: \"\\f24d\"; }\n.bi-chat-left-fill::before { content: \"\\f24e\"; }\n.bi-chat-left-quote-fill::before { content: \"\\f24f\"; }\n.bi-chat-left-quote::before { content: \"\\f250\"; }\n.bi-chat-left-text-fill::before { content: \"\\f251\"; }\n.bi-chat-left-text::before { content: \"\\f252\"; }\n.bi-chat-left::before { content: \"\\f253\"; }\n.bi-chat-quote-fill::before { content: \"\\f254\"; }\n.bi-chat-quote::before { content: \"\\f255\"; }\n.bi-chat-right-dots-fill::before { content: \"\\f256\"; }\n.bi-chat-right-dots::before { content: \"\\f257\"; }\n.bi-chat-right-fill::before { content: \"\\f258\"; }\n.bi-chat-right-quote-fill::before { content: \"\\f259\"; }\n.bi-chat-right-quote::before { content: \"\\f25a\"; }\n.bi-chat-right-text-fill::before { content: \"\\f25b\"; }\n.bi-chat-right-text::before { content: \"\\f25c\"; }\n.bi-chat-right::before { content: \"\\f25d\"; }\n.bi-chat-square-dots-fill::before { content: \"\\f25e\"; }\n.bi-chat-square-dots::before { content: \"\\f25f\"; }\n.bi-chat-square-fill::before { content: \"\\f260\"; }\n.bi-chat-square-quote-fill::before { content: \"\\f261\"; }\n.bi-chat-square-quote::before { content: \"\\f262\"; }\n.bi-chat-square-text-fill::before { content: \"\\f263\"; }\n.bi-chat-square-text::before { content: \"\\f264\"; }\n.bi-chat-square::before { content: \"\\f265\"; }\n.bi-chat-text-fill::before { content: \"\\f266\"; }\n.bi-chat-text::before { content: \"\\f267\"; }\n.bi-chat::before { content: \"\\f268\"; }\n.bi-check-all::before { content: \"\\f269\"; }\n.bi-check-circle-fill::before { content: \"\\f26a\"; }\n.bi-check-circle::before { content: \"\\f26b\"; }\n.bi-check-square-fill::before { content: \"\\f26c\"; }\n.bi-check-square::before { content: \"\\f26d\"; }\n.bi-check::before { content: \"\\f26e\"; }\n.bi-check2-all::before { content: \"\\f26f\"; }\n.bi-check2-circle::before { content: \"\\f270\"; }\n.bi-check2-square::before { content: \"\\f271\"; }\n.bi-check2::before { content: \"\\f272\"; }\n.bi-chevron-bar-contract::before { content: \"\\f273\"; }\n.bi-chevron-bar-down::before { content: \"\\f274\"; }\n.bi-chevron-bar-expand::before { content: \"\\f275\"; }\n.bi-chevron-bar-left::before { content: \"\\f276\"; }\n.bi-chevron-bar-right::before { content: \"\\f277\"; }\n.bi-chevron-bar-up::before { content: \"\\f278\"; }\n.bi-chevron-compact-down::before { content: \"\\f279\"; }\n.bi-chevron-compact-left::before { content: \"\\f27a\"; }\n.bi-chevron-compact-right::before { content: \"\\f27b\"; }\n.bi-chevron-compact-up::before { content: \"\\f27c\"; }\n.bi-chevron-contract::before { content: \"\\f27d\"; }\n.bi-chevron-double-down::before { content: \"\\f27e\"; }\n.bi-chevron-double-left::before { content: \"\\f27f\"; }\n.bi-chevron-double-right::before { content: \"\\f280\"; }\n.bi-chevron-double-up::before { content: \"\\f281\"; }\n.bi-chevron-down::before { content: \"\\f282\"; }\n.bi-chevron-expand::before { content: \"\\f283\"; }\n.bi-chevron-left::before { content: \"\\f284\"; }\n.bi-chevron-right::before { content: \"\\f285\"; }\n.bi-chevron-up::before { content: \"\\f286\"; }\n.bi-circle-fill::before { content: \"\\f287\"; }\n.bi-circle-half::before { content: \"\\f288\"; }\n.bi-circle-square::before { content: \"\\f289\"; }\n.bi-circle::before { content: \"\\f28a\"; }\n.bi-clipboard-check::before { content: \"\\f28b\"; }\n.bi-clipboard-data::before { content: \"\\f28c\"; }\n.bi-clipboard-minus::before { content: \"\\f28d\"; }\n.bi-clipboard-plus::before { content: \"\\f28e\"; }\n.bi-clipboard-x::before { content: \"\\f28f\"; }\n.bi-clipboard::before { content: \"\\f290\"; }\n.bi-clock-fill::before { content: \"\\f291\"; }\n.bi-clock-history::before { content: \"\\f292\"; }\n.bi-clock::before { content: \"\\f293\"; }\n.bi-cloud-arrow-down-fill::before { content: \"\\f294\"; }\n.bi-cloud-arrow-down::before { content: \"\\f295\"; }\n.bi-cloud-arrow-up-fill::before { content: \"\\f296\"; }\n.bi-cloud-arrow-up::before { content: \"\\f297\"; }\n.bi-cloud-check-fill::before { content: \"\\f298\"; }\n.bi-cloud-check::before { content: \"\\f299\"; }\n.bi-cloud-download-fill::before { content: \"\\f29a\"; }\n.bi-cloud-download::before { content: \"\\f29b\"; }\n.bi-cloud-drizzle-fill::before { content: \"\\f29c\"; }\n.bi-cloud-drizzle::before { content: \"\\f29d\"; }\n.bi-cloud-fill::before { content: \"\\f29e\"; }\n.bi-cloud-fog-fill::before { content: \"\\f29f\"; }\n.bi-cloud-fog::before { content: \"\\f2a0\"; }\n.bi-cloud-fog2-fill::before { content: \"\\f2a1\"; }\n.bi-cloud-fog2::before { content: \"\\f2a2\"; }\n.bi-cloud-hail-fill::before { content: \"\\f2a3\"; }\n.bi-cloud-hail::before { content: \"\\f2a4\"; }\n.bi-cloud-haze-1::before { content: \"\\f2a5\"; }\n.bi-cloud-haze-fill::before { content: \"\\f2a6\"; }\n.bi-cloud-haze::before { content: \"\\f2a7\"; }\n.bi-cloud-haze2-fill::before { content: \"\\f2a8\"; }\n.bi-cloud-lightning-fill::before { content: \"\\f2a9\"; }\n.bi-cloud-lightning-rain-fill::before { content: \"\\f2aa\"; }\n.bi-cloud-lightning-rain::before { content: \"\\f2ab\"; }\n.bi-cloud-lightning::before { content: \"\\f2ac\"; }\n.bi-cloud-minus-fill::before { content: \"\\f2ad\"; }\n.bi-cloud-minus::before { content: \"\\f2ae\"; }\n.bi-cloud-moon-fill::before { content: \"\\f2af\"; }\n.bi-cloud-moon::before { content: \"\\f2b0\"; }\n.bi-cloud-plus-fill::before { content: \"\\f2b1\"; }\n.bi-cloud-plus::before { content: \"\\f2b2\"; }\n.bi-cloud-rain-fill::before { content: \"\\f2b3\"; }\n.bi-cloud-rain-heavy-fill::before { content: \"\\f2b4\"; }\n.bi-cloud-rain-heavy::before { content: \"\\f2b5\"; }\n.bi-cloud-rain::before { content: \"\\f2b6\"; }\n.bi-cloud-slash-fill::before { content: \"\\f2b7\"; }\n.bi-cloud-slash::before { content: \"\\f2b8\"; }\n.bi-cloud-sleet-fill::before { content: \"\\f2b9\"; }\n.bi-cloud-sleet::before { content: \"\\f2ba\"; }\n.bi-cloud-snow-fill::before { content: \"\\f2bb\"; }\n.bi-cloud-snow::before { content: \"\\f2bc\"; }\n.bi-cloud-sun-fill::before { content: \"\\f2bd\"; }\n.bi-cloud-sun::before { content: \"\\f2be\"; }\n.bi-cloud-upload-fill::before { content: \"\\f2bf\"; }\n.bi-cloud-upload::before { content: \"\\f2c0\"; }\n.bi-cloud::before { content: \"\\f2c1\"; }\n.bi-clouds-fill::before { content: \"\\f2c2\"; }\n.bi-clouds::before { content: \"\\f2c3\"; }\n.bi-cloudy-fill::before { content: \"\\f2c4\"; }\n.bi-cloudy::before { content: \"\\f2c5\"; }\n.bi-code-slash::before { content: \"\\f2c6\"; }\n.bi-code-square::before { content: \"\\f2c7\"; }\n.bi-code::before { content: \"\\f2c8\"; }\n.bi-collection-fill::before { content: \"\\f2c9\"; }\n.bi-collection-play-fill::before { content: \"\\f2ca\"; }\n.bi-collection-play::before { content: \"\\f2cb\"; }\n.bi-collection::before { content: \"\\f2cc\"; }\n.bi-columns-gap::before { content: \"\\f2cd\"; }\n.bi-columns::before { content: \"\\f2ce\"; }\n.bi-command::before { content: \"\\f2cf\"; }\n.bi-compass-fill::before { content: \"\\f2d0\"; }\n.bi-compass::before { content: \"\\f2d1\"; }\n.bi-cone-striped::before { content: \"\\f2d2\"; }\n.bi-cone::before { content: \"\\f2d3\"; }\n.bi-controller::before { content: \"\\f2d4\"; }\n.bi-cpu-fill::before { content: \"\\f2d5\"; }\n.bi-cpu::before { content: \"\\f2d6\"; }\n.bi-credit-card-2-back-fill::before { content: \"\\f2d7\"; }\n.bi-credit-card-2-back::before { content: \"\\f2d8\"; }\n.bi-credit-card-2-front-fill::before { content: \"\\f2d9\"; }\n.bi-credit-card-2-front::before { content: \"\\f2da\"; }\n.bi-credit-card-fill::before { content: \"\\f2db\"; }\n.bi-credit-card::before { content: \"\\f2dc\"; }\n.bi-crop::before { content: \"\\f2dd\"; }\n.bi-cup-fill::before { content: \"\\f2de\"; }\n.bi-cup-straw::before { content: \"\\f2df\"; }\n.bi-cup::before { content: \"\\f2e0\"; }\n.bi-cursor-fill::before { content: \"\\f2e1\"; }\n.bi-cursor-text::before { content: \"\\f2e2\"; }\n.bi-cursor::before { content: \"\\f2e3\"; }\n.bi-dash-circle-dotted::before { content: \"\\f2e4\"; }\n.bi-dash-circle-fill::before { content: \"\\f2e5\"; }\n.bi-dash-circle::before { content: \"\\f2e6\"; }\n.bi-dash-square-dotted::before { content: \"\\f2e7\"; }\n.bi-dash-square-fill::before { content: \"\\f2e8\"; }\n.bi-dash-square::before { content: \"\\f2e9\"; }\n.bi-dash::before { content: \"\\f2ea\"; }\n.bi-diagram-2-fill::before { content: \"\\f2eb\"; }\n.bi-diagram-2::before { content: \"\\f2ec\"; }\n.bi-diagram-3-fill::before { content: \"\\f2ed\"; }\n.bi-diagram-3::before { content: \"\\f2ee\"; }\n.bi-diamond-fill::before { content: \"\\f2ef\"; }\n.bi-diamond-half::before { content: \"\\f2f0\"; }\n.bi-diamond::before { content: \"\\f2f1\"; }\n.bi-dice-1-fill::before { content: \"\\f2f2\"; }\n.bi-dice-1::before { content: \"\\f2f3\"; }\n.bi-dice-2-fill::before { content: \"\\f2f4\"; }\n.bi-dice-2::before { content: \"\\f2f5\"; }\n.bi-dice-3-fill::before { content: \"\\f2f6\"; }\n.bi-dice-3::before { content: \"\\f2f7\"; }\n.bi-dice-4-fill::before { content: \"\\f2f8\"; }\n.bi-dice-4::before { content: \"\\f2f9\"; }\n.bi-dice-5-fill::before { content: \"\\f2fa\"; }\n.bi-dice-5::before { content: \"\\f2fb\"; }\n.bi-dice-6-fill::before { content: \"\\f2fc\"; }\n.bi-dice-6::before { content: \"\\f2fd\"; }\n.bi-disc-fill::before { content: \"\\f2fe\"; }\n.bi-disc::before { content: \"\\f2ff\"; }\n.bi-discord::before { content: \"\\f300\"; }\n.bi-display-fill::before { content: \"\\f301\"; }\n.bi-display::before { content: \"\\f302\"; }\n.bi-distribute-horizontal::before { content: \"\\f303\"; }\n.bi-distribute-vertical::before { content: \"\\f304\"; }\n.bi-door-closed-fill::before { content: \"\\f305\"; }\n.bi-door-closed::before { content: \"\\f306\"; }\n.bi-door-open-fill::before { content: \"\\f307\"; }\n.bi-door-open::before { content: \"\\f308\"; }\n.bi-dot::before { content: \"\\f309\"; }\n.bi-download::before { content: \"\\f30a\"; }\n.bi-droplet-fill::before { content: \"\\f30b\"; }\n.bi-droplet-half::before { content: \"\\f30c\"; }\n.bi-droplet::before { content: \"\\f30d\"; }\n.bi-earbuds::before { content: \"\\f30e\"; }\n.bi-easel-fill::before { content: \"\\f30f\"; }\n.bi-easel::before { content: \"\\f310\"; }\n.bi-egg-fill::before { content: \"\\f311\"; }\n.bi-egg-fried::before { content: \"\\f312\"; }\n.bi-egg::before { content: \"\\f313\"; }\n.bi-eject-fill::before { content: \"\\f314\"; }\n.bi-eject::before { content: \"\\f315\"; }\n.bi-emoji-angry-fill::before { content: \"\\f316\"; }\n.bi-emoji-angry::before { content: \"\\f317\"; }\n.bi-emoji-dizzy-fill::before { content: \"\\f318\"; }\n.bi-emoji-dizzy::before { content: \"\\f319\"; }\n.bi-emoji-expressionless-fill::before { content: \"\\f31a\"; }\n.bi-emoji-expressionless::before { content: \"\\f31b\"; }\n.bi-emoji-frown-fill::before { content: \"\\f31c\"; }\n.bi-emoji-frown::before { content: \"\\f31d\"; }\n.bi-emoji-heart-eyes-fill::before { content: \"\\f31e\"; }\n.bi-emoji-heart-eyes::before { content: \"\\f31f\"; }\n.bi-emoji-laughing-fill::before { content: \"\\f320\"; }\n.bi-emoji-laughing::before { content: \"\\f321\"; }\n.bi-emoji-neutral-fill::before { content: \"\\f322\"; }\n.bi-emoji-neutral::before { content: \"\\f323\"; }\n.bi-emoji-smile-fill::before { content: \"\\f324\"; }\n.bi-emoji-smile-upside-down-fill::before { content: \"\\f325\"; }\n.bi-emoji-smile-upside-down::before { content: \"\\f326\"; }\n.bi-emoji-smile::before { content: \"\\f327\"; }\n.bi-emoji-sunglasses-fill::before { content: \"\\f328\"; }\n.bi-emoji-sunglasses::before { content: \"\\f329\"; }\n.bi-emoji-wink-fill::before { content: \"\\f32a\"; }\n.bi-emoji-wink::before { content: \"\\f32b\"; }\n.bi-envelope-fill::before { content: \"\\f32c\"; }\n.bi-envelope-open-fill::before { content: \"\\f32d\"; }\n.bi-envelope-open::before { content: \"\\f32e\"; }\n.bi-envelope::before { content: \"\\f32f\"; }\n.bi-eraser-fill::before { content: \"\\f330\"; }\n.bi-eraser::before { content: \"\\f331\"; }\n.bi-exclamation-circle-fill::before { content: \"\\f332\"; }\n.bi-exclamation-circle::before { content: \"\\f333\"; }\n.bi-exclamation-diamond-fill::before { content: \"\\f334\"; }\n.bi-exclamation-diamond::before { content: \"\\f335\"; }\n.bi-exclamation-octagon-fill::before { content: \"\\f336\"; }\n.bi-exclamation-octagon::before { content: \"\\f337\"; }\n.bi-exclamation-square-fill::before { content: \"\\f338\"; }\n.bi-exclamation-square::before { content: \"\\f339\"; }\n.bi-exclamation-triangle-fill::before { content: \"\\f33a\"; }\n.bi-exclamation-triangle::before { content: \"\\f33b\"; }\n.bi-exclamation::before { content: \"\\f33c\"; }\n.bi-exclude::before { content: \"\\f33d\"; }\n.bi-eye-fill::before { content: \"\\f33e\"; }\n.bi-eye-slash-fill::before { content: \"\\f33f\"; }\n.bi-eye-slash::before { content: \"\\f340\"; }\n.bi-eye::before { content: \"\\f341\"; }\n.bi-eyedropper::before { content: \"\\f342\"; }\n.bi-eyeglasses::before { content: \"\\f343\"; }\n.bi-facebook::before { content: \"\\f344\"; }\n.bi-file-arrow-down-fill::before { content: \"\\f345\"; }\n.bi-file-arrow-down::before { content: \"\\f346\"; }\n.bi-file-arrow-up-fill::before { content: \"\\f347\"; }\n.bi-file-arrow-up::before { content: \"\\f348\"; }\n.bi-file-bar-graph-fill::before { content: \"\\f349\"; }\n.bi-file-bar-graph::before { content: \"\\f34a\"; }\n.bi-file-binary-fill::before { content: \"\\f34b\"; }\n.bi-file-binary::before { content: \"\\f34c\"; }\n.bi-file-break-fill::before { content: \"\\f34d\"; }\n.bi-file-break::before { content: \"\\f34e\"; }\n.bi-file-check-fill::before { content: \"\\f34f\"; }\n.bi-file-check::before { content: \"\\f350\"; }\n.bi-file-code-fill::before { content: \"\\f351\"; }\n.bi-file-code::before { content: \"\\f352\"; }\n.bi-file-diff-fill::before { content: \"\\f353\"; }\n.bi-file-diff::before { content: \"\\f354\"; }\n.bi-file-earmark-arrow-down-fill::before { content: \"\\f355\"; }\n.bi-file-earmark-arrow-down::before { content: \"\\f356\"; }\n.bi-file-earmark-arrow-up-fill::before { content: \"\\f357\"; }\n.bi-file-earmark-arrow-up::before { content: \"\\f358\"; }\n.bi-file-earmark-bar-graph-fill::before { content: \"\\f359\"; }\n.bi-file-earmark-bar-graph::before { content: \"\\f35a\"; }\n.bi-file-earmark-binary-fill::before { content: \"\\f35b\"; }\n.bi-file-earmark-binary::before { content: \"\\f35c\"; }\n.bi-file-earmark-break-fill::before { content: \"\\f35d\"; }\n.bi-file-earmark-break::before { content: \"\\f35e\"; }\n.bi-file-earmark-check-fill::before { content: \"\\f35f\"; }\n.bi-file-earmark-check::before { content: \"\\f360\"; }\n.bi-file-earmark-code-fill::before { content: \"\\f361\"; }\n.bi-file-earmark-code::before { content: \"\\f362\"; }\n.bi-file-earmark-diff-fill::before { content: \"\\f363\"; }\n.bi-file-earmark-diff::before { content: \"\\f364\"; }\n.bi-file-earmark-easel-fill::before { content: \"\\f365\"; }\n.bi-file-earmark-easel::before { content: \"\\f366\"; }\n.bi-file-earmark-excel-fill::before { content: \"\\f367\"; }\n.bi-file-earmark-excel::before { content: \"\\f368\"; }\n.bi-file-earmark-fill::before { content: \"\\f369\"; }\n.bi-file-earmark-font-fill::before { content: \"\\f36a\"; }\n.bi-file-earmark-font::before { content: \"\\f36b\"; }\n.bi-file-earmark-image-fill::before { content: \"\\f36c\"; }\n.bi-file-earmark-image::before { content: \"\\f36d\"; }\n.bi-file-earmark-lock-fill::before { content: \"\\f36e\"; }\n.bi-file-earmark-lock::before { content: \"\\f36f\"; }\n.bi-file-earmark-lock2-fill::before { content: \"\\f370\"; }\n.bi-file-earmark-lock2::before { content: \"\\f371\"; }\n.bi-file-earmark-medical-fill::before { content: \"\\f372\"; }\n.bi-file-earmark-medical::before { content: \"\\f373\"; }\n.bi-file-earmark-minus-fill::before { content: \"\\f374\"; }\n.bi-file-earmark-minus::before { content: \"\\f375\"; }\n.bi-file-earmark-music-fill::before { content: \"\\f376\"; }\n.bi-file-earmark-music::before { content: \"\\f377\"; }\n.bi-file-earmark-person-fill::before { content: \"\\f378\"; }\n.bi-file-earmark-person::before { content: \"\\f379\"; }\n.bi-file-earmark-play-fill::before { content: \"\\f37a\"; }\n.bi-file-earmark-play::before { content: \"\\f37b\"; }\n.bi-file-earmark-plus-fill::before { content: \"\\f37c\"; }\n.bi-file-earmark-plus::before { content: \"\\f37d\"; }\n.bi-file-earmark-post-fill::before { content: \"\\f37e\"; }\n.bi-file-earmark-post::before { content: \"\\f37f\"; }\n.bi-file-earmark-ppt-fill::before { content: \"\\f380\"; }\n.bi-file-earmark-ppt::before { content: \"\\f381\"; }\n.bi-file-earmark-richtext-fill::before { content: \"\\f382\"; }\n.bi-file-earmark-richtext::before { content: \"\\f383\"; }\n.bi-file-earmark-ruled-fill::before { content: \"\\f384\"; }\n.bi-file-earmark-ruled::before { content: \"\\f385\"; }\n.bi-file-earmark-slides-fill::before { content: \"\\f386\"; }\n.bi-file-earmark-slides::before { content: \"\\f387\"; }\n.bi-file-earmark-spreadsheet-fill::before { content: \"\\f388\"; }\n.bi-file-earmark-spreadsheet::before { content: \"\\f389\"; }\n.bi-file-earmark-text-fill::before { content: \"\\f38a\"; }\n.bi-file-earmark-text::before { content: \"\\f38b\"; }\n.bi-file-earmark-word-fill::before { content: \"\\f38c\"; }\n.bi-file-earmark-word::before { content: \"\\f38d\"; }\n.bi-file-earmark-x-fill::before { content: \"\\f38e\"; }\n.bi-file-earmark-x::before { content: \"\\f38f\"; }\n.bi-file-earmark-zip-fill::before { content: \"\\f390\"; }\n.bi-file-earmark-zip::before { content: \"\\f391\"; }\n.bi-file-earmark::before { content: \"\\f392\"; }\n.bi-file-easel-fill::before { content: \"\\f393\"; }\n.bi-file-easel::before { content: \"\\f394\"; }\n.bi-file-excel-fill::before { content: \"\\f395\"; }\n.bi-file-excel::before { content: \"\\f396\"; }\n.bi-file-fill::before { content: \"\\f397\"; }\n.bi-file-font-fill::before { content: \"\\f398\"; }\n.bi-file-font::before { content: \"\\f399\"; }\n.bi-file-image-fill::before { content: \"\\f39a\"; }\n.bi-file-image::before { content: \"\\f39b\"; }\n.bi-file-lock-fill::before { content: \"\\f39c\"; }\n.bi-file-lock::before { content: \"\\f39d\"; }\n.bi-file-lock2-fill::before { content: \"\\f39e\"; }\n.bi-file-lock2::before { content: \"\\f39f\"; }\n.bi-file-medical-fill::before { content: \"\\f3a0\"; }\n.bi-file-medical::before { content: \"\\f3a1\"; }\n.bi-file-minus-fill::before { content: \"\\f3a2\"; }\n.bi-file-minus::before { content: \"\\f3a3\"; }\n.bi-file-music-fill::before { content: \"\\f3a4\"; }\n.bi-file-music::before { content: \"\\f3a5\"; }\n.bi-file-person-fill::before { content: \"\\f3a6\"; }\n.bi-file-person::before { content: \"\\f3a7\"; }\n.bi-file-play-fill::before { content: \"\\f3a8\"; }\n.bi-file-play::before { content: \"\\f3a9\"; }\n.bi-file-plus-fill::before { content: \"\\f3aa\"; }\n.bi-file-plus::before { content: \"\\f3ab\"; }\n.bi-file-post-fill::before { content: \"\\f3ac\"; }\n.bi-file-post::before { content: \"\\f3ad\"; }\n.bi-file-ppt-fill::before { content: \"\\f3ae\"; }\n.bi-file-ppt::before { content: \"\\f3af\"; }\n.bi-file-richtext-fill::before { content: \"\\f3b0\"; }\n.bi-file-richtext::before { content: \"\\f3b1\"; }\n.bi-file-ruled-fill::before { content: \"\\f3b2\"; }\n.bi-file-ruled::before { content: \"\\f3b3\"; }\n.bi-file-slides-fill::before { content: \"\\f3b4\"; }\n.bi-file-slides::before { content: \"\\f3b5\"; }\n.bi-file-spreadsheet-fill::before { content: \"\\f3b6\"; }\n.bi-file-spreadsheet::before { content: \"\\f3b7\"; }\n.bi-file-text-fill::before { content: \"\\f3b8\"; }\n.bi-file-text::before { content: \"\\f3b9\"; }\n.bi-file-word-fill::before { content: \"\\f3ba\"; }\n.bi-file-word::before { content: \"\\f3bb\"; }\n.bi-file-x-fill::before { content: \"\\f3bc\"; }\n.bi-file-x::before { content: \"\\f3bd\"; }\n.bi-file-zip-fill::before { content: \"\\f3be\"; }\n.bi-file-zip::before { content: \"\\f3bf\"; }\n.bi-file::before { content: \"\\f3c0\"; }\n.bi-files-alt::before { content: \"\\f3c1\"; }\n.bi-files::before { content: \"\\f3c2\"; }\n.bi-film::before { content: \"\\f3c3\"; }\n.bi-filter-circle-fill::before { content: \"\\f3c4\"; }\n.bi-filter-circle::before { content: \"\\f3c5\"; }\n.bi-filter-left::before { content: \"\\f3c6\"; }\n.bi-filter-right::before { content: \"\\f3c7\"; }\n.bi-filter-square-fill::before { content: \"\\f3c8\"; }\n.bi-filter-square::before { content: \"\\f3c9\"; }\n.bi-filter::before { content: \"\\f3ca\"; }\n.bi-flag-fill::before { content: \"\\f3cb\"; }\n.bi-flag::before { content: \"\\f3cc\"; }\n.bi-flower1::before { content: \"\\f3cd\"; }\n.bi-flower2::before { content: \"\\f3ce\"; }\n.bi-flower3::before { content: \"\\f3cf\"; }\n.bi-folder-check::before { content: \"\\f3d0\"; }\n.bi-folder-fill::before { content: \"\\f3d1\"; }\n.bi-folder-minus::before { content: \"\\f3d2\"; }\n.bi-folder-plus::before { content: \"\\f3d3\"; }\n.bi-folder-symlink-fill::before { content: \"\\f3d4\"; }\n.bi-folder-symlink::before { content: \"\\f3d5\"; }\n.bi-folder-x::before { content: \"\\f3d6\"; }\n.bi-folder::before { content: \"\\f3d7\"; }\n.bi-folder2-open::before { content: \"\\f3d8\"; }\n.bi-folder2::before { content: \"\\f3d9\"; }\n.bi-fonts::before { content: \"\\f3da\"; }\n.bi-forward-fill::before { content: \"\\f3db\"; }\n.bi-forward::before { content: \"\\f3dc\"; }\n.bi-front::before { content: \"\\f3dd\"; }\n.bi-fullscreen-exit::before { content: \"\\f3de\"; }\n.bi-fullscreen::before { content: \"\\f3df\"; }\n.bi-funnel-fill::before { content: \"\\f3e0\"; }\n.bi-funnel::before { content: \"\\f3e1\"; }\n.bi-gear-fill::before { content: \"\\f3e2\"; }\n.bi-gear-wide-connected::before { content: \"\\f3e3\"; }\n.bi-gear-wide::before { content: \"\\f3e4\"; }\n.bi-gear::before { content: \"\\f3e5\"; }\n.bi-gem::before { content: \"\\f3e6\"; }\n.bi-geo-alt-fill::before { content: \"\\f3e7\"; }\n.bi-geo-alt::before { content: \"\\f3e8\"; }\n.bi-geo-fill::before { content: \"\\f3e9\"; }\n.bi-geo::before { content: \"\\f3ea\"; }\n.bi-gift-fill::before { content: \"\\f3eb\"; }\n.bi-gift::before { content: \"\\f3ec\"; }\n.bi-github::before { content: \"\\f3ed\"; }\n.bi-globe::before { content: \"\\f3ee\"; }\n.bi-globe2::before { content: \"\\f3ef\"; }\n.bi-google::before { content: \"\\f3f0\"; }\n.bi-graph-down::before { content: \"\\f3f1\"; }\n.bi-graph-up::before { content: \"\\f3f2\"; }\n.bi-grid-1x2-fill::before { content: \"\\f3f3\"; }\n.bi-grid-1x2::before { content: \"\\f3f4\"; }\n.bi-grid-3x2-gap-fill::before { content: \"\\f3f5\"; }\n.bi-grid-3x2-gap::before { content: \"\\f3f6\"; }\n.bi-grid-3x2::before { content: \"\\f3f7\"; }\n.bi-grid-3x3-gap-fill::before { content: \"\\f3f8\"; }\n.bi-grid-3x3-gap::before { content: \"\\f3f9\"; }\n.bi-grid-3x3::before { content: \"\\f3fa\"; }\n.bi-grid-fill::before { content: \"\\f3fb\"; }\n.bi-grid::before { content: \"\\f3fc\"; }\n.bi-grip-horizontal::before { content: \"\\f3fd\"; }\n.bi-grip-vertical::before { content: \"\\f3fe\"; }\n.bi-hammer::before { content: \"\\f3ff\"; }\n.bi-hand-index-fill::before { content: \"\\f400\"; }\n.bi-hand-index-thumb-fill::before { content: \"\\f401\"; }\n.bi-hand-index-thumb::before { content: \"\\f402\"; }\n.bi-hand-index::before { content: \"\\f403\"; }\n.bi-hand-thumbs-down-fill::before { content: \"\\f404\"; }\n.bi-hand-thumbs-down::before { content: \"\\f405\"; }\n.bi-hand-thumbs-up-fill::before { content: \"\\f406\"; }\n.bi-hand-thumbs-up::before { content: \"\\f407\"; }\n.bi-handbag-fill::before { content: \"\\f408\"; }\n.bi-handbag::before { content: \"\\f409\"; }\n.bi-hash::before { content: \"\\f40a\"; }\n.bi-hdd-fill::before { content: \"\\f40b\"; }\n.bi-hdd-network-fill::before { content: \"\\f40c\"; }\n.bi-hdd-network::before { content: \"\\f40d\"; }\n.bi-hdd-rack-fill::before { content: \"\\f40e\"; }\n.bi-hdd-rack::before { content: \"\\f40f\"; }\n.bi-hdd-stack-fill::before { content: \"\\f410\"; }\n.bi-hdd-stack::before { content: \"\\f411\"; }\n.bi-hdd::before { content: \"\\f412\"; }\n.bi-headphones::before { content: \"\\f413\"; }\n.bi-headset::before { content: \"\\f414\"; }\n.bi-heart-fill::before { content: \"\\f415\"; }\n.bi-heart-half::before { content: \"\\f416\"; }\n.bi-heart::before { content: \"\\f417\"; }\n.bi-heptagon-fill::before { content: \"\\f418\"; }\n.bi-heptagon-half::before { content: \"\\f419\"; }\n.bi-heptagon::before { content: \"\\f41a\"; }\n.bi-hexagon-fill::before { content: \"\\f41b\"; }\n.bi-hexagon-half::before { content: \"\\f41c\"; }\n.bi-hexagon::before { content: \"\\f41d\"; }\n.bi-hourglass-bottom::before { content: \"\\f41e\"; }\n.bi-hourglass-split::before { content: \"\\f41f\"; }\n.bi-hourglass-top::before { content: \"\\f420\"; }\n.bi-hourglass::before { content: \"\\f421\"; }\n.bi-house-door-fill::before { content: \"\\f422\"; }\n.bi-house-door::before { content: \"\\f423\"; }\n.bi-house-fill::before { content: \"\\f424\"; }\n.bi-house::before { content: \"\\f425\"; }\n.bi-hr::before { content: \"\\f426\"; }\n.bi-hurricane::before { content: \"\\f427\"; }\n.bi-image-alt::before { content: \"\\f428\"; }\n.bi-image-fill::before { content: \"\\f429\"; }\n.bi-image::before { content: \"\\f42a\"; }\n.bi-images::before { content: \"\\f42b\"; }\n.bi-inbox-fill::before { content: \"\\f42c\"; }\n.bi-inbox::before { content: \"\\f42d\"; }\n.bi-inboxes-fill::before { content: \"\\f42e\"; }\n.bi-inboxes::before { content: \"\\f42f\"; }\n.bi-info-circle-fill::before { content: \"\\f430\"; }\n.bi-info-circle::before { content: \"\\f431\"; }\n.bi-info-square-fill::before { content: \"\\f432\"; }\n.bi-info-square::before { content: \"\\f433\"; }\n.bi-info::before { content: \"\\f434\"; }\n.bi-input-cursor-text::before { content: \"\\f435\"; }\n.bi-input-cursor::before { content: \"\\f436\"; }\n.bi-instagram::before { content: \"\\f437\"; }\n.bi-intersect::before { content: \"\\f438\"; }\n.bi-journal-album::before { content: \"\\f439\"; }\n.bi-journal-arrow-down::before { content: \"\\f43a\"; }\n.bi-journal-arrow-up::before { content: \"\\f43b\"; }\n.bi-journal-bookmark-fill::before { content: \"\\f43c\"; }\n.bi-journal-bookmark::before { content: \"\\f43d\"; }\n.bi-journal-check::before { content: \"\\f43e\"; }\n.bi-journal-code::before { content: \"\\f43f\"; }\n.bi-journal-medical::before { content: \"\\f440\"; }\n.bi-journal-minus::before { content: \"\\f441\"; }\n.bi-journal-plus::before { content: \"\\f442\"; }\n.bi-journal-richtext::before { content: \"\\f443\"; }\n.bi-journal-text::before { content: \"\\f444\"; }\n.bi-journal-x::before { content: \"\\f445\"; }\n.bi-journal::before { content: \"\\f446\"; }\n.bi-journals::before { content: \"\\f447\"; }\n.bi-joystick::before { content: \"\\f448\"; }\n.bi-justify-left::before { content: \"\\f449\"; }\n.bi-justify-right::before { content: \"\\f44a\"; }\n.bi-justify::before { content: \"\\f44b\"; }\n.bi-kanban-fill::before { content: \"\\f44c\"; }\n.bi-kanban::before { content: \"\\f44d\"; }\n.bi-key-fill::before { content: \"\\f44e\"; }\n.bi-key::before { content: \"\\f44f\"; }\n.bi-keyboard-fill::before { content: \"\\f450\"; }\n.bi-keyboard::before { content: \"\\f451\"; }\n.bi-ladder::before { content: \"\\f452\"; }\n.bi-lamp-fill::before { content: \"\\f453\"; }\n.bi-lamp::before { content: \"\\f454\"; }\n.bi-laptop-fill::before { content: \"\\f455\"; }\n.bi-laptop::before { content: \"\\f456\"; }\n.bi-layer-backward::before { content: \"\\f457\"; }\n.bi-layer-forward::before { content: \"\\f458\"; }\n.bi-layers-fill::before { content: \"\\f459\"; }\n.bi-layers-half::before { content: \"\\f45a\"; }\n.bi-layers::before { content: \"\\f45b\"; }\n.bi-layout-sidebar-inset-reverse::before { content: \"\\f45c\"; }\n.bi-layout-sidebar-inset::before { content: \"\\f45d\"; }\n.bi-layout-sidebar-reverse::before { content: \"\\f45e\"; }\n.bi-layout-sidebar::before { content: \"\\f45f\"; }\n.bi-layout-split::before { content: \"\\f460\"; }\n.bi-layout-text-sidebar-reverse::before { content: \"\\f461\"; }\n.bi-layout-text-sidebar::before { content: \"\\f462\"; }\n.bi-layout-text-window-reverse::before { content: \"\\f463\"; }\n.bi-layout-text-window::before { content: \"\\f464\"; }\n.bi-layout-three-columns::before { content: \"\\f465\"; }\n.bi-layout-wtf::before { content: \"\\f466\"; }\n.bi-life-preserver::before { content: \"\\f467\"; }\n.bi-lightbulb-fill::before { content: \"\\f468\"; }\n.bi-lightbulb-off-fill::before { content: \"\\f469\"; }\n.bi-lightbulb-off::before { content: \"\\f46a\"; }\n.bi-lightbulb::before { content: \"\\f46b\"; }\n.bi-lightning-charge-fill::before { content: \"\\f46c\"; }\n.bi-lightning-charge::before { content: \"\\f46d\"; }\n.bi-lightning-fill::before { content: \"\\f46e\"; }\n.bi-lightning::before { content: \"\\f46f\"; }\n.bi-link-45deg::before { content: \"\\f470\"; }\n.bi-link::before { content: \"\\f471\"; }\n.bi-linkedin::before { content: \"\\f472\"; }\n.bi-list-check::before { content: \"\\f473\"; }\n.bi-list-nested::before { content: \"\\f474\"; }\n.bi-list-ol::before { content: \"\\f475\"; }\n.bi-list-stars::before { content: \"\\f476\"; }\n.bi-list-task::before { content: \"\\f477\"; }\n.bi-list-ul::before { content: \"\\f478\"; }\n.bi-list::before { content: \"\\f479\"; }\n.bi-lock-fill::before { content: \"\\f47a\"; }\n.bi-lock::before { content: \"\\f47b\"; }\n.bi-mailbox::before { content: \"\\f47c\"; }\n.bi-mailbox2::before { content: \"\\f47d\"; }\n.bi-map-fill::before { content: \"\\f47e\"; }\n.bi-map::before { content: \"\\f47f\"; }\n.bi-markdown-fill::before { content: \"\\f480\"; }\n.bi-markdown::before { content: \"\\f481\"; }\n.bi-mask::before { content: \"\\f482\"; }\n.bi-megaphone-fill::before { content: \"\\f483\"; }\n.bi-megaphone::before { content: \"\\f484\"; }\n.bi-menu-app-fill::before { content: \"\\f485\"; }\n.bi-menu-app::before { content: \"\\f486\"; }\n.bi-menu-button-fill::before { content: \"\\f487\"; }\n.bi-menu-button-wide-fill::before { content: \"\\f488\"; }\n.bi-menu-button-wide::before { content: \"\\f489\"; }\n.bi-menu-button::before { content: \"\\f48a\"; }\n.bi-menu-down::before { content: \"\\f48b\"; }\n.bi-menu-up::before { content: \"\\f48c\"; }\n.bi-mic-fill::before { content: \"\\f48d\"; }\n.bi-mic-mute-fill::before { content: \"\\f48e\"; }\n.bi-mic-mute::before { content: \"\\f48f\"; }\n.bi-mic::before { content: \"\\f490\"; }\n.bi-minecart-loaded::before { content: \"\\f491\"; }\n.bi-minecart::before { content: \"\\f492\"; }\n.bi-moisture::before { content: \"\\f493\"; }\n.bi-moon-fill::before { content: \"\\f494\"; }\n.bi-moon-stars-fill::before { content: \"\\f495\"; }\n.bi-moon-stars::before { content: \"\\f496\"; }\n.bi-moon::before { content: \"\\f497\"; }\n.bi-mouse-fill::before { content: \"\\f498\"; }\n.bi-mouse::before { content: \"\\f499\"; }\n.bi-mouse2-fill::before { content: \"\\f49a\"; }\n.bi-mouse2::before { content: \"\\f49b\"; }\n.bi-mouse3-fill::before { content: \"\\f49c\"; }\n.bi-mouse3::before { content: \"\\f49d\"; }\n.bi-music-note-beamed::before { content: \"\\f49e\"; }\n.bi-music-note-list::before { content: \"\\f49f\"; }\n.bi-music-note::before { content: \"\\f4a0\"; }\n.bi-music-player-fill::before { content: \"\\f4a1\"; }\n.bi-music-player::before { content: \"\\f4a2\"; }\n.bi-newspaper::before { content: \"\\f4a3\"; }\n.bi-node-minus-fill::before { content: \"\\f4a4\"; }\n.bi-node-minus::before { content: \"\\f4a5\"; }\n.bi-node-plus-fill::before { content: \"\\f4a6\"; }\n.bi-node-plus::before { content: \"\\f4a7\"; }\n.bi-nut-fill::before { content: \"\\f4a8\"; }\n.bi-nut::before { content: \"\\f4a9\"; }\n.bi-octagon-fill::before { content: \"\\f4aa\"; }\n.bi-octagon-half::before { content: \"\\f4ab\"; }\n.bi-octagon::before { content: \"\\f4ac\"; }\n.bi-option::before { content: \"\\f4ad\"; }\n.bi-outlet::before { content: \"\\f4ae\"; }\n.bi-paint-bucket::before { content: \"\\f4af\"; }\n.bi-palette-fill::before { content: \"\\f4b0\"; }\n.bi-palette::before { content: \"\\f4b1\"; }\n.bi-palette2::before { content: \"\\f4b2\"; }\n.bi-paperclip::before { content: \"\\f4b3\"; }\n.bi-paragraph::before { content: \"\\f4b4\"; }\n.bi-patch-check-fill::before { content: \"\\f4b5\"; }\n.bi-patch-check::before { content: \"\\f4b6\"; }\n.bi-patch-exclamation-fill::before { content: \"\\f4b7\"; }\n.bi-patch-exclamation::before { content: \"\\f4b8\"; }\n.bi-patch-minus-fill::before { content: \"\\f4b9\"; }\n.bi-patch-minus::before { content: \"\\f4ba\"; }\n.bi-patch-plus-fill::before { content: \"\\f4bb\"; }\n.bi-patch-plus::before { content: \"\\f4bc\"; }\n.bi-patch-question-fill::before { content: \"\\f4bd\"; }\n.bi-patch-question::before { content: \"\\f4be\"; }\n.bi-pause-btn-fill::before { content: \"\\f4bf\"; }\n.bi-pause-btn::before { content: \"\\f4c0\"; }\n.bi-pause-circle-fill::before { content: \"\\f4c1\"; }\n.bi-pause-circle::before { content: \"\\f4c2\"; }\n.bi-pause-fill::before { content: \"\\f4c3\"; }\n.bi-pause::before { content: \"\\f4c4\"; }\n.bi-peace-fill::before { content: \"\\f4c5\"; }\n.bi-peace::before { content: \"\\f4c6\"; }\n.bi-pen-fill::before { content: \"\\f4c7\"; }\n.bi-pen::before { content: \"\\f4c8\"; }\n.bi-pencil-fill::before { content: \"\\f4c9\"; }\n.bi-pencil-square::before { content: \"\\f4ca\"; }\n.bi-pencil::before { content: \"\\f4cb\"; }\n.bi-pentagon-fill::before { content: \"\\f4cc\"; }\n.bi-pentagon-half::before { content: \"\\f4cd\"; }\n.bi-pentagon::before { content: \"\\f4ce\"; }\n.bi-people-fill::before { content: \"\\f4cf\"; }\n.bi-people::before { content: \"\\f4d0\"; }\n.bi-percent::before { content: \"\\f4d1\"; }\n.bi-person-badge-fill::before { content: \"\\f4d2\"; }\n.bi-person-badge::before { content: \"\\f4d3\"; }\n.bi-person-bounding-box::before { content: \"\\f4d4\"; }\n.bi-person-check-fill::before { content: \"\\f4d5\"; }\n.bi-person-check::before { content: \"\\f4d6\"; }\n.bi-person-circle::before { content: \"\\f4d7\"; }\n.bi-person-dash-fill::before { content: \"\\f4d8\"; }\n.bi-person-dash::before { content: \"\\f4d9\"; }\n.bi-person-fill::before { content: \"\\f4da\"; }\n.bi-person-lines-fill::before { content: \"\\f4db\"; }\n.bi-person-plus-fill::before { content: \"\\f4dc\"; }\n.bi-person-plus::before { content: \"\\f4dd\"; }\n.bi-person-square::before { content: \"\\f4de\"; }\n.bi-person-x-fill::before { content: \"\\f4df\"; }\n.bi-person-x::before { content: \"\\f4e0\"; }\n.bi-person::before { content: \"\\f4e1\"; }\n.bi-phone-fill::before { content: \"\\f4e2\"; }\n.bi-phone-landscape-fill::before { content: \"\\f4e3\"; }\n.bi-phone-landscape::before { content: \"\\f4e4\"; }\n.bi-phone-vibrate-fill::before { content: \"\\f4e5\"; }\n.bi-phone-vibrate::before { content: \"\\f4e6\"; }\n.bi-phone::before { content: \"\\f4e7\"; }\n.bi-pie-chart-fill::before { content: \"\\f4e8\"; }\n.bi-pie-chart::before { content: \"\\f4e9\"; }\n.bi-pin-angle-fill::before { content: \"\\f4ea\"; }\n.bi-pin-angle::before { content: \"\\f4eb\"; }\n.bi-pin-fill::before { content: \"\\f4ec\"; }\n.bi-pin::before { content: \"\\f4ed\"; }\n.bi-pip-fill::before { content: \"\\f4ee\"; }\n.bi-pip::before { content: \"\\f4ef\"; }\n.bi-play-btn-fill::before { content: \"\\f4f0\"; }\n.bi-play-btn::before { content: \"\\f4f1\"; }\n.bi-play-circle-fill::before { content: \"\\f4f2\"; }\n.bi-play-circle::before { content: \"\\f4f3\"; }\n.bi-play-fill::before { content: \"\\f4f4\"; }\n.bi-play::before { content: \"\\f4f5\"; }\n.bi-plug-fill::before { content: \"\\f4f6\"; }\n.bi-plug::before { content: \"\\f4f7\"; }\n.bi-plus-circle-dotted::before { content: \"\\f4f8\"; }\n.bi-plus-circle-fill::before { content: \"\\f4f9\"; }\n.bi-plus-circle::before { content: \"\\f4fa\"; }\n.bi-plus-square-dotted::before { content: \"\\f4fb\"; }\n.bi-plus-square-fill::before { content: \"\\f4fc\"; }\n.bi-plus-square::before { content: \"\\f4fd\"; }\n.bi-plus::before { content: \"\\f4fe\"; }\n.bi-power::before { content: \"\\f4ff\"; }\n.bi-printer-fill::before { content: \"\\f500\"; }\n.bi-printer::before { content: \"\\f501\"; }\n.bi-puzzle-fill::before { content: \"\\f502\"; }\n.bi-puzzle::before { content: \"\\f503\"; }\n.bi-question-circle-fill::before { content: \"\\f504\"; }\n.bi-question-circle::before { content: \"\\f505\"; }\n.bi-question-diamond-fill::before { content: \"\\f506\"; }\n.bi-question-diamond::before { content: \"\\f507\"; }\n.bi-question-octagon-fill::before { content: \"\\f508\"; }\n.bi-question-octagon::before { content: \"\\f509\"; }\n.bi-question-square-fill::before { content: \"\\f50a\"; }\n.bi-question-square::before { content: \"\\f50b\"; }\n.bi-question::before { content: \"\\f50c\"; }\n.bi-rainbow::before { content: \"\\f50d\"; }\n.bi-receipt-cutoff::before { content: \"\\f50e\"; }\n.bi-receipt::before { content: \"\\f50f\"; }\n.bi-reception-0::before { content: \"\\f510\"; }\n.bi-reception-1::before { content: \"\\f511\"; }\n.bi-reception-2::before { content: \"\\f512\"; }\n.bi-reception-3::before { content: \"\\f513\"; }\n.bi-reception-4::before { content: \"\\f514\"; }\n.bi-record-btn-fill::before { content: \"\\f515\"; }\n.bi-record-btn::before { content: \"\\f516\"; }\n.bi-record-circle-fill::before { content: \"\\f517\"; }\n.bi-record-circle::before { content: \"\\f518\"; }\n.bi-record-fill::before { content: \"\\f519\"; }\n.bi-record::before { content: \"\\f51a\"; }\n.bi-record2-fill::before { content: \"\\f51b\"; }\n.bi-record2::before { content: \"\\f51c\"; }\n.bi-reply-all-fill::before { content: \"\\f51d\"; }\n.bi-reply-all::before { content: \"\\f51e\"; }\n.bi-reply-fill::before { content: \"\\f51f\"; }\n.bi-reply::before { content: \"\\f520\"; }\n.bi-rss-fill::before { content: \"\\f521\"; }\n.bi-rss::before { content: \"\\f522\"; }\n.bi-rulers::before { content: \"\\f523\"; }\n.bi-save-fill::before { content: \"\\f524\"; }\n.bi-save::before { content: \"\\f525\"; }\n.bi-save2-fill::before { content: \"\\f526\"; }\n.bi-save2::before { content: \"\\f527\"; }\n.bi-scissors::before { content: \"\\f528\"; }\n.bi-screwdriver::before { content: \"\\f529\"; }\n.bi-search::before { content: \"\\f52a\"; }\n.bi-segmented-nav::before { content: \"\\f52b\"; }\n.bi-server::before { content: \"\\f52c\"; }\n.bi-share-fill::before { content: \"\\f52d\"; }\n.bi-share::before { content: \"\\f52e\"; }\n.bi-shield-check::before { content: \"\\f52f\"; }\n.bi-shield-exclamation::before { content: \"\\f530\"; }\n.bi-shield-fill-check::before { content: \"\\f531\"; }\n.bi-shield-fill-exclamation::before { content: \"\\f532\"; }\n.bi-shield-fill-minus::before { content: \"\\f533\"; }\n.bi-shield-fill-plus::before { content: \"\\f534\"; }\n.bi-shield-fill-x::before { content: \"\\f535\"; }\n.bi-shield-fill::before { content: \"\\f536\"; }\n.bi-shield-lock-fill::before { content: \"\\f537\"; }\n.bi-shield-lock::before { content: \"\\f538\"; }\n.bi-shield-minus::before { content: \"\\f539\"; }\n.bi-shield-plus::before { content: \"\\f53a\"; }\n.bi-shield-shaded::before { content: \"\\f53b\"; }\n.bi-shield-slash-fill::before { content: \"\\f53c\"; }\n.bi-shield-slash::before { content: \"\\f53d\"; }\n.bi-shield-x::before { content: \"\\f53e\"; }\n.bi-shield::before { content: \"\\f53f\"; }\n.bi-shift-fill::before { content: \"\\f540\"; }\n.bi-shift::before { content: \"\\f541\"; }\n.bi-shop-window::before { content: \"\\f542\"; }\n.bi-shop::before { content: \"\\f543\"; }\n.bi-shuffle::before { content: \"\\f544\"; }\n.bi-signpost-2-fill::before { content: \"\\f545\"; }\n.bi-signpost-2::before { content: \"\\f546\"; }\n.bi-signpost-fill::before { content: \"\\f547\"; }\n.bi-signpost-split-fill::before { content: \"\\f548\"; }\n.bi-signpost-split::before { content: \"\\f549\"; }\n.bi-signpost::before { content: \"\\f54a\"; }\n.bi-sim-fill::before { content: \"\\f54b\"; }\n.bi-sim::before { content: \"\\f54c\"; }\n.bi-skip-backward-btn-fill::before { content: \"\\f54d\"; }\n.bi-skip-backward-btn::before { content: \"\\f54e\"; }\n.bi-skip-backward-circle-fill::before { content: \"\\f54f\"; }\n.bi-skip-backward-circle::before { content: \"\\f550\"; }\n.bi-skip-backward-fill::before { content: \"\\f551\"; }\n.bi-skip-backward::before { content: \"\\f552\"; }\n.bi-skip-end-btn-fill::before { content: \"\\f553\"; }\n.bi-skip-end-btn::before { content: \"\\f554\"; }\n.bi-skip-end-circle-fill::before { content: \"\\f555\"; }\n.bi-skip-end-circle::before { content: \"\\f556\"; }\n.bi-skip-end-fill::before { content: \"\\f557\"; }\n.bi-skip-end::before { content: \"\\f558\"; }\n.bi-skip-forward-btn-fill::before { content: \"\\f559\"; }\n.bi-skip-forward-btn::before { content: \"\\f55a\"; }\n.bi-skip-forward-circle-fill::before { content: \"\\f55b\"; }\n.bi-skip-forward-circle::before { content: \"\\f55c\"; }\n.bi-skip-forward-fill::before { content: \"\\f55d\"; }\n.bi-skip-forward::before { content: \"\\f55e\"; }\n.bi-skip-start-btn-fill::before { content: \"\\f55f\"; }\n.bi-skip-start-btn::before { content: \"\\f560\"; }\n.bi-skip-start-circle-fill::before { content: \"\\f561\"; }\n.bi-skip-start-circle::before { content: \"\\f562\"; }\n.bi-skip-start-fill::before { content: \"\\f563\"; }\n.bi-skip-start::before { content: \"\\f564\"; }\n.bi-slack::before { content: \"\\f565\"; }\n.bi-slash-circle-fill::before { content: \"\\f566\"; }\n.bi-slash-circle::before { content: \"\\f567\"; }\n.bi-slash-square-fill::before { content: \"\\f568\"; }\n.bi-slash-square::before { content: \"\\f569\"; }\n.bi-slash::before { content: \"\\f56a\"; }\n.bi-sliders::before { content: \"\\f56b\"; }\n.bi-smartwatch::before { content: \"\\f56c\"; }\n.bi-snow::before { content: \"\\f56d\"; }\n.bi-snow2::before { content: \"\\f56e\"; }\n.bi-snow3::before { content: \"\\f56f\"; }\n.bi-sort-alpha-down-alt::before { content: \"\\f570\"; }\n.bi-sort-alpha-down::before { content: \"\\f571\"; }\n.bi-sort-alpha-up-alt::before { content: \"\\f572\"; }\n.bi-sort-alpha-up::before { content: \"\\f573\"; }\n.bi-sort-down-alt::before { content: \"\\f574\"; }\n.bi-sort-down::before { content: \"\\f575\"; }\n.bi-sort-numeric-down-alt::before { content: \"\\f576\"; }\n.bi-sort-numeric-down::before { content: \"\\f577\"; }\n.bi-sort-numeric-up-alt::before { content: \"\\f578\"; }\n.bi-sort-numeric-up::before { content: \"\\f579\"; }\n.bi-sort-up-alt::before { content: \"\\f57a\"; }\n.bi-sort-up::before { content: \"\\f57b\"; }\n.bi-soundwave::before { content: \"\\f57c\"; }\n.bi-speaker-fill::before { content: \"\\f57d\"; }\n.bi-speaker::before { content: \"\\f57e\"; }\n.bi-speedometer::before { content: \"\\f57f\"; }\n.bi-speedometer2::before { content: \"\\f580\"; }\n.bi-spellcheck::before { content: \"\\f581\"; }\n.bi-square-fill::before { content: \"\\f582\"; }\n.bi-square-half::before { content: \"\\f583\"; }\n.bi-square::before { content: \"\\f584\"; }\n.bi-stack::before { content: \"\\f585\"; }\n.bi-star-fill::before { content: \"\\f586\"; }\n.bi-star-half::before { content: \"\\f587\"; }\n.bi-star::before { content: \"\\f588\"; }\n.bi-stars::before { content: \"\\f589\"; }\n.bi-stickies-fill::before { content: \"\\f58a\"; }\n.bi-stickies::before { content: \"\\f58b\"; }\n.bi-sticky-fill::before { content: \"\\f58c\"; }\n.bi-sticky::before { content: \"\\f58d\"; }\n.bi-stop-btn-fill::before { content: \"\\f58e\"; }\n.bi-stop-btn::before { content: \"\\f58f\"; }\n.bi-stop-circle-fill::before { content: \"\\f590\"; }\n.bi-stop-circle::before { content: \"\\f591\"; }\n.bi-stop-fill::before { content: \"\\f592\"; }\n.bi-stop::before { content: \"\\f593\"; }\n.bi-stoplights-fill::before { content: \"\\f594\"; }\n.bi-stoplights::before { content: \"\\f595\"; }\n.bi-stopwatch-fill::before { content: \"\\f596\"; }\n.bi-stopwatch::before { content: \"\\f597\"; }\n.bi-subtract::before { content: \"\\f598\"; }\n.bi-suit-club-fill::before { content: \"\\f599\"; }\n.bi-suit-club::before { content: \"\\f59a\"; }\n.bi-suit-diamond-fill::before { content: \"\\f59b\"; }\n.bi-suit-diamond::before { content: \"\\f59c\"; }\n.bi-suit-heart-fill::before { content: \"\\f59d\"; }\n.bi-suit-heart::before { content: \"\\f59e\"; }\n.bi-suit-spade-fill::before { content: \"\\f59f\"; }\n.bi-suit-spade::before { content: \"\\f5a0\"; }\n.bi-sun-fill::before { content: \"\\f5a1\"; }\n.bi-sun::before { content: \"\\f5a2\"; }\n.bi-sunglasses::before { content: \"\\f5a3\"; }\n.bi-sunrise-fill::before { content: \"\\f5a4\"; }\n.bi-sunrise::before { content: \"\\f5a5\"; }\n.bi-sunset-fill::before { content: \"\\f5a6\"; }\n.bi-sunset::before { content: \"\\f5a7\"; }\n.bi-symmetry-horizontal::before { content: \"\\f5a8\"; }\n.bi-symmetry-vertical::before { content: \"\\f5a9\"; }\n.bi-table::before { content: \"\\f5aa\"; }\n.bi-tablet-fill::before { content: \"\\f5ab\"; }\n.bi-tablet-landscape-fill::before { content: \"\\f5ac\"; }\n.bi-tablet-landscape::before { content: \"\\f5ad\"; }\n.bi-tablet::before { content: \"\\f5ae\"; }\n.bi-tag-fill::before { content: \"\\f5af\"; }\n.bi-tag::before { content: \"\\f5b0\"; }\n.bi-tags-fill::before { content: \"\\f5b1\"; }\n.bi-tags::before { content: \"\\f5b2\"; }\n.bi-telegram::before { content: \"\\f5b3\"; }\n.bi-telephone-fill::before { content: \"\\f5b4\"; }\n.bi-telephone-forward-fill::before { content: \"\\f5b5\"; }\n.bi-telephone-forward::before { content: \"\\f5b6\"; }\n.bi-telephone-inbound-fill::before { content: \"\\f5b7\"; }\n.bi-telephone-inbound::before { content: \"\\f5b8\"; }\n.bi-telephone-minus-fill::before { content: \"\\f5b9\"; }\n.bi-telephone-minus::before { content: \"\\f5ba\"; }\n.bi-telephone-outbound-fill::before { content: \"\\f5bb\"; }\n.bi-telephone-outbound::before { content: \"\\f5bc\"; }\n.bi-telephone-plus-fill::before { content: \"\\f5bd\"; }\n.bi-telephone-plus::before { content: \"\\f5be\"; }\n.bi-telephone-x-fill::before { content: \"\\f5bf\"; }\n.bi-telephone-x::before { content: \"\\f5c0\"; }\n.bi-telephone::before { content: \"\\f5c1\"; }\n.bi-terminal-fill::before { content: \"\\f5c2\"; }\n.bi-terminal::before { content: \"\\f5c3\"; }\n.bi-text-center::before { content: \"\\f5c4\"; }\n.bi-text-indent-left::before { content: \"\\f5c5\"; }\n.bi-text-indent-right::before { content: \"\\f5c6\"; }\n.bi-text-left::before { content: \"\\f5c7\"; }\n.bi-text-paragraph::before { content: \"\\f5c8\"; }\n.bi-text-right::before { content: \"\\f5c9\"; }\n.bi-textarea-resize::before { content: \"\\f5ca\"; }\n.bi-textarea-t::before { content: \"\\f5cb\"; }\n.bi-textarea::before { content: \"\\f5cc\"; }\n.bi-thermometer-half::before { content: \"\\f5cd\"; }\n.bi-thermometer-high::before { content: \"\\f5ce\"; }\n.bi-thermometer-low::before { content: \"\\f5cf\"; }\n.bi-thermometer-snow::before { content: \"\\f5d0\"; }\n.bi-thermometer-sun::before { content: \"\\f5d1\"; }\n.bi-thermometer::before { content: \"\\f5d2\"; }\n.bi-three-dots-vertical::before { content: \"\\f5d3\"; }\n.bi-three-dots::before { content: \"\\f5d4\"; }\n.bi-toggle-off::before { content: \"\\f5d5\"; }\n.bi-toggle-on::before { content: \"\\f5d6\"; }\n.bi-toggle2-off::before { content: \"\\f5d7\"; }\n.bi-toggle2-on::before { content: \"\\f5d8\"; }\n.bi-toggles::before { content: \"\\f5d9\"; }\n.bi-toggles2::before { content: \"\\f5da\"; }\n.bi-tools::before { content: \"\\f5db\"; }\n.bi-tornado::before { content: \"\\f5dc\"; }\n.bi-trash-fill::before { content: \"\\f5dd\"; }\n.bi-trash::before { content: \"\\f5de\"; }\n.bi-trash2-fill::before { content: \"\\f5df\"; }\n.bi-trash2::before { content: \"\\f5e0\"; }\n.bi-tree-fill::before { content: \"\\f5e1\"; }\n.bi-tree::before { content: \"\\f5e2\"; }\n.bi-triangle-fill::before { content: \"\\f5e3\"; }\n.bi-triangle-half::before { content: \"\\f5e4\"; }\n.bi-triangle::before { content: \"\\f5e5\"; }\n.bi-trophy-fill::before { content: \"\\f5e6\"; }\n.bi-trophy::before { content: \"\\f5e7\"; }\n.bi-tropical-storm::before { content: \"\\f5e8\"; }\n.bi-truck-flatbed::before { content: \"\\f5e9\"; }\n.bi-truck::before { content: \"\\f5ea\"; }\n.bi-tsunami::before { content: \"\\f5eb\"; }\n.bi-tv-fill::before { content: \"\\f5ec\"; }\n.bi-tv::before { content: \"\\f5ed\"; }\n.bi-twitch::before { content: \"\\f5ee\"; }\n.bi-twitter::before { content: \"\\f5ef\"; }\n.bi-type-bold::before { content: \"\\f5f0\"; }\n.bi-type-h1::before { content: \"\\f5f1\"; }\n.bi-type-h2::before { content: \"\\f5f2\"; }\n.bi-type-h3::before { content: \"\\f5f3\"; }\n.bi-type-italic::before { content: \"\\f5f4\"; }\n.bi-type-strikethrough::before { content: \"\\f5f5\"; }\n.bi-type-underline::before { content: \"\\f5f6\"; }\n.bi-type::before { content: \"\\f5f7\"; }\n.bi-ui-checks-grid::before { content: \"\\f5f8\"; }\n.bi-ui-checks::before { content: \"\\f5f9\"; }\n.bi-ui-radios-grid::before { content: \"\\f5fa\"; }\n.bi-ui-radios::before { content: \"\\f5fb\"; }\n.bi-umbrella-fill::before { content: \"\\f5fc\"; }\n.bi-umbrella::before { content: \"\\f5fd\"; }\n.bi-union::before { content: \"\\f5fe\"; }\n.bi-unlock-fill::before { content: \"\\f5ff\"; }\n.bi-unlock::before { content: \"\\f600\"; }\n.bi-upc-scan::before { content: \"\\f601\"; }\n.bi-upc::before { content: \"\\f602\"; }\n.bi-upload::before { content: \"\\f603\"; }\n.bi-vector-pen::before { content: \"\\f604\"; }\n.bi-view-list::before { content: \"\\f605\"; }\n.bi-view-stacked::before { content: \"\\f606\"; }\n.bi-vinyl-fill::before { content: \"\\f607\"; }\n.bi-vinyl::before { content: \"\\f608\"; }\n.bi-voicemail::before { content: \"\\f609\"; }\n.bi-volume-down-fill::before { content: \"\\f60a\"; }\n.bi-volume-down::before { content: \"\\f60b\"; }\n.bi-volume-mute-fill::before { content: \"\\f60c\"; }\n.bi-volume-mute::before { content: \"\\f60d\"; }\n.bi-volume-off-fill::before { content: \"\\f60e\"; }\n.bi-volume-off::before { content: \"\\f60f\"; }\n.bi-volume-up-fill::before { content: \"\\f610\"; }\n.bi-volume-up::before { content: \"\\f611\"; }\n.bi-vr::before { content: \"\\f612\"; }\n.bi-wallet-fill::before { content: \"\\f613\"; }\n.bi-wallet::before { content: \"\\f614\"; }\n.bi-wallet2::before { content: \"\\f615\"; }\n.bi-watch::before { content: \"\\f616\"; }\n.bi-water::before { content: \"\\f617\"; }\n.bi-whatsapp::before { content: \"\\f618\"; }\n.bi-wifi-1::before { content: \"\\f619\"; }\n.bi-wifi-2::before { content: \"\\f61a\"; }\n.bi-wifi-off::before { content: \"\\f61b\"; }\n.bi-wifi::before { content: \"\\f61c\"; }\n.bi-wind::before { content: \"\\f61d\"; }\n.bi-window-dock::before { content: \"\\f61e\"; }\n.bi-window-sidebar::before { content: \"\\f61f\"; }\n.bi-window::before { content: \"\\f620\"; }\n.bi-wrench::before { content: \"\\f621\"; }\n.bi-x-circle-fill::before { content: \"\\f622\"; }\n.bi-x-circle::before { content: \"\\f623\"; }\n.bi-x-diamond-fill::before { content: \"\\f624\"; }\n.bi-x-diamond::before { content: \"\\f625\"; }\n.bi-x-octagon-fill::before { content: \"\\f626\"; }\n.bi-x-octagon::before { content: \"\\f627\"; }\n.bi-x-square-fill::before { content: \"\\f628\"; }\n.bi-x-square::before { content: \"\\f629\"; }\n.bi-x::before { content: \"\\f62a\"; }\n.bi-youtube::before { content: \"\\f62b\"; }\n.bi-zoom-in::before { content: \"\\f62c\"; }\n.bi-zoom-out::before { content: \"\\f62d\"; }\n.bi-bank::before { content: \"\\f62e\"; }\n.bi-bank2::before { content: \"\\f62f\"; }\n.bi-bell-slash-fill::before { content: \"\\f630\"; }\n.bi-bell-slash::before { content: \"\\f631\"; }\n.bi-cash-coin::before { content: \"\\f632\"; }\n.bi-check-lg::before { content: \"\\f633\"; }\n.bi-coin::before { content: \"\\f634\"; }\n.bi-currency-bitcoin::before { content: \"\\f635\"; }\n.bi-currency-dollar::before { content: \"\\f636\"; }\n.bi-currency-euro::before { content: \"\\f637\"; }\n.bi-currency-exchange::before { content: \"\\f638\"; }\n.bi-currency-pound::before { content: \"\\f639\"; }\n.bi-currency-yen::before { content: \"\\f63a\"; }\n.bi-dash-lg::before { content: \"\\f63b\"; }\n.bi-exclamation-lg::before { content: \"\\f63c\"; }\n.bi-file-earmark-pdf-fill::before { content: \"\\f63d\"; }\n.bi-file-earmark-pdf::before { content: \"\\f63e\"; }\n.bi-file-pdf-fill::before { content: \"\\f63f\"; }\n.bi-file-pdf::before { content: \"\\f640\"; }\n.bi-gender-ambiguous::before { content: \"\\f641\"; }\n.bi-gender-female::before { content: \"\\f642\"; }\n.bi-gender-male::before { content: \"\\f643\"; }\n.bi-gender-trans::before { content: \"\\f644\"; }\n.bi-headset-vr::before { content: \"\\f645\"; }\n.bi-info-lg::before { content: \"\\f646\"; }\n.bi-mastodon::before { content: \"\\f647\"; }\n.bi-messenger::before { content: \"\\f648\"; }\n.bi-piggy-bank-fill::before { content: \"\\f649\"; }\n.bi-piggy-bank::before { content: \"\\f64a\"; }\n.bi-pin-map-fill::before { content: \"\\f64b\"; }\n.bi-pin-map::before { content: \"\\f64c\"; }\n.bi-plus-lg::before { content: \"\\f64d\"; }\n.bi-question-lg::before { content: \"\\f64e\"; }\n.bi-recycle::before { content: \"\\f64f\"; }\n.bi-reddit::before { content: \"\\f650\"; }\n.bi-safe-fill::before { content: \"\\f651\"; }\n.bi-safe2-fill::before { content: \"\\f652\"; }\n.bi-safe2::before { content: \"\\f653\"; }\n.bi-sd-card-fill::before { content: \"\\f654\"; }\n.bi-sd-card::before { content: \"\\f655\"; }\n.bi-skype::before { content: \"\\f656\"; }\n.bi-slash-lg::before { content: \"\\f657\"; }\n.bi-translate::before { content: \"\\f658\"; }\n.bi-x-lg::before { content: \"\\f659\"; }\n.bi-safe::before { content: \"\\f65a\"; }\n.bi-apple::before { content: \"\\f65b\"; }\n.bi-microsoft::before { content: \"\\f65d\"; }\n.bi-windows::before { content: \"\\f65e\"; }\n.bi-behance::before { content: \"\\f65c\"; }\n.bi-dribbble::before { content: \"\\f65f\"; }\n.bi-line::before { content: \"\\f660\"; }\n.bi-medium::before { content: \"\\f661\"; }\n.bi-paypal::before { content: \"\\f662\"; }\n.bi-pinterest::before { content: \"\\f663\"; }\n.bi-signal::before { content: \"\\f664\"; }\n.bi-snapchat::before { content: \"\\f665\"; }\n.bi-spotify::before { content: \"\\f666\"; }\n.bi-stack-overflow::before { content: \"\\f667\"; }\n.bi-strava::before { content: \"\\f668\"; }\n.bi-wordpress::before { content: \"\\f669\"; }\n.bi-vimeo::before { content: \"\\f66a\"; }\n.bi-activity::before { content: \"\\f66b\"; }\n.bi-easel2-fill::before { content: \"\\f66c\"; }\n.bi-easel2::before { content: \"\\f66d\"; }\n.bi-easel3-fill::before { content: \"\\f66e\"; }\n.bi-easel3::before { content: \"\\f66f\"; }\n.bi-fan::before { content: \"\\f670\"; }\n.bi-fingerprint::before { content: \"\\f671\"; }\n.bi-graph-down-arrow::before { content: \"\\f672\"; }\n.bi-graph-up-arrow::before { content: \"\\f673\"; }\n.bi-hypnotize::before { content: \"\\f674\"; }\n.bi-magic::before { content: \"\\f675\"; }\n.bi-person-rolodex::before { content: \"\\f676\"; }\n.bi-person-video::before { content: \"\\f677\"; }\n.bi-person-video2::before { content: \"\\f678\"; }\n.bi-person-video3::before { content: \"\\f679\"; }\n.bi-person-workspace::before { content: \"\\f67a\"; }\n.bi-radioactive::before { content: \"\\f67b\"; }\n.bi-webcam-fill::before { content: \"\\f67c\"; }\n.bi-webcam::before { content: \"\\f67d\"; }\n.bi-yin-yang::before { content: \"\\f67e\"; }\n.bi-bandaid-fill::before { content: \"\\f680\"; }\n.bi-bandaid::before { content: \"\\f681\"; }\n.bi-bluetooth::before { content: \"\\f682\"; }\n.bi-body-text::before { content: \"\\f683\"; }\n.bi-boombox::before { content: \"\\f684\"; }\n.bi-boxes::before { content: \"\\f685\"; }\n.bi-dpad-fill::before { content: \"\\f686\"; }\n.bi-dpad::before { content: \"\\f687\"; }\n.bi-ear-fill::before { content: \"\\f688\"; }\n.bi-ear::before { content: \"\\f689\"; }\n.bi-envelope-check-1::before { content: \"\\f68a\"; }\n.bi-envelope-check-fill::before { content: \"\\f68b\"; }\n.bi-envelope-check::before { content: \"\\f68c\"; }\n.bi-envelope-dash-1::before { content: \"\\f68d\"; }\n.bi-envelope-dash-fill::before { content: \"\\f68e\"; }\n.bi-envelope-dash::before { content: \"\\f68f\"; }\n.bi-envelope-exclamation-1::before { content: \"\\f690\"; }\n.bi-envelope-exclamation-fill::before { content: \"\\f691\"; }\n.bi-envelope-exclamation::before { content: \"\\f692\"; }\n.bi-envelope-plus-fill::before { content: \"\\f693\"; }\n.bi-envelope-plus::before { content: \"\\f694\"; }\n.bi-envelope-slash-1::before { content: \"\\f695\"; }\n.bi-envelope-slash-fill::before { content: \"\\f696\"; }\n.bi-envelope-slash::before { content: \"\\f697\"; }\n.bi-envelope-x-1::before { content: \"\\f698\"; }\n.bi-envelope-x-fill::before { content: \"\\f699\"; }\n.bi-envelope-x::before { content: \"\\f69a\"; }\n.bi-explicit-fill::before { content: \"\\f69b\"; }\n.bi-explicit::before { content: \"\\f69c\"; }\n.bi-git::before { content: \"\\f69d\"; }\n.bi-infinity::before { content: \"\\f69e\"; }\n.bi-list-columns-reverse::before { content: \"\\f69f\"; }\n.bi-list-columns::before { content: \"\\f6a0\"; }\n.bi-meta::before { content: \"\\f6a1\"; }\n.bi-mortorboard-fill::before { content: \"\\f6a2\"; }\n.bi-mortorboard::before { content: \"\\f6a3\"; }\n.bi-nintendo-switch::before { content: \"\\f6a4\"; }\n.bi-pc-display-horizontal::before { content: \"\\f6a5\"; }\n.bi-pc-display::before { content: \"\\f6a6\"; }\n.bi-pc-horizontal::before { content: \"\\f6a7\"; }\n.bi-pc::before { content: \"\\f6a8\"; }\n.bi-playstation::before { content: \"\\f6a9\"; }\n.bi-plus-slash-minus::before { content: \"\\f6aa\"; }\n.bi-projector-fill::before { content: \"\\f6ab\"; }\n.bi-projector::before { content: \"\\f6ac\"; }\n.bi-qr-code-scan::before { content: \"\\f6ad\"; }\n.bi-qr-code::before { content: \"\\f6ae\"; }\n.bi-quora::before { content: \"\\f6af\"; }\n.bi-quote::before { content: \"\\f6b0\"; }\n.bi-robot::before { content: \"\\f6b1\"; }\n.bi-send-check-fill::before { content: \"\\f6b2\"; }\n.bi-send-check::before { content: \"\\f6b3\"; }\n.bi-send-dash-fill::before { content: \"\\f6b4\"; }\n.bi-send-dash::before { content: \"\\f6b5\"; }\n.bi-send-exclamation-1::before { content: \"\\f6b6\"; }\n.bi-send-exclamation-fill::before { content: \"\\f6b7\"; }\n.bi-send-exclamation::before { content: \"\\f6b8\"; }\n.bi-send-fill::before { content: \"\\f6b9\"; }\n.bi-send-plus-fill::before { content: \"\\f6ba\"; }\n.bi-send-plus::before { content: \"\\f6bb\"; }\n.bi-send-slash-fill::before { content: \"\\f6bc\"; }\n.bi-send-slash::before { content: \"\\f6bd\"; }\n.bi-send-x-fill::before { content: \"\\f6be\"; }\n.bi-send-x::before { content: \"\\f6bf\"; }\n.bi-send::before { content: \"\\f6c0\"; }\n.bi-steam::before { content: \"\\f6c1\"; }\n.bi-terminal-dash-1::before { content: \"\\f6c2\"; }\n.bi-terminal-dash::before { content: \"\\f6c3\"; }\n.bi-terminal-plus::before { content: \"\\f6c4\"; }\n.bi-terminal-split::before { content: \"\\f6c5\"; }\n.bi-ticket-detailed-fill::before { content: \"\\f6c6\"; }\n.bi-ticket-detailed::before { content: \"\\f6c7\"; }\n.bi-ticket-fill::before { content: \"\\f6c8\"; }\n.bi-ticket-perforated-fill::before { content: \"\\f6c9\"; }\n.bi-ticket-perforated::before { content: \"\\f6ca\"; }\n.bi-ticket::before { content: \"\\f6cb\"; }\n.bi-tiktok::before { content: \"\\f6cc\"; }\n.bi-window-dash::before { content: \"\\f6cd\"; }\n.bi-window-desktop::before { content: \"\\f6ce\"; }\n.bi-window-fullscreen::before { content: \"\\f6cf\"; }\n.bi-window-plus::before { content: \"\\f6d0\"; }\n.bi-window-split::before { content: \"\\f6d1\"; }\n.bi-window-stack::before { content: \"\\f6d2\"; }\n.bi-window-x::before { content: \"\\f6d3\"; }\n.bi-xbox::before { content: \"\\f6d4\"; }\n.bi-ethernet::before { content: \"\\f6d5\"; }\n.bi-hdmi-fill::before { content: \"\\f6d6\"; }\n.bi-hdmi::before { content: \"\\f6d7\"; }\n.bi-usb-c-fill::before { content: \"\\f6d8\"; }\n.bi-usb-c::before { content: \"\\f6d9\"; }\n.bi-usb-fill::before { content: \"\\f6da\"; }\n.bi-usb-plug-fill::before { content: \"\\f6db\"; }\n.bi-usb-plug::before { content: \"\\f6dc\"; }\n.bi-usb-symbol::before { content: \"\\f6dd\"; }\n.bi-usb::before { content: \"\\f6de\"; }\n.bi-boombox-fill::before { content: \"\\f6df\"; }\n.bi-displayport-1::before { content: \"\\f6e0\"; }\n.bi-displayport::before { content: \"\\f6e1\"; }\n.bi-gpu-card::before { content: \"\\f6e2\"; }\n.bi-memory::before { content: \"\\f6e3\"; }\n.bi-modem-fill::before { content: \"\\f6e4\"; }\n.bi-modem::before { content: \"\\f6e5\"; }\n.bi-motherboard-fill::before { content: \"\\f6e6\"; }\n.bi-motherboard::before { content: \"\\f6e7\"; }\n.bi-optical-audio-fill::before { content: \"\\f6e8\"; }\n.bi-optical-audio::before { content: \"\\f6e9\"; }\n.bi-pci-card::before { content: \"\\f6ea\"; }\n.bi-router-fill::before { content: \"\\f6eb\"; }\n.bi-router::before { content: \"\\f6ec\"; }\n.bi-ssd-fill::before { content: \"\\f6ed\"; }\n.bi-ssd::before { content: \"\\f6ee\"; }\n.bi-thunderbolt-fill::before { content: \"\\f6ef\"; }\n.bi-thunderbolt::before { content: \"\\f6f0\"; }\n.bi-usb-drive-fill::before { content: \"\\f6f1\"; }\n.bi-usb-drive::before { content: \"\\f6f2\"; }\n.bi-usb-micro-fill::before { content: \"\\f6f3\"; }\n.bi-usb-micro::before { content: \"\\f6f4\"; }\n.bi-usb-mini-fill::before { content: \"\\f6f5\"; }\n.bi-usb-mini::before { content: \"\\f6f6\"; }\n.bi-cloud-haze2::before { content: \"\\f6f7\"; }\n.bi-device-hdd-fill::before { content: \"\\f6f8\"; }\n.bi-device-hdd::before { content: \"\\f6f9\"; }\n.bi-device-ssd-fill::before { content: \"\\f6fa\"; }\n.bi-device-ssd::before { content: \"\\f6fb\"; }\n.bi-displayport-fill::before { content: \"\\f6fc\"; }\n.bi-mortarboard-fill::before { content: \"\\f6fd\"; }\n.bi-mortarboard::before { content: \"\\f6fe\"; }\n.bi-terminal-x::before { content: \"\\f6ff\"; }\n.bi-arrow-through-heart-fill::before { content: \"\\f700\"; }\n.bi-arrow-through-heart::before { content: \"\\f701\"; }\n.bi-badge-sd-fill::before { content: \"\\f702\"; }\n.bi-badge-sd::before { content: \"\\f703\"; }\n.bi-bag-heart-fill::before { content: \"\\f704\"; }\n.bi-bag-heart::before { content: \"\\f705\"; }\n.bi-balloon-fill::before { content: \"\\f706\"; }\n.bi-balloon-heart-fill::before { content: \"\\f707\"; }\n.bi-balloon-heart::before { content: \"\\f708\"; }\n.bi-balloon::before { content: \"\\f709\"; }\n.bi-box2-fill::before { content: \"\\f70a\"; }\n.bi-box2-heart-fill::before { content: \"\\f70b\"; }\n.bi-box2-heart::before { content: \"\\f70c\"; }\n.bi-box2::before { content: \"\\f70d\"; }\n.bi-braces-asterisk::before { content: \"\\f70e\"; }\n.bi-calendar-heart-fill::before { content: \"\\f70f\"; }\n.bi-calendar-heart::before { content: \"\\f710\"; }\n.bi-calendar2-heart-fill::before { content: \"\\f711\"; }\n.bi-calendar2-heart::before { content: \"\\f712\"; }\n.bi-chat-heart-fill::before { content: \"\\f713\"; }\n.bi-chat-heart::before { content: \"\\f714\"; }\n.bi-chat-left-heart-fill::before { content: \"\\f715\"; }\n.bi-chat-left-heart::before { content: \"\\f716\"; }\n.bi-chat-right-heart-fill::before { content: \"\\f717\"; }\n.bi-chat-right-heart::before { content: \"\\f718\"; }\n.bi-chat-square-heart-fill::before { content: \"\\f719\"; }\n.bi-chat-square-heart::before { content: \"\\f71a\"; }\n.bi-clipboard-check-fill::before { content: \"\\f71b\"; }\n.bi-clipboard-data-fill::before { content: \"\\f71c\"; }\n.bi-clipboard-fill::before { content: \"\\f71d\"; }\n.bi-clipboard-heart-fill::before { content: \"\\f71e\"; }\n.bi-clipboard-heart::before { content: \"\\f71f\"; }\n.bi-clipboard-minus-fill::before { content: \"\\f720\"; }\n.bi-clipboard-plus-fill::before { content: \"\\f721\"; }\n.bi-clipboard-pulse::before { content: \"\\f722\"; }\n.bi-clipboard-x-fill::before { content: \"\\f723\"; }\n.bi-clipboard2-check-fill::before { content: \"\\f724\"; }\n.bi-clipboard2-check::before { content: \"\\f725\"; }\n.bi-clipboard2-data-fill::before { content: \"\\f726\"; }\n.bi-clipboard2-data::before { content: \"\\f727\"; }\n.bi-clipboard2-fill::before { content: \"\\f728\"; }\n.bi-clipboard2-heart-fill::before { content: \"\\f729\"; }\n.bi-clipboard2-heart::before { content: \"\\f72a\"; }\n.bi-clipboard2-minus-fill::before { content: \"\\f72b\"; }\n.bi-clipboard2-minus::before { content: \"\\f72c\"; }\n.bi-clipboard2-plus-fill::before { content: \"\\f72d\"; }\n.bi-clipboard2-plus::before { content: \"\\f72e\"; }\n.bi-clipboard2-pulse-fill::before { content: \"\\f72f\"; }\n.bi-clipboard2-pulse::before { content: \"\\f730\"; }\n.bi-clipboard2-x-fill::before { content: \"\\f731\"; }\n.bi-clipboard2-x::before { content: \"\\f732\"; }\n.bi-clipboard2::before { content: \"\\f733\"; }\n.bi-emoji-kiss-fill::before { content: \"\\f734\"; }\n.bi-emoji-kiss::before { content: \"\\f735\"; }\n.bi-envelope-heart-fill::before { content: \"\\f736\"; }\n.bi-envelope-heart::before { content: \"\\f737\"; }\n.bi-envelope-open-heart-fill::before { content: \"\\f738\"; }\n.bi-envelope-open-heart::before { content: \"\\f739\"; }\n.bi-envelope-paper-fill::before { content: \"\\f73a\"; }\n.bi-envelope-paper-heart-fill::before { content: \"\\f73b\"; }\n.bi-envelope-paper-heart::before { content: \"\\f73c\"; }\n.bi-envelope-paper::before { content: \"\\f73d\"; }\n.bi-filetype-aac::before { content: \"\\f73e\"; }\n.bi-filetype-ai::before { content: \"\\f73f\"; }\n.bi-filetype-bmp::before { content: \"\\f740\"; }\n.bi-filetype-cs::before { content: \"\\f741\"; }\n.bi-filetype-css::before { content: \"\\f742\"; }\n.bi-filetype-csv::before { content: \"\\f743\"; }\n.bi-filetype-doc::before { content: \"\\f744\"; }\n.bi-filetype-docx::before { content: \"\\f745\"; }\n.bi-filetype-exe::before { content: \"\\f746\"; }\n.bi-filetype-gif::before { content: \"\\f747\"; }\n.bi-filetype-heic::before { content: \"\\f748\"; }\n.bi-filetype-html::before { content: \"\\f749\"; }\n.bi-filetype-java::before { content: \"\\f74a\"; }\n.bi-filetype-jpg::before { content: \"\\f74b\"; }\n.bi-filetype-js::before { content: \"\\f74c\"; }\n.bi-filetype-jsx::before { content: \"\\f74d\"; }\n.bi-filetype-key::before { content: \"\\f74e\"; }\n.bi-filetype-m4p::before { content: \"\\f74f\"; }\n.bi-filetype-md::before { content: \"\\f750\"; }\n.bi-filetype-mdx::before { content: \"\\f751\"; }\n.bi-filetype-mov::before { content: \"\\f752\"; }\n.bi-filetype-mp3::before { content: \"\\f753\"; }\n.bi-filetype-mp4::before { content: \"\\f754\"; }\n.bi-filetype-otf::before { content: \"\\f755\"; }\n.bi-filetype-pdf::before { content: \"\\f756\"; }\n.bi-filetype-php::before { content: \"\\f757\"; }\n.bi-filetype-png::before { content: \"\\f758\"; }\n.bi-filetype-ppt-1::before { content: \"\\f759\"; }\n.bi-filetype-ppt::before { content: \"\\f75a\"; }\n.bi-filetype-psd::before { content: \"\\f75b\"; }\n.bi-filetype-py::before { content: \"\\f75c\"; }\n.bi-filetype-raw::before { content: \"\\f75d\"; }\n.bi-filetype-rb::before { content: \"\\f75e\"; }\n.bi-filetype-sass::before { content: \"\\f75f\"; }\n.bi-filetype-scss::before { content: \"\\f760\"; }\n.bi-filetype-sh::before { content: \"\\f761\"; }\n.bi-filetype-svg::before { content: \"\\f762\"; }\n.bi-filetype-tiff::before { content: \"\\f763\"; }\n.bi-filetype-tsx::before { content: \"\\f764\"; }\n.bi-filetype-ttf::before { content: \"\\f765\"; }\n.bi-filetype-txt::before { content: \"\\f766\"; }\n.bi-filetype-wav::before { content: \"\\f767\"; }\n.bi-filetype-woff::before { content: \"\\f768\"; }\n.bi-filetype-xls-1::before { content: \"\\f769\"; }\n.bi-filetype-xls::before { content: \"\\f76a\"; }\n.bi-filetype-xml::before { content: \"\\f76b\"; }\n.bi-filetype-yml::before { content: \"\\f76c\"; }\n.bi-heart-arrow::before { content: \"\\f76d\"; }\n.bi-heart-pulse-fill::before { content: \"\\f76e\"; }\n.bi-heart-pulse::before { content: \"\\f76f\"; }\n.bi-heartbreak-fill::before { content: \"\\f770\"; }\n.bi-heartbreak::before { content: \"\\f771\"; }\n.bi-hearts::before { content: \"\\f772\"; }\n.bi-hospital-fill::before { content: \"\\f773\"; }\n.bi-hospital::before { content: \"\\f774\"; }\n.bi-house-heart-fill::before { content: \"\\f775\"; }\n.bi-house-heart::before { content: \"\\f776\"; }\n.bi-incognito::before { content: \"\\f777\"; }\n.bi-magnet-fill::before { content: \"\\f778\"; }\n.bi-magnet::before { content: \"\\f779\"; }\n.bi-person-heart::before { content: \"\\f77a\"; }\n.bi-person-hearts::before { content: \"\\f77b\"; }\n.bi-phone-flip::before { content: \"\\f77c\"; }\n.bi-plugin::before { content: \"\\f77d\"; }\n.bi-postage-fill::before { content: \"\\f77e\"; }\n.bi-postage-heart-fill::before { content: \"\\f77f\"; }\n.bi-postage-heart::before { content: \"\\f780\"; }\n.bi-postage::before { content: \"\\f781\"; }\n.bi-postcard-fill::before { content: \"\\f782\"; }\n.bi-postcard-heart-fill::before { content: \"\\f783\"; }\n.bi-postcard-heart::before { content: \"\\f784\"; }\n.bi-postcard::before { content: \"\\f785\"; }\n.bi-search-heart-fill::before { content: \"\\f786\"; }\n.bi-search-heart::before { content: \"\\f787\"; }\n.bi-sliders2-vertical::before { content: \"\\f788\"; }\n.bi-sliders2::before { content: \"\\f789\"; }\n.bi-trash3-fill::before { content: \"\\f78a\"; }\n.bi-trash3::before { content: \"\\f78b\"; }\n.bi-valentine::before { content: \"\\f78c\"; }\n.bi-valentine2::before { content: \"\\f78d\"; }\n.bi-wrench-adjustable-circle-fill::before { content: \"\\f78e\"; }\n.bi-wrench-adjustable-circle::before { content: \"\\f78f\"; }\n.bi-wrench-adjustable::before { content: \"\\f790\"; }\n.bi-filetype-json::before { content: \"\\f791\"; }\n.bi-filetype-pptx::before { content: \"\\f792\"; }\n.bi-filetype-xlsx::before { content: \"\\f793\"; }\n.bi-1-circle-1::before { content: \"\\f794\"; }\n.bi-1-circle-fill-1::before { content: \"\\f795\"; }\n.bi-1-circle-fill::before { content: \"\\f796\"; }\n.bi-1-circle::before { content: \"\\f797\"; }\n.bi-1-square-fill::before { content: \"\\f798\"; }\n.bi-1-square::before { content: \"\\f799\"; }\n.bi-2-circle-1::before { content: \"\\f79a\"; }\n.bi-2-circle-fill-1::before { content: \"\\f79b\"; }\n.bi-2-circle-fill::before { content: \"\\f79c\"; }\n.bi-2-circle::before { content: \"\\f79d\"; }\n.bi-2-square-fill::before { content: \"\\f79e\"; }\n.bi-2-square::before { content: \"\\f79f\"; }\n.bi-3-circle-1::before { content: \"\\f7a0\"; }\n.bi-3-circle-fill-1::before { content: \"\\f7a1\"; }\n.bi-3-circle-fill::before { content: \"\\f7a2\"; }\n.bi-3-circle::before { content: \"\\f7a3\"; }\n.bi-3-square-fill::before { content: \"\\f7a4\"; }\n.bi-3-square::before { content: \"\\f7a5\"; }\n.bi-4-circle-1::before { content: \"\\f7a6\"; }\n.bi-4-circle-fill-1::before { content: \"\\f7a7\"; }\n.bi-4-circle-fill::before { content: \"\\f7a8\"; }\n.bi-4-circle::before { content: \"\\f7a9\"; }\n.bi-4-square-fill::before { content: \"\\f7aa\"; }\n.bi-4-square::before { content: \"\\f7ab\"; }\n.bi-5-circle-1::before { content: \"\\f7ac\"; }\n.bi-5-circle-fill-1::before { content: \"\\f7ad\"; }\n.bi-5-circle-fill::before { content: \"\\f7ae\"; }\n.bi-5-circle::before { content: \"\\f7af\"; }\n.bi-5-square-fill::before { content: \"\\f7b0\"; }\n.bi-5-square::before { content: \"\\f7b1\"; }\n.bi-6-circle-1::before { content: \"\\f7b2\"; }\n.bi-6-circle-fill-1::before { content: \"\\f7b3\"; }\n.bi-6-circle-fill::before { content: \"\\f7b4\"; }\n.bi-6-circle::before { content: \"\\f7b5\"; }\n.bi-6-square-fill::before { content: \"\\f7b6\"; }\n.bi-6-square::before { content: \"\\f7b7\"; }\n.bi-7-circle-1::before { content: \"\\f7b8\"; }\n.bi-7-circle-fill-1::before { content: \"\\f7b9\"; }\n.bi-7-circle-fill::before { content: \"\\f7ba\"; }\n.bi-7-circle::before { content: \"\\f7bb\"; }\n.bi-7-square-fill::before { content: \"\\f7bc\"; }\n.bi-7-square::before { content: \"\\f7bd\"; }\n.bi-8-circle-1::before { content: \"\\f7be\"; }\n.bi-8-circle-fill-1::before { content: \"\\f7bf\"; }\n.bi-8-circle-fill::before { content: \"\\f7c0\"; }\n.bi-8-circle::before { content: \"\\f7c1\"; }\n.bi-8-square-fill::before { content: \"\\f7c2\"; }\n.bi-8-square::before { content: \"\\f7c3\"; }\n.bi-9-circle-1::before { content: \"\\f7c4\"; }\n.bi-9-circle-fill-1::before { content: \"\\f7c5\"; }\n.bi-9-circle-fill::before { content: \"\\f7c6\"; }\n.bi-9-circle::before { content: \"\\f7c7\"; }\n.bi-9-square-fill::before { content: \"\\f7c8\"; }\n.bi-9-square::before { content: \"\\f7c9\"; }\n.bi-airplane-engines-fill::before { content: \"\\f7ca\"; }\n.bi-airplane-engines::before { content: \"\\f7cb\"; }\n.bi-airplane-fill::before { content: \"\\f7cc\"; }\n.bi-airplane::before { content: \"\\f7cd\"; }\n.bi-alexa::before { content: \"\\f7ce\"; }\n.bi-alipay::before { content: \"\\f7cf\"; }\n.bi-android::before { content: \"\\f7d0\"; }\n.bi-android2::before { content: \"\\f7d1\"; }\n.bi-box-fill::before { content: \"\\f7d2\"; }\n.bi-box-seam-fill::before { content: \"\\f7d3\"; }\n.bi-browser-chrome::before { content: \"\\f7d4\"; }\n.bi-browser-edge::before { content: \"\\f7d5\"; }\n.bi-browser-firefox::before { content: \"\\f7d6\"; }\n.bi-browser-safari::before { content: \"\\f7d7\"; }\n.bi-c-circle-1::before { content: \"\\f7d8\"; }\n.bi-c-circle-fill-1::before { content: \"\\f7d9\"; }\n.bi-c-circle-fill::before { content: \"\\f7da\"; }\n.bi-c-circle::before { content: \"\\f7db\"; }\n.bi-c-square-fill::before { content: \"\\f7dc\"; }\n.bi-c-square::before { content: \"\\f7dd\"; }\n.bi-capsule-pill::before { content: \"\\f7de\"; }\n.bi-capsule::before { content: \"\\f7df\"; }\n.bi-car-front-fill::before { content: \"\\f7e0\"; }\n.bi-car-front::before { content: \"\\f7e1\"; }\n.bi-cassette-fill::before { content: \"\\f7e2\"; }\n.bi-cassette::before { content: \"\\f7e3\"; }\n.bi-cc-circle-1::before { content: \"\\f7e4\"; }\n.bi-cc-circle-fill-1::before { content: \"\\f7e5\"; }\n.bi-cc-circle-fill::before { content: \"\\f7e6\"; }\n.bi-cc-circle::before { content: \"\\f7e7\"; }\n.bi-cc-square-fill::before { content: \"\\f7e8\"; }\n.bi-cc-square::before { content: \"\\f7e9\"; }\n.bi-cup-hot-fill::before { content: \"\\f7ea\"; }\n.bi-cup-hot::before { content: \"\\f7eb\"; }\n.bi-currency-rupee::before { content: \"\\f7ec\"; }\n.bi-dropbox::before { content: \"\\f7ed\"; }\n.bi-escape::before { content: \"\\f7ee\"; }\n.bi-fast-forward-btn-fill::before { content: \"\\f7ef\"; }\n.bi-fast-forward-btn::before { content: \"\\f7f0\"; }\n.bi-fast-forward-circle-fill::before { content: \"\\f7f1\"; }\n.bi-fast-forward-circle::before { content: \"\\f7f2\"; }\n.bi-fast-forward-fill::before { content: \"\\f7f3\"; }\n.bi-fast-forward::before { content: \"\\f7f4\"; }\n.bi-filetype-sql::before { content: \"\\f7f5\"; }\n.bi-fire::before { content: \"\\f7f6\"; }\n.bi-google-play::before { content: \"\\f7f7\"; }\n.bi-h-circle-1::before { content: \"\\f7f8\"; }\n.bi-h-circle-fill-1::before { content: \"\\f7f9\"; }\n.bi-h-circle-fill::before { content: \"\\f7fa\"; }\n.bi-h-circle::before { content: \"\\f7fb\"; }\n.bi-h-square-fill::before { content: \"\\f7fc\"; }\n.bi-h-square::before { content: \"\\f7fd\"; }\n.bi-indent::before { content: \"\\f7fe\"; }\n.bi-lungs-fill::before { content: \"\\f7ff\"; }\n.bi-lungs::before { content: \"\\f800\"; }\n.bi-microsoft-teams::before { content: \"\\f801\"; }\n.bi-p-circle-1::before { content: \"\\f802\"; }\n.bi-p-circle-fill-1::before { content: \"\\f803\"; }\n.bi-p-circle-fill::before { content: \"\\f804\"; }\n.bi-p-circle::before { content: \"\\f805\"; }\n.bi-p-square-fill::before { content: \"\\f806\"; }\n.bi-p-square::before { content: \"\\f807\"; }\n.bi-pass-fill::before { content: \"\\f808\"; }\n.bi-pass::before { content: \"\\f809\"; }\n.bi-prescription::before { content: \"\\f80a\"; }\n.bi-prescription2::before { content: \"\\f80b\"; }\n.bi-r-circle-1::before { content: \"\\f80c\"; }\n.bi-r-circle-fill-1::before { content: \"\\f80d\"; }\n.bi-r-circle-fill::before { content: \"\\f80e\"; }\n.bi-r-circle::before { content: \"\\f80f\"; }\n.bi-r-square-fill::before { content: \"\\f810\"; }\n.bi-r-square::before { content: \"\\f811\"; }\n.bi-repeat-1::before { content: \"\\f812\"; }\n.bi-repeat::before { content: \"\\f813\"; }\n.bi-rewind-btn-fill::before { content: \"\\f814\"; }\n.bi-rewind-btn::before { content: \"\\f815\"; }\n.bi-rewind-circle-fill::before { content: \"\\f816\"; }\n.bi-rewind-circle::before { content: \"\\f817\"; }\n.bi-rewind-fill::before { content: \"\\f818\"; }\n.bi-rewind::before { content: \"\\f819\"; }\n.bi-train-freight-front-fill::before { content: \"\\f81a\"; }\n.bi-train-freight-front::before { content: \"\\f81b\"; }\n.bi-train-front-fill::before { content: \"\\f81c\"; }\n.bi-train-front::before { content: \"\\f81d\"; }\n.bi-train-lightrail-front-fill::before { content: \"\\f81e\"; }\n.bi-train-lightrail-front::before { content: \"\\f81f\"; }\n.bi-truck-front-fill::before { content: \"\\f820\"; }\n.bi-truck-front::before { content: \"\\f821\"; }\n.bi-ubuntu::before { content: \"\\f822\"; }\n.bi-unindent::before { content: \"\\f823\"; }\n.bi-unity::before { content: \"\\f824\"; }\n.bi-universal-access-circle::before { content: \"\\f825\"; }\n.bi-universal-access::before { content: \"\\f826\"; }\n.bi-virus::before { content: \"\\f827\"; }\n.bi-virus2::before { content: \"\\f828\"; }\n.bi-wechat::before { content: \"\\f829\"; }\n.bi-yelp::before { content: \"\\f82a\"; }\n.bi-sign-stop-fill::before { content: \"\\f82b\"; }\n.bi-sign-stop-lights-fill::before { content: \"\\f82c\"; }\n.bi-sign-stop-lights::before { content: \"\\f82d\"; }\n.bi-sign-stop::before { content: \"\\f82e\"; }\n.bi-sign-turn-left-fill::before { content: \"\\f82f\"; }\n.bi-sign-turn-left::before { content: \"\\f830\"; }\n.bi-sign-turn-right-fill::before { content: \"\\f831\"; }\n.bi-sign-turn-right::before { content: \"\\f832\"; }\n.bi-sign-turn-slight-left-fill::before { content: \"\\f833\"; }\n.bi-sign-turn-slight-left::before { content: \"\\f834\"; }\n.bi-sign-turn-slight-right-fill::before { content: \"\\f835\"; }\n.bi-sign-turn-slight-right::before { content: \"\\f836\"; }\n.bi-sign-yield-fill::before { content: \"\\f837\"; }\n.bi-sign-yield::before { content: \"\\f838\"; }\n.bi-ev-station-fill::before { content: \"\\f839\"; }\n.bi-ev-station::before { content: \"\\f83a\"; }\n.bi-fuel-pump-diesel-fill::before { content: \"\\f83b\"; }\n.bi-fuel-pump-diesel::before { content: \"\\f83c\"; }\n.bi-fuel-pump-fill::before { content: \"\\f83d\"; }\n.bi-fuel-pump::before { content: \"\\f83e\"; }\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -8628,7 +8633,7 @@ module.exports = styleTagTransform;
 
 /***/ }),
 
-/***/ 6988:
+/***/ 7484:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
@@ -8636,7 +8641,7 @@ module.exports = __webpack_require__.p + "assets/fonts/bootstrap-icons.woff2";
 
 /***/ }),
 
-/***/ 7890:
+/***/ 4070:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
@@ -9711,6 +9716,7 @@ function indentRange(state, from, to) {
 
   for (let pos = from; pos <= to;) {
     let line = state.doc.lineAt(pos);
+    pos = line.to + 1;
     let indent = getIndentation(context, line.from);
     if (indent == null) continue;
     if (!/\S/.test(line.text)) indent = 0;
@@ -9725,8 +9731,6 @@ function indentRange(state, from, to) {
         insert: norm
       });
     }
-
-    pos = line.to + 1;
   }
 
   return state.changes(changes);
@@ -10215,7 +10219,7 @@ function announceFold(view, range, fold) {
 
   let lineFrom = view.state.doc.lineAt(range.from).number,
       lineTo = view.state.doc.lineAt(range.to).number;
-  return _codemirror_view__WEBPACK_IMPORTED_MODULE_4__/* .EditorView.announce.of */ .tk.announce.of(view.state.phrase(fold ? "Folded lines" : "Unfolded lines") + " " + lineFrom + " " + view.state.phrase("to") + " " + lineTo + ".");
+  return _codemirror_view__WEBPACK_IMPORTED_MODULE_4__/* .EditorView.announce.of */ .tk.announce.of(`${view.state.phrase(fold ? "Folded lines" : "Unfolded lines")} ${lineFrom} ${view.state.phrase("to")} ${lineTo}.`);
 }
 
 const foldAll = view => {
@@ -10733,7 +10737,6 @@ function matchMarkedBrackets(_state, _pos, dir, token, matching, brackets) {
       } else if (matchingNodes(cursor.type, dir, brackets)) {
         depth++;
       } else if (matchingNodes(cursor.type, -dir, brackets)) {
-        depth--;
         if (depth == 0) return {
           start: firstToken,
           end: cursor.from == cursor.to ? undefined : {
@@ -10742,6 +10745,7 @@ function matchMarkedBrackets(_state, _pos, dir, token, matching, brackets) {
           },
           matched: false
         };
+        depth--;
       }
     }
   } while (dir < 0 ? cursor.prevSibling() : cursor.nextSibling());
@@ -11304,11 +11308,11 @@ function createTokenType(extra, tagStr) {
     let value = extra[part] || _lezer_highlight__WEBPACK_IMPORTED_MODULE_1__/* .tags */ .pJ[part];
 
     if (!value) {
-      warnForPart(part, "Unknown highlighting tag " + part);
+      warnForPart(part, `Unknown highlighting tag ${part}`);
     } else if (typeof value == "function") {
-      if (!tag) warnForPart(part, "Modifier " + part + " used at start of tag");else tag = value(tag);
+      if (!tag) warnForPart(part, `Modifier ${part} used at start of tag`);else tag = value(tag);
     } else {
-      if (tag) warnForPart(part, "Tag " + part + " used as modifier");else tag = value;
+      if (tag) warnForPart(part, `Tag ${part} used as modifier`);else tag = value;
     }
   }
 
@@ -11380,12 +11384,12 @@ class Text {
   constructor() {}
 
   lineAt(pos) {
-    if (pos < 0 || pos > this.length) throw new RangeError("Invalid position " + pos + " in document of length " + this.length);
+    if (pos < 0 || pos > this.length) throw new RangeError(`Invalid position ${pos} in document of length ${this.length}`);
     return this.lineInner(pos, false, 1, 0);
   }
 
   line(n) {
-    if (n < 1 || n > this.lines) throw new RangeError("Invalid line number " + n + " in " + this.lines + "-line document");
+    if (n < 1 || n > this.lines) throw new RangeError(`Invalid line number ${n} in ${this.lines}-line document`);
     return this.lineInner(n, true, 1, 0);
   }
 
@@ -12214,7 +12218,7 @@ class ChangeDesc {
       posA = endA;
     }
 
-    if (pos > posA) throw new RangeError("Position " + pos + " is out of range for changeset of length " + posA);
+    if (pos > posA) throw new RangeError(`Position ${pos} is out of range for changeset of length ${posA}`);
     return posB;
   }
 
@@ -12406,7 +12410,7 @@ class ChangeSet extends ChangeDesc {
           process(sub);
         }
       } else if (spec instanceof ChangeSet) {
-        if (spec.length != length) throw new RangeError("Mismatched change set length (got " + spec.length + ", expected " + length + ")");
+        if (spec.length != length) throw new RangeError(`Mismatched change set length (got ${spec.length}, expected ${length})`);
         flush();
         total = total ? total.compose(spec.map(total)) : spec;
       } else {
@@ -12415,7 +12419,7 @@ class ChangeSet extends ChangeDesc {
           to = from,
           insert
         } = spec;
-        if (from > to || from < 0 || to > length) throw new RangeError("Invalid change range " + from + " to " + to + " (in doc of length " + length + ")");
+        if (from > to || from < 0 || to > length) throw new RangeError(`Invalid change range ${from} to ${to} (in doc of length ${length})`);
         let insText = !insert ? Text.empty : typeof insert == "string" ? Text.of(insert.split(lineSep || DefaultSplit)) : insert;
         let insLen = insText.length;
         if (from == to && insLen == 0) return;
@@ -13326,7 +13330,7 @@ function flatten(extension, compartments, newCompartments) {
         inner(e, prec);
       }
     } else if (ext instanceof CompartmentInstance) {
-      if (newCompartments.has(ext.compartment)) throw new RangeError("Duplicate use of compartment in extensions");
+      if (newCompartments.has(ext.compartment)) throw new RangeError(`Duplicate use of compartment in extensions`);
       let content = compartments.get(ext.compartment) || ext.inner;
       newCompartments.set(ext.compartment, content);
       inner(content, prec);
@@ -13337,10 +13341,10 @@ function flatten(extension, compartments, newCompartments) {
       if (ext.provides) inner(ext.provides, prec);
     } else if (ext instanceof FacetProvider) {
       result[prec].push(ext);
-      if (ext.facet.extensions) inner(ext.facet.extensions, prec);
+      if (ext.facet.extensions) inner(ext.facet.extensions, Prec_.default);
     } else {
       let content = ext.extension;
-      if (!content) throw new Error("Unrecognized extension value in extension set (" + ext + "). This sometimes happens because multiple instances of @codemirror/state are loaded, breaking instanceof checks.");
+      if (!content) throw new Error(`Unrecognized extension value in extension set (${ext}). This sometimes happens because multiple instances of @codemirror/state are loaded, breaking instanceof checks.`);
       inner(content, prec);
     }
   }
@@ -13628,7 +13632,7 @@ function extendTransaction(tr) {
 
   for (let i = extenders.length - 1; i >= 0; i--) {
     let extension = extenders[i](tr);
-    if (extension && Object.keys(extension).length) spec = mergeTransaction(tr, resolveTransactionInner(state, extension, tr.changes.newLength), true);
+    if (extension && Object.keys(extension).length) spec = mergeTransaction(spec, resolveTransactionInner(state, extension, tr.changes.newLength), true);
   }
 
   return spec == tr ? tr : Transaction.create(state, tr.changes, tr.selection, spec.effects, spec.annotations, spec.scrollIntoView);
@@ -14722,6 +14726,7 @@ class SpanCursor {
 
         if (!nextVal.point) {
           this.addActive(trackOpen);
+          if (this.cursor.from < from && this.cursor.to > from) trackExtra++;
           this.cursor.next();
         } else if (wasPoint && this.cursor.to == this.to && this.cursor.from < this.cursor.to) {
           this.cursor.next();
@@ -15029,8 +15034,8 @@ function contains(dom, node) {
   return node ? dom == node || dom.contains(node.nodeType != 1 ? node.parentNode : node) : false;
 }
 
-function deepActiveElement() {
-  let elt = document.activeElement;
+function deepActiveElement(doc) {
+  let elt = doc.activeElement;
 
   while (elt && elt.shadowRoot) elt = elt.shadowRoot.activeElement;
 
@@ -15114,7 +15119,7 @@ function windowRect(win) {
 
 function scrollRectIntoView(dom, rect, side, x, y, xMargin, yMargin, ltr) {
   let doc = dom.ownerDocument,
-      win = doc.defaultView;
+      win = doc.defaultView || window;
 
   for (let cur = dom; cur;) {
     if (cur.nodeType == 1) {
@@ -15125,7 +15130,7 @@ function scrollRectIntoView(dom, rect, side, x, y, xMargin, yMargin, ltr) {
         bounding = windowRect(win);
       } else {
         if (cur.scrollHeight <= cur.clientHeight && cur.scrollWidth <= cur.clientWidth) {
-          cur = cur.parentNode;
+          cur = cur.assignedSlot || cur.parentNode;
           continue;
         }
 
@@ -15173,30 +15178,34 @@ function scrollRectIntoView(dom, rect, side, x, y, xMargin, yMargin, ltr) {
         if (top) {
           win.scrollBy(moveX, moveY);
         } else {
+          let movedX = 0,
+              movedY = 0;
+
           if (moveY) {
             let start = cur.scrollTop;
             cur.scrollTop += moveY;
-            moveY = cur.scrollTop - start;
+            movedY = cur.scrollTop - start;
           }
 
           if (moveX) {
             let start = cur.scrollLeft;
             cur.scrollLeft += moveX;
-            moveX = cur.scrollLeft - start;
+            movedX = cur.scrollLeft - start;
           }
 
           rect = {
-            left: rect.left - moveX,
-            top: rect.top - moveY,
-            right: rect.right - moveX,
-            bottom: rect.bottom - moveY
+            left: rect.left - movedX,
+            top: rect.top - movedY,
+            right: rect.right - movedX,
+            bottom: rect.bottom - movedY
           };
+          if (movedX && Math.abs(movedX - moveX) < 1) x = "nearest";
+          if (movedY && Math.abs(movedY - moveY) < 1) y = "nearest";
         }
       }
 
       if (top) break;
       cur = cur.assignedSlot || cur.parentNode;
-      x = y = "nearest";
     } else if (cur.nodeType == 11) {
       cur = cur.host;
     } else {
@@ -15308,6 +15317,28 @@ function clearAttributes(node) {
   while (node.attributes.length) node.removeAttributeNode(node.attributes[0]);
 }
 
+function atElementStart(doc, selection) {
+  let node = selection.focusNode,
+      offset = selection.focusOffset;
+  if (!node || selection.anchorNode != node || selection.anchorOffset != offset) return false;
+
+  for (;;) {
+    if (offset) {
+      if (node.nodeType != 1) return false;
+      let prev = node.childNodes[offset - 1];
+      if (prev.contentEditable == "false") offset--;else {
+        node = prev;
+        offset = maxOffset(node);
+      }
+    } else if (node == doc) {
+      return true;
+    } else {
+      offset = domIndex(node);
+      node = node.parentNode;
+    }
+  }
+}
+
 class DOMPos {
   constructor(node, offset, precise) {
     if (precise === void 0) {
@@ -15387,7 +15418,7 @@ class ContentView {
         if (child.dirty) {
           if (!child.dom && (next = prev ? prev.nextSibling : parent.firstChild)) {
             let contentView = ContentView.get(next);
-            if (!contentView || !contentView.parent && contentView.constructor == child.constructor) child.reuseDOM(next);
+            if (!contentView || !contentView.parent && contentView.canReuseDOM(child)) child.reuseDOM(next);
           }
 
           child.sync(track);
@@ -15596,6 +15627,10 @@ class ContentView {
 
   become(other) {
     return false;
+  }
+
+  canReuseDOM(other) {
+    return other.constructor == this.constructor;
   }
 
   getSide() {
@@ -15902,7 +15937,7 @@ class MarkView extends ContentView {
   }
 
   domAtPos(pos) {
-    return inlineDOMAtPos(this.dom, this.children, pos);
+    return inlineDOMAtPos(this, pos);
   }
 
   coordsAt(pos, side) {
@@ -16093,15 +16128,20 @@ class CompositionView extends WidgetView {
     return true;
   }
 
+  canReuseDOM() {
+    return true;
+  }
+
 }
 
 function scanCompositionTree(pos, side, view, text, enterView, fromText) {
   if (view instanceof MarkView) {
-    for (var _iterator7 = _createForOfIteratorHelperLoose(view.children), _step7; !(_step7 = _iterator7()).done;) {
-      let child = _step7.value;
-      let hasComp = contains(child.dom, text);
-      let len = hasComp ? text.nodeValue.length : child.length;
-      if (pos < len || pos == len && child.getSide() <= 0) return hasComp ? scanCompositionTree(pos, side, child, text, enterView, fromText) : enterView(child, pos, side);
+    for (let child = view.dom.firstChild; child; child = child.nextSibling) {
+      let desc = ContentView.get(child);
+      if (!desc) return fromText(pos, side);
+      let hasComp = contains(child, text);
+      let len = desc.length + (hasComp ? text.nodeValue.length : 0);
+      if (pos < len || pos == len && desc.getSide() <= 0) return hasComp ? scanCompositionTree(pos, side, desc, text, enterView, fromText) : enterView(desc, pos, side);
       pos -= len;
     }
 
@@ -16115,8 +16155,8 @@ function scanCompositionTree(pos, side, view, text, enterView, fromText) {
 
 function posFromDOMInCompositionTree(node, offset, view, text) {
   if (view instanceof MarkView) {
-    for (var _iterator8 = _createForOfIteratorHelperLoose(view.children), _step8; !(_step8 = _iterator8()).done;) {
-      let child = _step8.value;
+    for (var _iterator7 = _createForOfIteratorHelperLoose(view.children), _step7; !(_step7 = _iterator7()).done;) {
+      let child = _step7.value;
       let pos = 0,
           hasComp = contains(child.dom, text);
       if (contains(child.dom, node)) return pos + (hasComp ? posFromDOMInCompositionTree(node, offset, child, text) : child.localPosFromDOM(node, offset));
@@ -16222,8 +16262,12 @@ function inlineSiblingRect(view, side) {
   return undefined;
 }
 
-function inlineDOMAtPos(dom, children, pos) {
-  let i = 0;
+function inlineDOMAtPos(parent, pos) {
+  let dom = parent.dom,
+      {
+    children
+  } = parent,
+      i = 0;
 
   for (let off = 0; i < children.length; i++) {
     let child = children[i],
@@ -16234,9 +16278,14 @@ function inlineDOMAtPos(dom, children, pos) {
     off = end;
   }
 
-  for (; i > 0; i--) {
-    let before = children[i - 1].dom;
-    if (before.parentNode == dom) return DOMPos.after(before);
+  for (let j = i; j > 0; j--) {
+    let prev = children[j - 1];
+    if (prev.dom.parentNode == dom) return prev.domAtPos(prev.length);
+  }
+
+  for (let j = i; j < children.length; j++) {
+    let next = children[j];
+    if (next.dom.parentNode == dom) return next.domAtPos(0);
   }
 
   return new DOMPos(dom, 0);
@@ -16612,7 +16661,7 @@ class LineView extends ContentView {
   }
 
   domAtPos(pos) {
-    return inlineDOMAtPos(this.dom, this.children, pos);
+    return inlineDOMAtPos(this, pos);
   }
 
   reuseDOM(node) {
@@ -16657,15 +16706,15 @@ class LineView extends ContentView {
     if (this.children.length == 0 || this.length > 20) return null;
     let totalWidth = 0;
 
-    for (var _iterator9 = _createForOfIteratorHelperLoose(this.children), _step9; !(_step9 = _iterator9()).done;) {
-      let child = _step9.value;
-      if (!(child instanceof TextView)) return null;
+    for (var _iterator8 = _createForOfIteratorHelperLoose(this.children), _step8; !(_step8 = _iterator8()).done;) {
+      let child = _step8.value;
+      if (!(child instanceof TextView) || /[^ -~]/.test(child.text)) return null;
       let rects = clientRectsFor(child.dom);
       if (rects.length != 1) return null;
       totalWidth += rects[0].width;
     }
 
-    return {
+    return !totalWidth ? null : {
       lineHeight: this.dom.getBoundingClientRect().height,
       charWidth: totalWidth / this.length
     };
@@ -16932,8 +16981,8 @@ class ContentBuilder {
 }
 
 function wrapMarks(view, active) {
-  for (var _iterator10 = _createForOfIteratorHelperLoose(active), _step10; !(_step10 = _iterator10()).done;) {
-    let mark = _step10.value;
+  for (var _iterator9 = _createForOfIteratorHelperLoose(active), _step9; !(_step9 = _iterator9()).done;) {
+    let mark = _step9.value;
     view = new MarkView(mark, [view], view.length);
   }
 
@@ -17173,8 +17222,8 @@ class ViewUpdate {
     this.startState = view.state;
     this.changes = state_dist/* ChangeSet.empty */.as.empty(this.startState.doc.length);
 
-    for (var _iterator11 = _createForOfIteratorHelperLoose(transactions), _step11; !(_step11 = _iterator11()).done;) {
-      let tr = _step11.value;
+    for (var _iterator10 = _createForOfIteratorHelperLoose(transactions), _step10; !(_step10 = _iterator10()).done;) {
+      let tr = _step10.value;
       this.changes = this.changes.compose(tr.changes);
     }
 
@@ -17254,10 +17303,10 @@ for (var _i2 = 0, _arr = ["()", "[]", "{}"]; _i2 < _arr.length; _i2++) {
 }
 
 function charType(ch) {
-  return ch <= 0xf7 ? LowTypes[ch] : 0x590 <= ch && ch <= 0x5f4 ? 2 : 0x600 <= ch && ch <= 0x6f9 ? ArabicTypes[ch - 0x600] : 0x6ee <= ch && ch <= 0x8ac ? 4 : 0x2000 <= ch && ch <= 0x200b ? 256 : ch == 0x200c ? 256 : 1;
+  return ch <= 0xf7 ? LowTypes[ch] : 0x590 <= ch && ch <= 0x5f4 ? 2 : 0x600 <= ch && ch <= 0x6f9 ? ArabicTypes[ch - 0x600] : 0x6ee <= ch && ch <= 0x8ac ? 4 : 0x2000 <= ch && ch <= 0x200b ? 256 : 0xfb50 <= ch && ch <= 0xfdff ? 4 : ch == 0x200c ? 256 : 1;
 }
 
-const BidiRE = /[\u0590-\u05f4\u0600-\u06ff\u0700-\u08ac]/;
+const BidiRE = /[\u0590-\u05f4\u0600-\u06ff\u0700-\u08ac\ufb50-\ufdff]/;
 
 class BidiSpan {
   constructor(from, to, level) {
@@ -17506,8 +17555,8 @@ class DOMReader {
   readTextNode(node) {
     let text = node.nodeValue;
 
-    for (var _iterator12 = _createForOfIteratorHelperLoose(this.points), _step12; !(_step12 = _iterator12()).done;) {
-      let point = _step12.value;
+    for (var _iterator11 = _createForOfIteratorHelperLoose(this.points), _step11; !(_step11 = _iterator11()).done;) {
+      let point = _step11.value;
       if (point.node == node) point.pos = this.text.length + Math.min(point.offset, text.length);
     }
 
@@ -17529,8 +17578,8 @@ class DOMReader {
       this.lineBreak();
 
       if (breakSize > 1) {
-        for (var _iterator13 = _createForOfIteratorHelperLoose(this.points), _step13; !(_step13 = _iterator13()).done;) {
-          let point = _step13.value;
+        for (var _iterator12 = _createForOfIteratorHelperLoose(this.points), _step12; !(_step12 = _iterator12()).done;) {
+          let point = _step12.value;
           if (point.node == node && point.pos > this.text.length) point.pos -= breakSize - 1;
         }
       }
@@ -17560,15 +17609,15 @@ class DOMReader {
   }
 
   findPointBefore(node, next) {
-    for (var _iterator14 = _createForOfIteratorHelperLoose(this.points), _step14; !(_step14 = _iterator14()).done;) {
-      let point = _step14.value;
+    for (var _iterator13 = _createForOfIteratorHelperLoose(this.points), _step13; !(_step13 = _iterator13()).done;) {
+      let point = _step13.value;
       if (point.node == node && node.childNodes[point.offset] == next) point.pos = this.text.length;
     }
   }
 
   findPointInside(node, maxLen) {
-    for (var _iterator15 = _createForOfIteratorHelperLoose(this.points), _step15; !(_step15 = _iterator15()).done;) {
-      let point = _step15.value;
+    for (var _iterator14 = _createForOfIteratorHelperLoose(this.points), _step14; !(_step14 = _iterator14()).done;) {
+      let point = _step14.value;
       if (node.nodeType == 3 ? point.node == node : node.contains(point.node)) point.pos = this.text.length + Math.min(maxLen, point.offset);
     }
   }
@@ -17607,10 +17656,6 @@ class DocView extends ContentView {
     this.children[0].setParent(this);
     this.updateDeco();
     this.updateInner([new ChangedRange(0, 0, 0, view.state.doc.length)], 0);
-  }
-
-  get root() {
-    return this.view.root;
   }
 
   get editorView() {
@@ -17676,8 +17721,8 @@ class DocView extends ContentView {
     let gaps = [];
 
     if (this.view.viewport.from || this.view.viewport.to < this.view.state.doc.length) {
-      for (var _iterator16 = _createForOfIteratorHelperLoose(this.children), _step16; !(_step16 = _iterator16()).done;) {
-        let child = _step16.value;
+      for (var _iterator15 = _createForOfIteratorHelperLoose(this.children), _step15; !(_step15 = _iterator15()).done;) {
+        let child = _step15.value;
         if (child instanceof BlockWidgetView && child.widget instanceof BlockGapWidget) gaps.push(child.dom);
       }
     }
@@ -17725,7 +17770,7 @@ class DocView extends ContentView {
     }
 
     if (mustRead || !this.view.observer.selectionRange.focusNode) this.view.observer.readSelectionRange();
-    if (!(fromPointer || this.mayControlSelection()) || browser.ios && this.view.inputState.rapidCompositionStart) return;
+    if (!(fromPointer || this.mayControlSelection())) return;
     let force = this.forceSelection;
     this.forceSelection = false;
     let main = this.view.state.selection.main;
@@ -17750,7 +17795,7 @@ class DocView extends ContentView {
           });
         }
 
-        let rawSel = getSelection(this.root);
+        let rawSel = getSelection(this.view.root);
         if (!rawSel) ;else if (main.empty) {
           if (browser.gecko) {
             let nextTo = nextToUneditable(anchor.node, anchor.offset);
@@ -17765,7 +17810,10 @@ class DocView extends ContentView {
           if (main.bidiLevel != null && domSel.cursorBidiLevel != null) domSel.cursorBidiLevel = main.bidiLevel;
         } else if (rawSel.extend) {
           rawSel.collapse(anchor.node, anchor.offset);
-          rawSel.extend(head.node, head.offset);
+
+          try {
+            rawSel.extend(head.node, head.offset);
+          } catch (_) {}
         } else {
           let range = document.createRange();
           if (main.anchor > main.head) [anchor, head] = [head, anchor];
@@ -17785,7 +17833,7 @@ class DocView extends ContentView {
   enforceCursorAssoc() {
     if (this.compositionDeco.size) return;
     let cursor = this.view.state.selection.main;
-    let sel = getSelection(this.root);
+    let sel = getSelection(this.view.root);
     if (!sel || !cursor.empty || !cursor.assoc || !sel.modify) return;
     let line = LineView.find(this, cursor.head);
     if (!line) return;
@@ -17800,7 +17848,7 @@ class DocView extends ContentView {
   }
 
   mayControlSelection() {
-    let active = this.root.activeElement;
+    let active = this.view.root.activeElement;
     return active == this.dom || hasSelection(this.dom, this.view.observer.selectionRange) && !(active && this.dom.contains(active));
   }
 
@@ -17897,8 +17945,8 @@ class DocView extends ContentView {
   }
 
   measureTextSize() {
-    for (var _iterator17 = _createForOfIteratorHelperLoose(this.children), _step17; !(_step17 = _iterator17()).done;) {
-      let child = _step17.value;
+    for (var _iterator16 = _createForOfIteratorHelperLoose(this.children), _step16; !(_step16 = _iterator16()).done;) {
+      let child = _step16.value;
 
       if (child instanceof LineView) {
         let measure = child.measureTextSize();
@@ -17989,8 +18037,8 @@ class DocView extends ContentView {
         mTop = 0,
         mBottom = 0;
 
-    for (var _iterator18 = _createForOfIteratorHelperLoose(this.view.state.facet(scrollMargins).map(f => f(this.view))), _step18; !(_step18 = _iterator18()).done;) {
-      let margins = _step18.value;
+    for (var _iterator17 = _createForOfIteratorHelperLoose(this.view.state.facet(scrollMargins).map(f => f(this.view))), _step17; !(_step17 = _iterator17()).done;) {
+      let margins = _step17.value;
 
       if (margins) {
         let {
@@ -18260,7 +18308,11 @@ function upBot(rect, bottom) {
 }
 
 function domPosAtCoords(parent, x, y) {
-  let closest, closestRect, closestX, closestY;
+  let closest,
+      closestRect,
+      closestX,
+      closestY,
+      closestOverlap = false;
   let above, below, aboveRect, belowRect;
 
   for (let child = parent.firstChild; child; child = child.nextSibling) {
@@ -18278,6 +18330,7 @@ function domPosAtCoords(parent, x, y) {
         closestRect = rect;
         closestX = dx;
         closestY = dy;
+        closestOverlap = !dx || (dx > 0 ? i < rects.length - 1 : i > 0);
       }
 
       if (dx == 0) {
@@ -18310,7 +18363,7 @@ function domPosAtCoords(parent, x, y) {
   };
   let clipX = Math.max(closestRect.left, Math.min(closestRect.right, x));
   if (closest.nodeType == 3) return domPosInText(closest, clipX, y);
-  if (!closestX && closest.contentEditable == "true") return domPosAtCoords(closest, clipX, y);
+  if (closestOverlap && closest.contentEditable != "false") return domPosAtCoords(closest, clipX, y);
   let offset = Array.prototype.indexOf.call(parent.childNodes, closest) + (x >= (closestRect.left + closestRect.right) / 2 ? 1 : 0);
   return {
     node: parent,
@@ -18426,7 +18479,7 @@ function posAtCoords(view, _ref2, precise, bias) {
           startContainer: node,
           startOffset: offset
         } = range);
-        if (browser.safari && isSuspiciousSafariCaretResult(node, offset, x) || browser.chrome && isSuspiciousChromeCaretResult(node, offset, x)) node = undefined;
+        if (!view.contentDOM.contains(node) || browser.safari && isSuspiciousSafariCaretResult(node, offset, x) || browser.chrome && isSuspiciousChromeCaretResult(node, offset, x)) node = undefined;
       }
     }
   }
@@ -18573,11 +18626,11 @@ function skipAtoms(view, oldPos, pos) {
   for (;;) {
     let moved = false;
 
-    for (var _iterator19 = _createForOfIteratorHelperLoose(atoms), _step19; !(_step19 = _iterator19()).done;) {
-      let set = _step19.value;
+    for (var _iterator18 = _createForOfIteratorHelperLoose(atoms), _step18; !(_step18 = _iterator18()).done;) {
+      let set = _step18.value;
       set.between(pos.from - 1, pos.from + 1, (from, to, value) => {
         if (pos.from > from && pos.from < to) {
-          pos = oldPos.from > pos.from ? state_dist/* EditorSelection.cursor */.jT.cursor(from, 1) : state_dist/* EditorSelection.cursor */.jT.cursor(to, -1);
+          pos = oldPos.head > pos.from ? state_dist/* EditorSelection.cursor */.jT.cursor(from, 1) : state_dist/* EditorSelection.cursor */.jT.cursor(to, -1);
           moved = true;
         }
       });
@@ -18591,6 +18644,10 @@ class InputState {
   constructor(view) {
     this.lastKeyCode = 0;
     this.lastKeyTime = 0;
+    this.lastTouchTime = 0;
+    this.lastFocusTime = 0;
+    this.lastScrollTop = 0;
+    this.lastScrollLeft = 0;
     this.chromeScrollHack = -1;
     this.pendingIOSKey = undefined;
     this.lastSelectionOrigin = null;
@@ -18603,7 +18660,6 @@ class InputState {
     this.composing = -1;
     this.compositionFirstChange = null;
     this.compositionEndedAt = 0;
-    this.rapidCompositionStart = false;
     this.mouseSelection = null;
 
     for (let type in handlers) {
@@ -18613,11 +18669,11 @@ class InputState {
         if (type == "keydown" && this.keydown(view, event)) return;
         if (this.mustFlushObserver(event)) view.observer.forceFlush();
         if (this.runCustomHandlers(type, view, event)) event.preventDefault();else handler(view, event);
-      });
+      }, handlerOptions[type]);
       this.registeredEvents.push(type);
     }
 
-    if (browser.chrome && browser.chrome_version >= 102) {
+    if (browser.chrome && browser.chrome_version == 102) {
       view.scrollDOM.addEventListener("wheel", () => {
         if (this.chromeScrollHack < 0) view.contentDOM.style.pointerEvents = "none";else window.clearTimeout(this.chromeScrollHack);
         this.chromeScrollHack = setTimeout(() => {
@@ -18644,8 +18700,8 @@ class InputState {
     let handlers;
     this.customHandlers = [];
 
-    for (var _iterator20 = _createForOfIteratorHelperLoose(plugins), _step20; !(_step20 = _iterator20()).done;) {
-      let plugin = _step20.value;
+    for (var _iterator19 = _createForOfIteratorHelperLoose(plugins), _step19; !(_step19 = _iterator19()).done;) {
+      let plugin = _step19.value;
 
       if (handlers = (_a = plugin.update(view).spec) === null || _a === void 0 ? void 0 : _a.domEventHandlers) {
         this.customHandlers.push({
@@ -18665,8 +18721,8 @@ class InputState {
   }
 
   runCustomHandlers(type, view, event) {
-    for (var _iterator21 = _createForOfIteratorHelperLoose(this.customHandlers), _step21; !(_step21 = _iterator21()).done;) {
-      let set = _step21.value;
+    for (var _iterator20 = _createForOfIteratorHelperLoose(this.customHandlers), _step20; !(_step20 = _iterator20()).done;) {
+      let set = _step20.value;
       let handler = set.handlers[type];
 
       if (handler) {
@@ -18682,8 +18738,11 @@ class InputState {
   }
 
   runScrollHandlers(view, event) {
-    for (var _iterator22 = _createForOfIteratorHelperLoose(this.customHandlers), _step22; !(_step22 = _iterator22()).done;) {
-      let set = _step22.value;
+    this.lastScrollTop = view.scrollDOM.scrollTop;
+    this.lastScrollLeft = view.scrollDOM.scrollLeft;
+
+    for (var _iterator21 = _createForOfIteratorHelperLoose(this.customHandlers), _step21; !(_step21 = _iterator21()).done;) {
+      let set = _step21.value;
       let handler = set.handlers.scroll;
 
       if (handler) {
@@ -18708,8 +18767,8 @@ class InputState {
 
     let pending;
 
-    if (browser.ios && (pending = PendingKeys.find(key => key.keyCode == event.keyCode)) && !(event.ctrlKey || event.altKey || event.metaKey) && !event.synthetic) {
-      this.pendingIOSKey = pending;
+    if (browser.ios && !event.synthetic && !event.altKey && !event.metaKey && ((pending = PendingKeys.find(key => key.keyCode == event.keyCode)) && !event.ctrlKey || EmacsyPendingKeys.indexOf(event.key) > -1 && event.ctrlKey && !event.shiftKey)) {
+      this.pendingIOSKey = pending || event;
       setTimeout(() => this.flushIOSKey(view), 250);
       return true;
     }
@@ -18728,7 +18787,7 @@ class InputState {
     if (!/^key/.test(event.type)) return false;
     if (this.composing > 0) return true;
 
-    if (browser.safari && Date.now() - this.compositionEndedAt < 100) {
+    if (browser.safari && !browser.ios && Date.now() - this.compositionEndedAt < 100) {
       this.compositionEndedAt = 0;
       return true;
     }
@@ -18737,7 +18796,7 @@ class InputState {
   }
 
   mustFlushObserver(event) {
-    return event.type == "keydown" && event.keyCode != 229 || event.type == "compositionend" && !browser.ios;
+    return event.type == "keydown" && event.keyCode != 229;
   }
 
   startMouseSelection(mouseSelection) {
@@ -18769,6 +18828,7 @@ const PendingKeys = [{
   keyCode: 46,
   inputType: "deleteContentForward"
 }];
+const EmacsyPendingKeys = "dthko";
 const modifierCodes = [16, 17, 18, 20, 91, 92, 224, 225];
 
 class MouseSelection {
@@ -18864,6 +18924,7 @@ function eventBelongsToEditor(view, event) {
 }
 
 const handlers = Object.create(null);
+const handlerOptions = Object.create(null);
 const brokenClipboardAPI = browser.ie && browser.ie_version < 15 || browser.ios && browser.webkit_version < 604;
 
 function capturePaste(view) {
@@ -18933,10 +18994,8 @@ handlers.keydown = (view, event) => {
   if (event.keyCode == 27) view.inputState.lastEscPress = Date.now();else if (modifierCodes.indexOf(event.keyCode) < 0) view.inputState.lastEscPress = 0;
 };
 
-let lastTouch = 0;
-
 handlers.touchstart = (view, e) => {
-  lastTouch = Date.now();
+  view.inputState.lastTouchTime = Date.now();
   view.inputState.setSelectionOrigin("select.pointer");
 };
 
@@ -18944,13 +19003,17 @@ handlers.touchmove = view => {
   view.inputState.setSelectionOrigin("select.pointer");
 };
 
+handlerOptions.touchstart = handlerOptions.touchmove = {
+  passive: true
+};
+
 handlers.mousedown = (view, event) => {
   view.observer.flush();
-  if (lastTouch > Date.now() - 2000 && getClickType(event) == 1) return;
+  if (view.inputState.lastTouchTime > Date.now() - 2000) return;
   let style = null;
 
-  for (var _iterator23 = _createForOfIteratorHelperLoose(view.state.facet(mouseSelectionStyle)), _step23; !(_step23 = _iterator23()).done;) {
-    let makeStyle = _step23.value;
+  for (var _iterator22 = _createForOfIteratorHelperLoose(view.state.facet(mouseSelectionStyle)), _step22; !(_step22 = _iterator22()).done;) {
+    let makeStyle = _step22.value;
     style = makeStyle(view, event);
     if (style) break;
   }
@@ -19030,7 +19093,7 @@ function basicMouseSelection(view, event) {
   return {
     update(update) {
       if (update.docChanged) {
-        if (start) start.pos = update.changes.mapPos(start.pos);
+        start.pos = update.changes.mapPos(start.pos);
         startSel = startSel.map(update.changes);
         lastEvent = null;
       }
@@ -19042,7 +19105,6 @@ function basicMouseSelection(view, event) {
         cur = last = queryPos(view, event);
         lastEvent = event;
       }
-      if (!cur || !start) return startSel;
       let range = rangeForClick(view, cur.pos, cur.bias, type);
 
       if (start.pos != cur.pos && !extend) {
@@ -19174,8 +19236,8 @@ function copiedRange(state) {
       ranges = [],
       linewise = false;
 
-  for (var _iterator24 = _createForOfIteratorHelperLoose(state.selection.ranges), _step24; !(_step24 = _iterator24()).done;) {
-    let range = _step24.value;
+  for (var _iterator23 = _createForOfIteratorHelperLoose(state.selection.ranges), _step23; !(_step23 = _iterator23()).done;) {
+    let range = _step23.value;
 
     if (!range.empty) {
       content.push(state.sliceDoc(range.from, range.to));
@@ -19186,10 +19248,10 @@ function copiedRange(state) {
   if (!content.length) {
     let upto = -1;
 
-    for (var _iterator25 = _createForOfIteratorHelperLoose(state.selection.ranges), _step25; !(_step25 = _iterator25()).done;) {
+    for (var _iterator24 = _createForOfIteratorHelperLoose(state.selection.ranges), _step24; !(_step24 = _iterator24()).done;) {
       let {
         from
-      } = _step25.value;
+      } = _step24.value;
       let line = state.doc.lineAt(from);
 
       if (line.number > upto) {
@@ -19246,35 +19308,27 @@ function updateForFocusChange(view) {
   }, 10);
 }
 
-handlers.focus = updateForFocusChange;
+handlers.focus = view => {
+  view.inputState.lastFocusTime = Date.now();
+
+  if (!view.scrollDOM.scrollTop && (view.inputState.lastScrollTop || view.inputState.lastScrollLeft)) {
+    view.scrollDOM.scrollTop = view.inputState.lastScrollTop;
+    view.scrollDOM.scrollLeft = view.inputState.lastScrollLeft;
+  }
+
+  updateForFocusChange(view);
+};
 
 handlers.blur = view => {
   view.observer.clearSelectionRange();
   updateForFocusChange(view);
 };
 
-function forceClearComposition(view, rapid) {
-  if (view.docView.compositionDeco.size) {
-    view.inputState.rapidCompositionStart = rapid;
-
-    try {
-      view.update([]);
-    } finally {
-      view.inputState.rapidCompositionStart = false;
-    }
-  }
-}
-
 handlers.compositionstart = handlers.compositionupdate = view => {
   if (view.inputState.compositionFirstChange == null) view.inputState.compositionFirstChange = true;
 
   if (view.inputState.composing < 0) {
     view.inputState.composing = 0;
-
-    if (view.docView.compositionDeco.size) {
-      view.observer.flush();
-      forceClearComposition(view, true);
-    }
   }
 };
 
@@ -19282,8 +19336,9 @@ handlers.compositionend = view => {
   view.inputState.composing = -1;
   view.inputState.compositionEndedAt = Date.now();
   view.inputState.compositionFirstChange = null;
+  if (browser.chrome && browser.android) view.observer.flushSoon();
   setTimeout(() => {
-    if (view.inputState.composing < 0) forceClearComposition(view, false);
+    if (view.inputState.composing < 0 && view.docView.compositionDeco.size) view.update([]);
   }, 50);
 };
 
@@ -19586,7 +19641,7 @@ class HeightMapBlock extends HeightMap {
   }
 
   toString() {
-    return "block(" + this.length + ")";
+    return `block(${this.length})`;
   }
 
 }
@@ -19625,7 +19680,7 @@ class HeightMapText extends HeightMapBlock {
   }
 
   toString() {
-    return "line(" + this.length + (this.collapsed ? -this.collapsed : "") + (this.widgetHeight ? ":" + this.widgetHeight : "") + ")";
+    return `line(${this.length}${this.collapsed ? -this.collapsed : ""}${this.widgetHeight ? ":" + this.widgetHeight : ""})`;
   }
 
 }
@@ -19763,7 +19818,7 @@ class HeightMapGap extends HeightMap {
   }
 
   toString() {
-    return "gap(" + this.length + ")";
+    return `gap(${this.length})`;
   }
 
 }
@@ -19818,8 +19873,8 @@ class HeightMapBranch extends HeightMap {
     if (from > 0) this.decomposeLeft(from, result);
     let left = result.length;
 
-    for (var _iterator26 = _createForOfIteratorHelperLoose(nodes), _step26; !(_step26 = _iterator26()).done;) {
-      let node = _step26.value;
+    for (var _iterator25 = _createForOfIteratorHelperLoose(nodes), _step25; !(_step25 = _iterator25()).done;) {
+      let node = _step25.value;
       result.push(node);
     }
 
@@ -20007,8 +20062,8 @@ class NodeBuilder {
     if (this.lineStart > -1 && !(last instanceof HeightMapText) && !this.isCovered) this.nodes.push(new HeightMapText(0, -1));else if (this.writtenTo < this.pos || last == null) this.nodes.push(this.blankContent(this.writtenTo, this.pos));
     let pos = from;
 
-    for (var _iterator27 = _createForOfIteratorHelperLoose(this.nodes), _step27; !(_step27 = _iterator27()).done;) {
-      let node = _step27.value;
+    for (var _iterator26 = _createForOfIteratorHelperLoose(this.nodes), _step26; !(_step26 = _iterator26()).done;) {
+      let node = _step26.value;
       if (node instanceof HeightMapText) node.updateHeight(this.oracle, pos);
       pos += node ? node.length : 1;
     }
@@ -20045,13 +20100,14 @@ class DecorationComparator {
 
 function visiblePixelRange(dom, paddingTop) {
   let rect = dom.getBoundingClientRect();
+  let doc = dom.ownerDocument,
+      win = doc.defaultView || window;
   let left = Math.max(0, rect.left),
-      right = Math.min(innerWidth, rect.right);
+      right = Math.min(win.innerWidth, rect.right);
   let top = Math.max(0, rect.top),
-      bottom = Math.min(innerHeight, rect.bottom);
-  let body = dom.ownerDocument.body;
+      bottom = Math.min(win.innerHeight, rect.bottom);
 
-  for (let parent = dom.parentNode; parent && parent != body;) {
+  for (let parent = dom.parentNode; parent && parent != doc.body;) {
     if (parent.nodeType == 1) {
       let elt = parent;
       let style = window.getComputedStyle(elt);
@@ -20061,7 +20117,7 @@ function visiblePixelRange(dom, paddingTop) {
         left = Math.max(left, parentRect.left);
         right = Math.min(right, parentRect.right);
         top = Math.max(top, parentRect.top);
-        bottom = Math.min(bottom, parentRect.bottom);
+        bottom = parent == dom.parentNode ? parentRect.bottom : Math.min(bottom, parentRect.bottom);
       }
 
       parent = style.position == "absolute" || style.position == "fixed" ? elt.offsetParent : elt.parentNode;
@@ -20236,7 +20292,7 @@ class ViewState {
     this.viewport = viewport;
     this.updateForViewport();
     if (updateLines) this.updateViewportLines();
-    if (this.lineGaps.length || this.viewport.to - this.viewport.from > 4000) this.updateLineGaps(this.ensureLineGaps(this.mapLineGaps(this.lineGaps, update.changes)));
+    if (this.lineGaps.length || this.viewport.to - this.viewport.from > 2000 << 1) this.updateLineGaps(this.ensureLineGaps(this.mapLineGaps(this.lineGaps, update.changes)));
     update.flags |= this.computeVisibleRanges();
     if (scrollTarget) this.scrollTarget = scrollTarget;
     if (!this.mustEnforceCursorAssoc && update.selectionSet && update.view.lineWrapping && update.state.selection.main.empty && update.state.selection.main.assoc) this.mustEnforceCursorAssoc = true;
@@ -20280,7 +20336,7 @@ class ViewState {
       if (inView) measureContent = true;
     }
 
-    if (!this.inView) return 0;
+    if (!this.inView && !this.scrollTarget) return 0;
     let contentWidth = dom.clientWidth;
 
     if (this.contentDOMWidth != contentWidth || this.editorHeight != view.scrollDOM.clientHeight) {
@@ -20309,8 +20365,8 @@ class ViewState {
       if (dTop > 0 && dBottom > 0) bias = Math.max(dTop, dBottom);else if (dTop < 0 && dBottom < 0) bias = Math.min(dTop, dBottom);
       oracle.heightChanged = false;
 
-      for (var _iterator28 = _createForOfIteratorHelperLoose(this.viewports), _step28; !(_step28 = _iterator28()).done;) {
-        let vp = _step28.value;
+      for (var _iterator27 = _createForOfIteratorHelperLoose(this.viewports), _step27; !(_step27 = _iterator27()).done;) {
+        let vp = _step27.value;
         let heights = vp.from == this.viewport.from ? lineHeights : view.docView.measureVisibleLineHeights(vp);
         this.heightMap = this.heightMap.updateHeight(oracle, 0, refresh, new MeasuredHeights(vp.from, heights));
       }
@@ -20322,7 +20378,7 @@ class ViewState {
     if (viewportChange) this.viewport = this.getViewport(bias, this.scrollTarget);
     this.updateForViewport();
     if (result & 2 || viewportChange) this.updateViewportLines();
-    if (this.lineGaps.length || this.viewport.to - this.viewport.from > 4000) this.updateLineGaps(this.ensureLineGaps(refresh ? [] : this.lineGaps));
+    if (this.lineGaps.length || this.viewport.to - this.viewport.from > 2000 << 1) this.updateLineGaps(this.ensureLineGaps(refresh ? [] : this.lineGaps, view));
     result |= this.computeVisibleRanges();
 
     if (this.mustEnforceCursorAssoc) {
@@ -20402,59 +20458,93 @@ class ViewState {
     if (!gaps.length || changes.empty) return gaps;
     let mapped = [];
 
-    for (var _iterator29 = _createForOfIteratorHelperLoose(gaps), _step29; !(_step29 = _iterator29()).done;) {
-      let gap = _step29.value;
+    for (var _iterator28 = _createForOfIteratorHelperLoose(gaps), _step28; !(_step28 = _iterator28()).done;) {
+      let gap = _step28.value;
       if (!changes.touchesRange(gap.from, gap.to)) mapped.push(new LineGap(changes.mapPos(gap.from), changes.mapPos(gap.to), gap.size));
     }
 
     return mapped;
   }
 
-  ensureLineGaps(current) {
+  ensureLineGaps(current, mayMeasure) {
+    let wrapping = this.heightOracle.lineWrapping;
+    let margin = wrapping ? 10000 : 2000,
+        halfMargin = margin >> 1,
+        doubleMargin = margin << 1;
+    if (this.defaultTextDirection != Direction.LTR && !wrapping) return [];
     let gaps = [];
-    if (this.defaultTextDirection != Direction.LTR) return gaps;
 
-    for (var _iterator30 = _createForOfIteratorHelperLoose(this.viewportLines), _step30; !(_step30 = _iterator30()).done;) {
-      let line = _step30.value;
-      if (line.length < 4000) continue;
-      let structure = lineStructure(line.from, line.to, this.stateDeco);
-      if (structure.total < 4000) continue;
-      let viewFrom, viewTo;
+    let addGap = (from, to, line, structure) => {
+      if (to - from < halfMargin) return;
+      let sel = this.state.selection.main,
+          avoid = [sel.from];
+      if (!sel.empty) avoid.push(sel.to);
 
-      if (this.heightOracle.lineWrapping) {
-        let marginHeight = 2000 / this.heightOracle.lineLength * this.heightOracle.lineHeight;
-        viewFrom = findPosition(structure, (this.visibleTop - line.top - marginHeight) / line.height);
-        viewTo = findPosition(structure, (this.visibleBottom - line.top + marginHeight) / line.height);
-      } else {
-        let totalWidth = structure.total * this.heightOracle.charWidth;
-        let marginWidth = 2000 * this.heightOracle.charWidth;
-        viewFrom = findPosition(structure, (this.pixelViewport.left - marginWidth) / totalWidth);
-        viewTo = findPosition(structure, (this.pixelViewport.right + marginWidth) / totalWidth);
-      }
+      for (var _i3 = 0, _avoid = avoid; _i3 < _avoid.length; _i3++) {
+        let pos = _avoid[_i3];
 
-      let outside = [];
-      if (viewFrom > line.from) outside.push({
-        from: line.from,
-        to: viewFrom
-      });
-      if (viewTo < line.to) outside.push({
-        from: viewTo,
-        to: line.to
-      });
-      let sel = this.state.selection.main;
-      if (sel.from >= line.from && sel.from <= line.to) cutRange(outside, sel.from - 10, sel.from + 10);
-      if (!sel.empty && sel.to >= line.from && sel.to <= line.to) cutRange(outside, sel.to - 10, sel.to + 10);
-
-      for (var _i3 = 0, _outside = outside; _i3 < _outside.length; _i3++) {
-        let {
-          from,
-          to
-        } = _outside[_i3];
-
-        if (to - from > 1000) {
-          gaps.push(find(current, gap => gap.from >= line.from && gap.to <= line.to && Math.abs(gap.from - from) < 1000 && Math.abs(gap.to - to) < 1000) || new LineGap(from, to, this.gapSize(line, from, to, structure)));
+        if (pos > from && pos < to) {
+          addGap(from, pos - 10, line, structure);
+          addGap(pos + 10, to, line, structure);
+          return;
         }
       }
+
+      let gap = find(current, gap => gap.from >= line.from && gap.to <= line.to && Math.abs(gap.from - from) < halfMargin && Math.abs(gap.to - to) < halfMargin && !avoid.some(pos => gap.from < pos && gap.to > pos));
+
+      if (!gap) {
+        if (to < line.to && mayMeasure && wrapping && mayMeasure.visibleRanges.some(r => r.from <= to && r.to >= to)) {
+          let lineStart = mayMeasure.moveToLineBoundary(state_dist/* EditorSelection.cursor */.jT.cursor(to), false, true).head;
+          if (lineStart > from) to = lineStart;
+        }
+
+        gap = new LineGap(from, to, this.gapSize(line, from, to, structure));
+      }
+
+      gaps.push(gap);
+    };
+
+    for (var _iterator29 = _createForOfIteratorHelperLoose(this.viewportLines), _step29; !(_step29 = _iterator29()).done;) {
+      let line = _step29.value;
+      if (line.length < doubleMargin) continue;
+      let structure = lineStructure(line.from, line.to, this.stateDeco);
+      if (structure.total < doubleMargin) continue;
+      let target = this.scrollTarget ? this.scrollTarget.range.head : null;
+      let viewFrom, viewTo;
+
+      if (wrapping) {
+        let marginHeight = margin / this.heightOracle.lineLength * this.heightOracle.lineHeight;
+        let top, bot;
+
+        if (target != null) {
+          top = Math.max(line.from, target - margin);
+          bot = Math.min(line.to, target + margin);
+        } else {
+          top = (this.visibleTop - line.top - marginHeight) / line.height;
+          bot = (this.visibleBottom - line.top + marginHeight) / line.height;
+        }
+
+        viewFrom = findPosition(structure, top);
+        viewTo = findPosition(structure, bot);
+      } else {
+        let left, right;
+
+        if (target != null) {
+          left = Math.max(line.from, target - doubleMargin);
+          right = Math.min(line.to, target + doubleMargin);
+        } else {
+          let totalWidth = structure.total * this.heightOracle.charWidth;
+          let marginWidth = margin * this.heightOracle.charWidth;
+          left = (this.pixelViewport.left - marginWidth) / totalWidth;
+          right = (this.pixelViewport.right + marginWidth) / totalWidth;
+        }
+
+        viewFrom = findPosition(structure, left);
+        viewTo = findPosition(structure, right);
+      }
+
+      if (viewFrom > line.from) addGap(line.from, viewFrom, line, structure);
+      if (viewTo < line.to) addGap(viewTo, line.to, line, structure);
     }
 
     return gaps;
@@ -20585,11 +20675,11 @@ function findPosition(_ref5, ratio) {
 function findFraction(structure, pos) {
   let counted = 0;
 
-  for (var _iterator31 = _createForOfIteratorHelperLoose(structure.ranges), _step31; !(_step31 = _iterator31()).done;) {
+  for (var _iterator30 = _createForOfIteratorHelperLoose(structure.ranges), _step30; !(_step30 = _iterator30()).done;) {
     let {
       from,
       to
-    } = _step31.value;
+    } = _step30.value;
 
     if (pos <= to) {
       counted += pos - from;
@@ -20602,29 +20692,9 @@ function findFraction(structure, pos) {
   return counted / structure.total;
 }
 
-function cutRange(ranges, from, to) {
-  for (let i = 0; i < ranges.length; i++) {
-    let r = ranges[i];
-
-    if (r.from < to && r.to > from) {
-      let pieces = [];
-      if (r.from < from) pieces.push({
-        from: r.from,
-        to: from
-      });
-      if (r.to > to) pieces.push({
-        from: to,
-        to: r.to
-      });
-      ranges.splice(i, 1, ...pieces);
-      i += pieces.length - 1;
-    }
-  }
-}
-
 function find(array, f) {
-  for (var _iterator32 = _createForOfIteratorHelperLoose(array), _step32; !(_step32 = _iterator32()).done;) {
-    let val = _step32.value;
+  for (var _iterator31 = _createForOfIteratorHelperLoose(array), _step31; !(_step31 = _iterator31()).done;) {
+    let val = _step31.value;
     if (f(val)) return val;
   }
 
@@ -20667,8 +20737,8 @@ class BigScaler {
     });
     this.scale = (7000000 - vpHeight) / (heightMap.height - vpHeight);
 
-    for (var _iterator33 = _createForOfIteratorHelperLoose(this.viewports), _step33; !(_step33 = _iterator33()).done;) {
-      let obj = _step33.value;
+    for (var _iterator32 = _createForOfIteratorHelperLoose(this.viewports), _step32; !(_step32 = _iterator32()).done;) {
+      let obj = _step32.value;
       obj.domTop = domBase + (obj.top - base) * this.scale;
       domBase = obj.domBottom = obj.domTop + (obj.bottom - obj.top);
       base = obj.bottom;
@@ -20723,7 +20793,7 @@ function buildTheme(main, spec, scopes) {
     finish(sel) {
       return /&/.test(sel) ? sel.replace(/&\w*/, m => {
         if (m == "&") return main;
-        if (!scopes || !scopes[m]) throw new RangeError("Unsupported selector: " + m);
+        if (!scopes || !scopes[m]) throw new RangeError(`Unsupported selector: ${m}`);
         return scopes[m];
       }) : main + " " + sel;
     }
@@ -20840,10 +20910,10 @@ const baseTheme$1 = buildTheme("." + baseThemeID, {
     display: "block"
   },
   "&light .cm-activeLine": {
-    backgroundColor: "#f3f9ff"
+    backgroundColor: "#cceeff44"
   },
   "&dark .cm-activeLine": {
-    backgroundColor: "#223039"
+    backgroundColor: "#99eeff33"
   },
   "&light .cm-specialChar": {
     color: "red"
@@ -20852,6 +20922,7 @@ const baseTheme$1 = buildTheme("." + baseThemeID, {
     color: "#f78"
   },
   ".cm-gutters": {
+    flexShrink: 0,
     display: "flex",
     height: "100%",
     boxSizing: "border-box",
@@ -20918,6 +20989,7 @@ const baseTheme$1 = buildTheme("." + baseThemeID, {
   ".cm-widgetBuffer": {
     verticalAlign: "text-top",
     height: "1em",
+    width: 0,
     display: "inline"
   },
   ".cm-placeholder": {
@@ -20982,6 +21054,7 @@ class DOMObserver {
     this.resizeTimeout = -1;
     this.queue = [];
     this.delayedAndroidKey = null;
+    this.lastChange = 0;
     this.scrollTargets = [];
     this.intersection = null;
     this.resize = null;
@@ -20991,8 +21064,8 @@ class DOMObserver {
     this.parentCheck = -1;
     this.dom = view.contentDOM;
     this.observer = new MutationObserver(mutations => {
-      for (var _iterator34 = _createForOfIteratorHelperLoose(mutations), _step34; !(_step34 = _iterator34()).done;) {
-        let mut = _step34.value;
+      for (var _iterator33 = _createForOfIteratorHelperLoose(mutations), _step33; !(_step33 = _iterator33()).done;) {
+        let mut = _step33.value;
         this.queue.push(mut);
       }
 
@@ -21007,7 +21080,9 @@ class DOMObserver {
       this.flushSoon();
     };
     this.onSelectionChange = this.onSelectionChange.bind(this);
-    window.addEventListener("resize", this.onResize = this.onResize.bind(this));
+    this.onResize = this.onResize.bind(this);
+    this.onPrint = this.onPrint.bind(this);
+    this.onScroll = this.onScroll.bind(this);
 
     if (typeof ResizeObserver == "function") {
       this.resize = new ResizeObserver(() => {
@@ -21016,9 +21091,8 @@ class DOMObserver {
       this.resize.observe(view.scrollDOM);
     }
 
-    window.addEventListener("beforeprint", this.onPrint = this.onPrint.bind(this));
+    this.addWindowListeners(this.win = view.win);
     this.start();
-    window.addEventListener("scroll", this.onScroll = this.onScroll.bind(this));
 
     if (typeof IntersectionObserver == "function") {
       this.intersection = new IntersectionObserver(entries => {
@@ -21037,7 +21111,6 @@ class DOMObserver {
 
     this.listenForScroll();
     this.readSelectionRange();
-    this.dom.ownerDocument.addEventListener("selectionchange", this.onSelectionChange);
   }
 
   onScroll(e) {
@@ -21065,8 +21138,8 @@ class DOMObserver {
     if (this.gapIntersection && (gaps.length != this.gaps.length || this.gaps.some((g, i) => g != gaps[i]))) {
       this.gapIntersection.disconnect();
 
-      for (var _iterator35 = _createForOfIteratorHelperLoose(gaps), _step35; !(_step35 = _iterator35()).done;) {
-        let gap = _step35.value;
+      for (var _iterator34 = _createForOfIteratorHelperLoose(gaps), _step34; !(_step34 = _iterator34()).done;) {
+        let gap = _step34.value;
         this.gapIntersection.observe(gap);
       }
 
@@ -21075,6 +21148,7 @@ class DOMObserver {
   }
 
   onSelectionChange(event) {
+    let wasChanged = this.selectionChanged;
     if (!this.readSelectionRange() || this.delayedAndroidKey) return;
     let {
       view
@@ -21082,18 +21156,32 @@ class DOMObserver {
         sel = this.selectionRange;
     if (view.state.facet(editable) ? view.root.activeElement != this.dom : !hasSelection(view.dom, sel)) return;
     let context = sel.anchorNode && view.docView.nearest(sel.anchorNode);
-    if (context && context.ignoreEvent(event)) return;
+
+    if (context && context.ignoreEvent(event)) {
+      if (!wasChanged) this.selectionChanged = false;
+      return;
+    }
+
     if ((browser.ie && browser.ie_version <= 11 || browser.android && browser.chrome) && !view.state.selection.main.empty && sel.focusNode && isEquivalentPosition(sel.focusNode, sel.focusOffset, sel.anchorNode, sel.anchorOffset)) this.flushSoon();else this.flush(false);
   }
 
   readSelectionRange() {
     let {
-      root
-    } = this.view;
-    let range = browser.safari && root.nodeType == 11 && deepActiveElement() == this.view.contentDOM && safariSelectionRangeHack(this.view) || getSelection(root);
+      view
+    } = this;
+    let range = browser.safari && view.root.nodeType == 11 && deepActiveElement(this.dom.ownerDocument) == this.dom && safariSelectionRangeHack(this.view) || getSelection(view.root);
     if (!range || this.selectionRange.eq(range)) return false;
+    let local = hasSelection(this.dom, range);
+
+    if (local && !this.selectionChanged && view.inputState.lastFocusTime > Date.now() - 200 && view.inputState.lastTouchTime < Date.now() - 300 && atElementStart(this.dom, range)) {
+      this.view.inputState.lastFocusTime = 0;
+      view.docView.updateSelection();
+      return false;
+    }
+
     this.selectionRange.setRange(range);
-    return this.selectionChanged = true;
+    if (local) this.selectionChanged = true;
+    return true;
   }
 
   setSelectionRange(anchor, head) {
@@ -21125,13 +21213,13 @@ class DOMObserver {
     if (i < this.scrollTargets.length && !changed) changed = this.scrollTargets.slice(0, i);
 
     if (changed) {
-      for (var _iterator36 = _createForOfIteratorHelperLoose(this.scrollTargets), _step36; !(_step36 = _iterator36()).done;) {
-        let dom = _step36.value;
+      for (var _iterator35 = _createForOfIteratorHelperLoose(this.scrollTargets), _step35; !(_step35 = _iterator35()).done;) {
+        let dom = _step35.value;
         dom.removeEventListener("scroll", this.onScroll);
       }
 
-      for (var _iterator37 = _createForOfIteratorHelperLoose(this.scrollTargets = changed), _step37; !(_step37 = _iterator37()).done;) {
-        let dom = _step37.value;
+      for (var _iterator36 = _createForOfIteratorHelperLoose(this.scrollTargets = changed), _step36; !(_step36 = _iterator36()).done;) {
+        let dom = _step36.value;
         dom.addEventListener("scroll", this.onScroll);
       }
     }
@@ -21170,38 +21258,42 @@ class DOMObserver {
   }
 
   delayAndroidKey(key, keyCode) {
-    if (!this.delayedAndroidKey) requestAnimationFrame(() => {
+    var _a;
+
+    if (!this.delayedAndroidKey) this.view.win.requestAnimationFrame(() => {
       let key = this.delayedAndroidKey;
       this.delayedAndroidKey = null;
       this.delayedFlush = -1;
-      if (!this.flush()) dispatchKey(this.view.contentDOM, key.key, key.keyCode);
+      if (!this.flush() && key.force) dispatchKey(this.dom, key.key, key.keyCode);
     });
     if (!this.delayedAndroidKey || key == "Enter") this.delayedAndroidKey = {
       key,
-      keyCode
+      keyCode,
+      force: this.lastChange < Date.now() - 50 || !!((_a = this.delayedAndroidKey) === null || _a === void 0 ? void 0 : _a.force)
     };
   }
 
   flushSoon() {
-    if (this.delayedFlush < 0) this.delayedFlush = window.setTimeout(() => {
+    if (this.delayedFlush < 0) this.delayedFlush = this.view.win.requestAnimationFrame(() => {
       this.delayedFlush = -1;
       this.flush();
-    }, 20);
+    });
   }
 
   forceFlush() {
     if (this.delayedFlush >= 0) {
-      window.clearTimeout(this.delayedFlush);
+      this.view.win.cancelAnimationFrame(this.delayedFlush);
       this.delayedFlush = -1;
-      this.flush();
     }
+
+    this.flush();
   }
 
   processRecords() {
     let records = this.queue;
 
-    for (var _iterator38 = _createForOfIteratorHelperLoose(this.observer.takeRecords()), _step38; !(_step38 = _iterator38()).done;) {
-      let mut = _step38.value;
+    for (var _iterator37 = _createForOfIteratorHelperLoose(this.observer.takeRecords()), _step37; !(_step37 = _iterator37()).done;) {
+      let mut = _step37.value;
       records.push(mut);
     }
 
@@ -21210,8 +21302,8 @@ class DOMObserver {
         to = -1,
         typeOver = false;
 
-    for (var _iterator39 = _createForOfIteratorHelperLoose(records), _step39; !(_step39 = _iterator39()).done;) {
-      let record = _step39.value;
+    for (var _iterator38 = _createForOfIteratorHelperLoose(records), _step38; !(_step38 = _iterator38()).done;) {
+      let record = _step38.value;
       let range = this.readMutation(record);
       if (!range) continue;
       if (range.typeOver) typeOver = true;
@@ -21239,7 +21331,7 @@ class DOMObserver {
       readSelection = true;
     }
 
-    if (this.delayedFlush >= 0 || this.delayedAndroidKey) return;
+    if (this.delayedFlush >= 0 || this.delayedAndroidKey) return false;
     if (readSelection) this.readSelectionRange();
     let {
       from,
@@ -21247,7 +21339,9 @@ class DOMObserver {
       typeOver
     } = this.processRecords();
     let newSel = this.selectionChanged && hasSelection(this.dom, this.selectionRange);
-    if (from < 0 && !newSel) return;
+    if (from < 0 && !newSel) return false;
+    if (from > -1) this.lastChange = Date.now();
+    this.view.inputState.lastFocusTime = 0;
     this.selectionChanged = false;
     let startState = this.view.state;
     let handled = this.onChange(from, to, typeOver);
@@ -21280,6 +21374,28 @@ class DOMObserver {
     }
   }
 
+  setWindow(win) {
+    if (win != this.win) {
+      this.removeWindowListeners(this.win);
+      this.win = win;
+      this.addWindowListeners(this.win);
+    }
+  }
+
+  addWindowListeners(win) {
+    win.addEventListener("resize", this.onResize);
+    win.addEventListener("beforeprint", this.onPrint);
+    win.addEventListener("scroll", this.onScroll);
+    win.document.addEventListener("selectionchange", this.onSelectionChange);
+  }
+
+  removeWindowListeners(win) {
+    win.removeEventListener("scroll", this.onScroll);
+    win.removeEventListener("resize", this.onResize);
+    win.removeEventListener("beforeprint", this.onPrint);
+    win.document.removeEventListener("selectionchange", this.onSelectionChange);
+  }
+
   destroy() {
     var _a, _b, _c;
 
@@ -21288,15 +21404,12 @@ class DOMObserver {
     (_b = this.gapIntersection) === null || _b === void 0 ? void 0 : _b.disconnect();
     (_c = this.resize) === null || _c === void 0 ? void 0 : _c.disconnect();
 
-    for (var _iterator40 = _createForOfIteratorHelperLoose(this.scrollTargets), _step40; !(_step40 = _iterator40()).done;) {
-      let dom = _step40.value;
+    for (var _iterator39 = _createForOfIteratorHelperLoose(this.scrollTargets), _step39; !(_step39 = _iterator39()).done;) {
+      let dom = _step39.value;
       dom.removeEventListener("scroll", this.onScroll);
     }
 
-    window.removeEventListener("scroll", this.onScroll);
-    window.removeEventListener("resize", this.onResize);
-    window.removeEventListener("beforeprint", this.onPrint);
-    this.dom.ownerDocument.removeEventListener("selectionchange", this.onSelectionChange);
+    this.removeWindowListeners(this.win);
     clearTimeout(this.parentCheck);
     clearTimeout(this.resizeTimeout);
   }
@@ -21324,7 +21437,7 @@ function safariSelectionRangeHack(view) {
   }
 
   view.contentDOM.addEventListener("beforeinput", read, true);
-  document.execCommand("indent");
+  view.dom.ownerDocument.execCommand("indent");
   view.contentDOM.removeEventListener("beforeinput", read, true);
   if (!found) return null;
   let anchorNode = found.startContainer,
@@ -21387,19 +21500,27 @@ function applyDOMChange(view, start, end, typeOver) {
   }
 
   if (!change && !newSel) return false;
-  if (!change && typeOver && !sel.empty && newSel && newSel.main.empty) change = {
-    from: sel.from,
-    to: sel.to,
-    insert: view.state.doc.slice(sel.from, sel.to)
-  };else if (change && change.from >= sel.from && change.to <= sel.to && (change.from != sel.from || change.to != sel.to) && sel.to - sel.from - (change.to - change.from) <= 4) change = {
-    from: sel.from,
-    to: sel.to,
-    insert: view.state.doc.slice(sel.from, change.from).append(change.insert).append(view.state.doc.slice(change.to, sel.to))
-  };else if ((browser.mac || browser.android) && change && change.from == change.to && change.from == sel.head - 1 && change.insert.toString() == ".") change = {
-    from: sel.from,
-    to: sel.to,
-    insert: state_dist/* Text.of */.xv.of([" "])
-  };
+
+  if (!change && typeOver && !sel.empty && newSel && newSel.main.empty) {
+    change = {
+      from: sel.from,
+      to: sel.to,
+      insert: view.state.doc.slice(sel.from, sel.to)
+    };
+  } else if (change && change.from >= sel.from && change.to <= sel.to && (change.from != sel.from || change.to != sel.to) && sel.to - sel.from - (change.to - change.from) <= 4) {
+    change = {
+      from: sel.from,
+      to: sel.to,
+      insert: view.state.doc.slice(sel.from, change.from).append(change.insert).append(view.state.doc.slice(change.to, sel.to))
+    };
+  } else if ((browser.mac || browser.android) && change && change.from == change.to && change.from == sel.head - 1 && /^\. ?$/.test(change.insert.toString())) {
+    if (newSel && change.insert.length == 2) newSel = state_dist/* EditorSelection.single */.jT.single(newSel.main.anchor - 1, newSel.main.head - 1);
+    change = {
+      from: sel.from,
+      to: sel.to,
+      insert: state_dist/* Text.of */.xv.of([" "])
+    };
+  }
 
   if (change) {
     let startState = view.state;
@@ -21582,12 +21703,12 @@ class EditorView {
     this._dispatch = config.dispatch || (tr => this.update([tr]));
 
     this.dispatch = this.dispatch.bind(this);
-    this.root = config.root || getRoot(config.parent) || document;
+    this._root = config.root || getRoot(config.parent) || document;
     this.viewState = new ViewState(config.state || state_dist/* EditorState.create */.yy.create(config));
     this.plugins = this.state.facet(viewPlugin).map(spec => new PluginInstance(spec));
 
-    for (var _iterator41 = _createForOfIteratorHelperLoose(this.plugins), _step41; !(_step41 = _iterator41()).done;) {
-      let plugin = _step41.value;
+    for (var _iterator40 = _createForOfIteratorHelperLoose(this.plugins), _step40; !(_step40 = _iterator40()).done;) {
+      let plugin = _step40.value;
       plugin.update(this);
     }
 
@@ -21631,6 +21752,14 @@ class EditorView {
     return this.inputState.composing >= 0;
   }
 
+  get root() {
+    return this._root;
+  }
+
+  get win() {
+    return this.dom.ownerDocument.defaultView || window;
+  }
+
   dispatch() {
     this._dispatch(arguments.length == 1 && (arguments.length <= 0 ? undefined : arguments[0]) instanceof state_dist/* Transaction */.YW ? arguments.length <= 0 ? undefined : arguments[0] : this.state.update(...arguments));
   }
@@ -21642,8 +21771,8 @@ class EditorView {
         update;
     let state = this.state;
 
-    for (var _iterator42 = _createForOfIteratorHelperLoose(transactions), _step42; !(_step42 = _iterator42()).done;) {
-      let tr = _step42.value;
+    for (var _iterator41 = _createForOfIteratorHelperLoose(transactions), _step41; !(_step41 = _iterator41()).done;) {
+      let tr = _step41.value;
       if (tr.startState != state) throw new RangeError("Trying to update state with a transaction that doesn't start from the previous state.");
       state = tr.state;
     }
@@ -21661,8 +21790,8 @@ class EditorView {
     try {
       this.updateState = 2;
 
-      for (var _iterator43 = _createForOfIteratorHelperLoose(transactions), _step43; !(_step43 = _iterator43()).done;) {
-        let tr = _step43.value;
+      for (var _iterator42 = _createForOfIteratorHelperLoose(transactions), _step42; !(_step42 = _iterator42()).done;) {
+        let tr = _step42.value;
         if (scrollTarget) scrollTarget = scrollTarget.map(tr.changes);
 
         if (tr.scrollIntoView) {
@@ -21672,8 +21801,8 @@ class EditorView {
           scrollTarget = new ScrollTarget(main.empty ? main : state_dist/* EditorSelection.cursor */.jT.cursor(main.head, main.head > main.anchor ? -1 : 1));
         }
 
-        for (var _iterator44 = _createForOfIteratorHelperLoose(tr.effects), _step44; !(_step44 = _iterator44()).done;) {
-          let e = _step44.value;
+        for (var _iterator43 = _createForOfIteratorHelperLoose(tr.effects), _step43; !(_step43 = _iterator43()).done;) {
+          let e = _step43.value;
           if (e.is(scrollIntoView)) scrollTarget = e.value;
         }
       }
@@ -21699,8 +21828,8 @@ class EditorView {
     if (redrawn || attrsChanged || scrollTarget || this.viewState.mustEnforceCursorAssoc || this.viewState.mustMeasureContent) this.requestMeasure();
 
     if (!update.empty) {
-      for (var _iterator45 = _createForOfIteratorHelperLoose(this.state.facet(updateListener)), _step45; !(_step45 = _iterator45()).done;) {
-        let listener = _step45.value;
+      for (var _iterator44 = _createForOfIteratorHelperLoose(this.state.facet(updateListener)), _step44; !(_step44 = _iterator44()).done;) {
+        let listener = _step44.value;
         listener(update);
       }
     }
@@ -21718,8 +21847,8 @@ class EditorView {
     let hadFocus = this.hasFocus;
 
     try {
-      for (var _iterator46 = _createForOfIteratorHelperLoose(this.plugins), _step46; !(_step46 = _iterator46()).done;) {
-        let plugin = _step46.value;
+      for (var _iterator45 = _createForOfIteratorHelperLoose(this.plugins), _step45; !(_step45 = _iterator45()).done;) {
+        let plugin = _step45.value;
         plugin.destroy(this);
       }
 
@@ -21727,8 +21856,8 @@ class EditorView {
       this.plugins = newState.facet(viewPlugin).map(spec => new PluginInstance(spec));
       this.pluginMap.clear();
 
-      for (var _iterator47 = _createForOfIteratorHelperLoose(this.plugins), _step47; !(_step47 = _iterator47()).done;) {
-        let plugin = _step47.value;
+      for (var _iterator46 = _createForOfIteratorHelperLoose(this.plugins), _step46; !(_step46 = _iterator46()).done;) {
+        let plugin = _step46.value;
         plugin.update(this);
       }
 
@@ -21752,8 +21881,8 @@ class EditorView {
     if (prevSpecs != specs) {
       let newPlugins = [];
 
-      for (var _iterator48 = _createForOfIteratorHelperLoose(specs), _step48; !(_step48 = _iterator48()).done;) {
-        let spec = _step48.value;
+      for (var _iterator47 = _createForOfIteratorHelperLoose(specs), _step47; !(_step47 = _iterator47()).done;) {
+        let spec = _step47.value;
         let found = prevSpecs.indexOf(spec);
 
         if (found < 0) {
@@ -21765,8 +21894,8 @@ class EditorView {
         }
       }
 
-      for (var _iterator49 = _createForOfIteratorHelperLoose(this.plugins), _step49; !(_step49 = _iterator49()).done;) {
-        let plugin = _step49.value;
+      for (var _iterator48 = _createForOfIteratorHelperLoose(this.plugins), _step48; !(_step48 = _iterator48()).done;) {
+        let plugin = _step48.value;
         if (plugin.mustUpdate != update) plugin.destroy(this);
       }
 
@@ -21774,8 +21903,8 @@ class EditorView {
       this.pluginMap.clear();
       this.inputState.ensureHandlers(this, this.plugins);
     } else {
-      for (var _iterator50 = _createForOfIteratorHelperLoose(this.plugins), _step50; !(_step50 = _iterator50()).done;) {
-        let p = _step50.value;
+      for (var _iterator49 = _createForOfIteratorHelperLoose(this.plugins), _step49; !(_step49 = _iterator49()).done;) {
+        let p = _step49.value;
         p.mustUpdate = update;
       }
     }
@@ -21791,13 +21920,20 @@ class EditorView {
     if (this.destroyed) return;
     if (this.measureScheduled > -1) cancelAnimationFrame(this.measureScheduled);
     this.measureScheduled = 0;
-    if (flush) this.observer.flush();
+    if (flush) this.observer.forceFlush();
     let updated = null;
+    let {
+      scrollHeight,
+      scrollTop,
+      clientHeight
+    } = this.scrollDOM;
+    let refHeight = scrollTop > scrollHeight - clientHeight - 4 ? scrollHeight : scrollTop;
 
     try {
       for (let i = 0;; i++) {
         this.updateState = 1;
         let oldViewport = this.viewport;
+        let refBlock = this.viewState.lineBlockAtHeight(refHeight);
         let changed = this.viewState.measure(this);
         if (!changed && !this.measureRequests.length && this.viewState.scrollTarget == null) break;
 
@@ -21843,6 +21979,13 @@ class EditorView {
           this.docView.scrollIntoView(this.viewState.scrollTarget);
           this.viewState.scrollTarget = null;
           scrolled = true;
+        } else {
+          let diff = this.viewState.lineBlockAt(refBlock.from).top - refBlock.top;
+
+          if (diff > 1 || diff < -1) {
+            this.scrollDOM.scrollTop += diff;
+            scrolled = true;
+          }
         }
 
         if (redrawn) this.docView.updateSelection(true);
@@ -21854,8 +21997,8 @@ class EditorView {
     }
 
     if (updated && !updated.empty) {
-      for (var _iterator51 = _createForOfIteratorHelperLoose(this.state.facet(updateListener)), _step51; !(_step51 = _iterator51()).done;) {
-        let listener = _step51.value;
+      for (var _iterator50 = _createForOfIteratorHelperLoose(this.state.facet(updateListener)), _step50; !(_step50 = _iterator50()).done;) {
+        let listener = _step50.value;
         listener(updated);
       }
     }
@@ -21876,7 +22019,7 @@ class EditorView {
       translate: "no",
       contenteditable: !this.state.facet(editable) ? "false" : "true",
       class: "cm-content",
-      style: browser.tabSize + ": " + this.state.tabSize,
+      style: `${browser.tabSize}: ${this.state.tabSize}`,
       role: "textbox",
       "aria-multiline": "true"
     };
@@ -21895,11 +22038,11 @@ class EditorView {
   showAnnouncements(trs) {
     let first = true;
 
-    for (var _iterator52 = _createForOfIteratorHelperLoose(trs), _step52; !(_step52 = _iterator52()).done;) {
-      let tr = _step52.value;
+    for (var _iterator51 = _createForOfIteratorHelperLoose(trs), _step51; !(_step51 = _iterator51()).done;) {
+      let tr = _step51.value;
 
-      for (var _iterator53 = _createForOfIteratorHelperLoose(tr.effects), _step53; !(_step53 = _iterator53()).done;) {
-        let effect = _step53.value;
+      for (var _iterator52 = _createForOfIteratorHelperLoose(tr.effects), _step52; !(_step52 = _iterator52()).done;) {
+        let effect = _step52.value;
 
         if (effect.is(EditorView.announce)) {
           if (first) this.announceDOM.textContent = "";
@@ -21922,7 +22065,7 @@ class EditorView {
   }
 
   requestMeasure(request) {
-    if (this.measureScheduled < 0) this.measureScheduled = requestAnimationFrame(() => this.measure());
+    if (this.measureScheduled < 0) this.measureScheduled = this.win.requestAnimationFrame(() => this.measure());
 
     if (request) {
       if (request.key != null) for (let i = 0; i < this.measureRequests.length; i++) {
@@ -22056,8 +22199,8 @@ class EditorView {
     if (line.length > MaxBidiLine) return trivialOrder(line.length);
     let dir = this.textDirectionAt(line.from);
 
-    for (var _iterator54 = _createForOfIteratorHelperLoose(this.bidiCache), _step54; !(_step54 = _iterator54()).done;) {
-      let entry = _step54.value;
+    for (var _iterator53 = _createForOfIteratorHelperLoose(this.bidiCache), _step53; !(_step53 = _iterator53()).done;) {
+      let entry = _step53.value;
       if (entry.from == line.from && entry.dir == dir) return entry.order;
     }
 
@@ -22069,7 +22212,7 @@ class EditorView {
   get hasFocus() {
     var _a;
 
-    return (document.hasFocus() || browser.safari && ((_a = this.inputState) === null || _a === void 0 ? void 0 : _a.lastContextMenu) > Date.now() - 3e4) && this.root.activeElement == this.contentDOM;
+    return (this.dom.ownerDocument.hasFocus() || browser.safari && ((_a = this.inputState) === null || _a === void 0 ? void 0 : _a.lastContextMenu) > Date.now() - 3e4) && this.root.activeElement == this.contentDOM;
   }
 
   focus() {
@@ -22079,9 +22222,17 @@ class EditorView {
     });
   }
 
+  setRoot(root) {
+    if (this._root != root) {
+      this._root = root;
+      this.observer.setWindow((root.nodeType == 9 ? root : root.ownerDocument).defaultView || window);
+      this.mountStyles();
+    }
+  }
+
   destroy() {
-    for (var _iterator55 = _createForOfIteratorHelperLoose(this.plugins), _step55; !(_step55 = _iterator55()).done;) {
-      let plugin = _step55.value;
+    for (var _iterator54 = _createForOfIteratorHelperLoose(this.plugins), _step54; !(_step54 = _iterator54()).done;) {
+      let plugin = _step54.value;
       plugin.destroy(this);
     }
 
@@ -22109,7 +22260,7 @@ class EditorView {
 
   static theme(spec, options) {
     let prefix = style_mod/* StyleModule.newName */.V.newName();
-    let result = [theme.of(prefix), styleModule.of(buildTheme("." + prefix, spec))];
+    let result = [theme.of(prefix), styleModule.of(buildTheme(`.${prefix}`, spec))];
     if (options && options.dark) result.push(darkTheme.of(true));
     return result;
   }
@@ -22252,6 +22403,8 @@ function buildKeymap(bindings, platform) {
   };
 
   let add = (scope, key, command, preventDefault) => {
+    var _a, _b;
+
     let scopeObj = bound[scope] || (bound[scope] = Object.create(null));
     let parts = key.split(/ (?!$)/).map(k => normalizeKeyName(k, platform));
 
@@ -22260,7 +22413,7 @@ function buildKeymap(bindings, platform) {
       checkPrefix(prefix, true);
       if (!scopeObj[prefix]) scopeObj[prefix] = {
         preventDefault: true,
-        commands: [view => {
+        run: [view => {
           let ourObj = storedPrefix = {
             view,
             prefix,
@@ -22278,18 +22431,33 @@ function buildKeymap(bindings, platform) {
     checkPrefix(full, false);
     let binding = scopeObj[full] || (scopeObj[full] = {
       preventDefault: false,
-      commands: []
+      run: ((_b = (_a = scopeObj._any) === null || _a === void 0 ? void 0 : _a.run) === null || _b === void 0 ? void 0 : _b.slice()) || []
     });
-    binding.commands.push(command);
+    if (command) binding.run.push(command);
     if (preventDefault) binding.preventDefault = true;
   };
 
-  for (var _iterator56 = _createForOfIteratorHelperLoose(bindings), _step56; !(_step56 = _iterator56()).done;) {
-    let b = _step56.value;
+  for (var _iterator55 = _createForOfIteratorHelperLoose(bindings), _step55; !(_step55 = _iterator55()).done;) {
+    let b = _step55.value;
+    let scopes = b.scope ? b.scope.split(" ") : ["editor"];
+
+    if (b.any) {
+      for (var _iterator56 = _createForOfIteratorHelperLoose(scopes), _step56; !(_step56 = _iterator56()).done;) {
+        let scope = _step56.value;
+        let scopeObj = bound[scope] || (bound[scope] = Object.create(null));
+        if (!scopeObj._any) scopeObj._any = {
+          preventDefault: false,
+          run: []
+        };
+
+        for (let key in scopeObj) scopeObj[key].run.push(b.any);
+      }
+    }
+
     let name = b[platform] || b.key;
     if (!name) continue;
 
-    for (var _iterator57 = _createForOfIteratorHelperLoose(b.scope ? b.scope.split(" ") : ["editor"]), _step57; !(_step57 = _iterator57()).done;) {
+    for (var _iterator57 = _createForOfIteratorHelperLoose(scopes), _step57; !(_step57 = _iterator57()).done;) {
       let scope = _step57.value;
       add(scope, name, b.run, b.preventDefault);
       if (b.shift) add(scope, "Shift-" + name, b.shift, b.preventDefault);
@@ -22311,11 +22479,17 @@ function runHandlers(map, event, view, scope) {
     if (fallthrough = modifierCodes.indexOf(event.keyCode) < 0) storedPrefix = null;
   }
 
+  let ran = new Set();
+
   let runFor = binding => {
     if (binding) {
-      for (var _iterator58 = _createForOfIteratorHelperLoose(binding.commands), _step58; !(_step58 = _iterator58()).done;) {
+      for (var _iterator58 = _createForOfIteratorHelperLoose(binding.run), _step58; !(_step58 = _iterator58()).done;) {
         let cmd = _step58.value;
-        if (cmd(view)) return true;
+
+        if (!ran.has(cmd)) {
+          ran.add(cmd);
+          if (cmd(view, event)) return true;
+        }
       }
 
       if (binding.preventDefault) fallthrough = true;
@@ -22325,16 +22499,19 @@ function runHandlers(map, event, view, scope) {
   };
 
   let scopeObj = map[scope],
-      baseName;
+      baseName,
+      shiftName;
 
   if (scopeObj) {
     if (runFor(scopeObj[prefix + modifiers(name, event, !isChar)])) return true;
 
     if (isChar && (event.shiftKey || event.altKey || event.metaKey || charCode > 127) && (baseName = base[event.keyCode]) && baseName != name) {
-      if (runFor(scopeObj[prefix + modifiers(baseName, event, true)])) return true;else if (event.shiftKey && shift[event.keyCode] != baseName && runFor(scopeObj[prefix + modifiers(shift[event.keyCode], event, false)])) return true;
+      if (runFor(scopeObj[prefix + modifiers(baseName, event, true)])) return true;else if (event.shiftKey && (shiftName = shift[event.keyCode]) != name && shiftName != baseName && runFor(scopeObj[prefix + modifiers(shiftName, event, false)])) return true;
     } else if (isChar && event.shiftKey) {
       if (runFor(scopeObj[prefix + modifiers(name, event, true)])) return true;
     }
+
+    if (runFor(scopeObj._any)) return true;
   }
 
   return fallthrough;
@@ -22753,7 +22930,7 @@ function iterMatches(doc, re, from, to, f) {
   re.lastIndex = 0;
 
   for (let cursor = doc.iterRange(from, to), pos = from, m; !cursor.next().done; pos += cursor.value.length) {
-    if (!cursor.lineBreak) while (m = re.exec(cursor.value)) f(pos + m.index, pos + m.index + m[0].length, m);
+    if (!cursor.lineBreak) while (m = re.exec(cursor.value)) f(pos + m.index, m);
   }
 }
 
@@ -22780,28 +22957,43 @@ function matchRanges(view, maxLength) {
 
 class MatchDecorator {
   constructor(config) {
-    let {
+    const {
       regexp,
       decoration,
+      decorate,
       boundary,
       maxLength = 1000
     } = config;
     if (!regexp.global) throw new RangeError("The regular expression given to MatchDecorator should have its 'g' flag set");
     this.regexp = regexp;
-    this.getDeco = typeof decoration == "function" ? decoration : () => decoration;
+
+    if (decorate) {
+      this.addMatch = (match, view, from, add) => decorate(add, from, from + match[0].length, match, view);
+    } else if (typeof decoration == "function") {
+      this.addMatch = (match, view, from, add) => {
+        let deco = decoration(match, view, from);
+        if (deco) add(from, from + match[0].length, deco);
+      };
+    } else if (decoration) {
+      this.addMatch = (match, _view, from, add) => add(from, from + match[0].length, decoration);
+    } else {
+      throw new RangeError("Either 'decorate' or 'decoration' should be provided to MatchDecorator");
+    }
+
     this.boundary = boundary;
     this.maxLength = maxLength;
   }
 
   createDeco(view) {
-    let build = new state_dist/* RangeSetBuilder */.f_();
+    let build = new state_dist/* RangeSetBuilder */.f_(),
+        add = build.add.bind(build);
 
     for (var _iterator66 = _createForOfIteratorHelperLoose(matchRanges(view, this.maxLength)), _step66; !(_step66 = _iterator66()).done;) {
       let {
         from,
         to
       } = _step66.value;
-      iterMatches(view.state.doc, this.regexp, from, to, (a, b, m) => build.add(a, b, this.getDeco(m, view, a)));
+      iterMatches(view.state.doc, this.regexp, from, to, (from, m) => this.addMatch(m, view, from, add));
     }
 
     return build.finish();
@@ -22848,15 +23040,14 @@ class MatchDecorator {
         let ranges = [],
             m;
 
+        let add = (from, to, deco) => ranges.push(deco.range(from, to));
+
         if (fromLine == toLine) {
           this.regexp.lastIndex = start - fromLine.from;
 
-          while ((m = this.regexp.exec(fromLine.text)) && m.index < end - fromLine.from) {
-            let pos = m.index + fromLine.from;
-            ranges.push(this.getDeco(m, view, pos).range(pos, pos + m[0].length));
-          }
+          while ((m = this.regexp.exec(fromLine.text)) && m.index < end - fromLine.from) this.addMatch(m, view, m.index + fromLine.from, add);
         } else {
-          iterMatches(view.state.doc, this.regexp, start, end, (from, to, m) => ranges.push(this.getDeco(m, view, from).range(from, to)));
+          iterMatches(view.state.doc, this.regexp, start, end, (from, m) => this.addMatch(m, view, from, add));
         }
 
         deco = deco.update({
@@ -22874,7 +23065,7 @@ class MatchDecorator {
 }
 
 const UnicodeRegexpSupport = /x/.unicode != null ? "gu" : "g";
-const Specials = new RegExp("[\u0000-\u0008\u000a-\u001f\u007f-\u009f\u00ad\u061c\u200b\u200e\u200f\u2028\u2029\u202d\u202e\ufeff\ufff9-\ufffc]", UnicodeRegexpSupport);
+const Specials = new RegExp("[\u0000-\u0008\u000a-\u001f\u007f-\u009f\u00ad\u061c\u200b\u200e\u200f\u2028\u2029\u202d\u202e\u2066\u2067\u2069\ufeff\ufff9-\ufffc]", UnicodeRegexpSupport);
 const Names = {
   0: "null",
   7: "bell",
@@ -22891,6 +23082,9 @@ const Names = {
   8232: "line separator",
   8237: "left-to-right override",
   8238: "right-to-left override",
+  8294: "left-to-right isolate",
+  8295: "right-to-left isolate",
+  8297: "pop directional isolate",
   8233: "paragraph separator",
   65279: "zero width no-break space",
   65532: "object replacement"
@@ -23060,7 +23254,7 @@ const dist_plugin = ViewPlugin.fromClass(class {
     if (height != this.height) {
       this.height = height;
       this.attrs = {
-        style: "padding-bottom: " + height + "px"
+        style: `padding-bottom: ${height}px`
       };
     }
   }
@@ -23097,7 +23291,6 @@ const activeLineHighlighter = ViewPlugin.fromClass(class {
 
     for (var _iterator68 = _createForOfIteratorHelperLoose(view.state.selection.ranges), _step68; !(_step68 = _iterator68()).done;) {
       let r = _step68.value;
-      if (!r.empty) return Decoration.none;
       let line = view.lineBlockAt(r.head);
 
       if (line.from > lastLineStart) {
@@ -23354,12 +23547,15 @@ function tooltips(config) {
   return tooltipConfig.of(config);
 }
 
-function windowSpace() {
+function windowSpace(view) {
+  let {
+    win
+  } = view;
   return {
     top: 0,
     left: 0,
-    bottom: innerHeight,
-    right: innerWidth
+    bottom: win.innerHeight,
+    right: win.innerWidth
   };
 }
 
@@ -23376,8 +23572,6 @@ const tooltipConfig = state_dist/* Facet.define */.r$.define({
 });
 const tooltipPlugin = ViewPlugin.fromClass(class {
   constructor(view) {
-    var _a;
-
     this.view = view;
     this.inView = true;
     this.lastTransaction = 0;
@@ -23399,7 +23593,7 @@ const tooltipPlugin = ViewPlugin.fromClass(class {
       threshold: [1]
     }) : null;
     this.observeIntersection();
-    (_a = view.dom.ownerDocument.defaultView) === null || _a === void 0 ? void 0 : _a.addEventListener("resize", this.measureSoon = this.measureSoon.bind(this));
+    view.win.addEventListener("resize", this.measureSoon = this.measureSoon.bind(this));
     this.maybeMeasure();
   }
 
@@ -23486,9 +23680,9 @@ const tooltipPlugin = ViewPlugin.fromClass(class {
   }
 
   destroy() {
-    var _a, _b;
+    var _a;
 
-    (_a = this.view.dom.ownerDocument.defaultView) === null || _a === void 0 ? void 0 : _a.removeEventListener("resize", this.measureSoon);
+    this.view.win.removeEventListener("resize", this.measureSoon);
 
     for (var _iterator74 = _createForOfIteratorHelperLoose(this.manager.tooltipViews), _step74; !(_step74 = _iterator74()).done;) {
       let {
@@ -23497,7 +23691,7 @@ const tooltipPlugin = ViewPlugin.fromClass(class {
       dom.remove();
     }
 
-    (_b = this.intersectionObserver) === null || _b === void 0 ? void 0 : _b.disconnect();
+    (_a = this.intersectionObserver) === null || _a === void 0 ? void 0 : _a.disconnect();
     clearTimeout(this.measureTimeout);
   }
 
@@ -23568,7 +23762,7 @@ const tooltipPlugin = ViewPlugin.fromClass(class {
         dom.style.left = left + "px";
       }
 
-      if (arrow) arrow.style.left = pos.left + (ltr ? offset.x : -offset.x) - (left + 14 - 7) + "px";
+      if (arrow) arrow.style.left = `${pos.left + (ltr ? offset.x : -offset.x) - (left + 14 - 7)}px`;
       if (tView.overlap !== true) others.push({
         left,
         top,
@@ -23622,8 +23816,8 @@ const baseTheme = EditorView.baseTheme({
     color: "white"
   },
   ".cm-tooltip-arrow": {
-    height: 7 + "px",
-    width: 7 * 2 + "px",
+    height: `${7}px`,
+    width: `${7 * 2}px`,
     position: "absolute",
     zIndex: -1,
     overflow: "hidden",
@@ -23632,26 +23826,26 @@ const baseTheme = EditorView.baseTheme({
       position: "absolute",
       width: 0,
       height: 0,
-      borderLeft: 7 + "px solid transparent",
-      borderRight: 7 + "px solid transparent"
+      borderLeft: `${7}px solid transparent`,
+      borderRight: `${7}px solid transparent`
     },
     ".cm-tooltip-above &": {
-      bottom: "-" + 7 + "px",
+      bottom: `-${7}px`,
       "&:before": {
-        borderTop: 7 + "px solid #bbb"
+        borderTop: `${7}px solid #bbb`
       },
       "&:after": {
-        borderTop: 7 + "px solid #f5f5f5",
+        borderTop: `${7}px solid #f5f5f5`,
         bottom: "1px"
       }
     },
     ".cm-tooltip-below &": {
-      top: "-" + 7 + "px",
+      top: `-${7}px`,
       "&:before": {
-        borderBottom: 7 + "px solid #bbb"
+        borderBottom: `${7}px solid #bbb`
       },
       "&:after": {
-        borderBottom: 7 + "px solid #f5f5f5",
+        borderBottom: `${7}px solid #f5f5f5`,
         top: "1px"
       }
     }
@@ -24605,14 +24799,11 @@ const activeLineGutterHighlighter = gutterLineClass.compute(["selection"], state
 
   for (var _iterator98 = _createForOfIteratorHelperLoose(state.selection.ranges), _step98; !(_step98 = _iterator98()).done;) {
     let range = _step98.value;
+    let linePos = state.doc.lineAt(range.head).from;
 
-    if (range.empty) {
-      let linePos = state.doc.lineAt(range.head).from;
-
-      if (linePos > last) {
-        last = linePos;
-        marks.push(activeLineGutterMarker.range(linePos));
-      }
+    if (linePos > last) {
+      last = linePos;
+      marks.push(activeLineGutterMarker.range(linePos));
     }
   }
 
@@ -25890,7 +26081,7 @@ function buildTree(data) {
         lookAhead = id;
         return;
       } else {
-        throw new RangeError("Unrecognized record size: " + size);
+        throw new RangeError(`Unrecognized record size: ${size}`);
       }
     }
 
@@ -27331,7 +27522,7 @@ class Stack {
   }
 
   toString() {
-    return "[" + this.stack.filter((_, i) => i % 3 == 0).concat(this.state) + "]@" + this.pos + (this.score ? "!" + this.score : "");
+    return `[${this.stack.filter((_, i) => i % 3 == 0).concat(this.state)}]@${this.pos}${this.score ? "!" + this.score : ""}`;
   }
 
   static start(p, state, pos) {
@@ -28466,7 +28657,7 @@ class Parse {
 
         if (match > -1 && cached.length && (!strictCx || (cached.prop(_lezer_common__WEBPACK_IMPORTED_MODULE_0__/* .NodeProp.contextHash */ .md.contextHash) || 0) == cxHash)) {
           stack.useNode(cached, match);
-          if (verbose) console.log(base + this.stackID(stack) + (" (via reuse of " + parser.getName(cached.type.id) + ")"));
+          if (verbose) console.log(base + this.stackID(stack) + ` (via reuse of ${parser.getName(cached.type.id)})`);
           return true;
         }
 
@@ -28480,7 +28671,7 @@ class Parse {
 
     if (defaultReduce > 0) {
       stack.reduce(defaultReduce);
-      if (verbose) console.log(base + this.stackID(stack) + (" (via always-reduce " + parser.getName(defaultReduce & 65535) + ")"));
+      if (verbose) console.log(base + this.stackID(stack) + ` (via always-reduce ${parser.getName(defaultReduce & 65535)})`);
       return true;
     }
 
@@ -28497,7 +28688,7 @@ class Parse {
       let last = i == actions.length || !split;
       let localStack = last ? stack : stack.split();
       localStack.apply(action, term, end);
-      if (verbose) console.log(base + this.stackID(localStack) + (" (via " + ((action & 65536) == 0 ? "shift" : "reduce of " + parser.getName(action & 65535)) + " for " + parser.getName(term) + " @ " + start + (localStack == stack ? "" : ", split") + ")"));
+      if (verbose) console.log(base + this.stackID(localStack) + ` (via ${(action & 65536) == 0 ? "shift" : `reduce of ${parser.getName(action & 65535)}`} for ${parser.getName(term)} @ ${start}${localStack == stack ? "" : ", split"})`);
       if (last) return true;else if (localStack.pos > start) stacks.push(localStack);else split.push(localStack);
     }
 
@@ -28559,7 +28750,7 @@ class Parse {
         }
 
         stack.recoverByDelete(token, tokenEnd);
-        if (verbose) console.log(base + this.stackID(stack) + (" (via recover-delete " + this.parser.getName(token) + ")"));
+        if (verbose) console.log(base + this.stackID(stack) + ` (via recover-delete ${this.parser.getName(token)})`);
         pushStackDedup(stack, newStacks);
       } else if (!finished || finished.score < stack.score) {
         finished = stack;
@@ -28637,7 +28828,7 @@ class LRParser extends _lezer_common__WEBPACK_IMPORTED_MODULE_0__/* .Parser */ .
   constructor(spec) {
     super();
     this.wrappers = [];
-    if (spec.version != 14) throw new RangeError("Parser version (" + spec.version + ") doesn't match runtime version (" + 14 + ")");
+    if (spec.version != 14) throw new RangeError(`Parser version (${spec.version}) doesn't match runtime version (${14})`);
     let nodeNames = spec.nodeNames.split(" ");
     this.minRepeatTerm = nodeNames.length;
 
@@ -28803,7 +28994,7 @@ class LRParser extends _lezer_common__WEBPACK_IMPORTED_MODULE_0__/* .Parser */ .
 
     if (config.top) {
       let info = this.topRules[config.top];
-      if (!info) throw new RangeError("Invalid top rule name " + config.top);
+      if (!info) throw new RangeError(`Invalid top rule name ${config.top}`);
       copy.top = info;
     }
 
@@ -29353,7 +29544,7 @@ function _$addToNamespace($name, x) {
     if (parent[parts[i]]) {
       parent = parent[parts[i]];
     } else {
-      throw "'" + $name + "' ('" + parts[i] + "') not declared";
+      throw `'${$name}' ('${parts[i]}') not declared`;
     }
   }
 
@@ -29415,7 +29606,7 @@ function $AMIClass($name, $descr) {
                 const $member = $interface.$members[j];
 
                 if (typeof this[j] !== typeof $member) {
-                  alert("class '" + this.$name + "' must implement '" + $interface.$name + "." + j + "'");
+                  alert(`class '${this.$name}' must implement '${$interface.$name}.${j}'`);
                 }
               }
           }
@@ -29548,7 +29739,7 @@ class AMIHTTPClient {
     const timeout = options.timeout || 120000;
     command = (command || '').trim().replace(_classPrivateFieldLooseBase(this, _paramRegExp)[_paramRegExp], (x, y) => {
       const rawValue = params.shift();
-      return Object.prototype.toString.call(rawValue) === '[object String]' ? "-" + y + "=" + JSON.stringify(rawValue) : "-" + y + "=\"" + JSON.stringify(rawValue) + "\"";
+      return Object.prototype.toString.call(rawValue) === '[object String]' ? `-${y}=${JSON.stringify(rawValue)}` : `-${y}="${JSON.stringify(rawValue)}"`;
     });
     const data = {
       Command: command,
@@ -30044,10 +30235,10 @@ class AMIMQTTClient {
     const converter = 'converter' in options ? options.converter || '' : client_classPrivateFieldLooseBase(this, client_converter)[client_converter];
     command = (command || '').trim().replace(client_classPrivateFieldLooseBase(this, client_paramRegExp)[client_paramRegExp], (x, y) => {
       const rawValue = params.shift();
-      return Object.prototype.toString.call(rawValue) === '[object String]' ? "-" + y + "=" + JSON.stringify(rawValue) : "-" + y + "=\"" + JSON.stringify(rawValue) + "\"";
+      return Object.prototype.toString.call(rawValue) === '[object String]' ? `-${y}=${JSON.stringify(rawValue)}` : `-${y}="${JSON.stringify(rawValue)}"`;
     });
-    const topic = "ami/" + serverName + "/command/" + converter;
-    const message = new paho_mqtt.Message("AMI-COMMAND<" + token + ",\"" + this._uuid + "\",\"" + this._username + "\">" + command);
+    const topic = `ami/${serverName}/command/${converter}`;
+    const message = new paho_mqtt.Message(`AMI-COMMAND<${token},"${this._uuid}","${this._username}">${command}`);
     message.token = token;
     message.topic = topic;
     message.qos = options.qos || 0x000;
@@ -30076,9 +30267,9 @@ function _onConnected2(reconnect, serverURL) {
   client_classPrivateFieldLooseBase(this, _connected)[_connected] = true;
 
   if (reconnect) {
-    console.log("onConnected: client `" + this._uuid + "` reconnected to server URL `" + serverURL + "`");
+    console.log(`onConnected: client \`${this._uuid}\` reconnected to server URL \`${serverURL}\``);
   } else {
-    console.log("onConnected: client `" + this._uuid + "` connected to server URL `" + serverURL + "`");
+    console.log(`onConnected: client \`${this._uuid}\` connected to server URL \`${serverURL}\``);
   }
 
   this.subscribe(this._uuid).always(() => {
@@ -30092,7 +30283,7 @@ function _onConnectionLost2(responseObject) {
   client_classPrivateFieldLooseBase(this, _connected)[_connected] = false;
 
   if (responseObject.errorCode !== 0) {
-    console.log("onConnectionLost: client `" + this._uuid + "` disconnected, cause: " + responseObject.errorMessage);
+    console.log(`onConnectionLost: client \`${this._uuid}\` disconnected, cause: ${responseObject.errorMessage}`);
 
     if (this._userOnConnectionLost) {
       this._userOnConnectionLost(this, responseObject.errorMessage);
@@ -30234,7 +30425,7 @@ class AMICommand {
   addUser(username, password, firstName, lastName, email, captchaHash, captchaText, attachCert, agree, options) {
     options = options || {};
     options.params = [username, password, firstName, lastName, email, captchaHash, captchaText];
-    return this.execute("AddUser -amiLogin=? -amiPassword=? -firstName=? -lastName=? -email=? -captchaHash=? -captchaText=? " + (attachCert ? ' -attachCert' : '') + (agree ? ' -agree' : ''), options);
+    return this.execute(`AddUser -amiLogin=? -amiPassword=? -firstName=? -lastName=? -email=? -captchaHash=? -captchaText=? ${attachCert ? ' -attachCert' : ''}${agree ? ' -agree' : ''}`, options);
   }
 
   changeInfo(firstName, lastName, email, options) {
@@ -30438,13 +30629,13 @@ class AMIRouter {
     const scriptUrl = AMIRouter_classPrivateFieldLooseBase(AMIRouter, _findThisJs)[_findThisJs](prodJsFilename, devJsFilename);
 
     if (!scriptUrl) {
-      throw "cannot find neither '" + prodJsFilename + "' nor '" + devJsFilename + "'";
+      throw `cannot find neither '${prodJsFilename}' nor '${devJsFilename}'`;
     }
 
-    AMIRouter_classPrivateFieldLooseBase(this, _webAppURL)[_webAppURL] = webappUrl.protocol === 'file:' ? "file://" + webappUrl.pathname : "" + webappUrl.origin + webappUrl.pathname;
+    AMIRouter_classPrivateFieldLooseBase(this, _webAppURL)[_webAppURL] = webappUrl.protocol === 'file:' ? `file://${webappUrl.pathname}` : `${webappUrl.origin}${webappUrl.pathname}`;
     AMIRouter_classPrivateFieldLooseBase(this, _webAppArgs)[_webAppArgs] = AMIRouter_classPrivateFieldLooseBase(AMIRouter, _searchParamToDict)[_searchParamToDict](webappUrl);
     AMIRouter_classPrivateFieldLooseBase(this, _webAppHash)[_webAppHash] = webappUrl.hash.substring(1);
-    AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL] = scriptUrl.protocol === 'file:' ? "file://" + scriptUrl.pathname : "" + scriptUrl.origin + scriptUrl.pathname;
+    AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL] = scriptUrl.protocol === 'file:' ? `file://${scriptUrl.pathname}` : `${scriptUrl.origin}${scriptUrl.pathname}`;
     AMIRouter_classPrivateFieldLooseBase(this, _scriptArgs)[_scriptArgs] = AMIRouter_classPrivateFieldLooseBase(AMIRouter, _searchParamToDict)[_searchParamToDict](scriptUrl);
     AMIRouter_classPrivateFieldLooseBase(this, _scriptHash)[_scriptHash] = scriptUrl.hash.substring(1);
     let idx;
@@ -30655,7 +30846,7 @@ function lock() {
   let lines = getStack().split('\n');
 
   if (lines.length > 3) {
-    console.log("lock[" + _curLockCnt + "] :: " + lines[3]);
+    console.log(`lock[${_curLockCnt}] :: ${lines[3]}`);
   }
 
   if (_curLockCnt <= 0) {
@@ -30676,14 +30867,14 @@ function unlock() {
   let lines = getStack().split('\n');
 
   if (lines.length > 3) {
-    console.log("unlock[" + _curLockCnt + "] :: " + lines[3]);
+    console.log(`unlock[${_curLockCnt}] :: ${lines[3]}`);
   }
 }
 function modalLeave() {
   const lines = getStack().split('\n');
 
   if (lines.length > 2) {
-    console.log("modalLock[" + _curLockCnt + "] :: " + lines[2]);
+    console.log(`modalLock[${_curLockCnt}] :: ${lines[2]}`);
   }
 
   _curLockCnt = _tmpLockCnt;
@@ -30702,7 +30893,7 @@ function modalEnter() {
   const lines = getStack().split('\n');
 
   if (lines.length > 2) {
-    console.log("modalUnlock[" + _curLockCnt + "] :: " + lines[2]);
+    console.log(`modalUnlock[${_curLockCnt}] :: ${lines[2]}`);
   }
 }
 let _canLeave = true;
@@ -30720,7 +30911,7 @@ function base64Encode(s) {
 }
 function base64Decode(s) {
   return decodeURIComponent(atob((s || '').replace(/-/g, '+').replace(/_/g, '/')).split('').map(c => {
-    return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+    return `%${`00${c.charCodeAt(0).toString(16)}`.slice(-2)}`;
   }).join(''));
 }
 const _replace = ami_twig/* default.stdlib._replace */.Z.stdlib._replace;
@@ -30776,7 +30967,7 @@ function _publishAlert(clazz, title, message, fadeOut) {
 
   const hash = message.hashCode();
   const date = moment().format('DD MMM, HH:mm:ss');
-  const toast = $("#ami_alert_content > .toast[data-ami-hash=\"" + hash + "\"]");
+  const toast = $(`#ami_alert_content > .toast[data-ami-hash="${hash}"]`);
 
   if (toast.length === 0) {
     const html = formatTWIG(message_namespaceObject, {
@@ -30788,15 +30979,15 @@ function _publishAlert(clazz, title, message, fadeOut) {
       message: message
     });
     $('#ami_alert_content').append(html.replace(_linkExp, '<a href="$1" target="_blank">$2</a>')).promise().done(() => {
-      $("#ami_alert_content > .toast[data-ami-hash=\"" + hash + "\"]").toast('show');
+      $(`#ami_alert_content > .toast[data-ami-hash="${hash}"]`).toast('show');
     });
   } else {
-    toast.find('.toast-header > strong').html(textToHtml(title) + (" <span class=\"badge badge-" + clazz + "\">" + toast.attr('data-ami-cnt', parseInt(toast.attr('data-ami-cnt')) + 1).attr('data-ami-cnt') + "</span>"));
+    toast.find('.toast-header > strong').html(textToHtml(title) + ` <span class="badge badge-${clazz}">${toast.attr('data-ami-cnt', parseInt(toast.attr('data-ami-cnt')) + 1).attr('data-ami-cnt')}</span>`);
     toast.find('.toast-header > small').html(textToHtml(date));
     toast.toast('show');
   }
 
-  console.log("AMI :: " + title.toUpperCase() + ": " + message + "\n" + getStack());
+  console.log(`AMI :: ${title.toUpperCase()}: ${message}\n${getStack()}`);
   $(document).scrollTop(0);
   unlock();
 }
@@ -34171,6 +34362,10 @@ const cursorLineBoundaryForward = view => moveSel(view, range => moveByLineBound
 
 const cursorLineBoundaryBackward = view => moveSel(view, range => moveByLineBoundary(view, range, false));
 
+const cursorLineBoundaryLeft = view => moveSel(view, range => moveByLineBoundary(view, range, !ltrAtCursor(view)));
+
+const cursorLineBoundaryRight = view => moveSel(view, range => moveByLineBoundary(view, range, ltrAtCursor(view)));
+
 const cursorLineStart = view => moveSel(view, range => state_dist/* EditorSelection.cursor */.jT.cursor(view.lineBlockAt(range.head).from, 1));
 
 const cursorLineEnd = view => moveSel(view, range => state_dist/* EditorSelection.cursor */.jT.cursor(view.lineBlockAt(range.head).to, -1));
@@ -34270,6 +34465,10 @@ const selectPageDown = view => selectByPage(view, true);
 const selectLineBoundaryForward = view => extendSel(view, range => moveByLineBoundary(view, range, true));
 
 const selectLineBoundaryBackward = view => extendSel(view, range => moveByLineBoundary(view, range, false));
+
+const selectLineBoundaryLeft = view => extendSel(view, range => moveByLineBoundary(view, range, !ltrAtCursor(view)));
+
+const selectLineBoundaryRight = view => extendSel(view, range => moveByLineBoundary(view, range, ltrAtCursor(view)));
 
 const selectLineStart = view => extendSel(view, range => state_dist/* EditorSelection.cursor */.jT.cursor(view.lineBlockAt(range.head).from));
 
@@ -34386,13 +34585,12 @@ const simplifySelection = _ref15 => {
   return true;
 };
 
-function deleteBy(_ref16, by) {
-  let {
-    state,
-    dispatch
-  } = _ref16;
-  if (state.readOnly) return false;
-  let event = "delete.selection";
+function deleteBy(target, by) {
+  if (target.state.readOnly) return false;
+  let event = "delete.selection",
+      {
+    state
+  } = target;
   let changes = state.changeByRange(range => {
     let {
       from,
@@ -34401,9 +34599,20 @@ function deleteBy(_ref16, by) {
 
     if (from == to) {
       let towards = by(from);
-      if (towards < from) event = "delete.backward";else if (towards > from) event = "delete.forward";
+
+      if (towards < from) {
+        event = "delete.backward";
+        towards = skipAtomic(target, towards, false);
+      } else if (towards > from) {
+        event = "delete.forward";
+        towards = skipAtomic(target, towards, true);
+      }
+
       from = Math.min(from, towards);
       to = Math.max(to, towards);
+    } else {
+      from = skipAtomic(target, from, false);
+      to = skipAtomic(target, from, true);
     }
 
     return from == to ? {
@@ -34417,7 +34626,7 @@ function deleteBy(_ref16, by) {
     };
   });
   if (changes.changes.empty) return false;
-  dispatch(state.update(changes, {
+  target.dispatch(state.update(changes, {
     scrollIntoView: true,
     userEvent: event,
     effects: event == "delete.selection" ? dist/* EditorView.announce.of */.tk.announce.of(state.phrase("Selection deleted")) : undefined
@@ -34459,7 +34668,7 @@ const deleteByChar = (target, forward) => deleteBy(target, pos => {
     if (targetPos == pos && line.number != (forward ? state.doc.lines : 1)) targetPos += forward ? 1 : -1;
   }
 
-  return skipAtomic(target, targetPos, forward);
+  return targetPos;
 });
 
 const deleteCharBackward = view => deleteByChar(view, false);
@@ -34488,7 +34697,7 @@ const deleteByGroup = (target, forward) => deleteBy(target, start => {
     pos = next;
   }
 
-  return skipAtomic(target, pos, forward);
+  return pos;
 });
 
 const deleteGroupBackward = target => deleteByGroup(target, false);
@@ -34497,19 +34706,19 @@ const deleteGroupForward = target => deleteByGroup(target, true);
 
 const deleteToLineEnd = view => deleteBy(view, pos => {
   let lineEnd = view.lineBlockAt(pos).to;
-  return skipAtomic(view, pos < lineEnd ? lineEnd : Math.min(view.state.doc.length, pos + 1), true);
+  return pos < lineEnd ? lineEnd : Math.min(view.state.doc.length, pos + 1);
 });
 
 const deleteToLineStart = view => deleteBy(view, pos => {
   let lineStart = view.lineBlockAt(pos).from;
-  return skipAtomic(view, pos > lineStart ? lineStart : Math.max(0, pos - 1), false);
+  return pos > lineStart ? lineStart : Math.max(0, pos - 1);
 });
 
-const deleteTrailingWhitespace = _ref17 => {
+const deleteTrailingWhitespace = _ref16 => {
   let {
     state,
     dispatch
-  } = _ref17;
+  } = _ref16;
   if (state.readOnly) return false;
   let changes = [];
 
@@ -34539,11 +34748,11 @@ const deleteTrailingWhitespace = _ref17 => {
   return true;
 };
 
-const splitLine = _ref18 => {
+const splitLine = _ref17 => {
   let {
     state,
     dispatch
-  } = _ref18;
+  } = _ref17;
   if (state.readOnly) return false;
   let changes = state.changeByRange(range => {
     return {
@@ -34562,11 +34771,11 @@ const splitLine = _ref18 => {
   return true;
 };
 
-const transposeChars = _ref19 => {
+const transposeChars = _ref18 => {
   let {
     state,
     dispatch
-  } = _ref19;
+  } = _ref18;
   if (state.readOnly) return false;
   let changes = state.changeByRange(range => {
     if (!range.empty || range.from == 0 || range.from == state.doc.length) return {
@@ -34671,19 +34880,19 @@ function moveLine(state, dispatch, forward) {
   return true;
 }
 
-const moveLineUp = _ref20 => {
+const moveLineUp = _ref19 => {
+  let {
+    state,
+    dispatch
+  } = _ref19;
+  return moveLine(state, dispatch, false);
+};
+
+const moveLineDown = _ref20 => {
   let {
     state,
     dispatch
   } = _ref20;
-  return moveLine(state, dispatch, false);
-};
-
-const moveLineDown = _ref21 => {
-  let {
-    state,
-    dispatch
-  } = _ref21;
   return moveLine(state, dispatch, true);
 };
 
@@ -34710,19 +34919,19 @@ function copyLine(state, dispatch, forward) {
   return true;
 }
 
-const copyLineUp = _ref22 => {
+const copyLineUp = _ref21 => {
+  let {
+    state,
+    dispatch
+  } = _ref21;
+  return copyLine(state, dispatch, false);
+};
+
+const copyLineDown = _ref22 => {
   let {
     state,
     dispatch
   } = _ref22;
-  return copyLine(state, dispatch, false);
-};
-
-const copyLineDown = _ref23 => {
-  let {
-    state,
-    dispatch
-  } = _ref23;
   return copyLine(state, dispatch, true);
 };
 
@@ -34731,11 +34940,11 @@ const deleteLine = view => {
   let {
     state
   } = view,
-      changes = state.changes(selectedLineBlocks(state).map(_ref24 => {
+      changes = state.changes(selectedLineBlocks(state).map(_ref23 => {
     let {
       from,
       to
-    } = _ref24;
+    } = _ref23;
     if (from > 0) from--;else if (to < state.doc.length) to++;
     return {
       from,
@@ -34752,11 +34961,11 @@ const deleteLine = view => {
   return true;
 };
 
-const insertNewline = _ref25 => {
+const insertNewline = _ref24 => {
   let {
     state,
     dispatch
-  } = _ref25;
+  } = _ref24;
   dispatch(state.update(state.replaceSelection(state.lineBreak), {
     scrollIntoView: true,
     userEvent: "input"
@@ -34784,11 +34993,11 @@ const insertNewlineAndIndent = newlineAndIndent(false);
 const insertBlankLine = newlineAndIndent(true);
 
 function newlineAndIndent(atEof) {
-  return _ref26 => {
+  return _ref25 => {
     let {
       state,
       dispatch
-    } = _ref26;
+    } = _ref25;
     if (state.readOnly) return false;
     let changes = state.changeByRange(range => {
       let {
@@ -34854,11 +35063,11 @@ function changeBySelectedLine(state, f) {
   });
 }
 
-const indentSelection = _ref27 => {
+const indentSelection = _ref26 => {
   let {
     state,
     dispatch
-  } = _ref27;
+  } = _ref26;
   if (state.readOnly) return false;
   let updated = Object.create(null);
   let context = new language_dist/* IndentContext */.Gn(state, {
@@ -34889,11 +35098,11 @@ const indentSelection = _ref27 => {
   return true;
 };
 
-const indentMore = _ref28 => {
+const indentMore = _ref27 => {
   let {
     state,
     dispatch
-  } = _ref28;
+  } = _ref27;
   if (state.readOnly) return false;
   dispatch(state.update(changeBySelectedLine(state, (line, changes) => {
     changes.push({
@@ -34906,11 +35115,11 @@ const indentMore = _ref28 => {
   return true;
 };
 
-const indentLess = _ref29 => {
+const indentLess = _ref28 => {
   let {
     state,
     dispatch
-  } = _ref29;
+  } = _ref28;
   if (state.readOnly) return false;
   dispatch(state.update(changeBySelectedLine(state, (line, changes) => {
     let space = /^\s*/.exec(line.text)[0];
@@ -34932,11 +35141,11 @@ const indentLess = _ref29 => {
   return true;
 };
 
-const insertTab = _ref30 => {
+const insertTab = _ref29 => {
   let {
     state,
     dispatch
-  } = _ref30;
+  } = _ref29;
   if (state.selection.ranges.some(r => !r.empty)) return indentMore({
     state,
     dispatch
@@ -35004,11 +35213,13 @@ const standardKeymap = [{
   key: "Mod-ArrowLeft",
   mac: "Alt-ArrowLeft",
   run: cursorGroupLeft,
-  shift: selectGroupLeft
+  shift: selectGroupLeft,
+  preventDefault: true
 }, {
   mac: "Cmd-ArrowLeft",
-  run: cursorLineBoundaryBackward,
-  shift: selectLineBoundaryBackward
+  run: cursorLineBoundaryLeft,
+  shift: selectLineBoundaryLeft,
+  preventDefault: true
 }, {
   key: "ArrowRight",
   run: cursorCharRight,
@@ -35018,11 +35229,13 @@ const standardKeymap = [{
   key: "Mod-ArrowRight",
   mac: "Alt-ArrowRight",
   run: cursorGroupRight,
-  shift: selectGroupRight
+  shift: selectGroupRight,
+  preventDefault: true
 }, {
   mac: "Cmd-ArrowRight",
-  run: cursorLineBoundaryForward,
-  shift: selectLineBoundaryForward
+  run: cursorLineBoundaryRight,
+  shift: selectLineBoundaryRight,
+  preventDefault: true
 }, {
   key: "ArrowUp",
   run: cursorLineUp,
@@ -36340,7 +36553,7 @@ function fillBreadcrumb(items) {
   let s;
 
   if (isArray(items)) {
-    s = items.map(item => "<li class=\"breadcrumb-item\">" + item.replace(/{{ORIGIN_URL}}/g, js_AMIRouter.getOriginURL).replace(/{{WEBAPP_URL}}/g, js_AMIRouter.getWebAppURL()) + "</li>").join('');
+    s = items.map(item => `<li class="breadcrumb-item">${item.replace(/{{ORIGIN_URL}}/g, js_AMIRouter.getOriginURL).replace(/{{WEBAPP_URL}}/g, js_AMIRouter.getWebAppURL())}</li>`).join('');
   } else if (isString(items)) {
     s = items.replace(/{{ORIGIN_URL}}/g, js_AMIRouter.getOriginURL).replace(/{{WEBAPP_URL}}/g, js_AMIRouter.getWebAppURL());
   } else {
@@ -36457,7 +36670,7 @@ function _xxxHTML(selector, twig, mode, options) {
 
   if (scope) {
     twig = twig.replace(_idRegExp, id => {
-      return id + "_scope" + scope;
+      return `${id}_scope${scope}`;
     });
   }
 
@@ -36480,7 +36693,7 @@ function _xxxHTML(selector, twig, mode, options) {
       break;
 
     case 3:
-      el2 = $(el.is('[id]') ? html.replace(/^\s*(<[a-zA-Z_-]+)/, "$1 id=\"" + el.attr('id') + "\"") : html);
+      el2 = $(el.is('[id]') ? html.replace(/^\s*(<[a-zA-Z_-]+)/, `$1 id="${el.attr('id')}"`) : html);
       promise = el.replaceWith(el2).promise();
       el = el2;
       break;
@@ -36496,7 +36709,7 @@ function _xxxHTML(selector, twig, mode, options) {
       _find('*').each((idx, element) => {
         $(element.attributes).each((idx, attribute) => {
           if (attribute.name.startsWith('data-bs-')) {
-            element.setAttribute("data-" + attribute.name.substring(8), attribute.value);
+            element.setAttribute(`data-${attribute.name.substring(8)}`, attribute.value);
           }
         });
       });
@@ -36594,11 +36807,11 @@ function setDateTimeFormats(datetimePrecision, datetimeFormat, dateFormat, timeP
   _timeHMFormat = timeHMFormat || 'HH:mm';
 
   if (datetimePrecision > 0) {
-    _datetimeFormat += "." + 'S'.repeat(datetimePrecision);
+    _datetimeFormat += `.${'S'.repeat(datetimePrecision)}`;
   }
 
   if (timePrecision > 0) {
-    _timeHMSFormat += "." + 'S'.repeat(timePrecision);
+    _timeHMSFormat += `.${'S'.repeat(timePrecision)}`;
   }
 }
 function formatTWIG(twig, dict, twigs) {
@@ -36623,7 +36836,7 @@ function formatTWIG(twig, dict, twigs) {
     try {
       result.push(render(twig, DICT, twigs));
     } catch (e) {
-      error("TWIG parsing error: " + e.message);
+      error(`TWIG parsing error: ${e.message}`);
     }
   });
   return result.join('');
@@ -36718,7 +36931,20 @@ class AMIJSDoc {
 }
 
 function _makeMenu2() {
-  const s = "\n<a class=\"list-group-item list-group-item-action p-2\" href=\"\">\n\t<i class=\"bi bi-house\"></i> Home\n</a>\n\n<div class=\"list-group-item list-group-item-action p-2\">\n\n\t" + jsdoc_classPrivateFieldLooseBase(this, _makeSubMenu)[_makeSubMenu]('Global', 'global') + "\n\t" + jsdoc_classPrivateFieldLooseBase(this, _makeSubMenu)[_makeSubMenu]('Namespace', 'namespaces') + "\n\t" + jsdoc_classPrivateFieldLooseBase(this, _makeSubMenu)[_makeSubMenu]('Interface', 'interfaces') + "\n\t" + jsdoc_classPrivateFieldLooseBase(this, _makeSubMenu)[_makeSubMenu]('Class', 'classes') + "\n\n</div>\n";
+  const s = `
+<a class="list-group-item list-group-item-action p-2" href="">
+	<i class="bi bi-house"></i> Home
+</a>
+
+<div class="list-group-item list-group-item-action p-2">
+
+	${jsdoc_classPrivateFieldLooseBase(this, _makeSubMenu)[_makeSubMenu]('Global', 'global')}
+	${jsdoc_classPrivateFieldLooseBase(this, _makeSubMenu)[_makeSubMenu]('Namespace', 'namespaces')}
+	${jsdoc_classPrivateFieldLooseBase(this, _makeSubMenu)[_makeSubMenu]('Interface', 'interfaces')}
+	${jsdoc_classPrivateFieldLooseBase(this, _makeSubMenu)[_makeSubMenu]('Class', 'classes')}
+
+</div>
+`;
   $(jsdoc_classPrivateFieldLooseBase(this, _menuSelector)[_menuSelector]).html(s.trim()).promise().done(_ => {
     $(jsdoc_classPrivateFieldLooseBase(this, _menuSelector)[_menuSelector]).find('a[data-name][data-cat][data-name]').click(e => {
       const el = $(e.currentTarget);
@@ -36749,8 +36975,8 @@ function _makeSubMenu2(title, cat) {
 
   if (Array.isArray(items) && items.length > 0) {
     result.push('<div>');
-    result.push("<a href=\"#jsdoc_menu_" + title.toLowerCase() + "\" data-toggle=\"collapse\" data-bs-toggle=\"collapse\"><i class=\"bi bi-book\"></i> " + textToHtml(title) + "</a>");
-    result.push("<ul class=\"collapse mb-0\" id=\"jsdoc_menu_" + title.toLowerCase() + "\">" + items.map(_item => "<li><a href=\"#\" data-title=\"" + textToHtml(title) + "\" data-cat=\"" + textToHtml(cat) + "\" data-name=\"" + textToHtml(_item.name) + "\">" + textToHtml(_item.name) + "</a></li>").join('') + "</ul>");
+    result.push(`<a href="#jsdoc_menu_${title.toLowerCase()}" data-toggle="collapse" data-bs-toggle="collapse"><i class="bi bi-book"></i> ${textToHtml(title)}</a>`);
+    result.push(`<ul class="collapse mb-0" id="jsdoc_menu_${title.toLowerCase()}">${items.map(_item => `<li><a href="#" data-title="${textToHtml(title)}" data-cat="${textToHtml(cat)}" data-name="${textToHtml(_item.name)}">${textToHtml(_item.name)}</a></li>`).join('')}</ul>`);
     result.push('</div>');
   }
 
@@ -36773,7 +36999,7 @@ function _makeContent2(title, cat, name) {
 
   s.push('<div class="card">');
   s.push('<div class="card-body bg-light">');
-  s.push("<h1>" + textToHtml(title) + ": " + textToHtml(item.name) + "</h1>");
+  s.push(`<h1>${textToHtml(title)}: ${textToHtml(item.name)}</h1>`);
   s.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeAlias)[_makeAlias](item));
   s.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeDesc)[_makeDesc](item));
   s.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeDetails)[_makeDetails](item));
@@ -36817,7 +37043,7 @@ function _makeContent2(title, cat, name) {
 
 function _makeVariable2(variable) {
   const result = [];
-  result.push("<hr id=\"jsdoc_variable_" + variable.name + "\" />");
+  result.push(`<hr id="jsdoc_variable_${variable.name}" />`);
   result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeVariableSignature)[_makeVariableSignature](variable));
   result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeAlias)[_makeAlias](variable));
   result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeDesc)[_makeDesc](variable));
@@ -36827,14 +37053,14 @@ function _makeVariable2(variable) {
 
 function _makeVariableSignature2(variable) {
   const result = [];
-  result.push("<span class=\"signature-name\">" + textToHtml(variable.name) + "</span>");
-  result.push("<span class=\"signature-attrs\">: {" + jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeType)[_makeType](variable) + "}</span>");
+  result.push(`<span class="signature-name">${textToHtml(variable.name)}</span>`);
+  result.push(`<span class="signature-attrs">: {${jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeType)[_makeType](variable)}}</span>`);
   return result.join('');
 }
 
 function _makeFunction2(method) {
   const result = [];
-  result.push("<hr id=\"jsdoc_method_" + method.name + "\" />");
+  result.push(`<hr id="jsdoc_method_${method.name}" />`);
   result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeFunctionSignature)[_makeFunctionSignature](method));
   result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeAlias)[_makeAlias](method));
   result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeDesc)[_makeDesc](method));
@@ -36848,16 +37074,16 @@ function _makeFunction2(method) {
 
 function _makeFunctionSignature2(method) {
   const result = [];
-  result.push("<span class=\"signature-name\">" + textToHtml(method.name) + "</span>");
+  result.push(`<span class="signature-name">${textToHtml(method.name)}</span>`);
 
   if (method.params) {
     const L = method.params.map(_param => jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeParam)[_makeParam](_param));
-    result.push("<span class=\"signature-params\">(" + L.join(', ') + ")</span>");
+    result.push(`<span class="signature-params">(${L.join(', ')})</span>`);
   }
 
   if (method.returns) {
     const L = method.returns.map(_return => jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeType)[_makeType](_return));
-    result.push("<span class=\"signature-attrs\"> &rarr; {" + L.join(' or ') + "}</span>");
+    result.push(`<span class="signature-attrs"> &rarr; {${L.join(' or ')}}</span>`);
   }
 
   return result.join('');
@@ -36951,27 +37177,27 @@ function _makeFunctionParameters2(method) {
       result.push('<tr>');
 
       if (cnt1 > 0) {
-        result.push("<td>" + L1[i] + "</td>");
+        result.push(`<td>${L1[i]}</td>`);
       }
 
       if (cnt2 > 0) {
-        result.push("<td>" + L2[i] + "</td>");
+        result.push(`<td>${L2[i]}</td>`);
       }
 
       if (cnt4 > 0) {
-        result.push("<td>" + L4[i] + "</td>");
+        result.push(`<td>${L4[i]}</td>`);
       }
 
       if (cnt5 > 0) {
-        result.push("<td class=\"text-center\">" + (L5[i] ? '✓' : '') + "</td>");
+        result.push(`<td class="text-center">${L5[i] ? '✓' : ''}</td>`);
       }
 
       if (cnt6 > 0) {
-        result.push("<td class=\"text-center\">" + (L6[i] ? '✓' : '') + "</td>");
+        result.push(`<td class="text-center">${L6[i] ? '✓' : ''}</td>`);
       }
 
       if (cnt3 > 0) {
-        result.push("<td>" + L3[i] + "</td>");
+        result.push(`<td>${L3[i]}</td>`);
       }
 
       result.push('</tr>');
@@ -36992,7 +37218,7 @@ function _makeFunctionExceptions2(method) {
       const _exception = _step5.value;
       result.push('<h5 class="mt-2"><strong>Throws:</strong></h5>');
       result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeDesc)[_makeDesc](_exception));
-      result.push("<div>Type: <span class=\"signature-attrs\">" + jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeType)[_makeType](_exception) + "</span></div>");
+      result.push(`<div>Type: <span class="signature-attrs">${jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeType)[_makeType](_exception)}</span></div>`);
     }
   }
 
@@ -37007,7 +37233,7 @@ function _makeFunctionReturn2(method) {
       const _return = _step6.value;
       result.push('<h5 class="mt-2"><strong>Returns:</strong></h5>');
       result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeDesc)[_makeDesc](_return));
-      result.push("<div>Type: <span class=\"signature-attrs\">" + jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeType)[_makeType](_return) + "</span></div>");
+      result.push(`<div>Type: <span class="signature-attrs">${jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeType)[_makeType](_return)}</span></div>`);
     }
   }
 
@@ -37019,7 +37245,7 @@ function _makeAlias2(x) {
 
   if (x.alias) {
     result.push('<div>');
-    result.push("Alias: " + textToHtml(x.alias));
+    result.push(`Alias: ${textToHtml(x.alias)}`);
     result.push('</div>');
   }
 
@@ -37032,7 +37258,7 @@ function _makeDesc2(x) {
   if (x.desc) {
     result.push('<div>');
     result.push(textToHtml(x.desc).replace(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, jsdoc_linkExp)[jsdoc_linkExp], (_, x, y) => {
-      return "<a href=\"" + y + "\">" + (x || y) + "</a>";
+      return `<a href="${y}">${x || y}</a>`;
     }));
     result.push('</div>');
   }
@@ -37056,18 +37282,18 @@ function _makeParam2(x) {
 }
 
 function _makeType2(x) {
-  return x.type.map(y => "<i>" + textToHtml(y.replace(/\s*/g, '')) + "</i>").join(' or ');
+  return x.type.map(y => `<i>${textToHtml(y.replace(/\s*/g, ''))}</i>`).join(' or ');
 }
 
 function _makeDetails2(x) {
   const result = [];
 
   if (Array.isArray(x.implements) && x.implements.length > 0) {
-    result.push("<div>Implements: " + textToHtml(x.implements.join(', ')) + "</div>");
+    result.push(`<div>Implements: ${textToHtml(x.implements.join(', '))}</div>`);
   }
 
   if (Array.isArray(x.inherits) && x.inherits.length > 0) {
-    result.push("<div>Inherits: " + textToHtml(x.inherits.join(', ')) + "</div>");
+    result.push(`<div>Inherits: ${textToHtml(x.inherits.join(', '))}</div>`);
   }
 
   const version = [];
@@ -37075,7 +37301,7 @@ function _makeDetails2(x) {
   const see = [];
 
   if (x.version) {
-    version.push("<dt>Version:</dt><dd>" + textToHtml(x.version) + "</dd>");
+    version.push(`<dt>Version:</dt><dd>${textToHtml(x.version)}</dd>`);
   }
 
   if (Array.isArray(x.author)) {
@@ -37083,10 +37309,10 @@ function _makeDetails2(x) {
       const _author = _step7.value;
 
       const _AUTHOR = _author.replace(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, jsdoc_linkExp)[jsdoc_linkExp], (_, x, y) => {
-        return "<a href=\"" + y + "\">" + (x || y) + "</a>";
+        return `<a href="${y}">${x || y}</a>`;
       });
 
-      author.push("<dt>Author:</dt><dd>" + _AUTHOR + "</dd>");
+      author.push(`<dt>Author:</dt><dd>${_AUTHOR}</dd>`);
     }
   }
 
@@ -37095,10 +37321,10 @@ function _makeDetails2(x) {
       const _see = _step8.value;
 
       const _SEE = _see.replace(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, jsdoc_linkExp)[jsdoc_linkExp], (_, x, y) => {
-        return "<a href=\"" + y + "\">" + (x || y) + "</a>";
+        return `<a href="${y}">${x || y}</a>`;
       });
 
-      see.push("<dt>See:</dt><dd>" + _SEE + "</dd>");
+      see.push(`<dt>See:</dt><dd>${_SEE}</dd>`);
     }
   }
 
@@ -37120,7 +37346,7 @@ function _makeExamples2(x, mode) {
     for (var _iterator9 = jsdoc_createForOfIteratorHelperLoose(x.examples), _step9; !(_step9 = _iterator9()).done;) {
       const _example = _step9.value;
       result.push('<h5 class="mt-2"><strong>Example:</strong></h5>');
-      result.push("<textarea class=\"form-editor\" data-mode=\"" + textToHtml(mode) + "\">" + textToHtml(_example) + "</textarea>");
+      result.push(`<textarea class="form-editor" data-mode="${textToHtml(mode)}">${textToHtml(_example)}</textarea>`);
     }
   }
 
@@ -37195,7 +37421,7 @@ function loadControl(control, options) {
 
   if (descr) {
     try {
-      loadScripts(js_AMIRouter.getOriginURL() + "/" + descr.file, {
+      loadScripts(`${js_AMIRouter.getOriginURL()}/${descr.file}`, {
         cache: cache
       }).then(loaded => {
         const clazz = window[descr.clazz];
@@ -37204,16 +37430,16 @@ function loadControl(control, options) {
         _internal_then(promise, () => {
           result.resolveWith(context, [clazz]);
         }, message => {
-          result.rejectWith(context, ["cannot load control '" + control + "': " + message]);
+          result.rejectWith(context, [`cannot load control '${control}': ${message}`]);
         });
       }, message => {
-        result.rejectWith(context, ["cannot load control '" + control + "': " + message]);
+        result.rejectWith(context, [`cannot load control '${control}': ${message}`]);
       });
     } catch (message) {
-      result.rejectWith(context, ["cannot load control '" + control + "': " + message]);
+      result.rejectWith(context, [`cannot load control '${control}': ${message}`]);
     }
   } else {
-    result.rejectWith(context, ["cannot load control '" + control + "': not found"]);
+    result.rejectWith(context, [`cannot load control '${control}': not found`]);
   }
 
   return result.promise();
@@ -37276,7 +37502,7 @@ function createControlInContainer(parent, owner, control, controlParams, control
   const [context] = setup(['context'], [result], options);
 
   try {
-    parent.appendItem("<i class=\"bi bi-" + textToHtml(icon) + "\"></i> " + textToHtml(title)).done(selector => {
+    parent.appendItem(`<i class="bi bi-${textToHtml(icon)}"></i> ${textToHtml(title)}`).done(selector => {
       const PARAMS = [];
       const OPTIONS = {};
 
@@ -37441,7 +37667,7 @@ function __loadXXX(deferred, result, urls, dataType, context, cache) {
 
           __loadXXX(deferred, result, urls, dataType, context, cache);
         }, () => {
-          deferred.rejectWith(context, ["cannot load '" + url + "'"]);
+          deferred.rejectWith(context, [`cannot load '${url}'`]);
         });
       }
 
@@ -37466,7 +37692,7 @@ function __loadXXX(deferred, result, urls, dataType, context, cache) {
 
           __loadXXX(deferred, result, urls, dataType, context, cache);
         }, () => {
-          deferred.rejectWith(context, ["cannot load '" + url + "'"]);
+          deferred.rejectWith(context, [`cannot load '${url}'`]);
         });
       }
 
@@ -37484,7 +37710,7 @@ function __loadXXX(deferred, result, urls, dataType, context, cache) {
 
         __loadXXX(deferred, result, urls, dataType, context, cache);
       }, () => {
-        deferred.rejectWith(context, ["cannot load '" + url + "'"]);
+        deferred.rejectWith(context, [`cannot load '${url}'`]);
       });
       break;
   }
@@ -37817,7 +38043,7 @@ class AMIAuth {
   sso() {
     AMIAuth_classPrivateFieldLooseBase(AMIAuth, _clean)[_clean]();
 
-    window.open(AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoAuthURL ? AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoAuthURL + "?response_type=code&client_id=" + encodeURIComponent(AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoClientId || '') + "&redirect_uri=" + encodeURIComponent(js_AMIRouter.getOriginURL()) + "/docs/sso.html" : js_AMIRouter.getOriginURL() + "/docs/sso_not_configured.html", AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoLabel || 'Single Sign-On', 'location=no, menubar=no, status=no, scrollbars=no, width=800, height=525');
+    window.open(AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoAuthURL ? `${AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoAuthURL}?response_type=code&client_id=${encodeURIComponent(AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoClientId || '')}&redirect_uri=${encodeURIComponent(js_AMIRouter.getOriginURL())}/docs/sso.html` : `${js_AMIRouter.getOriginURL()}/docs/sso_not_configured.html`, AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoLabel || 'Single Sign-On', 'location=no, menubar=no, status=no, scrollbars=no, width=800, height=525');
   }
 
   signIn() {
@@ -37827,8 +38053,8 @@ class AMIAuth {
       js_AMICommand.execute('GenerateCaptcha').then(data => {
         const image = js_AMIWebApp.jspath('..field{.@name==="image"}.$', data)[0] || '';
         const hash = js_AMIWebApp.jspath('..field{.@name==="hash"}.$', data)[0] || '';
-        $('#AC9836E6_2A20_8711_39D5_0E8340561078').css('background-image', "url('" + image + "')");
-        $('#EA79605C_6EFF_4C77_9D70_88254B00FD52').css('background-image', "url('" + image + "')");
+        $('#AC9836E6_2A20_8711_39D5_0E8340561078').css('background-image', `url('${image}')`);
+        $('#EA79605C_6EFF_4C77_9D70_88254B00FD52').css('background-image', `url('${image}')`);
         $('#FD95B3FA_C808_0E08_2D1E_0FE0E3871101').val(hash);
         $('#A63C0110_E591_6FCE_6D7A_02EEBC094199').val(hash);
         $('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('show');
@@ -37904,7 +38130,7 @@ class AMIAuth {
         let message = 'Authentication failed.';
 
         if (userInfo.clientDNInSession || userInfo.issuerDNInSession) {
-          message += "Client DN in session: " + js_AMIWebApp.textToHtml(userInfo.clientDNInSession) + "." + ("Issuer DN in session: " + js_AMIWebApp.textToHtml(userInfo.issuerDNInSession) + ".");
+          message += `Client DN in session: ${js_AMIWebApp.textToHtml(userInfo.clientDNInSession)}.` + `Issuer DN in session: ${js_AMIWebApp.textToHtml(userInfo.issuerDNInSession)}.`;
         }
 
         js_AMIWebApp.error(message, true);
@@ -38020,8 +38246,8 @@ function _update2(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
   const result = $.Deferred();
   awfInfo = AMIAuth_classPrivateFieldLooseBase(AMIAuth, _setupAWF)[_setupAWF](awfInfo);
   $('#A09AE316_7068_4BC1_96A9_6B87D28863FE').prop('disabled', !userInfo.clientDNInSession || !userInfo.issuerDNInSession);
-  $('#C3E94F6D_48E0_86C0_3534_691728E492F4').attr('src', awfInfo.privacyPolicyURL || js_AMIWebApp.originURL + "/docs/privacy_policy.html");
-  $('#E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27').attr('src', awfInfo.privacyPolicyURL || js_AMIWebApp.originURL + "/docs/privacy_policy.html");
+  $('#C3E94F6D_48E0_86C0_3534_691728E492F4').attr('src', awfInfo.privacyPolicyURL || `${js_AMIWebApp.originURL}/docs/privacy_policy.html`);
+  $('#E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27').attr('src', awfInfo.privacyPolicyURL || `${js_AMIWebApp.originURL}/docs/privacy_policy.html`);
   const dict = { ...AMIAuth_classPrivateFieldLooseBase(this, _flags)[_flags],
     userInfo: AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo] = userInfo,
     roleInfo: AMIAuth_classPrivateFieldLooseBase(this, _roleInfo)[_roleInfo] = roleInfo,
@@ -38086,8 +38312,8 @@ function _update2(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
 
     for (const role in roleInfo) {
       table.push('<tr>');
-      table.push("<td>" + js_AMIWebApp.textToHtml(roleInfo[role].name || 'N/A') + "</td>");
-      table.push("<td>" + js_AMIWebApp.textToHtml(roleInfo[role].description || 'N/A') + "</td>");
+      table.push(`<td>${js_AMIWebApp.textToHtml(roleInfo[role].name || 'N/A')}</td>`);
+      table.push(`<td>${js_AMIWebApp.textToHtml(roleInfo[role].description || 'N/A')}</td>`);
       table.push('</tr>');
     }
 
@@ -38105,12 +38331,15 @@ function _update2(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
       }
 
       if (message) {
-        $('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html("<i class=\"bi bi-info-circle text-warning\"></i> " + message);
-        icon = "\n<a class=\"nav-link text-warning\" href=\"javascript:amiLogin.accountStatus();\">\n\t<i class=\"bi bi-info-circle\"></i>\n</a>";
+        $('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html(`<i class="bi bi-info-circle text-warning"></i> ${message}`);
+        icon = `
+<a class="nav-link text-warning" href="javascript:amiLogin.accountStatus();">
+	<i class="bi bi-info-circle"></i>
+</a>`;
       }
 
-      $('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#006400').html('<i class="bi bi-asterisk"></i> valid <i class="bi bi-asterisk"></i>').closest('.rounded').css('background', "#B8D49B url(\"" + certificate_green_namespaceObject + "\") no-repeat center center").css('background-size', 'cover');
-      $('#E91280F6_E7C6_3E53_A457_646995C99317').text("valid from " + (notBefore || 'N/A') + " to " + (notAfter || 'N/A'));
+      $('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#006400').html('<i class="bi bi-asterisk"></i> valid <i class="bi bi-asterisk"></i>').closest('.rounded').css('background', `#B8D49B url("${certificate_green_namespaceObject}") no-repeat center center`).css('background-size', 'cover');
+      $('#E91280F6_E7C6_3E53_A457_646995C99317').text(`valid from ${notBefore || 'N/A'} to ${notAfter || 'N/A'}`);
       bgColor = '#B8D49B';
       fgColor = '#006400';
     } else {
@@ -38119,17 +38348,20 @@ function _update2(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
       }
 
       if (message) {
-        $('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html("<i class=\"bi bi-info-circle text-danger\"></i> " + message);
-        icon = "\n<a class=\"nav-link text-danger\" href=\"javascript:amiAuth.accountStatus();\">\n\t<i class=\"bi bi-info-circle\"></i>\n</a>";
+        $('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html(`<i class="bi bi-info-circle text-danger"></i> ${message}`);
+        icon = `
+<a class="nav-link text-danger" href="javascript:amiAuth.accountStatus();">
+	<i class="bi bi-info-circle"></i>
+</a>`;
       }
 
-      $('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#DC3545').html('<i class="bi bi-asterisk"></i> invalid <i class="bi bi-asterisk"></i>').closest('.rounded').css('background', "#E8C8CF url(\"" + certificate_pink_namespaceObject + "\") no-repeat center center").css('background-size', 'cover');
-      $('#E91280F6_E7C6_3E53_A457_646995C99317').text("valid from " + (notBefore || 'N/A') + " to " + (notAfter || 'N/A'));
+      $('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#DC3545').html('<i class="bi bi-asterisk"></i> invalid <i class="bi bi-asterisk"></i>').closest('.rounded').css('background', `#E8C8CF url("${certificate_pink_namespaceObject}") no-repeat center center`).css('background-size', 'cover');
+      $('#E91280F6_E7C6_3E53_A457_646995C99317').text(`valid from ${notBefore || 'N/A'} to ${notAfter || 'N/A'}`);
       bgColor = '#E8C8CF';
       fgColor = '#DC3545';
     }
 
-    browser.toCanvas(document.getElementById('EC948084_8C0A_CEBF_58C9_086046AB2456'), user + "|" + firstName + " " + lastName + "|" + email + "|" + clientDNInAMI + "|" + issuerDNInAMI, {
+    browser.toCanvas(document.getElementById('EC948084_8C0A_CEBF_58C9_086046AB2456'), `${user}|${firstName} ${lastName}|${email}|${clientDNInAMI}|${issuerDNInAMI}`, {
       color: {
         dark: fgColor,
         light: bgColor
@@ -38250,7 +38482,7 @@ function loadSubApp(subapp, userdata, options) {
 
   if (descr) {
     try {
-      loadScripts(js_AMIRouter.getOriginURL() + "/" + descr.file, {
+      loadScripts(`${js_AMIRouter.getOriginURL()}/${descr.file}`, {
         cache: cache
       }).then(() => {
         _internal_always(_currentSubappInstance.onExit(userdata), () => {
@@ -38270,20 +38502,20 @@ function loadSubApp(subapp, userdata, options) {
               fillBreadcrumb(descr.breadcrumb);
               result.resolveWith(context, [_currentSubappInstance]);
             }, message => {
-              result.rejectWith(context, ["cannot load subapp '" + subapp + "': " + message]);
+              result.rejectWith(context, [`cannot load subapp '${subapp}': ${message}`]);
             });
           }, message => {
-            result.rejectWith(context, ["cannot load subapp '" + subapp + "': " + message]);
+            result.rejectWith(context, [`cannot load subapp '${subapp}': ${message}`]);
           });
         });
       }, message => {
-        result.rejectWith(context, ["cannot load subapp '" + subapp + "': " + message]);
+        result.rejectWith(context, [`cannot load subapp '${subapp}': ${message}`]);
       });
     } catch (message) {
-      result.rejectWith(context, ["cannot load subapp '" + subapp + "': " + message]);
+      result.rejectWith(context, [`cannot load subapp '${subapp}': ${message}`]);
     }
   } else {
-    result.rejectWith(context, ["cannot load subapp '" + subapp + "': not found"]);
+    result.rejectWith(context, [`cannot load subapp '${subapp}': not found`]);
   }
 
   return result.promise();
@@ -38567,7 +38799,7 @@ function _setupCtx(ctxImmutables, ctxDefaults, ctxOptions, ctx, immutables, defa
       return _setupCtx(this.ctxImmutables, this.ctxDefaults, this.ctxOptions, this.ctx, immutables, defaults, options);
     },
     patchId: function (id) {
-      return id + "_scope" + this._instanceScope;
+      return `${id}_scope${this._instanceScope}`;
     },
     replaceHTML: function (selector, twig, options) {
       options = options || {};
@@ -38812,21 +39044,21 @@ class AMIWebApp {
 
     if (!AMIWebApp_classPrivateFieldLooseBase(this, _noBootstrap)[_noBootstrap] && typeof jQuery.fn.modal !== 'function') {
       if (this.bootstrapVersion === 4) {
-        resourcesJS.push(this.originURL + "/js/assets/css/bootstrap4.min.css");
-        resourcesJS.push(this.originURL + "/js/assets/js/bootstrap4.bundle.min.js");
+        resourcesJS.push(`${this.originURL}/js/assets/css/bootstrap4.min.css`);
+        resourcesJS.push(`${this.originURL}/js/assets/js/bootstrap4.bundle.min.js`);
       } else {
-        resourcesJS.push(this.originURL + "/js/assets/css/bootstrap5.min.css");
-        resourcesJS.push(this.originURL + "/js/assets/js/bootstrap5.bundle.min.js");
+        resourcesJS.push(`${this.originURL}/js/assets/css/bootstrap5.min.css`);
+        resourcesJS.push(`${this.originURL}/js/assets/js/bootstrap5.bundle.min.js`);
       }
     }
 
     if (!AMIWebApp_classPrivateFieldLooseBase(this, _noSelect)[_noSelect] && typeof jQuery.fn.select2 !== 'function') {
-      resourcesCSS.push(this.originURL + "/js/assets/css/select2.min.css");
-      resourcesJS.push(this.originURL + "/js/assets/js/select2.min.js");
+      resourcesCSS.push(`${this.originURL}/js/assets/css/select2.min.css`);
+      resourcesJS.push(`${this.originURL}/js/assets/js/select2.min.js`);
     }
 
     if (!AMIWebApp_classPrivateFieldLooseBase(this, _noMoment)[_noMoment] && typeof window.moment !== 'function') {
-      resourcesJS.push(this.originURL + "/js/assets/js/moment.min.js");
+      resourcesJS.push(`${this.originURL}/js/assets/js/moment.min.js`);
     }
 
     loadResources([...resourcesCSS, ...resourcesJS], {
@@ -38866,7 +39098,7 @@ class AMIWebApp {
 
   start(options) {
     AMIWebApp_classPrivateFieldLooseBase(this, _globalDeferred)[_globalDeferred].done(() => {
-      const [logoURL, backgroundURL, signInImageURL, homeURL, contactEmail, aboutURL, defaultThemeURL, dashboardThemeURL, lockerURL, endpointURL, signInText, ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, signOutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed, dashboardsAllowed] = setup(['logo_url', 'background_url', 'sign_in_image_url', 'home_url', 'contact_email', 'about_url', 'default_theme_url', 'dashboard_theme_url', 'locker_url', 'endpoint_url', 'sign_in_text', 'sso_auto_authentication', 'sso_authentication_allowed', 'password_authentication_allowed', 'certificate_authentication_allowed', 'sign_out_allowed', 'create_account_allowed', 'change_info_allowed', 'change_password_allowed', 'change_certificate_allowed', 'captcha_allowed', 'bookmarks_allowed', 'dashboards_allowed'], [logo_namespaceObject, background_namespaceObject, sign_in_image_namespaceObject, this.webAppURL, 'ami@lpsc.in2p3.fr', 'https://cern.ch/ami/', this.originURL + "/twig/v" + this.bootstrapVersion + "/Themes/blue.twig", this.originURL + "/twig/v" + this.bootstrapVersion + "/Themes/cloud.twig", this.originURL + "/twig/v" + this.bootstrapVersion + "/Lockers/default.twig", this.originURL + "/AMI/FrontEnd", 'Welcome in AMI!', false, false, true, true, true, true, true, true, true, true, true, true], options);
+      const [logoURL, backgroundURL, signInImageURL, homeURL, contactEmail, aboutURL, defaultThemeURL, dashboardThemeURL, lockerURL, endpointURL, signInText, ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, signOutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed, dashboardsAllowed] = setup(['logo_url', 'background_url', 'sign_in_image_url', 'home_url', 'contact_email', 'about_url', 'default_theme_url', 'dashboard_theme_url', 'locker_url', 'endpoint_url', 'sign_in_text', 'sso_auto_authentication', 'sso_authentication_allowed', 'password_authentication_allowed', 'certificate_authentication_allowed', 'sign_out_allowed', 'create_account_allowed', 'change_info_allowed', 'change_password_allowed', 'change_certificate_allowed', 'captcha_allowed', 'bookmarks_allowed', 'dashboards_allowed'], [logo_namespaceObject, background_namespaceObject, sign_in_image_namespaceObject, this.webAppURL, 'ami@lpsc.in2p3.fr', 'https://cern.ch/ami/', `${this.originURL}/twig/v${this.bootstrapVersion}/Themes/blue.twig`, `${this.originURL}/twig/v${this.bootstrapVersion}/Themes/cloud.twig`, `${this.originURL}/twig/v${this.bootstrapVersion}/Lockers/default.twig`, `${this.originURL}/AMI/FrontEnd`, 'Welcome in AMI!', false, false, true, true, true, true, true, true, true, true, true, true], options);
       js_AMICommand.initHttpClient(endpointURL);
 
       window.onbeforeunload = e => {
@@ -38881,8 +39113,8 @@ class AMIWebApp {
         }
       };
 
-      const controlsURL = this.originURL + "/controls/CONTROLS.json";
-      const subappsURL = this.originURL + "/subapps/SUBAPPS.json";
+      const controlsURL = `${this.originURL}/controls/CONTROLS.json`;
+      const subappsURL = `${this.originURL}/subapps/SUBAPPS.json`;
       $.ajax({
         url: controlsURL,
         cache: false,
@@ -38933,10 +39165,10 @@ class AMIWebApp {
                   });
                 });
               }, () => {
-                alert("could not open '" + lockerURL + "', please reload the page...");
+                alert(`could not open '${lockerURL}', please reload the page...`);
               });
             }, () => {
-              alert("could not open '" + themeURL + "', please reload the page...");
+              alert(`could not open '${themeURL}', please reload the page...`);
             });
           } else {
             let data3 = '';
@@ -38966,10 +39198,10 @@ class AMIWebApp {
             });
           }
         }, () => {
-          alert("cannot open '" + subappsURL + "', please reload the page...");
+          alert(`cannot open '${subappsURL}', please reload the page...`);
         });
       }, () => {
-        alert("cannot open '" + controlsURL + "', please reload the page...");
+        alert(`cannot open '${controlsURL}', please reload the page...`);
       });
     }).fail(message => {
       alert(message);
