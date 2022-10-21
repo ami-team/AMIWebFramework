@@ -7,13 +7,13 @@
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
  *
- * @global Viz, saveAs
+ * @global saveAs
  */
 
 import twigGraphCtrl from './assets/twig/GraphCtrl.twig';
 import twigGraph     from './assets/twig/graph.twig'    ;
 
-import Viz from 'viz.js';
+import {wasmFolder, graphviz} from '@hpcc-js/wasm';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -35,6 +35,10 @@ $AMIClass('GraphCtrl', {
 	{
 		this.fragmentGraphCtrl = twigGraphCtrl;
 		this.fragmentGraph = twigGraph;
+
+		//berk but don't know how to to this with webpack
+		wasmFolder('controls/Graph/assets/wasm');
+
 		return $.Deferred().resolve();
 	},
 
@@ -96,13 +100,6 @@ $AMIClass('GraphCtrl', {
 					this.exportSVG();
 				});
 
-				$(this.patchId('#D68E49F9_A0C7_C15D_8323_8BA215856428')).click((e) => {
-
-					e.preventDefault();
-
-					this.exportPNG();
-				});
-
 				/*----------------------------------------------------------------------------------------------------*/
 				/* FILTER                                                                                             */
 				/*----------------------------------------------------------------------------------------------------*/
@@ -158,66 +155,69 @@ $AMIClass('GraphCtrl', {
 
         /*------------------------------------------------------------------------------------------------------------*/
 
-        this.graph = typeof Viz !== 'undefined' ? Viz(this.dotString, 'svg') : '';
+		graphviz.layout(this.dotString, 'svg', 'dot').then(graph => {
 
-		/*------------------------------------------------------------------------------------------------------------*/
-		/* GRAPH POST TREATMENT                                                                                       */
-		/*------------------------------------------------------------------------------------------------------------*/
+			this.graph = graph;
 
-		this.graph = this.graph.replace(/xlink:href="([^"]*)"/g, (x, json) => {
+			/*--------------------------------------------------------------------------------------------------------*/
+			/* GRAPH POST TREATMENT                                                                                   */
+			/*--------------------------------------------------------------------------------------------------------*/
 
-			const jsonbObj = JSON.parse(amiWebApp.htmlToText(json));
+			this.graph = this.graph.replace(/xlink:href="([^"]*)"/g, (x, json) => {
 
-			const attrs = [
-				`data-ctrl="${amiWebApp.textToHtml(jsonbObj['data-ctrl'])}"`,
-				`data-ctrl-location="${amiWebApp.textToHtml(jsonbObj['data-ctrl-location'])}"`,
-				`data-params="${amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-params']))}"`,
-				`data-options="${amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-options']))}"`,
-				`data-icon="${amiWebApp.textToHtml(jsonbObj['data-icon'])}"`,
-				`data-title="${amiWebApp.textToHtml(jsonbObj['data-title'])}"`,
-				`data-title-icon="${amiWebApp.textToHtml(jsonbObj['data-title-icon'])}"`,
-			];
+				const jsonbObj = JSON.parse(amiWebApp.htmlToText(json));
 
-			return `xlink:href="#" ${attrs.join(' ')}`;
-		});
+				const attrs = [
+					`data-ctrl="${amiWebApp.textToHtml(jsonbObj['data-ctrl'])}"`,
+					`data-ctrl-location="${amiWebApp.textToHtml(jsonbObj['data-ctrl-location'])}"`,
+					`data-params="${amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-params']))}"`,
+					`data-options="${amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-options']))}"`,
+					`data-icon="${amiWebApp.textToHtml(jsonbObj['data-icon'])}"`,
+					`data-title="${amiWebApp.textToHtml(jsonbObj['data-title'])}"`,
+					`data-title-icon="${amiWebApp.textToHtml(jsonbObj['data-title-icon'])}"`,
+				];
 
-		/*--------------------------------------------------------------------------------------------------------*/
-
-		const doc = new DOMParser().parseFromString(this.graph, 'image/svg+xml');
-
-		const svg = $(doc.documentElement);
-
-		svg.find('a[data-title-icon]').each((i, el) => {
-
-			$(`<tspan font-family="bootstrap-icons" class="align-items-center">${String.fromCharCode(`0x${$(el).attr('data-title-icon').replace(/f1f8/,'f5dd')}`)}</tspan><tspan> </tspan>`).prependTo($(el).find('text'));
-		});
-
-		this.graph = doc.documentElement.outerHTML;
-
-        /*------------------------------------------------------------------------------------------------------------*/
-
-		const dict = {
-			graph : this.graph,
-		};
-
-		/*--------------------------------------------------------------------------------------------------------*/
-
-		this.replaceHTML(this.patchId('#A0F6763F_DE29_5185_35C1_DCAA81E8C487'), this.fragmentGraph, {dict: dict}).done(() => {
-
-			$(this.patchId('#A0F6763F_DE29_5185_35C1_DCAA81E8C487') + ' a[data-ctrl]').click((e) => {
-
-				e.preventDefault();
-
-				this.createControlFromWebLink(this.getParent(), e.currentTarget, this.ctx);
+				return `xlink:href="#" ${attrs.join(' ')}`;
 			});
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			amiWebApp.unlock();
+			const doc = new DOMParser().parseFromString(this.graph, 'image/svg+xml');
+
+			const svg = $(doc.documentElement);
+
+			svg.find('a[data-title-icon]').each((i, el) => {
+
+				$(`<tspan font-family="bootstrap-icons" class="align-items-center">${String.fromCharCode(`0x${$(el).attr('data-title-icon').replace(/f1f8/,'f5dd')}`)}</tspan><tspan> </tspan>`).prependTo($(el).find('text'));
+			});
+
+			this.graph = doc.documentElement.outerHTML;
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			result.resolveWith(this, [result]);
+			const dict = {
+				graph : this.graph,
+			};
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			this.replaceHTML(this.patchId('#A0F6763F_DE29_5185_35C1_DCAA81E8C487'), this.fragmentGraph, {dict: dict}).done(() => {
+
+				$(this.patchId('#A0F6763F_DE29_5185_35C1_DCAA81E8C487') + ' a[data-ctrl]').click((e) => {
+
+					e.preventDefault();
+
+					this.createControlFromWebLink(this.getParent(), e.currentTarget, this.ctx);
+				});
+
+				/*----------------------------------------------------------------------------------------------------*/
+
+				amiWebApp.unlock();
+
+				/*----------------------------------------------------------------------------------------------------*/
+
+				result.resolveWith(this, [result]);
+			});
 		});
 
 		return result.promise();
@@ -259,34 +259,6 @@ $AMIClass('GraphCtrl', {
 		});
 
 		saveAs(blob, 'graph.svg');
-	},
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	exportPNG: function()
-	{
-		Viz.svgXmlToPngBase64(this.graph, 1, this._exportPNG);
-	},
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	_exportPNG: function(err, data)
-    {
-		let binary_string = window.atob(data);
-		let len = binary_string.length;
-		let bytes = new Uint8Array(len);
-
-		for(let i = 0; i < len; i++)
-		{
-			bytes[i] = binary_string.charCodeAt(i);
-		}
-
-		const blob = new Blob([bytes.buffer], {
-			type: 'image/png',
-			endings : 'native',
-		});
-
-		saveAs(blob, 'graph.png');
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/

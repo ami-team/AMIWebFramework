@@ -20,6 +20,7 @@
     "@codemirror/language-data": "6.1.0",
     "@codemirror/state": "6.1.2",
     "@codemirror/view": "6.3.0",
+    "@hpcc-js/wasm": "1.16.5",
     "ami-http-client": "github:ami-team/AMIHTTPClientJS",
     "ami-mqtt-client": "github:ami-team/AMIMQTTClientJS",
     "ami-twig": "github:ami-team/AMITwigJS",
@@ -43,8 +44,7 @@
     "moment": "2.29.4",
     "moment-jdateformatparser": "1.2.1",
     "qrcode": "1.5.1",
-    "select2": "4.1.0-rc.0",
-    "viz.js": "2.1.2"
+    "select2": "4.1.0-rc.0"
   },
   "devDependencies": {
     "@babel/core": "7.19.3",
