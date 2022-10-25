@@ -15,7 +15,7 @@ import graphvizWASM from '../../node_modules/@hpcc-js/wasm/dist/graphvizlib.wasm
 import twigGraphCtrl from './assets/twig/GraphCtrl.twig';
 import twigGraph     from './assets/twig/graph.twig'    ;
 
-import {wasmFolder, graphviz} from '@hpcc-js/wasm';
+import {graphvizSync} from '@hpcc-js/wasm';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -35,12 +35,37 @@ $AMIClass('GraphCtrl', {
 
 	onReady: function()
 	{
+		const result = $.Deferred();
+
 		this.fragmentGraphCtrl = twigGraphCtrl;
 		this.fragmentGraph = twigGraph;
 
-		wasmFolder(graphvizWASM);
+		fetch(graphvizWASM).then((response) => {
 
-		return $.Deferred().resolve();
+			response.arrayBuffer().then((wasmBinary) => {
+
+				graphvizSync(null, wasmBinary).then((graphviz) => {
+
+					this.graphviz = graphviz;
+
+					result.resolve();
+
+				}).catch((e) => {
+
+					result.reject(e);
+				});
+
+			}).catch((e) => {
+
+				result.reject(e);
+			});
+
+		}).catch((e) => {
+
+			result.reject(e);
+		});
+
+		return result;
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -156,7 +181,7 @@ $AMIClass('GraphCtrl', {
 
         /*------------------------------------------------------------------------------------------------------------*/
 
-		graphviz.layout(this.dotString, 'svg', 'dot').then(graph => {
+		this.graphviz.layout(this.dotString, 'svg', 'dot').then(graph => {
 
 			this.graph = graph;
 
