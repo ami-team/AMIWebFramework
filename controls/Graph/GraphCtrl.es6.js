@@ -181,69 +181,66 @@ $AMIClass('GraphCtrl', {
 
         /*------------------------------------------------------------------------------------------------------------*/
 
-		this.graphviz.layout(this.dotString, 'svg', 'dot').then(graph => {
+		this.graph = this.graphviz.layout(this.dotString, 'svg', 'dot');
 
-			this.graph = graph;
+		/*------------------------------------------------------------------------------------------------------------*/
+		/* GRAPH POST TREATMENT                                                                                       */
+		/*------------------------------------------------------------------------------------------------------------*/
 
-			/*--------------------------------------------------------------------------------------------------------*/
-			/* GRAPH POST TREATMENT                                                                                   */
-			/*--------------------------------------------------------------------------------------------------------*/
+		this.graph = this.graph.replace(/xlink:href="([^"]*)"/g, (x, json) => {
 
-			this.graph = this.graph.replace(/xlink:href="([^"]*)"/g, (x, json) => {
+			const jsonbObj = JSON.parse(amiWebApp.htmlToText(json));
 
-				const jsonbObj = JSON.parse(amiWebApp.htmlToText(json));
+			const attrs = [
+				`data-ctrl="${amiWebApp.textToHtml(jsonbObj['data-ctrl'])}"`,
+				`data-ctrl-location="${amiWebApp.textToHtml(jsonbObj['data-ctrl-location'])}"`,
+				`data-params="${amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-params']))}"`,
+				`data-options="${amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-options']))}"`,
+				`data-icon="${amiWebApp.textToHtml(jsonbObj['data-icon'])}"`,
+				`data-title="${amiWebApp.textToHtml(jsonbObj['data-title'])}"`,
+				`data-title-icon="${amiWebApp.textToHtml(jsonbObj['data-title-icon'])}"`,
+			];
 
-				const attrs = [
-					`data-ctrl="${amiWebApp.textToHtml(jsonbObj['data-ctrl'])}"`,
-					`data-ctrl-location="${amiWebApp.textToHtml(jsonbObj['data-ctrl-location'])}"`,
-					`data-params="${amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-params']))}"`,
-					`data-options="${amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-options']))}"`,
-					`data-icon="${amiWebApp.textToHtml(jsonbObj['data-icon'])}"`,
-					`data-title="${amiWebApp.textToHtml(jsonbObj['data-title'])}"`,
-					`data-title-icon="${amiWebApp.textToHtml(jsonbObj['data-title-icon'])}"`,
-				];
+			return `xlink:href="#" ${attrs.join(' ')}`;
+		});
 
-				return `xlink:href="#" ${attrs.join(' ')}`;
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		const doc = new DOMParser().parseFromString(this.graph, 'image/svg+xml');
+
+		const svg = $(doc.documentElement);
+
+		svg.find('a[data-title-icon]').each((i, el) => {
+
+			$(`<tspan font-family="bootstrap-icons" class="align-items-center">${String.fromCharCode(`0x${$(el).attr('data-title-icon').replace(/f1f8/,'f5dd')}`)}</tspan><tspan> </tspan>`).prependTo($(el).find('text'));
+		});
+
+		this.graph = doc.documentElement.outerHTML;
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		const dict = {
+			graph : this.graph,
+		};
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		this.replaceHTML(this.patchId('#A0F6763F_DE29_5185_35C1_DCAA81E8C487'), this.fragmentGraph, {dict: dict}).done(() => {
+
+			$(this.patchId('#A0F6763F_DE29_5185_35C1_DCAA81E8C487') + ' a[data-ctrl]').click((e) => {
+
+				e.preventDefault();
+
+				this.createControlFromWebLink(this.getParent(), e.currentTarget, this.ctx);
 			});
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			const doc = new DOMParser().parseFromString(this.graph, 'image/svg+xml');
-
-			const svg = $(doc.documentElement);
-
-			svg.find('a[data-title-icon]').each((i, el) => {
-
-				$(`<tspan font-family="bootstrap-icons" class="align-items-center">${String.fromCharCode(`0x${$(el).attr('data-title-icon').replace(/f1f8/,'f5dd')}`)}</tspan><tspan> </tspan>`).prependTo($(el).find('text'));
-			});
-
-			this.graph = doc.documentElement.outerHTML;
+			amiWebApp.unlock();
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			const dict = {
-				graph : this.graph,
-			};
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			this.replaceHTML(this.patchId('#A0F6763F_DE29_5185_35C1_DCAA81E8C487'), this.fragmentGraph, {dict: dict}).done(() => {
-
-				$(this.patchId('#A0F6763F_DE29_5185_35C1_DCAA81E8C487') + ' a[data-ctrl]').click((e) => {
-
-					e.preventDefault();
-
-					this.createControlFromWebLink(this.getParent(), e.currentTarget, this.ctx);
-				});
-
-				/*----------------------------------------------------------------------------------------------------*/
-
-				amiWebApp.unlock();
-
-				/*----------------------------------------------------------------------------------------------------*/
-
-				result.resolveWith(this, [result]);
-			});
+			result.resolveWith(this, [result]);
 		});
 
 		return result.promise();
