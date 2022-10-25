@@ -10,7 +10,6 @@
  * @global saveAs
  */
 
-
 import graphvizWASM from '../../node_modules/@hpcc-js/wasm/dist/graphvizlib.wasm';
 
 import twigGraphCtrl from './assets/twig/GraphCtrl.twig';
