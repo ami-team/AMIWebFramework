@@ -15,6 +15,8 @@ import twigGraph     from './assets/twig/graph.twig'    ;
 
 import {wasmFolder, graphviz} from '@hpcc-js/wasm';
 
+import graphvizWASM from '@hpcc-js/wasm/dist/graphvizlib.wasm';
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 $AMIClass('GraphCtrl', {
@@ -37,7 +39,7 @@ $AMIClass('GraphCtrl', {
 		this.fragmentGraph = twigGraph;
 
 		//berk but don't know how to to this with webpack
-		wasmFolder('controls/Graph/assets/wasm');
+		wasmFolder(graphvizWASM);
 
 		return $.Deferred().resolve();
 	},

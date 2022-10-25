@@ -20,7 +20,7 @@
     "@codemirror/language-data": "6.1.0",
     "@codemirror/state": "6.1.2",
     "@codemirror/view": "6.3.0",
-    "@hpcc-js/wasm": "1.16.5",
+    "@hpcc-js/wasm": "1.18.0",
     "ami-http-client": "github:ami-team/AMIHTTPClientJS",
     "ami-mqtt-client": "github:ami-team/AMIMQTTClientJS",
     "ami-twig": "github:ami-team/AMITwigJS",

@@ -124,6 +124,13 @@ const config = {
 
 			{
 				'type': 'asset/resource',
+				'test': /\.wasm$/
+			},
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			{
+				'type': 'asset/resource',
 				'test': /\.(gif|png|jpg|jpeg|svg)$/,
 				'exclude': /node_modules/
 			},
