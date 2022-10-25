@@ -40,7 +40,7 @@ $AMIClass('GraphCtrl', {
 		this.fragmentGraphCtrl = twigGraphCtrl;
 		this.fragmentGraph = twigGraph;
 
-		fetch(graphvizWASM).then((response) => {
+		fetch(graphvizWASM, {mode: 'cors'}).then((response) => {
 
 			response.arrayBuffer().then((wasmBinary) => {
 
