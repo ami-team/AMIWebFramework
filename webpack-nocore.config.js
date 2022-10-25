@@ -42,7 +42,7 @@ function getResourceDirectory(filename)
 			return 'images';
 
 		case '.wasm':
-			return 'wasms';
+			return 'wasm';
 
 		default:
 			return 'others';
