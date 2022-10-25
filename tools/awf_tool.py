@@ -968,6 +968,27 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+function getResourceDirectory(filename)
+{
+	switch(path.extname(filename))
+	{
+		case '.gif':
+		case '.png':
+		case '.jpg':
+		case '.jpeg':
+		case '.svg':
+			return 'images';
+
+		case '.wasm':
+			return 'wasms';
+
+		default:
+			return 'others';
+	}
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
 const config = {
 	'entry': {
 %s
@@ -976,7 +997,7 @@ const config = {
 		'filename': '[name].min.js',
 		'chunkFilename': 'assets/js/chunks/[id].min.js',
 		'path': path.resolve(__dirname),
-		'assetModuleFilename': (o) => path.join(path.dirname(o.runtime), 'assets', 'images', '[hash][ext][query]')
+		'assetModuleFilename': (o) => path.join(path.dirname(o.runtime), 'assets', getResourceDirectory(o.filename), '[hash][ext][query]')
 	},
 	'devServer': {
 		'static': {

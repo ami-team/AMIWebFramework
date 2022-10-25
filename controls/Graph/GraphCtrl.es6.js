@@ -10,12 +10,13 @@
  * @global saveAs
  */
 
+
+import graphvizWASM from '../../node_modules/@hpcc-js/wasm/dist/graphvizlib.wasm';
+
 import twigGraphCtrl from './assets/twig/GraphCtrl.twig';
 import twigGraph     from './assets/twig/graph.twig'    ;
 
 import {wasmFolder, graphviz} from '@hpcc-js/wasm';
-
-import graphvizWASM from '@hpcc-js/wasm/dist/graphvizlib.wasm';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -38,7 +39,6 @@ $AMIClass('GraphCtrl', {
 		this.fragmentGraphCtrl = twigGraphCtrl;
 		this.fragmentGraph = twigGraph;
 
-		//berk but don't know how to to this with webpack
 		wasmFolder(graphvizWASM);
 
 		return $.Deferred().resolve();
