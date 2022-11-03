@@ -20,7 +20,7 @@ import amiWebApp from '../AMIWebApp';
 import amiTwig from 'ami-twig';
 
 import 'flatpickr/dist/flatpickr.min.css';
-import /*-------*/'flatpickr'/*-------*/;
+import flatpickr from 'flatpickr';
 
 import * as cm_view from '@codemirror/view';
 import * as cm_state from '@codemirror/state';
@@ -200,11 +200,11 @@ function _injectCodeMirrorStep1(editors)
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	editors.each((_, item) => {
+	editors.each((_, element) => {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const textarea = $(item);
+		const textarea = $(element);
 
 		const div = $('<div>', {
 			'class': textarea.attr('class')
@@ -367,44 +367,56 @@ function _xxxHTML(selector, twig, mode, options)
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		_find('input.form-datetime').flatpickr({
-			time_24hr: true,
-			enableTime: true,
-			enableSeconds: true,
-			noCalendar: false,
-			dateFormat: _datetimeFormat,
-			parseDate: _parseDatetime,
-			formatDate: _formatDatetime,
+		_find('input.form-datetime').each((_, element) => {
+
+			flatpickr(element, {
+				time_24hr: true,
+				enableTime: true,
+				enableSeconds: true,
+				noCalendar: false,
+				dateFormat: _datetimeFormat,
+				parseDate: _parseDatetime,
+				formatDate: _formatDatetime,
+			});
 		});
 
-		_find('input.form-date').flatpickr({
-			time_24hr: true,
-			enableTime: false,
-			enableSeconds: false,
-			noCalendar: false,
-			dateFormat: _dateFormat,
-			parseDate: _parseDatetime,
-			formatDate: _formatDatetime,
+		_find('input.form-date').each((_, element) => {
+
+			flatpickr(element, {
+				time_24hr: true,
+				enableTime: false,
+				enableSeconds: false,
+				noCalendar: false,
+				dateFormat: _dateFormat,
+				parseDate: _parseDatetime,
+				formatDate: _formatDatetime,
+			});
 		});
 
-		_find('input.form-time').flatpickr({
-			time_24hr: true,
-			enableTime: true,
-			enableSeconds: true,
-			noCalendar: true,
-			dateFormat: _timeHMSFormat,
-			parseDate: _parseDatetime,
-			formatDate: _formatDatetime,
+		_find('input.form-time').each((_, element) => {
+
+			flatpickr(element, {
+				time_24hr: true,
+				enableTime: true,
+				enableSeconds: true,
+				noCalendar: true,
+				dateFormat: _timeHMSFormat,
+				parseDate: _parseDatetime,
+				formatDate: _formatDatetime,
+			});
 		});
 
-		_find('input.form-time-hm').flatpickr({
-			time_24hr: true,
-			enableTime: true,
-			enableSeconds: false,
-			noCalendar: true,
-			dateFormat: _timeHMFormat,
-			parseDate: _parseDatetime,
-			formatDate: _formatDatetime,
+		_find('input.form-time-hm').each((_, element) => {
+
+			flatpickr(element, {
+				time_24hr: true,
+				enableTime: true,
+				enableSeconds: false,
+				noCalendar: true,
+				dateFormat: _timeHMFormat,
+				parseDate: _parseDatetime,
+				formatDate: _formatDatetime,
+			});
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/

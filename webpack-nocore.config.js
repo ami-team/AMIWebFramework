@@ -86,6 +86,7 @@ const config = {
 		'subapps/SearchModeler/SearchModelerApp': path.resolve(__dirname, 'subapps/SearchModeler/SearchModelerApp.es6.js'),
 		'subapps/SimpleSearch/SimpleSearchApp': path.resolve(__dirname, 'subapps/SimpleSearch/SimpleSearchApp.es6.js'),
 		'subapps/TableViewer/TableViewerApp': path.resolve(__dirname, 'subapps/TableViewer/TableViewerApp.es6.js'),
+		'subapps/TaskMonitoring/TaskMonitoringApp': path.resolve(__dirname, 'subapps/TaskMonitoring/TaskMonitoringApp.es6.js'),
 		'subapps/UserDashboard/UserDashboardApp': path.resolve(__dirname, 'subapps/UserDashboard/UserDashboardApp.es6.js')
 	},
 	'output': {
@@ -105,7 +106,6 @@ const config = {
 
 			{
 				'test': /\.js$/,
-				'exclude': /node_modules/,
 				'use': {
 					'loader': 'babel-loader',
 					'options': {
@@ -159,8 +159,8 @@ const config = {
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			{
-				'test': /\.css$/,
-				'use': [
+				test: /\.css$/,
+				use: [
 					'style-loader',
 					'css-loader',
 					{
@@ -174,7 +174,7 @@ const config = {
 						}
 					}
 				]
-			},
+			}
 
 			/*--------------------------------------------------------------------------------------------------------*/
 		]

@@ -78,10 +78,10 @@
         "instance": "searchModelerApp"
     },
     "simpleSearch": {
-		"breadcrumb": [
-			"Metadata",
-			"<a href=\"{{WEBAPP_URL}}?subapp=simpleSearch\">Simple Search</a>"
-		],
+        "breadcrumb": [
+            "Metadata",
+            "<a href=\"{{WEBAPP_URL}}?subapp=simpleSearch\">Simple Search</a>"
+        ],
         "file": "subapps/SimpleSearch/SimpleSearchApp.min.js",
         "instance": "simpleSearchApp"
     },
@@ -92,6 +92,11 @@
         ],
         "file": "subapps/TableViewer/TableViewerApp.min.js",
         "instance": "tableViewerApp"
+    },
+    "taskMonitoring": {
+        "breadcrumb": [],
+        "file": "subapps/TaskMonitoring/TaskMonitoringApp.min.js",
+        "instance": "taskMonitoringApp"
     },
     "userDashboard": {
         "breadcrumb": [

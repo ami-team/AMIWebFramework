@@ -33553,7 +33553,7 @@ if (typeof window !== "undefined") {
   window.flatpickr = flatpickr;
 }
 
-/* harmony default export */ const esm = ((/* unused pure expression or super */ null && (flatpickr)));
+/* harmony default export */ const esm = (flatpickr);
 // EXTERNAL MODULE: ./node_modules/@codemirror/view/dist/index.js + 1 modules
 var dist = __webpack_require__(9732);
 // EXTERNAL MODULE: ./node_modules/@codemirror/state/dist/index.js
@@ -36635,8 +36635,8 @@ function _injectCodeMirrorStep1(editors) {
     textarea.data('editorView', editorView);
   };
 
-  editors.each((_, item) => {
-    const textarea = $(item);
+  editors.each((_, element) => {
+    const textarea = $(element);
     const div = $('<div>', {
       'class': textarea.attr('class').replace(/form-editor[\-a-zA-Z]*/g, 'form-editor-codemirror'),
       'style': textarea.attr('style')
@@ -36735,44 +36735,52 @@ function _xxxHTML(selector, twig, mode, options) {
       });
     }
 
-    _find('input.form-datetime').flatpickr({
-      time_24hr: true,
-      enableTime: true,
-      enableSeconds: true,
-      noCalendar: false,
-      dateFormat: _datetimeFormat,
-      parseDate: _parseDatetime,
-      formatDate: _formatDatetime
+    _find('input.form-datetime').each((_, element) => {
+      esm(element, {
+        time_24hr: true,
+        enableTime: true,
+        enableSeconds: true,
+        noCalendar: false,
+        dateFormat: _datetimeFormat,
+        parseDate: _parseDatetime,
+        formatDate: _formatDatetime
+      });
     });
 
-    _find('input.form-date').flatpickr({
-      time_24hr: true,
-      enableTime: false,
-      enableSeconds: false,
-      noCalendar: false,
-      dateFormat: _dateFormat,
-      parseDate: _parseDatetime,
-      formatDate: _formatDatetime
+    _find('input.form-date').each((_, element) => {
+      esm(element, {
+        time_24hr: true,
+        enableTime: false,
+        enableSeconds: false,
+        noCalendar: false,
+        dateFormat: _dateFormat,
+        parseDate: _parseDatetime,
+        formatDate: _formatDatetime
+      });
     });
 
-    _find('input.form-time').flatpickr({
-      time_24hr: true,
-      enableTime: true,
-      enableSeconds: true,
-      noCalendar: true,
-      dateFormat: _timeHMSFormat,
-      parseDate: _parseDatetime,
-      formatDate: _formatDatetime
+    _find('input.form-time').each((_, element) => {
+      esm(element, {
+        time_24hr: true,
+        enableTime: true,
+        enableSeconds: true,
+        noCalendar: true,
+        dateFormat: _timeHMSFormat,
+        parseDate: _parseDatetime,
+        formatDate: _formatDatetime
+      });
     });
 
-    _find('input.form-time-hm').flatpickr({
-      time_24hr: true,
-      enableTime: true,
-      enableSeconds: false,
-      noCalendar: true,
-      dateFormat: _timeHMFormat,
-      parseDate: _parseDatetime,
-      formatDate: _formatDatetime
+    _find('input.form-time-hm').each((_, element) => {
+      esm(element, {
+        time_24hr: true,
+        enableTime: true,
+        enableSeconds: false,
+        noCalendar: true,
+        dateFormat: _timeHMFormat,
+        parseDate: _parseDatetime,
+        formatDate: _formatDatetime
+      });
     });
 
     const editors = _find('.form-editor:not(.form-editor-done)').addClass('form-editor-done');
