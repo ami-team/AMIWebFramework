@@ -94,7 +94,10 @@
         "instance": "tableViewerApp"
     },
     "taskMonitoring": {
-        "breadcrumb": [],
+        "breadcrumb": [
+            "Admin",
+            "<a href=\"{{WEBAPP_URL}}?subapp=taskMonitoring\">Task Monitoring</a>"
+        ],
         "file": "subapps/TaskMonitoring/TaskMonitoringApp.min.js",
         "instance": "taskMonitoringApp"
     },
