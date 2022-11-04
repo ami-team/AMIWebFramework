@@ -30002,7 +30002,7 @@ var _onMessageArrived = client_classPrivateFieldLooseKey("onMessageArrived");
 var _onMessageDelivered = client_classPrivateFieldLooseKey("onMessageDelivered");
 
 class AMIMQTTClient {
-  constructor(endpoint, options) {
+  constructor(_endpoint, options) {
     var _this = this;
 
     Object.defineProperty(this, _onMessageDelivered, {
@@ -30049,12 +30049,14 @@ class AMIMQTTClient {
       return v.toString(16);
     });
     this._uuid = uuid;
-    this._endpoint = endpoint;
+    this._endpoint = _endpoint;
+    this._discoveryTopic = options.discoveryTopic;
+    this._triggerDiscoveryTopic = options.triggerDiscoveryTopic;
     this._userOnConnected = options.onConnected || null;
     this._userOnConnectionLost = options.onConnectionLost || null;
     this._userOnMessageArrived = options.onMessageArrived || null;
     this._userOnMessageDelivered = options.onMessageDelivered || null;
-    const url = new URL(endpoint);
+    const url = new URL(_endpoint);
     this._useSSL = url.protocol === 'wss:';
     this._client = new paho_mqtt.Client(url.hostname, parseInt(url.port || '443'), url.pathname, uuid);
 
@@ -30112,45 +30114,45 @@ class AMIMQTTClient {
   }
 
   signInByToken(password, serverName) {
-    const result = $.Deferred();
-    serverName = serverName || '<null>';
-    const username = parseJwt(password).sub;
+    return new Promise((resolve, reject) => {
+      const username = parseJwt(password).sub;
 
-    if (username) {
-      this._username = username;
-      this._serverName = serverName;
+      if (username) {
+        this._username = username;
+        this._serverName = serverName;
 
-      this._client.connect({
-        useSSL: this._useSSL,
-        userName: username,
-        password: password,
-        reconnect: true,
-        onSuccess: () => {
-          result.resolve(this._uuid);
-        },
-        onFailure: (x, y, errorMessage) => {
-          result.reject(errorMessage);
+        if (this._serverName || this._discoveryTopic) {
+          this._client.connect({
+            useSSL: this._useSSL,
+            userName: username,
+            password: password,
+            reconnect: true,
+            onSuccess: () => {
+              resolve(this._uuid);
+            },
+            onFailure: (x, y, errorMessage) => {
+              reject(errorMessage);
+            }
+          });
+        } else {
+          reject('option `discoveryTopic` is null');
         }
-      });
-    } else {
-      result.reject('invalid token');
-    }
-
-    return result.promise();
+      } else {
+        reject('invalid token');
+      }
+    });
   }
 
   signOut() {
-    const result = $.Deferred();
+    return new Promise((resolve, reject) => {
+      try {
+        this._client.disconnect();
 
-    try {
-      this._client.disconnect();
-
-      result.resolve(this._uuid);
-    } catch (errorMessage) {
-      result.resolve(errorMessage);
-    }
-
-    return result.promise();
+        resolve(this._uuid);
+      } catch (errorMessage) {
+        reject(errorMessage);
+      }
+    });
   }
 
   isConnected() {
@@ -30165,52 +30167,44 @@ class AMIMQTTClient {
     return this._endpoint;
   }
 
-  getUsername() {
-    return this._username;
-  }
-
   getServerName() {
     return this._serverName;
   }
 
-  setServerName(serverName) {
-    this._serverName = serverName;
+  getUsername() {
+    return this._username;
   }
 
   subscribe(topic, options) {
     options = options || {};
-    const result = $.Deferred();
-
-    this._client.subscribe(topic, {
-      qos: options.qos || 0,
-      timeout: options.timeout || 10000,
-      onSuccess: () => {
-        result.resolve();
-      },
-      onFailure: (x, y, errorMessage) => {
-        result.reject(errorMessage);
-      }
+    return new Promise((resolve, reject) => {
+      this._client.subscribe(topic, {
+        qos: options.qos || 0,
+        timeout: options.timeout || 10000,
+        onSuccess: () => {
+          resolve();
+        },
+        onFailure: (x, y, errorMessage) => {
+          reject(errorMessage);
+        }
+      });
     });
-
-    return result.promise();
   }
 
   unsubscribe(topic, options) {
     options = options || {};
-    const result = $.Deferred();
-
-    this._client.unsubscribe(topic, {
-      qos: options.qos || 0,
-      timeout: options.timeout || 10000,
-      onSuccess: () => {
-        result.resolve();
-      },
-      onFailure: (x, y, errorMessage) => {
-        result.reject(errorMessage);
-      }
+    return new Promise((resolve, reject) => {
+      this._client.unsubscribe(topic, {
+        qos: options.qos || 0,
+        timeout: options.timeout || 10000,
+        onSuccess: () => {
+          resolve();
+        },
+        onFailure: (x, y, errorMessage) => {
+          reject(errorMessage);
+        }
+      });
     });
-
-    return result.promise();
   }
 
   send(topic, payload, options) {
@@ -30224,7 +30218,7 @@ class AMIMQTTClient {
 
     this._client.send(message);
 
-    return $.Deferred().resolve(token).promise();
+    return token;
   }
 
   execute(command, options) {
@@ -30246,15 +30240,18 @@ class AMIMQTTClient {
 
     this._client.send(message);
 
-    const result = client_classPrivateFieldLooseBase(this, _L)[_L][token] = $.Deferred();
-    setTimeout(() => {
-      if (token in client_classPrivateFieldLooseBase(this, _L)[_L]) {
-        client_classPrivateFieldLooseBase(this, _L)[_L][token].reject('timeout', token);
-
-        delete client_classPrivateFieldLooseBase(this, _L)[_L][token];
-      }
-    }, options.timeout || 10000);
-    return result.promise();
+    return new Promise((resolve, reject) => {
+      client_classPrivateFieldLooseBase(this, _L)[_L][token] = {
+        resolve: resolve,
+        reject: reject
+      };
+      setTimeout(() => {
+        if (token in client_classPrivateFieldLooseBase(this, _L)[_L]) {
+          reject('timeout', token);
+          delete client_classPrivateFieldLooseBase(this, _L)[_L][token];
+        }
+      }, options.timeout || 10000);
+    });
   }
 
   jspath(path, json) {
@@ -30263,18 +30260,28 @@ class AMIMQTTClient {
 
 }
 
-function _onConnected2(reconnect, serverURL) {
+function _onConnected2(reconnect, endpoint) {
   client_classPrivateFieldLooseBase(this, _connected)[_connected] = true;
 
   if (reconnect) {
-    console.log(`onConnected: client \`${this._uuid}\` reconnected to server URL \`${serverURL}\``);
+    console.log(`onConnected: client \`${this._uuid}\` reconnected to server URL \`${this._endpoint}\``);
   } else {
-    console.log(`onConnected: client \`${this._uuid}\` connected to server URL \`${serverURL}\``);
+    console.log(`onConnected: client \`${this._uuid}\` connected to server URL \`${this._endpoint}\``);
   }
 
-  this.subscribe(this._uuid).always(() => {
-    if (this._userOnConnected) {
-      this._userOnConnected(this, reconnect, serverURL);
+  this.subscribe(this._uuid).finally(() => {
+    if (!this._serverName) {
+      if (this._discoveryTopic) {
+        this.subscribe(this._discoveryTopic).then(() => {
+          if (this._triggerDiscoveryTopic) {
+            this.send(this._triggerDiscoveryTopic, '{}');
+          }
+        });
+      }
+    } else {
+      if (this._userOnConnected) {
+        this._userOnConnected(this, reconnect, endpoint);
+      }
     }
   });
 }
@@ -30294,21 +30301,35 @@ function _onConnectionLost2(responseObject) {
 function _onMessageArrived2(message) {
   const m = message.payloadString.match(client_classPrivateFieldLooseBase(this, _responseRegExp)[_responseRegExp]);
 
-  if (message.topic === this._uuid && m) {
+  if (message.topic === this._discoveryTopic && !this._serverName) {
+    const json = JSON.parse(message.payloadString);
+
+    if (json['server_name']) {
+      this._serverName = json['server_name'];
+
+      if (this._userOnConnected) {
+        this._userOnConnected(this, false, this._endpoint);
+      }
+    }
+  } else if (message.topic === this._uuid && m) {
     const token = parseInt(m[1]);
     const json = m[2];
     const data = m[3];
 
     if (token in client_classPrivateFieldLooseBase(this, _L)[_L]) {
       if (json === 'true') {
-        const json = JSON.parse(data);
-        const info = jspath_default().apply('.AMIMessage.info.$', json);
-        const error = jspath_default().apply('.AMIMessage.error.$', json);
+        try {
+          const json = JSON.parse(data);
+          const info = jspath_default().apply('.AMIMessage.info.$', json);
+          const error = jspath_default().apply('.AMIMessage.error.$', json);
 
-        if (error.length === 0) {
-          client_classPrivateFieldLooseBase(this, _L)[_L][token].resolve(json, info.join('. '), token);
-        } else {
-          client_classPrivateFieldLooseBase(this, _L)[_L][token].reject(json, error.join('. '), token);
+          if (error.length === 0) {
+            client_classPrivateFieldLooseBase(this, _L)[_L][token].resolve(json, info.join('. '), token);
+          } else {
+            client_classPrivateFieldLooseBase(this, _L)[_L][token].reject(json, error.join('. '), token);
+          }
+        } catch (e) {
+          client_classPrivateFieldLooseBase(this, _L)[_L][token].reject({}, 'invalid JSON', token);
         }
       } else {
         client_classPrivateFieldLooseBase(this, _L)[_L][token].resolve(data, '', token);
