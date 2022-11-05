@@ -205,7 +205,7 @@ $AMIClass('SimpleSearchApp', {
 
 		const searchInterface = this.searchInterfaces[id];
 
-		this.tabCtrl.appendItem(searchInterface.name, {context: this, closable: true}).done((sel) => {
+		this.tabCtrl.appendItem(searchInterface.name, {closable: true}).done((sel) => {
 
 			searchInterface.json.name = searchInterface.name;
 

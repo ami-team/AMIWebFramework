@@ -33,7 +33,7 @@ $AMIClass('SimpleSearchCtrl', {
 	{
 		return amiWebApp.loadResources([
 			'ctrl:tab',
-		], {context: this}).done(function(data) {
+		]).done((data) => {
 
 			this.fragmentSimpleSearch = twigSimpleSearchCtrl;
 
