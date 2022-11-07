@@ -93,16 +93,71 @@ class AMICommand
 	/**
 	 * Executes an AMI command
 	 * @param {string} command the command
-	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (mqtt, endpoint, serverName, converter, extras, params, context, timeout)
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (mqtt, endpoint, serverName, converter, extras, params, timeout)
 	 * @returns {$.Promise} A JQuery promise object
 	 */
 
 	execute(command, options)
 	{
-		return (typeof options === 'object' && 'mqtt' in options) ? this.#mqttClient.execute(command, options)
-			                                                      : this.#httpClient.execute(command, options)
+		const result = $.Deferred();
+
+		const promise = (typeof options === 'object' && 'mqtt' in options) ? this.#mqttClient.execute(command, options)
+			                                                               : this.#httpClient.execute(command, options)
 		;
+
+		promise.then((response) => {
+
+			result.resolve(
+				response.data,
+				response.message,
+				response.urlWithParameters
+			);
+
+		}).catch((response) => {
+
+			result.reject(
+				response.data,
+				response.message,
+				response.urlWithParameters
+			);
+		});
+
+		return result;
 	 }
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	static #toDeferred(promise)
+	{
+		const result = $.Deferred();
+
+		promise.then((response) => {
+
+			result.resolve(
+				response.data,
+				response.message,
+				response.userInfo,
+				response.roleInfo,
+				response.bookmarkInfo,
+				response.dashboardInfo,
+				response.awfInfo
+			);
+
+		}).catch((response) => {
+
+			result.reject(
+				response.data,
+				response.message,
+				response.userInfo,
+				response.roleInfo,
+				response.bookmarkInfo,
+				response.dashboardInfo,
+				response.awfInfo
+			);
+		});
+
+		return result;
+	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -110,25 +165,26 @@ class AMICommand
 	 * Signs in by JWT token (MQTT client)
 	 * @param {string} token the password
 	 * @param {string} serverName the server name
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (endpoint, timeout)
 	 * @returns {$.Promise} A JQuery promise object
 	 */
 
-	 mqttSignInByToken(token, serverName)
+	 mqttSignInByToken(token, serverName, options)
 	 {
-	 	return this.#mqttClient.signInByToken(token, serverName);
+		 return AMICommand.#toDeferred(this.#mqttClient.signInByToken(token, serverName));
 	 }
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
 	 * Signs out (MQTT client)
-	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (endpoint, timeout)
 	 * @returns {$.Promise} A JQuery promise object
 	 */
 
 	mqttSignOut(options)
 	{
-		return this.#mqttClient.signOut(options);
+		return AMICommand.#toDeferred(this.#mqttClient.signOut(options));
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -136,13 +192,13 @@ class AMICommand
 	/**
 	 * Signs in by code (HTTP client)
 	 * @param {string} code the code
-	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (endpoint, timeout)
 	 * @returns {$.Promise} A JQuery promise object
 	 */
 
 	signInByCode(code, options)
 	{
-		return this.#httpClient.signInByCode(code, options);
+		return AMICommand.#toDeferred(this.#httpClient.signInByCode(code, options));
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -150,13 +206,13 @@ class AMICommand
 	/**
 	 * Signs in by token (HTTP client)
 	 * @param {string} token the token
-	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (endpoint, timeout)
 	 * @returns {$.Promise} A JQuery promise object
 	 */
 
 	signInByToken(token, options)
 	{
-		return this.#httpClient.signInByToken(token, options);
+		return AMICommand.#toDeferred(this.#httpClient.signInByToken(token, options));
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -165,41 +221,41 @@ class AMICommand
 	 * Signs in by login/password (HTTP client)
 	 * @param {string} username the username
 	 * @param {string} password the password
-	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (endpoint, timeout)
 	 * @returns {$.Promise} A JQuery promise object
 	 */
 
 	signInByPassword(username, password, options)
 	{
-		return this.#httpClient.signInByPassword(username, password, options);
+		return AMICommand.#toDeferred(this.#httpClient.signInByPassword(username, password, options));
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
 	 * Signs in by certificate (HTTP client)
-	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (endpoint, timeout)
 	 * @returns {$.Promise} A JQuery promise object
 	 */
 
 	signInByCertificate(options)
 	{
-		return this.#httpClient.signInByCertificate(options);
+		return AMICommand.#toDeferred(this.#httpClient.signInByCertificate(options));
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
 	 * Signs out (HTTP client)
-	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (endpoint, timeout)
 	 * @returns {$.Promise} A JQuery promise object
 	 */
 
 	signOut(options)
 	{
-		return this.#httpClient.signOut(options).always(() => {
+		return AMICommand.#toDeferred(this.#httpClient.signOut(options)).always(() => {
 			/*
-			return this.#mqttClient.signOut(options).done(() => {
+			return AMICommand.#toDeferred(this.#mqttClient.signOut(options)).done(() => {
 
 				console.log('MQTT connection closed too');
 			});
@@ -211,7 +267,7 @@ class AMICommand
 
 	/**
 	 * Attaches a certificate
-	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (endpoint, converter, extras, timeout)
 	 * @returns {$.Promise} A JQuery promise object
 	 */
 
@@ -226,7 +282,7 @@ class AMICommand
 
 	/**
 	 * Detaches a certificate
-	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (endpoint, converter, extras, timeout)
 	 * @returns {$.Promise} A JQuery promise object
 	 */
 
@@ -250,7 +306,7 @@ class AMICommand
 	 * @param {string} captchaText the captcha text entered by the username
 	 * @param {boolean} attachCert attach the current certificate
 	 * @param {boolean} agree agree with the terms and conditions
-	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (endpoint, converter, extras, timeout)
 	 * @returns {$.Promise} A JQuery promise object
 	 */
 
@@ -270,7 +326,7 @@ class AMICommand
 	 * @param {string} firstName the first name
 	 * @param {string} lastName the last name
 	 * @param {string} email the email
-	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (endpoint, converter, extras, timeout)
 	 * @returns {$.Promise} A JQuery promise object
 	 */
 
@@ -290,7 +346,7 @@ class AMICommand
 	 * @param {string} username the username
 	 * @param {string} oldPassword the old password
 	 * @param {string} newPassword the new password
-	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (endpoint, converter, extras, timeout)
 	 * @returns {$.Promise} A JQuery promise object
 	 */
 
@@ -310,7 +366,7 @@ class AMICommand
 	 * @param {string} username the username
 	 * @param {string} captchaHash the captcha hash generated by AMI
 	 * @param {string} captchaText the captcha text entered by the username
-	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (endpoint, converter, extras, timeout)
 	 * @returns {$.Promise} A JQuery promise object
 	 */
 

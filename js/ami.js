@@ -29693,6 +29693,10 @@ var _converter = _classPrivateFieldLooseKey("converter");
 
 var _paramRegExp = _classPrivateFieldLooseKey("paramRegExp");
 
+var _errorMessage = _classPrivateFieldLooseKey("errorMessage");
+
+var _response = _classPrivateFieldLooseKey("response");
+
 var _guest = _classPrivateFieldLooseKey("guest");
 
 var _getUserInfo = _classPrivateFieldLooseKey("getUserInfo");
@@ -29701,9 +29705,6 @@ class AMIHTTPClient {
   constructor(endpoint) {
     Object.defineProperty(this, _getUserInfo, {
       value: _getUserInfo2
-    });
-    Object.defineProperty(this, _guest, {
-      value: _guest2
     });
     this.version = '{{VERSION}}';
     Object.defineProperty(this, _endpoint, {
@@ -29718,6 +29719,10 @@ class AMIHTTPClient {
       writable: true,
       value: new RegExp('-\\W*([a-zA-Z][a-zA-Z0-9]*)\\W*=\\W*\\?', 'g')
     });
+    Object.defineProperty(this, _errorMessage, {
+      writable: true,
+      value: 'resource temporarily unreachable'
+    });
     _classPrivateFieldLooseBase(this, _endpoint)[_endpoint] = endpoint;
   }
 
@@ -29727,7 +29732,6 @@ class AMIHTTPClient {
 
   execute(command, options) {
     options = options || {};
-    const result = $.Deferred();
 
     const endpoint = (options.endpoint || _classPrivateFieldLooseBase(this, _endpoint)[_endpoint]).trim();
 
@@ -29735,7 +29739,6 @@ class AMIHTTPClient {
 
     const extras = options.extras || {};
     const params = options.params || [];
-    const context = options.context || result;
     const timeout = options.timeout || 120000;
     command = (command || '').trim().replace(_classPrivateFieldLooseBase(this, _paramRegExp)[_paramRegExp], (x, y) => {
       const rawValue = params.shift();
@@ -29746,121 +29749,151 @@ class AMIHTTPClient {
       Converter: converter,
       ...extras
     };
+    const body = Object.entries(data).map(_ref => {
+      let [k, v] = _ref;
+      return `${encodeURIComponent(k)}=${encodeURIComponent(v)}`;
+    }).join('&');
     const url = endpoint;
-    const urlWithParameters = endpoint + '?' + $.param(data);
+    const urlWithParameters = endpoint + '?' + body;
+    return new Promise((resolve, reject) => {
+      if (converter === 'AMIXmlToJson.xsl') {
+        let inTime = true;
+        const timeoutId = setTimeout(() => {
+          reject(_classPrivateFieldLooseBase(AMIHTTPClient, _response)[_response]('timeout', 'timeout', urlWithParameters, true));
+          inTime = false;
+        }, timeout);
+        fetch(url, {
+          body: body,
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+          },
+          credentials: 'include',
+          cache: 'no-cache',
+          mode: 'cors'
+        }).finally(() => {
+          clearTimeout(timeoutId);
+        }).then(response => {
+          if (inTime) {
+            response.json().then(data => {
+              const info = jspath_default().apply('.AMIMessage.info.$', data);
+              const error = jspath_default().apply('.AMIMessage.error.$', data);
 
-    if (converter === 'AMIXmlToJson.xsl') {
-      $.ajax({
-        url: url,
-        data: data,
-        type: 'POST',
-        timeout: timeout,
-        dataType: 'json',
-        xhrFields: {
-          withCredentials: true
-        },
-        success: data => {
-          const info = jspath_default().apply('.AMIMessage.info.$', data);
-          const error = jspath_default().apply('.AMIMessage.error.$', data);
-
-          if (error.length === 0) {
-            result.resolveWith(context, [data, info.join('. '), urlWithParameters]);
-          } else {
-            result.rejectWith(context, [data, error.join('. '), urlWithParameters]);
+              if (error.length === 0) {
+                resolve(_classPrivateFieldLooseBase(AMIHTTPClient, _response)[_response](data, info.join('. '), urlWithParameters, false));
+              } else {
+                reject(_classPrivateFieldLooseBase(AMIHTTPClient, _response)[_response](data, error.join('. '), urlWithParameters, true));
+              }
+            }).catch(() => {
+              reject(_classPrivateFieldLooseBase(AMIHTTPClient, _response)[_response](_classPrivateFieldLooseBase(this, _errorMessage)[_errorMessage], _classPrivateFieldLooseBase(this, _errorMessage)[_errorMessage], urlWithParameters, true));
+            });
           }
-        },
-        error: (jqXHR, textStatus) => {
-          if (textStatus === 'error') {
-            textStatus = 'service temporarily unreachable';
+        }).catch(() => {
+          if (inTime) {
+            reject(_classPrivateFieldLooseBase(AMIHTTPClient, _response)[_response](_classPrivateFieldLooseBase(this, _errorMessage)[_errorMessage], _classPrivateFieldLooseBase(this, _errorMessage)[_errorMessage], urlWithParameters, true));
           }
-
-          if (textStatus === 'parsererror') {
-            textStatus = 'resource temporarily unreachable';
+        });
+      } else {
+        let inTime = true;
+        const timeoutId = setTimeout(() => {
+          reject(_classPrivateFieldLooseBase(AMIHTTPClient, _response)[_response]('timeout', 'timeout', urlWithParameters, false));
+          inTime = false;
+        }, timeout);
+        fetch(url, {
+          body: body,
+          method: 'POST',
+          headers: {
+            'Accept': 'text/plain',
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+          },
+          credentials: 'include',
+          cache: 'no-cache',
+          mode: 'cors'
+        }).finally(() => {
+          clearTimeout(timeoutId);
+        }).then(response => {
+          if (inTime) {
+            response.text().then(data => {
+              resolve(_classPrivateFieldLooseBase(AMIHTTPClient, _response)[_response](data, data, urlWithParameters, false));
+            }).catch(() => {
+              reject(_classPrivateFieldLooseBase(AMIHTTPClient, _response)[_response](_classPrivateFieldLooseBase(this, _errorMessage)[_errorMessage], _classPrivateFieldLooseBase(this, _errorMessage)[_errorMessage], urlWithParameters, false));
+            });
           }
-
-          const data = {
-            'AMIMessage': [{
-              'error': [{
-                '$': textStatus
-              }]
-            }]
-          };
-          result.rejectWith(context, [data, textStatus, urlWithParameters]);
-        }
-      });
-    } else {
-      $.ajax({
-        url: url,
-        data: data,
-        type: 'POST',
-        timeout: timeout,
-        dataType: 'text',
-        xhrFields: {
-          withCredentials: true
-        },
-        success: data => {
-          result.resolveWith(context, [data, data, urlWithParameters]);
-        },
-        error: (jqXHR, textStatus) => {
-          if (textStatus === 'error') {
-            textStatus = 'service temporarily unreachable';
+        }).catch(() => {
+          if (inTime) {
+            reject(_classPrivateFieldLooseBase(AMIHTTPClient, _response)[_response](_classPrivateFieldLooseBase(this, _errorMessage)[_errorMessage], _classPrivateFieldLooseBase(this, _errorMessage)[_errorMessage], urlWithParameters, false));
           }
-
-          result.rejectWith(context, [textStatus, textStatus, urlWithParameters]);
-        }
-      });
-    }
-
-    return result.promise();
+        });
+      }
+    });
   }
 
   signInByCode(code, options) {
-    return _classPrivateFieldLooseBase(this, _getUserInfo)[_getUserInfo](this.execute('GetSessionInfo -AMIUser="__oidc_code__" -AMIPass=?', {
-      extras: {
-        'NoCert': null
-      },
-      params: [code]
-    }), options);
+    options = options || {};
+    options['extras'] = {
+      'NoCert': null
+    };
+    options['params'] = [code];
+    return _classPrivateFieldLooseBase(this, _getUserInfo)[_getUserInfo](this.execute('GetSessionInfo -AMIUser="__oidc_code__" -AMIPass=?', options));
   }
 
   signInByToken(token, options) {
-    return _classPrivateFieldLooseBase(this, _getUserInfo)[_getUserInfo](this.execute('GetSessionInfo -AMIUser="__oidc_token__" -AMIPass=?', {
-      extras: {
-        'NoCert': null
-      },
-      params: [token]
-    }), options);
+    options = options || {};
+    options['extras'] = {
+      'NoCert': null
+    };
+    options['params'] = [token];
+    return _classPrivateFieldLooseBase(this, _getUserInfo)[_getUserInfo](this.execute('GetSessionInfo -AMIUser="__oidc_token__" -AMIPass=?', options));
   }
 
   signInByPassword(username, password, options) {
-    return _classPrivateFieldLooseBase(this, _getUserInfo)[_getUserInfo](this.execute('GetSessionInfo -AMIUser=? -AMIPass=?', {
-      extras: {
-        'NoCert': null
-      },
-      params: [username, password]
-    }), options);
+    options = options || {};
+    options['extras'] = {
+      'NoCert': null
+    };
+    options['params'] = [username, password];
+    return _classPrivateFieldLooseBase(this, _getUserInfo)[_getUserInfo](this.execute('GetSessionInfo -AMIUser=? -AMIPass=?', options));
   }
 
   signInByCertificate(options) {
-    return _classPrivateFieldLooseBase(this, _getUserInfo)[_getUserInfo](this.execute('GetSessionInfo', {
-      extras: {},
-      params: []
-    }), options);
+    options = options || {};
+    options['extras'] = {};
+    options['params'] = [];
+    return _classPrivateFieldLooseBase(this, _getUserInfo)[_getUserInfo](this.execute('GetSessionInfo', options));
   }
 
   signOut(options) {
-    return _classPrivateFieldLooseBase(this, _getUserInfo)[_getUserInfo](this.execute('GetSessionInfo -AMIUser=? -AMIPass=?', {
-      extras: {
-        'NoCert': null
-      },
-      params: ['', '']
-    }), options);
+    options = options || {};
+    options['extras'] = {
+      'NoCert': null
+    };
+    options['params'] = ['', ''];
+    return _classPrivateFieldLooseBase(this, _getUserInfo)[_getUserInfo](this.execute('GetSessionInfo -AMIUser=? -AMIPass=?', options));
   }
 
   jspath(path, json) {
     return jspath_default().apply(path, json);
   }
 
+}
+
+function _response2(data, message, urlWithParameters, jsonError) {
+  if (jsonError) {
+    data = {
+      'AMIMessage': [{
+        'error': [{
+          '$': data
+        }]
+      }]
+    };
+  }
+
+  return {
+    data: data,
+    message: message,
+    urlWithParameters: urlWithParameters
+  };
 }
 
 function _guest2() {
@@ -29878,71 +29911,89 @@ function _guest2() {
     lastName: 'guest',
     email: 'N/A',
     country: 'N/A',
-    valid: 'false',
-    certEnabled: 'false',
-    vomsEnabled: 'false'
+    valid: 'false'
   };
 }
 
-function _getUserInfo2(deferred, options) {
-  options = options || {};
-  const result = $.Deferred();
-  const context = options.context || result;
-  deferred.then((data, message) => {
-    const userInfo = {};
-    const roleInfo = {};
-    const bookmarkInfo = {};
-    const dashboardInfo = {};
-    const awfInfo = {};
-    jspath_default().apply('..rowset{.@type==="user"}.row.field', data).forEach(item => {
-      userInfo[item['@name']] = item['$'];
-    });
-    jspath_default().apply('..rowset{.@type==="awf"}.row.field', data).forEach(item => {
-      awfInfo[item['@name']] = item['$'];
-    });
-    jspath_default().apply('..rowset{.@type==="role"}.row', data).forEach(row => {
-      let name = '';
-      const role = {};
-      row.field.forEach(field => {
-        role[field['@name']] = field['$'];
-
-        if (field['@name'] === 'name') {
-          name = field['$'];
-        }
+function _getUserInfo2(promise) {
+  return new Promise((resolve, reject) => {
+    promise.then(response => {
+      const userInfo = {};
+      const roleInfo = {};
+      const bookmarkInfo = {};
+      const dashboardInfo = {};
+      const awfInfo = {};
+      jspath_default().apply('..rowset{.@type==="user"}.row.field', response.data).forEach(item => {
+        userInfo[item['@name']] = item['$'];
       });
-      roleInfo[name] = role;
-    });
-    jspath_default().apply('..rowset{.@type==="bookmark"}.row', data).forEach(row => {
-      let hash = '';
-      const bookmark = {};
-      row.field.forEach(field => {
-        bookmark[field['@name']] = field['$'];
-
-        if (field['@name'] === 'hash') {
-          hash = field['$'];
-        }
+      jspath_default().apply('..rowset{.@type==="awf"}.row.field', response.data).forEach(item => {
+        awfInfo[item['@name']] = item['$'];
       });
-      bookmarkInfo[hash] = bookmark;
-    });
-    jspath_default().apply('..rowset{.@type==="dashboard"}.row', data).forEach(row => {
-      let hash = '';
-      const dashboard = {};
-      row.field.forEach(field => {
-        dashboard[field['@name']] = field['$'];
+      jspath_default().apply('..rowset{.@type==="role"}.row', response.data).forEach(row => {
+        let name = '';
+        const role = {};
+        row.field.forEach(field => {
+          role[field['@name']] = field['$'];
 
-        if (field['@name'] === 'hash') {
-          hash = field['$'];
-        }
+          if (field['@name'] === 'name') {
+            name = field['$'];
+          }
+        });
+        roleInfo[name] = role;
       });
-      dashboardInfo[hash] = dashboard;
+      jspath_default().apply('..rowset{.@type==="bookmark"}.row', response.data).forEach(row => {
+        let hash = '';
+        const bookmark = {};
+        row.field.forEach(field => {
+          bookmark[field['@name']] = field['$'];
+
+          if (field['@name'] === 'hash') {
+            hash = field['$'];
+          }
+        });
+        bookmarkInfo[hash] = bookmark;
+      });
+      jspath_default().apply('..rowset{.@type==="dashboard"}.row', response.data).forEach(row => {
+        let hash = '';
+        const dashboard = {};
+        row.field.forEach(field => {
+          dashboard[field['@name']] = field['$'];
+
+          if (field['@name'] === 'hash') {
+            hash = field['$'];
+          }
+        });
+        dashboardInfo[hash] = dashboard;
+      });
+      resolve({
+        data: response.data,
+        message: response.message,
+        userInfo: userInfo,
+        roleInfo: roleInfo,
+        bookmarkInfo: bookmarkInfo,
+        dashboardInfo: dashboardInfo,
+        awfInfo: awfInfo
+      });
+    }).catch(response => {
+      reject({
+        data: response.data,
+        message: response.message,
+        userInfo: _classPrivateFieldLooseBase(AMIHTTPClient, _guest)[_guest](),
+        roleInfo: {},
+        bookmarkInfo: {},
+        dashboardInfo: {},
+        awfInfo: {}
+      });
     });
-    result.resolveWith(context, [data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo]);
-  }, (data, message) => {
-    result.rejectWith(context, [data, message, _classPrivateFieldLooseBase(this, _guest)[_guest](), {}, {}, {}, {}]);
   });
-  return result.promise();
 }
 
+Object.defineProperty(AMIHTTPClient, _guest, {
+  value: _guest2
+});
+Object.defineProperty(AMIHTTPClient, _response, {
+  value: _response2
+});
 if (typeof window !== 'undefined') window.AMIHTTPClient = AMIHTTPClient;
 /* harmony default export */ const client = (AMIHTTPClient);
 ;// CONCATENATED MODULE: ./node_modules/ami-http-client/index.js
@@ -30373,6 +30424,8 @@ var _httpClient = AMICommand_classPrivateFieldLooseKey("httpClient");
 
 var _mqttClient = AMICommand_classPrivateFieldLooseKey("mqttClient");
 
+var _toDeferred = AMICommand_classPrivateFieldLooseKey("toDeferred");
+
 class AMICommand {
   constructor() {
     Object.defineProperty(this, _httpClient, {
@@ -30402,35 +30455,42 @@ class AMICommand {
   }
 
   execute(command, options) {
-    return typeof options === 'object' && 'mqtt' in options ? AMICommand_classPrivateFieldLooseBase(this, _mqttClient)[_mqttClient].execute(command, options) : AMICommand_classPrivateFieldLooseBase(this, _httpClient)[_httpClient].execute(command, options);
+    const result = $.Deferred();
+    const promise = typeof options === 'object' && 'mqtt' in options ? AMICommand_classPrivateFieldLooseBase(this, _mqttClient)[_mqttClient].execute(command, options) : AMICommand_classPrivateFieldLooseBase(this, _httpClient)[_httpClient].execute(command, options);
+    promise.then(response => {
+      result.resolve(response.data, response.message, response.urlWithParameters);
+    }).catch(response => {
+      result.reject(response.data, response.message, response.urlWithParameters);
+    });
+    return result;
   }
 
-  mqttSignInByToken(token, serverName) {
-    return AMICommand_classPrivateFieldLooseBase(this, _mqttClient)[_mqttClient].signInByToken(token, serverName);
+  mqttSignInByToken(token, serverName, options) {
+    return AMICommand_classPrivateFieldLooseBase(AMICommand, _toDeferred)[_toDeferred](AMICommand_classPrivateFieldLooseBase(this, _mqttClient)[_mqttClient].signInByToken(token, serverName));
   }
 
   mqttSignOut(options) {
-    return AMICommand_classPrivateFieldLooseBase(this, _mqttClient)[_mqttClient].signOut(options);
+    return AMICommand_classPrivateFieldLooseBase(AMICommand, _toDeferred)[_toDeferred](AMICommand_classPrivateFieldLooseBase(this, _mqttClient)[_mqttClient].signOut(options));
   }
 
   signInByCode(code, options) {
-    return AMICommand_classPrivateFieldLooseBase(this, _httpClient)[_httpClient].signInByCode(code, options);
+    return AMICommand_classPrivateFieldLooseBase(AMICommand, _toDeferred)[_toDeferred](AMICommand_classPrivateFieldLooseBase(this, _httpClient)[_httpClient].signInByCode(code, options));
   }
 
   signInByToken(token, options) {
-    return AMICommand_classPrivateFieldLooseBase(this, _httpClient)[_httpClient].signInByToken(token, options);
+    return AMICommand_classPrivateFieldLooseBase(AMICommand, _toDeferred)[_toDeferred](AMICommand_classPrivateFieldLooseBase(this, _httpClient)[_httpClient].signInByToken(token, options));
   }
 
   signInByPassword(username, password, options) {
-    return AMICommand_classPrivateFieldLooseBase(this, _httpClient)[_httpClient].signInByPassword(username, password, options);
+    return AMICommand_classPrivateFieldLooseBase(AMICommand, _toDeferred)[_toDeferred](AMICommand_classPrivateFieldLooseBase(this, _httpClient)[_httpClient].signInByPassword(username, password, options));
   }
 
   signInByCertificate(options) {
-    return AMICommand_classPrivateFieldLooseBase(this, _httpClient)[_httpClient].signInByCertificate(options);
+    return AMICommand_classPrivateFieldLooseBase(AMICommand, _toDeferred)[_toDeferred](AMICommand_classPrivateFieldLooseBase(this, _httpClient)[_httpClient].signInByCertificate(options));
   }
 
   signOut(options) {
-    return AMICommand_classPrivateFieldLooseBase(this, _httpClient)[_httpClient].signOut(options).always(() => {});
+    return AMICommand_classPrivateFieldLooseBase(AMICommand, _toDeferred)[_toDeferred](AMICommand_classPrivateFieldLooseBase(this, _httpClient)[_httpClient].signOut(options)).always(() => {});
   }
 
   attachCertificate(options) {
@@ -30469,6 +30529,19 @@ class AMICommand {
 
 }
 
+function _toDeferred2(promise) {
+  const result = $.Deferred();
+  promise.then(response => {
+    result.resolve(response.data, response.message, response.userInfo, response.roleInfo, response.bookmarkInfo, response.dashboardInfo, response.awfInfo);
+  }).catch(response => {
+    result.reject(response.data, response.message, response.userInfo, response.roleInfo, response.bookmarkInfo, response.dashboardInfo, response.awfInfo);
+  });
+  return result;
+}
+
+Object.defineProperty(AMICommand, _toDeferred, {
+  value: _toDeferred2
+});
 /* harmony default export */ const js_AMICommand = (new AMICommand());
 // EXTERNAL MODULE: ./node_modules/ami-twig/index.js
 var ami_twig = __webpack_require__(14);
@@ -39510,7 +39583,7 @@ class AMIWebApp {
       }, {
         "name": "options",
         "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (mqtt, endpoint, serverName, converter, extras, params, context, timeout)",
+        "desc": "dictionary of optional parameters (mqtt, endpoint, serverName, converter, extras, params, timeout)",
         "default": "{}",
         "optional": true,
         "nullable": ""
@@ -39537,6 +39610,13 @@ class AMIWebApp {
         "default": "",
         "optional": "",
         "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (endpoint, timeout)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
       }],
       "returns": [{
         "type": ["$.Promise"],
@@ -39549,7 +39629,7 @@ class AMIWebApp {
       "params": [{
         "name": "options",
         "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
+        "desc": "dictionary of optional parameters (endpoint, timeout)",
         "default": "{}",
         "optional": true,
         "nullable": ""
@@ -39572,7 +39652,7 @@ class AMIWebApp {
       }, {
         "name": "options",
         "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
+        "desc": "dictionary of optional parameters (endpoint, timeout)",
         "default": "{}",
         "optional": true,
         "nullable": ""
@@ -39595,7 +39675,7 @@ class AMIWebApp {
       }, {
         "name": "options",
         "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
+        "desc": "dictionary of optional parameters (endpoint, timeout)",
         "default": "{}",
         "optional": true,
         "nullable": ""
@@ -39625,7 +39705,7 @@ class AMIWebApp {
       }, {
         "name": "options",
         "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
+        "desc": "dictionary of optional parameters (endpoint, timeout)",
         "default": "{}",
         "optional": true,
         "nullable": ""
@@ -39641,7 +39721,7 @@ class AMIWebApp {
       "params": [{
         "name": "options",
         "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
+        "desc": "dictionary of optional parameters (endpoint, timeout)",
         "default": "{}",
         "optional": true,
         "nullable": ""
@@ -39657,7 +39737,7 @@ class AMIWebApp {
       "params": [{
         "name": "options",
         "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
+        "desc": "dictionary of optional parameters (endpoint, timeout)",
         "default": "{}",
         "optional": true,
         "nullable": ""
@@ -39673,7 +39753,7 @@ class AMIWebApp {
       "params": [{
         "name": "options",
         "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
+        "desc": "dictionary of optional parameters (endpoint, converter, extras, timeout)",
         "default": "{}",
         "optional": true,
         "nullable": ""
@@ -39689,7 +39769,7 @@ class AMIWebApp {
       "params": [{
         "name": "options",
         "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
+        "desc": "dictionary of optional parameters (endpoint, converter, extras, timeout)",
         "default": "{}",
         "optional": true,
         "nullable": ""
@@ -39768,7 +39848,7 @@ class AMIWebApp {
       }, {
         "name": "options",
         "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
+        "desc": "dictionary of optional parameters (endpoint, converter, extras, timeout)",
         "default": "{}",
         "optional": true,
         "nullable": ""
@@ -39805,7 +39885,7 @@ class AMIWebApp {
       }, {
         "name": "options",
         "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
+        "desc": "dictionary of optional parameters (endpoint, converter, extras, timeout)",
         "default": "{}",
         "optional": true,
         "nullable": ""
@@ -39842,7 +39922,7 @@ class AMIWebApp {
       }, {
         "name": "options",
         "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
+        "desc": "dictionary of optional parameters (endpoint, converter, extras, timeout)",
         "default": "{}",
         "optional": true,
         "nullable": ""
@@ -39879,7 +39959,7 @@ class AMIWebApp {
       }, {
         "name": "options",
         "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
+        "desc": "dictionary of optional parameters (endpoint, converter, extras, timeout)",
         "default": "{}",
         "optional": true,
         "nullable": ""
