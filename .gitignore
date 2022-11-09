@@ -129,3 +129,5 @@ package-lock.json
 
 __pycache__
 .vscode/settings.json
+
+index-local.html
