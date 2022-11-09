@@ -38069,12 +38069,16 @@ class AMIAuth {
     return result;
   }
 
-  getMqttEndpoint() {
-    return AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].mqttEndpoint || '';
-  }
-
   getMqttToken() {
     return AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].mqttToken || '';
+  }
+
+  getMqttBrokerEndpoint() {
+    return AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].mqttBrokerEndpoint || '';
+  }
+
+  getAMIPipelineEndpoint() {
+    return AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].amiPipelineEndpoint || '';
   }
 
   getUserInfo() {
@@ -39326,15 +39330,6 @@ class AMIWebApp {
     "implements": [],
     "inherits": [],
     "functions": [{
-      "name": "getMqttEndpoint",
-      "alias": "",
-      "desc": "Gets the current MQTT endpoint",
-      "params": [],
-      "returns": [{
-        "type": ["string"],
-        "desc": "The current MQTT endpoint"
-      }]
-    }, {
       "name": "getMqttToken",
       "alias": "",
       "desc": "Gets the current MQTT token",
@@ -39342,6 +39337,24 @@ class AMIWebApp {
       "returns": [{
         "type": ["string"],
         "desc": "The current MQTT token"
+      }]
+    }, {
+      "name": "getMqttBrokerEndpoint",
+      "alias": "",
+      "desc": "Gets the current MQTT broker endpoint",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The current MQTT broker endpoint"
+      }]
+    }, {
+      "name": "getAMIPipelineEndpoint",
+      "alias": "",
+      "desc": "Gets the current AMI Pipeline endpoint",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The current AMI Pipeline endpoint"
       }]
     }, {
       "name": "getUserInfo",

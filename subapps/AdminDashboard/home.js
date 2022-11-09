@@ -57,7 +57,7 @@ function update()
 	const awfInfo = amiAuth.getAWFInfo();
 
 	$('#BD4F9D14_B1CD_F377_29B6_130C3EA8C7C2').attr(
-		'href', awfInfo.nodeRedURL || 'https://www.nodered.org/'
+		'href', awfInfo.amiPipelineEndpoint || 'https://www.nodered.org/'
 	);
 
 	$('#F1FA8298_F283_E0C4_A9F6_74C8EB2E4762').text(awfInfo.buildVersion || 'N/A');

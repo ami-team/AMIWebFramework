@@ -641,18 +641,6 @@ class AMIAuth
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * Gets the current MQTT endpoint
-	 * @return {string} The current MQTT endpoint
-	 */
-
-	getMqttEndpoint()
-	{
-		return this.#awfInfo.mqttEndpoint || '';
-	}
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	/**
 	 * Gets the current MQTT token
 	 * @return {string} The current MQTT token
 	 */
@@ -660,6 +648,30 @@ class AMIAuth
 	getMqttToken()
 	{
 		return this.#userInfo.mqttToken || '';
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Gets the current MQTT broker endpoint
+	 * @return {string} The current MQTT broker endpoint
+	 */
+
+	getMqttBrokerEndpoint()
+	{
+		return this.#awfInfo.mqttBrokerEndpoint || '';
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Gets the current AMI Pipeline endpoint
+	 * @return {string} The current AMI Pipeline endpoint
+	 */
+
+	getAMIPipelineEndpoint()
+	{
+		return this.#awfInfo.amiPipelineEndpoint || '';
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
