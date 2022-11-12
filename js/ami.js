@@ -38069,11 +38069,11 @@ class AMIAuth {
     return result;
   }
 
-  getMqttToken() {
+  getJWTToken() {
     return AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].mqttToken || '';
   }
 
-  getMqttBrokerEndpoint() {
+  getMQTTBrokerEndpoint() {
     return AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].mqttBrokerEndpoint || '';
   }
 
@@ -38374,7 +38374,7 @@ function _update2(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
     const issuerDNInAMI = userInfo.issuerDNInAMI || '';
     const notBefore = userInfo.notBefore || '';
     const notAfter = userInfo.notAfter || '';
-    const mqttToken = userInfo.mqttToken || 'N/A';
+    const jwtToken = userInfo.mqttToken || '';
     const valid = userInfo.valid || 'false';
     $('#E513F27D_5521_4B08_BF61_52AFB81356F7').val(firstName);
     $('#AFF0B5C0_BEEC_4842_916D_DCBA7F589195').val(lastName);
@@ -38386,7 +38386,7 @@ function _update2(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
     $('#F42FAF6B_2C8D_4142_8BD9_E5BCDCAA05AA').val(issuerDNInAMI);
     $('#C76805D7_1E86_4231_9071_1D04783423BB').val(clientDNInSession);
     $('#D1BEE3BF_9161_41DC_BC53_C44FFE4D2522').val(clientDNInAMI);
-    const tokenButton = $('#A3C9E9DE_B73C_2DE2_8BB2_A93982940E77').attr('data-clipboard-text', mqttToken);
+    const tokenButton = $('#A3C9E9DE_B73C_2DE2_8BB2_A93982940E77').attr('data-clipboard-text', jwtToken);
 
     if (this.hasRole('AMI_ADMIN')) {
       tokenButton.show();
@@ -39330,16 +39330,16 @@ class AMIWebApp {
     "implements": [],
     "inherits": [],
     "functions": [{
-      "name": "getMqttToken",
+      "name": "getJWTToken",
       "alias": "",
-      "desc": "Gets the current MQTT token",
+      "desc": "Gets the current JWT token",
       "params": [],
       "returns": [{
         "type": ["string"],
-        "desc": "The current MQTT token"
+        "desc": "The current JWT token"
       }]
     }, {
-      "name": "getMqttBrokerEndpoint",
+      "name": "getMQTTBrokerEndpoint",
       "alias": "",
       "desc": "Gets the current MQTT broker endpoint",
       "params": [],
