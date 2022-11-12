@@ -402,7 +402,7 @@ class AMIAuth
 			const notBefore = userInfo.notBefore || '';
 			const notAfter = userInfo.notAfter || '';
 
-			const mqttToken = userInfo.mqttToken || 'N/A';
+			const jwtToken = userInfo.mqttToken || '';
 
 			const valid = userInfo.valid || 'false';
 
@@ -429,7 +429,7 @@ class AMIAuth
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			const tokenButton = $('#A3C9E9DE_B73C_2DE2_8BB2_A93982940E77').attr('data-clipboard-text', mqttToken);
+			const tokenButton = $('#A3C9E9DE_B73C_2DE2_8BB2_A93982940E77').attr('data-clipboard-text', jwtToken);
 
 			if(this.hasRole('AMI_ADMIN')) {
 				tokenButton.show();
@@ -641,11 +641,11 @@ class AMIAuth
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * Gets the current MQTT token
-	 * @return {string} The current MQTT token
+	 * Gets the current JWT token
+	 * @return {string} The current JWT token
 	 */
 
-	getMqttToken()
+	getJWTToken()
 	{
 		return this.#userInfo.mqttToken || '';
 	}
@@ -657,7 +657,7 @@ class AMIAuth
 	 * @return {string} The current MQTT broker endpoint
 	 */
 
-	getMqttBrokerEndpoint()
+	getMQTTBrokerEndpoint()
 	{
 		return this.#awfInfo.mqttBrokerEndpoint || '';
 	}
