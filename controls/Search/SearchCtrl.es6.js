@@ -713,6 +713,12 @@ $AMIClass('SearchCtrl', {
 				this.ctx.mql += ` WHERE ${filter}`;
 			}
 
+			this.ctx.mql = this.ctx.mql
+				           .replace(/and/g, 'AND')
+				           .replace(/or/g, 'OR')
+				           .replace(/not/g, 'NOT')
+			;
+
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			this.ctx.js = amiWebApp.formatTWIG(this.fragmentJS, this.ctx);
@@ -2405,7 +2411,7 @@ $AMIClass('SearchCtrl', {
 	_dumpFilterAST: function(predicate, node, predicates)
 	{
 		let ast = null;
-		let predicateFound = false;
+		let predicateFound = false
 
 		if(node === null)
 		{
@@ -2528,6 +2534,26 @@ $AMIClass('SearchCtrl', {
 			predicateFound = predicateFoundL || predicateFoundR;
 
 			return {'ast' : ast, 'predicateFound' : predicateFound};
+		}
+		else if(node.nodeValue === 'not')
+		{
+			if(predicateFoundR === false)
+			{
+				/**/ if(astR !== null)
+				{
+					ast = astR;
+				}
+				else
+				{
+					ast = null;
+				}
+			}
+			else
+			{
+				ast = astR;
+			}
+
+			return {'ast' : ast, 'predicateFound' : predicateFoundR};
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
