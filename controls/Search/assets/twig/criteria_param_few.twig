@@ -3,15 +3,25 @@
 		<div>
 			<span class="text-success">Q{{cnt}}</span>: {{name|e}}
 		</div>
-		<button type="button" class="btn close box-close m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-1 px-0" data-dismiss="box"><i class="bi bi-x-circle-fill"></i></button>
-		<span class="switch switch-sm switch-on-primary switch-off-secondary float-{% if BOOTSTRAP_VERSION > 4 %}end{% else %}right{% endif %}">
-			<input type="checkbox" id="C9B3B342_BDCF_BE03_A77C_432D749727C8_Q{{cnt}}" />
-			<label for="C9B3B342_BDCF_BE03_A77C_432D749727C8_Q{{cnt}}">
-				<span class="text-secondary">or</span>
-				/
-				<span class="text-primary">and</span>
-			</label>
-		</span>
+		<div class="d-flex justify-content-end align-items-center">
+			<span class="switch switch-sm switch-on-primary switch-off-secondary m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-4">
+				<input class="switch-not" type="checkbox" id="F207D2E0_CB04_DAFF_603B_FA5FDE51FB8E_Q{{cnt}}" />
+				<label for="F207D2E0_CB04_DAFF_603B_FA5FDE51FB8E_Q{{cnt}}">
+					<span class="text-primary">not</span>
+				</label>
+			</span>
+			{% if isDefaultEntity !== true %}
+			<span class="switch switch-sm switch-on-primary switch-off-secondary">
+				<input class="switch-andor" type="checkbox" id="C9B3B342_BDCF_BE03_A77C_432D749727C8_Q{{cnt}}" />
+				<label for="C9B3B342_BDCF_BE03_A77C_432D749727C8_Q{{cnt}}">
+					<span class="text-secondary">or</span>
+					/
+					<span class="text-primary">and</span>
+				</label>
+			</span>
+			{% endif %}
+			<button type="button" class="btn close box-close m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-1 px-0" data-dismiss="box"><i class="bi bi-x-circle-fill"></i></button>
+		</div>
 	</div>
 	<div class="card-body" style="padding: 0.5rem;">
 		<select class="{% if BOOTSTRAP_VERSION > 4 %}form-select form-select-sm{% else %}custom-select custom-select-sm{% endif %} form-control-sm key mb-2" style="font-size: 13px;"></select>

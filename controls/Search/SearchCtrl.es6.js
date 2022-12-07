@@ -382,7 +382,15 @@ $AMIClass('SearchCtrl', {
 
 						e.preventDefault();
 
-						this.select(name);
+						if(el.find('input.filter').val() === '')
+						{
+							this.select(name);
+						}
+						else
+						{
+							this.filter(name);
+						}
+
 					});
 
 					el.find('.show-less').click((e) => {
@@ -1564,8 +1572,15 @@ $AMIClass('SearchCtrl', {
 				S[el.value] = true;
 			});
 
-			predicate.filter = L.join(!$(`${predicate.selector} input[type="checkbox"]`).prop('checked') ? ' OR ' : ' AND ');
+			predicate.filter = L.join(!$(`${predicate.selector} input.switch-andor`).prop('checked') ? ' OR ' : ' AND ');
+
+			if($(`${predicate.selector} input.switch-not`).prop('checked'))
+			{
+				predicate.filter = `NOT (${predicate.filter})`;
+			}
+
 			predicate.select = S;
+
 
 			/*--------------------------------------------------------------------------------------------------------*/
 		}
@@ -1620,7 +1635,7 @@ $AMIClass('SearchCtrl', {
 					}
 			}
 
-			predicate.filter = L.join(!$(`${predicate.selector} input[type="checkbox"]`).prop('checked') ? ' OR ' : ' AND ');
+			predicate.filter = L.join(!$(`${predicate.selector} input.switch-andor`).prop('checked') ? ' OR ' : ' AND ');
 			predicate.select = S;
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -1778,13 +1793,18 @@ $AMIClass('SearchCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
+		if($(`${predicate.selector} input.switch-not`).prop('checked'))
+		{
+			tmpFilter = `NOT (${tmpFilter})`;
+		}
+
 		if(isDefaultEntity)
 		{
 			predicate.filter = tmpFilter;
 		}
 		else
 		{
-			criterion.type === 0 ? predicate.filter =  tmpFilter : predicate.filter = `[${tmpFilter}]` ;
+			criterion.type === 0 ? predicate.filter = tmpFilter : predicate.filter = `[${tmpFilter}]` ;
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/

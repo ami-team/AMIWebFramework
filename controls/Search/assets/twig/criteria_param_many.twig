@@ -3,7 +3,25 @@
 		<div>
 			<span class="text-success">Q{{cnt}}</span>: {{name|e}}
 		</div>
-		<button type="button" class="btn close box-close m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-1 px-0" type="button" data-dismiss="box"><i class="bi bi-x-circle-fill"></i></button>
+		<div class="d-flex justify-content-end align-items-center">
+			<span class="switch switch-sm switch-on-primary switch-off-secondary m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-4">
+				<input class="switch-not" type="checkbox" id="C89CFB8E_E808_60F6_8EC1_91AA8E62A355_Q{{cnt}}" />
+				<label for="C89CFB8E_E808_60F6_8EC1_91AA8E62A355_Q{{cnt}}">
+					<span class="text-primary">not</span>
+				</label>
+			</span>
+			{% if isDefaultEntity !== true %}
+				<span class="switch switch-sm switch-on-primary switch-off-secondary">
+				<input class="switch-andor" type="checkbox" id="E98BD984_8236_A227_4007_4AE0BC5397AC_Q{{cnt}}" />
+				<label for="E98BD984_8236_A227_4007_4AE0BC5397AC_Q{{cnt}}">
+					<span class="text-secondary">or</span>
+					/
+					<span class="text-primary">and</span>
+				</label>
+			</span>
+			{% endif %}
+			<button type="button" class="btn close box-close m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-1 px-0" type="button" data-dismiss="box"><i class="bi bi-x-circle-fill"></i></button>
+		</div>
 	</div>
 	<div class="card-body" style="padding: 0.5rem;">
 		<select class="{% if BOOTSTRAP_VERSION > 4 %}form-select form-select-sm{% else %}custom-select custom-select-sm{% endif %} form-control-sm key mb-2" style="font-size: 13px;"></select>
