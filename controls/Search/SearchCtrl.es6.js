@@ -1636,6 +1636,12 @@ $AMIClass('SearchCtrl', {
 			}
 
 			predicate.filter = L.join(!$(`${predicate.selector} input.switch-andor`).prop('checked') ? ' OR ' : ' AND ');
+
+			if(param && $(`${predicate.selector} input.switch-not`).prop('checked'))
+			{
+				predicate.filter = `NOT (${predicate.filter})`;
+			}
+
 			predicate.select = S;
 
 			/*--------------------------------------------------------------------------------------------------------*/
