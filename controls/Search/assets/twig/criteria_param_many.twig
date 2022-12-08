@@ -1,17 +1,11 @@
 <div class="card pull-left m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2 mt-2 align-self-start" id="C12133EC_2A38_3545_0685_974260DCC950_Q{{cnt}}" style="min-width: 285px;">
-	<div class="card-header d-flex justify-content-between align-items-center px-2 py-1">
-		<div>
+	<div class="card-header d-flex align-items-center px-2 py-1">
+		<div class="flex-grow-1">
 			<span class="text-success">Q{{cnt}}</span>: {{name|e}}
 		</div>
-		<div class="d-flex justify-content-end align-items-center">
-			<span class="switch switch-sm switch-on-primary switch-off-secondary m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-4">
-				<input class="switch-not" type="checkbox" id="C89CFB8E_E808_60F6_8EC1_91AA8E62A355_Q{{cnt}}" />
-				<label for="C89CFB8E_E808_60F6_8EC1_91AA8E62A355_Q{{cnt}}">
-					<span class="text-primary">not</span>
-				</label>
-			</span>
-			{% if isDefaultEntity !== true %}
-				<span class="switch switch-sm switch-on-primary switch-off-secondary">
+		{% if isDefaultEntity !== true %}
+			<div class="m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-3">
+			<span class="switch switch-sm switch-on-primary switch-off-secondary">
 				<input class="switch-andor" type="checkbox" id="E98BD984_8236_A227_4007_4AE0BC5397AC_Q{{cnt}}" />
 				<label for="E98BD984_8236_A227_4007_4AE0BC5397AC_Q{{cnt}}">
 					<span class="text-secondary">or</span>
@@ -19,8 +13,18 @@
 					<span class="text-primary">and</span>
 				</label>
 			</span>
-			{% endif %}
-			<button type="button" class="btn close box-close m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-1 px-0" type="button" data-dismiss="box"><i class="bi bi-x-circle-fill"></i></button>
+			</div>
+		{% endif %}
+		<div class="m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-3">
+			<span class="switch switch-sm switch-on-primary switch-off-secondary">
+				<input class="switch-not" type="checkbox" id="C89CFB8E_E808_60F6_8EC1_91AA8E62A355_Q{{cnt}}" />
+				<label for="C89CFB8E_E808_60F6_8EC1_91AA8E62A355_Q{{cnt}}">
+					<span class="text-primary">not</span>
+				</label>
+			</span>
+		</div>
+		<div class="m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-3">
+			<button type="button" class="btn close box-close px-0" type="button" data-dismiss="box"><i class="bi bi-x-circle-fill"></i></button>
 		</div>
 	</div>
 	<div class="card-body" style="padding: 0.5rem;">

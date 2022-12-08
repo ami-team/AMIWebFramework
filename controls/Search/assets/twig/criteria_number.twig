@@ -1,9 +1,9 @@
 <div class="card pull-left m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2 mt-2 align-self-start" id="C12133EC_2A38_3545_0685_974260DCC950_Q{{cnt}}" style="min-width: 285px;">
-	<div class="card-header d-flex justify-content-between align-items-center px-2 py-1">
-		<div>
+	<div class="card-header d-flex align-items-center px-2 py-1">
+		<div class="flex-grow-1">
 			<span class="text-success">Q{{cnt}}</span>: {{name|e}}
 		</div>
-		<div class="d-flex justify-content-end align-items-center">
+		<div class="m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-3">
 			<span class="switch switch-sm switch-on-primary switch-off-secondary">
 				<input type="checkbox" id="F85E166D-2527-752B-C6A2-C0222A41E4F1_Q{{cnt}}" />
 				<label for="F85E166D-2527-752B-C6A2-C0222A41E4F1_Q{{cnt}}">
@@ -12,7 +12,9 @@
 					<span class="text-primary">! in</span>
 				</label>
 			</span>
-			<button type="button" class="btn close box-close m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-4 px-0" data-dismiss="box"><i class="bi bi-x-circle-fill"></i></button>
+		</div>
+		<div class="m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-3">
+			<button type="button" class="btn close box-close px-0" data-dismiss="box"><i class="bi bi-x-circle-fill"></i></button>
 		</div>
 	</div>
 	<div class="card-body" style="padding: 0.5rem;">
