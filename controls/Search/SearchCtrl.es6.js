@@ -448,21 +448,48 @@ $AMIClass('SearchCtrl', {
 
 						e.preventDefault();
 
-						this.setOrReset(name, 0);
+						this.setMinMax(name);
 					});
 
 					el.find('.reset').click((e) => {
 
 						e.preventDefault();
 
-						this.setOrReset(name, 1);
+						amiWebApp.lock();
+
+						const predicate = this.ctx.predicates[name];
+
+						$(`${predicate.selector} input[type="checkbox"]`).prop('checked', false);
+						$(`${predicate.selector} input.min`).val('');
+						$(`${predicate.selector} input.max`).val('');
+
+						this.fillNumberBox(name, true).done(() => {
+
+							this.setMinMax(name);
+						}).always(() => {
+
+							amiWebApp.unlock();
+						});
 					});
 
 					el.find('input[type="checkbox"]').change((e) => {
 
 						e.preventDefault();
 
-						this.setOrReset(name, 0);
+						const predicate = this.ctx.predicates[name];
+
+						if($(`${predicate.selector} input[type="checkbox"]`).prop('checked'))
+						{
+							$(`${predicate.selector} input.min`).attr('disabled','disabled');
+							$(`${predicate.selector} input.max`).attr('disabled','disabled');
+						}
+						else
+						{
+							$(`${predicate.selector} input.min`).removeAttr('disabled');
+							$(`${predicate.selector} input.max`).removeAttr('disabled');
+						}
+
+						this.setMinMax(name);
 					});
 
 					el.find('.timedate').daterangepicker({
@@ -474,6 +501,7 @@ $AMIClass('SearchCtrl', {
 						},
 					});
 
+					//to review
 					if('more' in criterion)
 					{
 						if('min' in criterion.more)
@@ -612,8 +640,22 @@ $AMIClass('SearchCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			if(criterion.type === 4) {
+			if(criterion.type === 4)
+			{
 				this.toggle(name);
+			}
+			else if(criterion.type === 2 || criterion.type === 3)
+			{
+				amiWebApp.lock();
+
+				this.fillNumberBox(name, true).done(() => {
+
+					this.setMinMax(name);
+				}).always(() => {
+
+					amiWebApp.unlock();
+				});
+
 			}
 			else {
 				this.refresh(name);
@@ -672,6 +714,14 @@ $AMIClass('SearchCtrl', {
 						});
 						break;
 
+					case 2:
+					case 3:
+						amiWebApp.lock();
+						this.fillNumberBox(name, false).always(() => {
+							amiWebApp.unlock();
+						});
+						break;
+
 					case 5:
 					case 6:
 					case 7:
@@ -680,20 +730,6 @@ $AMIClass('SearchCtrl', {
 					case 10:
 						amiWebApp.lock();
 						this.fillParamBoxKey(name); this.fillParamBoxVal(name).always(() => {
-							amiWebApp.unlock();
-						});
-						break;
-
-					case 2:
-						amiWebApp.lock();
-						this.fillNumberBox(name).always(() => {
-							amiWebApp.unlock();
-						});
-						break;
-
-					case 3:
-						amiWebApp.lock();
-						this.fillNumberBox(name).always(() => {
 							amiWebApp.unlock();
 						});
 						break;
@@ -879,23 +915,46 @@ $AMIClass('SearchCtrl', {
 			const rows = amiWebApp.jspath('..row', data);
 
 			if('::any::' in predicate.select) {
-				L.push('<option value="::any::" selected="selected">« reset filter »</option>');
+				L.push('<option idx="0" value="::any::" selected="selected">« reset filter »</option>');
 			}
 			else {
-				L.push('<option value="::any::" xxxxxxxx="xxxxxxxx">« reset filter »</option>');
+				L.push('<option idx="0" value="::any::" xxxxxxxx="xxxxxxxx">« reset filter »</option>');
 			}
+
+			/*--------------------------------------------------------------------------------------------------------*/
+			/* SELECTED ITEMS                                                                                         */
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			Object.keys(predicate.select).forEach((key) => {
+
+				const valuehtml = amiWebApp.textToHtml(key);
+
+				if(amiWebApp.jspath('..row.field{.$ === \'' + key + '\'}.$', data)[0])
+				{
+					L.push(`<option idx="x" value="${valuehtml}" selected="selected">${valuehtml}</option>`);
+				}
+				else
+				{
+					L.push(`<option idx="x" value="${valuehtml}" selected="selected" class="text-danger">${valuehtml}</option>`);
+				}
+			});
+
+			/*--------------------------------------------------------------------------------------------------------*/
+			/* OTHER ITEMS                                                                                            */
+			/*--------------------------------------------------------------------------------------------------------*/
 
 			$.each(rows, (idx, row) => {
 
 				const value = amiWebApp.jspath('..field.$', row)[0] || '';
-				const valuehtml = amiWebApp.textToHtml(value);
 
-				if(value in predicate.select) {
-					L.push(`<option value="${valuehtml}" selected="selected">${valuehtml}</option>`);
-				} else {
-					L.push(`<option value="${valuehtml}" xxxxxxxx="xxxxxxxx">${valuehtml}</option>`);
+				if(!(value in predicate.select))
+				{
+					const valuehtml = amiWebApp.textToHtml(value);
+					L.push(`<option idx="x" value="${valuehtml}" xxxxxxxx="xxxxxxxx">${valuehtml}</option>`);
 				}
 			});
+
+			L.sort();
 
 			$(`${predicate.selector} select`).html(L.join(''));
 
@@ -915,6 +974,12 @@ $AMIClass('SearchCtrl', {
 
 	fillParamBoxKey: function(name)
 	{
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
 		let predicate = this.ctx.predicates[name], criterion = predicate.criterion;
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -980,6 +1045,13 @@ $AMIClass('SearchCtrl', {
 					break;
 			}
 
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			amiWebApp.unlock();
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+
 		}).fail((data) => {
 
 			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
@@ -998,21 +1070,51 @@ $AMIClass('SearchCtrl', {
 
 			if('::any::' === predicate.selectedParam) {
 				selected = true;
-				L.push('<option value="::any::" selected="selected">« reset filter »</option>');
+				L.push('<option idx="0" value="::any::" selected="selected" class="text-dark">« reset filter »</option>');
 			}
 			else {
-				L.push('<option value="::any::" xxxxxxxx="xxxxxxxx">« reset filter »</option>');
+				L.push('<option idx="0" value="::any::" xxxxxxxx="xxxxxxxx" class="text-dark">« reset filter »</option>');
 			}
+
+			/*--------------------------------------------------------------------------------------------------------*/
+			/* SELECTED ITEM                                                                                          */
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			$(`${predicate.selector} select.key`).removeClass('text-danger');
+
+			if(predicate.selectedParam)
+			{
+				if(m[predicate.selectedParam])
+				{
+					selected = true;
+					L.push(`<option idx="x" value="${amiWebApp.textToHtml(predicate.selectedParam)}" selected="selected" class="text-dark">${amiWebApp.textToHtml(predicate.selectedParam)}</option>`);
+				}
+				else
+				{
+					selected = true;
+					$(`${predicate.selector} select.key`).addClass('text-danger');
+					L.push(`<option idx="x" value="${amiWebApp.textToHtml(predicate.selectedParam)}" selected="selected">${amiWebApp.textToHtml(predicate.selectedParam)}</option>`);
+				}
+			}
+
+			/*--------------------------------------------------------------------------------------------------------*/
+			/* OTHER ITEMS                                                                                            */
+			/*--------------------------------------------------------------------------------------------------------*/
 
 			for(const key in m)
 			{
-				if(key === predicate.selectedParam) {
-					selected = true;
-					L.push(`<option value="${amiWebApp.textToHtml(key)}" selected="selected">${amiWebApp.textToHtml(key)}</option>`);
-				} else {
-					L.push(`<option value="${amiWebApp.textToHtml(key)}" xxxxxxxx="xxxxxxxx">${amiWebApp.textToHtml(key)}</option>`);
+				if(key !== predicate.selectedParam)
+				{
+					L.push(`<option idx="x" value="${amiWebApp.textToHtml(key)}" xxxxxxxx="xxxxxxxx" class="text-dark">${amiWebApp.textToHtml(key)}</option>`);
 				}
 			}
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			L.sort();
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
 
 			$(`${predicate.selector} select:first`).html(L.join(''));
 
@@ -1127,19 +1229,20 @@ $AMIClass('SearchCtrl', {
 				const fields = amiWebApp.jspath('..field', data);
 
 				if('::any::' in predicate.select) {
-					L.push('<option value="::any::" selected="selected">« reset filter »</option>');
+					L.push('<option idx="0" value="::any::" selected="selected">« reset filter »</option>');
 				}
 				else {
-					L.push('<option value="::any::" xxxxxxxx="xxxxxxxx">« reset filter »</option>');
+					L.push('<option idx="0" value="::any::" xxxxxxxx="xxxxxxxx">« reset filter »</option>');
 				}
+
+				let valueDict = {};
 
 				$.each(fields, (idx, field) => {
 
-					let value = '';
-					let values = [];
+					let values=[]
+					let value;
 
-					switch(criterion.type)
-					{
+					switch(criterion.type) {
 						case 5:
 						case 6:
 							value = (field.$ || '').trim();
@@ -1147,6 +1250,7 @@ $AMIClass('SearchCtrl', {
 							if(value.startsWith('"') && value.endsWith('"'))
 							{
 								value = amiWebApp.stringToText(value.substring(1, value.length - 1));
+								valueDict[value] = value;
 							}
 
 							/*----------------------------------------------------------------------------------------*/
@@ -1154,48 +1258,64 @@ $AMIClass('SearchCtrl', {
 							if(value.startsWith('[') && value.endsWith(']'))
 							{
 								values = JSON.parse(value);
+								values.forEach((v) =>
+								{
+									valueDict[v] = v;
+								});
+
 							}
 							else
 							{
-								values.push(value);
+								valueDict[value] = value;
 							}
-
-							/*----------------------------------------------------------------------------------------*/
-
-							values.forEach((v) =>
-							{
-								if (v !== '')
-								{
-									if(v in predicate.select) {
-										L.push(`<option value="${amiWebApp.textToHtml(v)}" selected="selected">${amiWebApp.textToHtml(v)}</option>`);
-									} else {
-										L.push(`<option value="${amiWebApp.textToHtml(v)}" xxxxxxxx="xxxxxxxx">${amiWebApp.textToHtml(v)}</option>`);
-									}
-								}
-							});
-
-							/*----------------------------------------------------------------------------------------*/
-
 							break;
 						case 7:
 						case 8:
 						case 9:
 						case 10:
 							value = field.$ || '';
-							if (value !== '')
-							{
-								if(value in predicate.select) {
-									L.push(`<option value="${amiWebApp.textToHtml(value)}" selected="selected">${amiWebApp.textToHtml(value)}</option>`);
-								} else {
-									L.push(`<option value="${amiWebApp.textToHtml(value)}" xxxxxxxx="xxxxxxxx">${amiWebApp.textToHtml(value)}</option>`);
-								}
-							}
+							valueDict[value] = value;
 							break;
 					}
 				});
 
+				/*----------------------------------------------------------------------------------------------------*/
+				/* SELECTED ITEMS                                                                                     */
+				/*----------------------------------------------------------------------------------------------------*/
+
+				Object.keys(predicate.select).forEach((key) => {
+
+					const valuehtml = amiWebApp.textToHtml(key);
+
+					if(valueDict[key])
+					{
+						L.push(`<option idx="x" value="${valuehtml}" selected="selected">${valuehtml}</option>`);
+					}
+					else
+					{
+						L.push(`<option idx="x" value="${valuehtml}" selected="selected" class="text-danger">${valuehtml}</option>`);
+					}
+				});
+
+				/*----------------------------------------------------------------------------------------------------*/
+				/* OTHER ITEMS                                                                                        */
+				/*----------------------------------------------------------------------------------------------------*/
+
+				for(const v in valueDict) {
+					if (v !== '') {
+						if (!(v in predicate.select)) {
+							L.push(`<option idx="x" value="${amiWebApp.textToHtml(v)}" xxxxxxxx="xxxxxxxx">${amiWebApp.textToHtml(v)}</option>`);
+						}
+					}
+				}
+
+				/*----------------------------------------------------------------------------------------------------*/
+
 				if(L.length > 1)
 				{
+					//new feature
+					L.sort();
+
 					$(`${predicate.selector} select:last`).html(L.join(''));
 
 					$(`${predicate.selector} .count`).text(L.length - 1);
@@ -1233,7 +1353,7 @@ $AMIClass('SearchCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	fillNumberBox: function(name)
+	fillNumberBox: function(name, init)
 	{
 		const predicate = this.ctx.predicates[name], criterion = predicate.criterion;
 
@@ -1258,13 +1378,24 @@ $AMIClass('SearchCtrl', {
 
 		return amiCommand.execute(`SearchQuery -catalog="${amiWebApp.textToString(criterion.catalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mql)}"`).done((data) => {
 
-			let min = amiWebApp.jspath('..field{.@name==="min"}.$', data)[0] || '@NULL';
-			let max = amiWebApp.jspath('..field{.@name==="max"}.$', data)[0] || '@NULL';
+			let min = amiWebApp.jspath('..field{.@name==="min"}.$', data)[0] || '';
+			let max = amiWebApp.jspath('..field{.@name==="max"}.$', data)[0] || '';
 
-			if (min !== '@NULL' && max !== '@NULL')
+			if(min === '@NULL')
+			{
+				min = '';
+			}
+
+			if(max === '@NULL')
+			{
+				max = '';
+			}
+
+			if (min !== '' && max !== '')
 			{
 				if ($(`${predicate.selector} input.min`).val() !== '' && $(`${predicate.selector} input.max`).val() !== '')
 				{
+					//now predicate.select.min and max are never empty Object nor === '' !
 					if (($.isEmptyObject(predicate.select.min) || predicate.select.min === '') && ($.isEmptyObject(predicate.select.max) || predicate.select.max === ''))
 					{
 						$(`${predicate.selector} input.min`).val(min);
@@ -1274,18 +1405,52 @@ $AMIClass('SearchCtrl', {
 					{
 						$(`${predicate.selector} input.min`).val(predicate.select.min);
 						$(`${predicate.selector} input.max`).val(predicate.select.max);
+
+						if(parseFloat(predicate.select.min) < parseFloat(min))
+						{
+							$(`${predicate.selector} input.min`).addClass('text-danger');
+						}
+						else
+						{
+							$(`${predicate.selector} input.min`).removeClass('text-danger');
+						}
+
+						if(parseFloat(predicate.select.max) > parseFloat(max))
+						{
+							$(`${predicate.selector} input.max`).addClass('text-danger');
+						}
+						else
+						{
+							$(`${predicate.selector} input.max`).removeClass('text-danger');
+						}
 					}
 				}
-				else
+				else if(init)
 				{
 					$(`${predicate.selector} input.min`).val(min);
 					$(`${predicate.selector} input.max`).val(max);
 				}
 			}
-
-			if(this.ctx.predicates[name].filter === '')
+			//new feature
+			else
 			{
-				//this.setOrReset(name, 0);
+				if(predicate.select.min !== '')
+				{
+					$(`${predicate.selector} input.min`).addClass('text-danger');
+				}
+				else
+				{
+					$(`${predicate.selector} input.min`).removeClass('text-danger');
+				}
+
+				if(predicate.select.max !== '')
+				{
+					$(`${predicate.selector} input.max`).addClass('text-danger');
+				}
+				else
+				{
+					$(`${predicate.selector} input.max`).removeClass('text-danger');
+				}
 			}
 
 		}).fail((data) => {
@@ -1303,6 +1468,8 @@ $AMIClass('SearchCtrl', {
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		let predicate = this.ctx.predicates[name], criterion = predicate.criterion;
+
+		predicate.select = {}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -1917,7 +2084,7 @@ $AMIClass('SearchCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	setOrReset: function(name, reset)
+	setMinMax: function(name)
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -1935,50 +2102,60 @@ $AMIClass('SearchCtrl', {
 
 		let tmpFilter;
 
-		if(!reset)
+		if($(`${predicate.selector} input.switch-null`).prop('checked'))
 		{
-			let min = $(`${predicate.selector} input.min`).val();
-			let max = $(`${predicate.selector} input.max`).val();
+			$(`${predicate.selector} input.min`).attr('disabled','disabled');
+			$(`${predicate.selector} input.max`).attr('disabled','disabled');
 
-			predicate.select.min = $(`${predicate.selector} input.min`).val();
-			predicate.select.max = $(`${predicate.selector} input.max`).val();
-
-			if(predicate.criterion.type === 3)
-			{
-				if(!$(`${predicate.selector} input[type="checkbox"]`).prop('checked'))
-				{
-					tmpFilter = `\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} >= AMI_TIMESTAMP('${min}') AND \`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} <= AMI_TIMESTAMP('${max}')`
-					;
-				}
-				else
-				{
-					tmpFilter = `\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} < AMI_TIMESTAMP('${min}') OR \`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} > AMI_TIMESTAMP('${max}')`
-					;
-				}
-			}
-			else
-			{
-				if(!$(`${predicate.selector} input[type="checkbox"]`).prop('checked'))
-				{
-					tmpFilter = `\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} >= '${min}' AND \`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} <= '${max}'`
-					;
-				}
-				else
-				{
-					tmpFilter = `\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} < '${min}' OR \`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} > '${max}'`
-					;
-				}
-			}
-
+			tmpFilter = `\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} IS NULL`
+			;
 		}
 		else
 		{
-			$(`${predicate.selector} input[type="checkbox"]`).prop('checked', false);
-			predicate.select.min = '';
-			predicate.select.max = '';
+			let min = $(`${predicate.selector} input.min`).val() || '';
+			let max = $(`${predicate.selector} input.max`).val() || '';
 
+			$(`${predicate.selector} input.min`).removeAttr('disabled');
+			$(`${predicate.selector} input.max`).removeAttr('disabled');
+
+			predicate.select.min = min;
+			predicate.select.max = max;
+
+			if(min === '' || max === '')
+			{
+				tmpFilter = `\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} IS NULL`
+				;
+			}
+			else
+			{
+				if(predicate.criterion.type === 3)
+				{
+					if(!$(`${predicate.selector} input.switch-in`).prop('checked'))
+					{
+						tmpFilter = `\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} >= AMI_TIMESTAMP('${min}') AND \`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} <= AMI_TIMESTAMP('${max}')`
+						;
+					}
+					else
+					{
+						tmpFilter = `\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} < AMI_TIMESTAMP('${min}') OR \`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} > AMI_TIMESTAMP('${max}')`
+						;
+					}
+				}
+				else
+				{
+					if(!$(`${predicate.selector} input.switch-in`).prop('checked'))
+					{
+						tmpFilter = `\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} >= '${min}' AND \`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} <= '${max}'`
+						;
+					}
+					else
+					{
+						tmpFilter = `\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} < '${min}' OR \`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} > '${max}'`
+						;
+					}
+				}
+			}
 		}
-
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		let isDefaultEntity = this.ctx.defaultEntity === entity;
@@ -1995,6 +2172,7 @@ $AMIClass('SearchCtrl', {
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		this.refresh();
+
 		amiWebApp.unlock();
 
 		/*------------------------------------------------------------------------------------------------------------*/
