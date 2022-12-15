@@ -914,13 +914,6 @@ $AMIClass('SearchCtrl', {
 
 			const rows = amiWebApp.jspath('..row', data);
 
-			if('::any::' in predicate.select) {
-				L.push('<option idx="0" value="::any::" selected="selected">« reset filter »</option>');
-			}
-			else {
-				L.push('<option idx="0" value="::any::" xxxxxxxx="xxxxxxxx">« reset filter »</option>');
-			}
-
 			/*--------------------------------------------------------------------------------------------------------*/
 			/* SELECTED ITEMS                                                                                         */
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -931,11 +924,11 @@ $AMIClass('SearchCtrl', {
 
 				if(amiWebApp.jspath('..row.field{.$ === \'' + key + '\'}.$', data)[0])
 				{
-					L.push(`<option idx="x" value="${valuehtml}" selected="selected">${valuehtml}</option>`);
+					L.push(`<option value="${valuehtml}" selected="selected">${valuehtml}</option>`);
 				}
 				else
 				{
-					L.push(`<option idx="x" value="${valuehtml}" selected="selected" class="text-danger">${valuehtml}</option>`);
+					L.push(`<option value="${valuehtml}" selected="selected" class="text-danger">${valuehtml}</option>`);
 				}
 			});
 
@@ -950,11 +943,19 @@ $AMIClass('SearchCtrl', {
 				if(!(value in predicate.select))
 				{
 					const valuehtml = amiWebApp.textToHtml(value);
-					L.push(`<option idx="x" value="${valuehtml}" xxxxxxxx="xxxxxxxx">${valuehtml}</option>`);
+					L.push(`<option value="${valuehtml}" xxxxxxxx="xxxxxxxx">${valuehtml}</option>`);
 				}
 			});
 
 			L.sort();
+
+
+			if('::any::' in predicate.select) {
+				L.unshift('<option value="::any::" selected="selected">« reset filter »</option>');
+			}
+			else {
+				L.unshift('<option value="::any::" xxxxxxxx="xxxxxxxx">« reset filter »</option>');
+			}
 
 			$(`${predicate.selector} select`).html(L.join(''));
 
@@ -1068,14 +1069,6 @@ $AMIClass('SearchCtrl', {
 
 			let selected = false;
 
-			if('::any::' === predicate.selectedParam) {
-				selected = true;
-				L.push('<option idx="0" value="::any::" selected="selected" class="text-dark">« reset filter »</option>');
-			}
-			else {
-				L.push('<option idx="0" value="::any::" xxxxxxxx="xxxxxxxx" class="text-dark">« reset filter »</option>');
-			}
-
 			/*--------------------------------------------------------------------------------------------------------*/
 			/* SELECTED ITEM                                                                                          */
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -1087,13 +1080,13 @@ $AMIClass('SearchCtrl', {
 				if(m[predicate.selectedParam])
 				{
 					selected = true;
-					L.push(`<option idx="x" value="${amiWebApp.textToHtml(predicate.selectedParam)}" selected="selected" class="text-dark">${amiWebApp.textToHtml(predicate.selectedParam)}</option>`);
+					L.push(`<option value="${amiWebApp.textToHtml(predicate.selectedParam)}" selected="selected" class="text-dark">${amiWebApp.textToHtml(predicate.selectedParam)}</option>`);
 				}
 				else
 				{
 					selected = true;
 					$(`${predicate.selector} select.key`).addClass('text-danger');
-					L.push(`<option idx="x" value="${amiWebApp.textToHtml(predicate.selectedParam)}" selected="selected">${amiWebApp.textToHtml(predicate.selectedParam)}</option>`);
+					L.push(`<option value="${amiWebApp.textToHtml(predicate.selectedParam)}" selected="selected">${amiWebApp.textToHtml(predicate.selectedParam)}</option>`);
 				}
 			}
 
@@ -1105,7 +1098,7 @@ $AMIClass('SearchCtrl', {
 			{
 				if(key !== predicate.selectedParam)
 				{
-					L.push(`<option idx="x" value="${amiWebApp.textToHtml(key)}" xxxxxxxx="xxxxxxxx" class="text-dark">${amiWebApp.textToHtml(key)}</option>`);
+					L.push(`<option value="${amiWebApp.textToHtml(key)}" xxxxxxxx="xxxxxxxx" class="text-dark">${amiWebApp.textToHtml(key)}</option>`);
 				}
 			}
 
@@ -1115,6 +1108,13 @@ $AMIClass('SearchCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
+			if('::any::' === predicate.selectedParam) {
+				selected = true;
+				L.unshift('<option value="::any::" selected="selected" class="text-dark">« reset filter »</option>');
+			}
+			else {
+				L.unshift('<option value="::any::" xxxxxxxx="xxxxxxxx" class="text-dark">« reset filter »</option>');
+			}
 
 			$(`${predicate.selector} select:first`).html(L.join(''));
 
@@ -1228,13 +1228,6 @@ $AMIClass('SearchCtrl', {
 				const L = [];
 				const fields = amiWebApp.jspath('..field', data);
 
-				if('::any::' in predicate.select) {
-					L.push('<option idx="0" value="::any::" selected="selected">« reset filter »</option>');
-				}
-				else {
-					L.push('<option idx="0" value="::any::" xxxxxxxx="xxxxxxxx">« reset filter »</option>');
-				}
-
 				let valueDict = {};
 
 				$.each(fields, (idx, field) => {
@@ -1289,11 +1282,11 @@ $AMIClass('SearchCtrl', {
 
 					if(valueDict[key])
 					{
-						L.push(`<option idx="x" value="${valuehtml}" selected="selected">${valuehtml}</option>`);
+						L.push(`<option value="${valuehtml}" selected="selected">${valuehtml}</option>`);
 					}
 					else
 					{
-						L.push(`<option idx="x" value="${valuehtml}" selected="selected" class="text-danger">${valuehtml}</option>`);
+						L.push(`<option value="${valuehtml}" selected="selected" class="text-danger">${valuehtml}</option>`);
 					}
 				});
 
@@ -1304,17 +1297,24 @@ $AMIClass('SearchCtrl', {
 				for(const v in valueDict) {
 					if (v !== '') {
 						if (!(v in predicate.select)) {
-							L.push(`<option idx="x" value="${amiWebApp.textToHtml(v)}" xxxxxxxx="xxxxxxxx">${amiWebApp.textToHtml(v)}</option>`);
+							L.push(`<option value="${amiWebApp.textToHtml(v)}" xxxxxxxx="xxxxxxxx">${amiWebApp.textToHtml(v)}</option>`);
 						}
 					}
 				}
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				if(L.length > 1)
+				if(L.length > 0)
 				{
 					//new feature
 					L.sort();
+
+					if('::any::' in predicate.select) {
+						L.unshift('<option value="::any::" selected="selected">« reset filter »</option>');
+					}
+					else {
+						L.unshift('<option value="::any::" xxxxxxxx="xxxxxxxx">« reset filter »</option>');
+					}
 
 					$(`${predicate.selector} select:last`).html(L.join(''));
 
