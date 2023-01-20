@@ -5,7 +5,7 @@
 		</div>
 		<div class="m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-3">
 			<span class="switch switch-sm switch-on-primary switch-off-secondary">
-				<input type="checkbox" id="F85E166D-2527-752B-C6A2-C0222A41E4F1_Q{{cnt}}" />
+				<input type="checkbox" class="switch-in" id="F85E166D-2527-752B-C6A2-C0222A41E4F1_Q{{cnt}}" />
 				<label for="F85E166D-2527-752B-C6A2-C0222A41E4F1_Q{{cnt}}">
 					<span class="text-secondary">in</span>
 					/
@@ -18,16 +18,30 @@
 		</div>
 	</div>
 	<div class="card-body" style="padding: 0.5rem;">
-		<table style="width: 100%;">
-			<tr class="mb-2">
-				<td><label for="AF5A97D2_E1E1_CED6_F4B0_31C1127CB96A_Q{{cnt}}">Min:</label>&nbsp;</td>
-				<td><input type="number" step="any" class="form-control form-control-sm min" id="AF5A97D2_E1E1_CED6_F4B0_31C1127CB96A_Q{{cnt}}" /></td>
-			</tr>
-			<tr class="mb-2">
-				<td><label for="D653324C_887D_9766_B0C8_E9D5E5B7D8B4_Q{{cnt}}">Max:</label>&nbsp;</td>
-				<td><input type="number" step="any" class="form-control form-control-sm max" id="D653324C_887D_9766_B0C8_E9D5E5B7D8B4_Q{{cnt}}" /></td>
-			</tr>
-		</table>
+		<div class="row mb-2 align-items-center">
+			<div class="col-2">
+				<label for="AF5A97D2_E1E1_CED6_F4B0_31C1127CB96A_Q{{cnt}}">Min:</label>
+			</div>
+			<div class="col-10">
+				<input type="number" step="any" class="form-control form-control-sm min" id="AF5A97D2_E1E1_CED6_F4B0_31C1127CB96A_Q{{cnt}}" />
+			</div>
+		</div>
+		<div class="row mb-2 align-items-center">
+			<div class="col-2">
+				<label for="D653324C_887D_9766_B0C8_E9D5E5B7D8B4_Q{{cnt}}">Max:</label>
+			</div>
+			<div class="col-10">
+				<input type="number" step="any" class="form-control form-control-sm max" id="D653324C_887D_9766_B0C8_E9D5E5B7D8B4_Q{{cnt}}" />
+			</div>
+		</div>
+		<div class="row mb-2 align-items-center">
+			<span class="switch switch-sm switch-on-primary switch-off-secondary">
+				<input type="checkbox" class="switch-null" id="B65D131D_5D81_AAFC_8086_505E1728D4CB_Q{{cnt}}" />
+				<label for="B65D131D_5D81_AAFC_8086_505E1728D4CB_Q{{cnt}}">
+					<span class="text-primary">IS NULL</span>
+				</label>
+			</span>
+		</div>
 		<div class="text-{% if BOOTSTRAP_VERSION > 4 %}end{% else %}right{% endif %}">
 			<a href="#" class="set">set</a> - <a href="#" class="reset">reset</a>
 		</div>
