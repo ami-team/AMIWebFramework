@@ -26,7 +26,7 @@ import messageTwig from '../../twigs/message.twig';
  * @private
  */
 
-const _linkExp = /\[\s*([^\s\]]*)\s*]\(\s*([^\s)]*)\s*\)/g;
+const _linkExp = /\[\s*([^\s\]]*)\s*\]\(\s*([^\s\)]*)\s*\)(?:\{\s*([^\s\)]*)\s*\})?/g;
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -79,7 +79,7 @@ function _publishAlert(clazz, title, message, fadeOut)
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		$('#ami_alert_content').append(html.replace(_linkExp, '<a href="$1" target="_blank">$2</a>')).promise().done(() => {
+		$('#ami_alert_content').append(html.replace(_linkExp, (_, g1, g2, g3) => `<a href="${g1}" target="${g3 || '_blank'}">${g2}</a>`)).promise().done(() => {
 
 			$(`#ami_alert_content > .toast[data-ami-hash="${hash}"]`).toast('show');
 		});

@@ -1,7 +1,7 @@
 /*!
  * AMI Web Framework (AWF) 2.0.0
  *
- * Copyright (c) 2014-2022 CNRS/LPSC
+ * Copyright (c) 2014-2023 CNRS/LPSC
  *
  * Author: Jerome Odier (jerome.odier@lpsc.in2p3.fr)
  *
@@ -31050,7 +31050,7 @@ const message_namespaceObject = "<div class=\"toast mb-2\" role=\"alert\" {% if 
 
 
 
-const _linkExp = /\[\s*([^\s\]]*)\s*]\(\s*([^\s)]*)\s*\)/g;
+const _linkExp = /\[\s*([^\s\]]*)\s*\]\(\s*([^\s\)]*)\s*\)(?:\{\s*([^\s\)]*)\s*\})?/g;
 
 function _publishAlert(clazz, title, message, fadeOut) {
   if (Array.isArray(message)) {
@@ -31072,7 +31072,7 @@ function _publishAlert(clazz, title, message, fadeOut) {
       fadeOut: fadeOut,
       message: message
     });
-    $('#ami_alert_content').append(html.replace(_linkExp, '<a href="$1" target="_blank">$2</a>')).promise().done(() => {
+    $('#ami_alert_content').append(html.replace(_linkExp, (_, g1, g2, g3) => `<a href="${g1}" target="${g3 || '_blank'}">${g2}</a>`)).promise().done(() => {
       $(`#ami_alert_content > .toast[data-ami-hash="${hash}"]`).toast('show');
     });
   } else {
