@@ -918,10 +918,10 @@ def main():
         return build(True, args.verbose)
 
     elif args.update_prod:
-        return updateAWF(args.git_commit_id, False, args.buid_dist, args.verbose)
+        return updateAWF(args.git_commit_id, False, args.build_dist, args.verbose)
 
     elif args.update_debug:
-        return updateAWF(args.git_commit_id, True, args.buid_dist, args.verbose)
+        return updateAWF(args.git_commit_id, True, args.build_dist, args.verbose)
 
     ####################################################################################################################
 
