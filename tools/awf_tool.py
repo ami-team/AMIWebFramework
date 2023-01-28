@@ -299,7 +299,7 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = 'web
 
             build(inDebugMode, verbose, './webpack-core.config.js', awfTempPath)
 
-            build(inDebugMode, verbose, './webpack.config.js', awfTempPath)
+            build(inDebugMode, verbose, './webpack-nocore.config.js', awfTempPath)
 
         ################################################################################################################
 
