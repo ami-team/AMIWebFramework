@@ -257,7 +257,6 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = 'web
 
         ignore = [
             '*~', '.DS_Store', '.DS_Store?',
-            '/docs/api.xxxx', '/docs/info.xxxx', '/js', '/twig',
             '/Gruntfile.js', '/node_modules', '/package-lock.json', '/package.json',
             '/.eslintrc.json', '/.settings', '/.idea', '/*.iml',
         ]
