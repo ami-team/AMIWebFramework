@@ -403,13 +403,15 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = 'web
 
         ################################################################################################################
 
-        if inDebugMode:
+        if not buildDist:
 
-            shutil.move(os.path.join('js', 'ami.js'), os.path.join('js', 'ami.min.js'))
+            if inDebugMode:
 
-        else:
+                shutil.move(os.path.join('js', 'ami.js'), os.path.join('js', 'ami.min.js'))
 
-            os.remove(os.path.join('js', 'ami.js'))
+            else:
+
+                os.remove(os.path.join('js', 'ami.js'))
 
         ################################################################################################################
 
