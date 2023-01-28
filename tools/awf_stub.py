@@ -17,17 +17,19 @@ import ssl, sys, zlib, base64, random
 
 ########################################################################################################################
 
-AWF_IMAGE_URL = 'https://raw.githubusercontent.com/ami-team/AMIWebFramework/master/tools/awf.img?_=%d' % random.uniform(0, 1000000000)
+if sys.version_info < (3, 0):
+
+	print('Python 2.X no longer supported')
+
+	sys.exit(1)
 
 ########################################################################################################################
 
-try:
+import urllib.request as urllib_request
 
-    import urllib.request as urllib_request
+########################################################################################################################
 
-except ImportError:
-
-    import urllib2 as urllib_request
+AWF_IMAGE_URL = 'https://raw.githubusercontent.com/ami-team/AMIWebFramework/master/tools/awf.img?_=%d' % random.uniform(0, 1000000000)
 
 ########################################################################################################################
 # MAIN                                                                                                                 #

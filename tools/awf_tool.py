@@ -13,7 +13,9 @@
 # http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
 ########################################################################################################################
 
-AWF_GIT_URL = 'https://github.com/ami-team/AMIWebFramework.git'
+AWF_SRC_GIT_URL = 'https://github.com/ami-team/AMIWebFramework.git'
+
+AWF_DIST_GIT_URL = 'https://github.com/ami-team/AMIWebFramework.git'
 
 ########################################################################################################################
 
@@ -77,13 +79,7 @@ def gitClone(tempPath, url, commit_id, retry = True):
 
         ################################################################################################################
 
-        if sys.version_info < (3, 0):
-
-            return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'], cwd = tempPath).strip()
-
-        else:
-
-            return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'], cwd = tempPath).decode('utf-8').strip()
+        return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'], cwd = tempPath).decode('utf-8').strip()
 
         ################################################################################################################
 
@@ -255,14 +251,25 @@ def updateWebpack(configFile):
 
 ########################################################################################################################
 
-def updateAWF(inDebugMode, awfGITCommitId, verbose, configFile = 'webpack.config.js'):
+def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = 'webpack.config.js'):
 
-    ignore = [
-        '*~', '.DS_Store', '.DS_Store?',
-        '/docs/api.html', '/docs/info.html', '/js', '/twig',
-        '/Gruntfile.js', '/node_modules', '/package-lock.json', '/package.json',
-        '/.eslintrc.json', '/.settings', '/.idea', '/*.iml',
-    ]
+    if buildDist:
+
+        ignore = [
+            '*~', '.DS_Store', '.DS_Store?',
+            '/docs/api.xxxx', '/docs/info.xxxx', '/js', '/twig',
+            '/Gruntfile.js', '/node_modules', '/package-lock.json', '/package.json',
+            '/.eslintrc.json', '/.settings', '/.idea', '/*.iml',
+        ]
+
+    else:
+
+        ignore = [
+            '*~', '.DS_Store', '.DS_Store?',
+            '/docs/api.html', '/docs/info.html', '/js', '/twig',
+            '/Gruntfile.js', '/node_modules', '/package-lock.json', '/package.json',
+            '/.eslintrc.json', '/.settings', '/.idea', '/*.iml',
+        ]
 
     baseTempPath = os.path.join(os.path.expanduser('~'), '.awf-cache', hashlib.md5(os.path.realpath(__file__).encode()).hexdigest()[0: 8])
 
@@ -282,7 +289,7 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose, configFile = 'webpack.config
 
         awfTempPath = os.path.join(baseTempPath, 'awf')
 
-        awfGITCommitId = gitClone(awfTempPath, AWF_GIT_URL, awfGITCommitId)
+        awfGITCommitId = gitClone(awfTempPath, AWF_SRC_GIT_URL if buildDist else AWF_DIST_GIT_URL, awfGITCommitId)
 
         print('-> using git release id: %s' % awfGITCommitId)
 
@@ -410,7 +417,7 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose, configFile = 'webpack.config
 
                 JS = package['controls_json'][control]['file']
 
-                m = re.search('controls\/([a-zA-Z0-9_.]+)\/([a-zA-Z0-9_.]+.js)$', JS)
+                m = re.search('controls/([a-zA-Z0-9_.]+)/([a-zA-Z0-9_.]+.js)$', JS)
 
                 if m is not None:
 
@@ -420,7 +427,9 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose, configFile = 'webpack.config
 
                     nb += copyFiles(package['path'], os.path.join('controls', m.group(1)), None, os.path.join('controls', m.group(1)), m.group(2), verbose)
 
-                    ignore.append('/controls/' + m.group(1))
+                    if not buildDist:
+
+                        ignore.append('/controls/' + m.group(1))
 
                 ########################################################################################################
 
@@ -462,7 +471,7 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose, configFile = 'webpack.config
 
                 JS = package['subapps_json'][subapp]['file']
 
-                m = re.search('subapps\/([a-zA-Z0-9_.]+)\/([a-zA-Z0-9_.]+.js)$', JS)
+                m = re.search('subapps/([a-zA-Z0-9_.]+)/([a-zA-Z0-9_.]+.js)$', JS)
 
                 if m is not None:
 
@@ -472,7 +481,9 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose, configFile = 'webpack.config
 
                     nb += copyFiles(package['path'], os.path.join('subapps', m.group(1)), None, os.path.join('subapps', m.group(1)), m.group(2), verbose)
 
-                    ignore.append('/subapps/' + m.group(1))
+                    if buildDist:
+
+                        ignore.append('/subapps/' + m.group(1))
 
                 ########################################################################################################
 
@@ -562,13 +573,7 @@ def createHomePage(verbose, bootstrapVersion, title = None, endpoint = None):
 
             print('Page title:')
 
-            try:
-
-                TITLE = raw_input()
-
-            except NameError as e:
-
-                TITLE = input()
+            TITLE = input()
 
         else:
 
@@ -580,13 +585,7 @@ def createHomePage(verbose, bootstrapVersion, title = None, endpoint = None):
 
             print('Service URL:')
 
-            try:
-
-                ENDPOINT = raw_input()
-
-            except NameError as e:
-
-                ENDPOINT = input()
+            ENDPOINT = input()
 
         else:
 
@@ -621,13 +620,7 @@ def createControl(verbose, sourceCodeFlavour, configFile = 'webpack.config.js'):
 
         print('Control name ([a-zA-Z][a-zA-Z0-9]*):')
 
-        try:
-
-            X = raw_input()
-
-        except NameError as e:
-
-            X = input()
+        X = input()
 
         ################################################################################################################
 
@@ -656,6 +649,8 @@ def createControl(verbose, sourceCodeFlavour, configFile = 'webpack.config.js'):
             XXX_CONTROL_JS_TEMPLATE = AWF_CONTROL_JS_MODULE_TEMPLATE
         elif sourceCodeFlavour == 'vue-js':
             XXX_CONTROL_JS_TEMPLATE = AWF_CONTROL_JS_VUE_JS_TEMPLATE
+        else:
+            raise Exception('internal error')
 
         ################################################################################################################
 
@@ -703,13 +698,7 @@ def createSubapp(verbose, sourceCodeFlavour, configFile = 'webpack.config.js'):
 
         print('Subapp name ([a-zA-Z][a-zA-Z0-9]*):')
 
-        try:
-
-            X = raw_input()
-
-        except NameError as e:
-
-            X = input()
+        X = input()
 
         ################################################################################################################
 
@@ -738,6 +727,8 @@ def createSubapp(verbose, sourceCodeFlavour, configFile = 'webpack.config.js'):
             XXX_SUBAPP_JS_TEMPLATE = AWF_SUBAPP_JS_MODULE_TEMPLATE
         elif sourceCodeFlavour == 'vue-js':
             XXX_SUBAPP_JS_TEMPLATE = AWF_SUBAPP_JS_VUE_JS_TEMPLATE
+        else:
+            raise Exception('internal error')
 
         ################################################################################################################
 
@@ -811,17 +802,9 @@ def run(verbose, port = 8000):
 
     import webbrowser
 
-    ####################################################################################################################
+    from http.server import HTTPServer
 
-    try:
-
-        from http.server import HTTPServer
-        from http.server import SimpleHTTPRequestHandler
-
-    except ImportError:
-
-        from BaseHTTPServer import HTTPServer
-        from SimpleHTTPServer import SimpleHTTPRequestHandler
+    from http.server import SimpleHTTPRequestHandler
 
     ####################################################################################################################
 
@@ -873,6 +856,14 @@ def main():
 
     ####################################################################################################################
 
+    if sys.version_info < (3, 0):
+
+        print('Python 2.X no longer supported')
+
+        return 1
+
+    ####################################################################################################################
+
     print_logo()
 
     ####################################################################################################################
@@ -900,6 +891,8 @@ def main():
 
     parser.add_argument('--git-commit-id', help = 'git commit id (default: HEAD)', type = str, default = 'HEAD')
 
+    parser.add_argument('--build-dist', help = 'build an AWF distribution', action = 'store_true')
+
     parser.add_argument('--verbose', help = 'make this tool verbose', action = 'store_true')
 
     args = parser.parse_args()
@@ -925,10 +918,10 @@ def main():
         return build(True, args.verbose)
 
     elif args.update_prod:
-        return updateAWF(False, args.git_commit_id, args.verbose)
+        return updateAWF(args.git_commit_id, False, args.buid_dist, args.verbose)
 
     elif args.update_debug:
-        return updateAWF(True, args.git_commit_id, args.verbose)
+        return updateAWF(args.git_commit_id, True, args.buid_dist, args.verbose)
 
     ####################################################################################################################
 
