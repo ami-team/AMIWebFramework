@@ -3,4 +3,10 @@
 .idea
 .settings
 
+__pycache__
+node_modules
+
+package-lock.json
+
 *.iml
+*.min.js
