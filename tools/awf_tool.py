@@ -392,7 +392,7 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = 'web
 
             nb += copyFiles(awfTempPath, 'tools', None, 'tools', 'awf.img', verbose, True)
             nb += copyFiles(awfTempPath, 'tools', None, 'tools', 'awf_stub.py', verbose, True)
-            nb += copyFiles(awfTempPath, 'tools', None, 'tools', 'package.json', verbose, False)
+            nb += copyFiles(awfTempPath, 'tools', None, 'tools', 'package.json', verbose, True)
 
         print('-> %d files copied.' % nb)
 
