@@ -15,7 +15,7 @@
 
 AWF_SRC_GIT_URL = 'https://github.com/ami-team/AMIWebFramework.git'
 
-AWF_DIST_GIT_URL = 'https://github.com/ami-team/awf-bundle.git'
+AWF_DIST_GIT_URL = 'https://github.com/ami-team/awf-dist.git'
 
 ########################################################################################################################
 
@@ -286,9 +286,15 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = 'web
 
         print('Package `%s`:' % 'AWF')
 
-        awfTempPath = os.path.join(baseTempPath, 'awf')
+        if buildDist:
 
-        awfGITCommitId = gitClone(awfTempPath, AWF_SRC_GIT_URL if buildDist else AWF_DIST_GIT_URL, awfGITCommitId)
+            awfTempPath = os.path.join(baseTempPath, 'awf-src')
+            awfGITCommitId = gitClone(awfTempPath, AWF_SRC_GIT_URL, awfGITCommitId)
+
+        else:
+
+            awfTempPath = os.path.join(baseTempPath, 'awf-dist')
+            awfGITCommitId = gitClone(awfTempPath, AWF_DIST_GIT_URL, awfGITCommitId)
 
         print('-> using git release id: %s' % awfGITCommitId)
 
