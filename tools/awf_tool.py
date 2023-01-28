@@ -489,7 +489,7 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = 'web
 
                     nb += copyFiles(package['path'], os.path.join('subapps', m.group(1)), None, os.path.join('subapps', m.group(1)), m.group(2), verbose)
 
-                    if buildDist:
+                    if not buildDist:
 
                         ignore.append('/subapps/' + m.group(1))
 
