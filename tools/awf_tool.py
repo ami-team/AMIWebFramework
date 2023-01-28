@@ -297,7 +297,15 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = 'web
 
         if buildDist:
 
+            print('##############################################################################')
+            print('# Compiling AWF core...                                                      #')
+            print('##############################################################################')
+
             build(inDebugMode, verbose, './webpack-core.config.js', awfTempPath)
+
+            print('##############################################################################')
+            print('# Compiling AWF controls ans subapps...                                      #')
+            print('##############################################################################')
 
             build(inDebugMode, verbose, './webpack-nocore.config.js', awfTempPath)
 
