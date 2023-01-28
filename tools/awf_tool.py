@@ -257,7 +257,7 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = 'web
 
         ignore = [
             '*~', '.DS_Store', '.DS_Store?',
-            '/Gruntfile.js', '/node_modules', '/package-lock.json', '/awf_package.json',
+            '/Gruntfile.js', '/node_modules', '/package-lock.json', '/package.json',
             '/.eslintrc.json', '/.settings', '/.idea', '/*.iml',
         ]
 
@@ -266,7 +266,7 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = 'web
         ignore = [
             '*~', '.DS_Store', '.DS_Store?',
             '/docs/api.html', '/docs/info.html', '/js', '/twig',
-            '/Gruntfile.js', '/node_modules', '/package-lock.json', '/awf_package.json',
+            '/Gruntfile.js', '/node_modules', '/package-lock.json', '/package.json',
             '/.eslintrc.json', '/.settings', '/.idea', '/*.iml',
         ]
 
@@ -321,7 +321,7 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = 'web
             'path': awfTempPath,
             'controls_json': loadJSON(os.path.join(awfTempPath,'controls', 'CONTROLS.json')),
             'subapps_json': loadJSON(os.path.join(awfTempPath, 'subapps', 'SUBAPPS.json')),
-            'package_json': loadJSON(os.path.join(awfTempPath, 'tools', 'awf_package.json')),
+            'package_json': loadJSON(os.path.join(awfTempPath, 'package.json')),
         }]
 
         ################################################################################################################
@@ -363,7 +363,7 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = 'web
                         'path': packageTempPath,
                         'controls_json': loadJSON(os.path.join(packageTempPath, 'controls', 'CONTROLS.json')),
                         'subapps_json': loadJSON(os.path.join(packageTempPath, 'subapps', 'SUBAPPS.json')),
-                        'package_json': loadJSON(os.path.join(packageTempPath, 'awf_package.json')),
+                        'package_json': loadJSON(os.path.join(packageTempPath, 'package.json')),
                     })
 
         ################################################################################################################
@@ -386,15 +386,12 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = 'web
 
         nb += copyFiles(awfTempPath, '.', None, '.', 'favicon.ico', verbose, False)
         nb += copyFiles(awfTempPath, '.', None, '.', '.eslintrc.json', verbose, True)
-
         nb += copyFiles(awfTempPath, '.', 'awf.py', 'tools', 'awf_stub.py', verbose, True)
-        nb += copyFiles(awfTempPath, '.', 'awf_package.json', 'tools', 'awf_package.json', verbose, True)
 
         if buildDist:
 
             nb += copyFiles(awfTempPath, 'tools', None, 'tools', 'awf.img', verbose, True)
             nb += copyFiles(awfTempPath, 'tools', None, 'tools', 'awf_stub.py', verbose, True)
-            nb += copyFiles(awfTempPath, 'tools', None, 'tools', 'awf_package.json', verbose, True)
 
         print('-> %d files copied.' % nb)
 
@@ -525,12 +522,26 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = 'web
         ################################################################################################################
 
         print('##############################################################################')
-        print('# GENERATING `awf_package.json`...                                               #')
+        print('# GENERATING `package.json`...                                               #')
         print('##############################################################################')
 
         ################################################################################################################
 
-        USER_PACKAGE_JSON = loadJSON('awf_package.json')
+        USER_PACKAGE_JSON = {
+			"name": "awf_project",
+			"version": "1.0.0",
+			"description": "AWF project",
+			"author": "",
+			"license": "CeCILL",
+			"scripts": {
+				"build-dev": "npx webpack serve --mode=development",
+				"build-prod": "npx webpack --mode=production"
+			},
+			"dependencies": {
+			},
+			"devDependencies": {
+			}
+		}
 
         ################################################################################################################
 
@@ -548,7 +559,7 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = 'web
 
         ################################################################################################################
 
-        saveJSON('awf_package.json', USER_PACKAGE_JSON)
+        saveJSON('package.json', USER_PACKAGE_JSON)
 
         ################################################################################################################
         ################################################################################################################
