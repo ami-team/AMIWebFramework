@@ -93,7 +93,7 @@ def gitClone(tempPath, url, commit_id, retry = True):
 
             shutil.rmtree(tempPath, ignore_errors = True)
 
-            gitClone(tempPath, url, commit_id, retry = False)
+            return gitClone(tempPath, url, commit_id, retry = False)
 
         else:
 
@@ -292,6 +292,12 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = 'web
         awfGITCommitId = gitClone(awfTempPath, AWF_SRC_GIT_URL if buildDist else AWF_DIST_GIT_URL, awfGITCommitId)
 
         print('-> using git release id: %s' % awfGITCommitId)
+
+        ################################################################################################################
+
+        if buildDist:
+
+            build(inDebugMode, verbose, './webpack-core.config.js', tempPath)
 
         ################################################################################################################
 
@@ -774,13 +780,17 @@ def createSubapp(verbose, sourceCodeFlavour, configFile = 'webpack.config.js'):
 
 ########################################################################################################################
 
-def build(inDebugMode, verbose, configFile = 'webpack.config.js'):
+def build(inDebugMode, verbose, configFile = 'webpack.config.js', cwd = None):
 
     try:
 
         ################################################################################################################
 
-        subprocess.check_call(['node', './node_modules/webpack/bin/webpack.js', '--config', configFile, '--mode', 'development' if inDebugMode else 'production'])
+        subprocess.check_call(['npm', 'i'], cwd = cwd)
+
+        ################################################################################################################
+
+        subprocess.check_call(['node', './node_modules/webpack/bin/webpack.js', '--config', configFile, '--mode', 'development' if inDebugMode else 'production'], cwd = cwd)
 
         ################################################################################################################
 
@@ -789,8 +799,6 @@ def build(inDebugMode, verbose, configFile = 'webpack.config.js'):
     except Exception as e:
 
         print('error: %s' % e)
-
-        print('Please run `npm install` and try again')
 
         return 1
 
