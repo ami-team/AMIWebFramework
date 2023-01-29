@@ -13,7 +13,7 @@
 # http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
 ########################################################################################################################
 
-AWF_SRC_GIT_URL = 'https://github.com/ami-team/AMIWebFramework.git'
+AWF_SRC_GIT_URL = 'https://gitlab.in2p3.fr/ami-team/AMIWebFramework.git'
 
 AWF_DIST_GIT_URL = 'https://github.com/ami-team/awf-dist.git'
 

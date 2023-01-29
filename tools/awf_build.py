@@ -55,13 +55,7 @@ def main():
 
         ################################################################################################################
 
-        try:
-
-            image = base64.b64encode(zlib.compress(data.encode('utf-8'))).decode('utf-8')
-
-        except:
-
-            image = base64.b64encode(zlib.compress(data))
+        image = base64.b64encode(zlib.compress(data.encode('utf-8'))).decode('utf-8')
 
         ################################################################################################################
 
