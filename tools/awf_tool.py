@@ -59,6 +59,24 @@ def gitClone(tempPath, url, commit_id, retry = True):
 
     if not os.path.isdir(tempPath):
 
+        ################################################################################################################
+
+        L = []
+
+        if 'AWF_GIT_USERNAME' in os.environ:
+
+            L.append(os.environ['AWF_GIT_USERNAME'])
+
+            if 'AWF_GIT_PASSWORD' in os.environ:
+
+                L.append(os.environ['AWF_GIT_PASSWORD'])
+
+        if len(L) > 0:
+
+            url = url.replace('https://', 'https://%s@'.format(':'.join(L)))
+
+        ################################################################################################################
+
         subprocess.check_call(['git', 'clone', url, tempPath])
 
     ####################################################################################################################
