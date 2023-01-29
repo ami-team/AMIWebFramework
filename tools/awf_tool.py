@@ -253,7 +253,7 @@ def updateWebpack(configFile):
 
 def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = 'webpack.config.js'):
 
-    currentYear = datetime.datetime.today().strftime('%y')
+    currentYear = datetime.datetime.today().strftime('%Y')
 
     if buildDist:
 
