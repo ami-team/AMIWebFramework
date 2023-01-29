@@ -253,26 +253,27 @@ def updateWebpack(configFile):
 
 def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = 'webpack.config.js'):
 
-    currentYear = datetime.datetime.today().strftime('%Y')
-
-    if buildDist:
-
-        ignore = [
-            '*~', '.DS_Store', '.DS_Store?',
-            '/Gruntfile.js', '/node_modules', '/package-lock.json', '/package.json',
-            '/.eslintrc.json', '/.settings', '/.idea', '/*.iml',
-        ]
-
-    else:
-
-        ignore = [
-            '*~', '.DS_Store', '.DS_Store?',
-            '/docs/api.html', '/docs/info.html', '/js', '/twig',
-            '/Gruntfile.js', '/node_modules', '/package-lock.json', '/package.json',
-            '/.eslintrc.json', '/.settings', '/.idea', '/*.iml',
-        ]
+    ####################################################################################################################
 
     baseTempPath = os.path.join(os.path.expanduser('~'), '.awf-cache', hashlib.md5(os.path.realpath(__file__).encode()).hexdigest()[0: 8])
+
+    ####################################################################################################################
+
+    currentYear = datetime.datetime.today().strftime('%Y')
+
+    ####################################################################################################################
+
+    ignore = [
+        '*~', '.DS_Store', '.DS_Store?',
+        '/webpack.config.js', '/node_modules', '/package-lock.json', '/package.json',
+        '/.eslintrc.json', '/.settings', '/.idea', '/*.iml',
+    ]
+
+    if not buildDist:
+
+        ignore.extend(['/docs/api.html', '/docs/info.html', '/js', '/twig'])
+
+    ####################################################################################################################
 
     try:
 
@@ -536,57 +537,65 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = 'web
         ################################################################################################################
         ################################################################################################################
 
-        print('##############################################################################')
-        print('# GENERATING `package.json`...                                               #')
-        print('##############################################################################')
+        if not buildDist:
+
+            ############################################################################################################
+
+            print('##############################################################################')
+            print('# GENERATING `package.json`...                                               #')
+            print('##############################################################################')
+
+            ############################################################################################################
+
+            USER_PACKAGE_JSON = {
+                "name": "awf_project",
+                "version": "1.0.0",
+                "description": "AWF project",
+                "author": "",
+                "license": "CeCILL",
+                "scripts": {
+                    "build-dev": "npx webpack serve --mode=development",
+                    "build-prod": "npx webpack --mode=production"
+                },
+                "dependencies": {
+                },
+                "devDependencies": {
+                }
+            }
+
+            ############################################################################################################
+
+            for index, package in enumerate(PACKAGES):
+
+                json = package['package_json']
+
+                if index > 0:
+                    if 'dependencies' in json:
+                        USER_PACKAGE_JSON['dependencies'].update(json['dependencies'])
+
+                else:
+                    if 'devDependencies' in json:
+                        USER_PACKAGE_JSON['devDependencies'] = dict(json['devDependencies'])
+
+            ############################################################################################################
+
+            saveJSON('package.json', USER_PACKAGE_JSON)
 
         ################################################################################################################
-
-        USER_PACKAGE_JSON = {
-			"name": "awf_project",
-			"version": "1.0.0",
-			"description": "AWF project",
-			"author": "",
-			"license": "CeCILL",
-			"scripts": {
-				"build-dev": "npx webpack serve --mode=development",
-				"build-prod": "npx webpack --mode=production"
-			},
-			"dependencies": {
-			},
-			"devDependencies": {
-			}
-		}
-
-        ################################################################################################################
-
-        for index, package in enumerate(PACKAGES):
-
-            json = package['package_json']
-
-            if index > 0:
-                if 'dependencies' in json:
-                    USER_PACKAGE_JSON['dependencies'].update(json['dependencies'])
-
-            else:
-                if 'devDependencies' in json:
-                    USER_PACKAGE_JSON['devDependencies'] = dict(json['devDependencies'])
-
-        ################################################################################################################
-
-        saveJSON('package.json', USER_PACKAGE_JSON)
-
-        ################################################################################################################
         ################################################################################################################
         ################################################################################################################
 
-        print('##############################################################################')
-        print('# GENERATING `webpack.config.js`...                                          #')
-        print('##############################################################################')
+        if not buildDist:
 
-        ################################################################################################################
+            ############################################################################################################
 
-        updateWebpack(configFile)
+            print('##############################################################################')
+            print('# GENERATING `webpack.config.js`...                                          #')
+            print('##############################################################################')
+
+            ############################################################################################################
+
+            updateWebpack(configFile)
 
         ################################################################################################################
         ################################################################################################################
