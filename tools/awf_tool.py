@@ -73,7 +73,7 @@ def gitClone(tempPath, url, commit_id, retry = True):
 
         if len(L) > 0:
 
-            url = url.replace('https://', 'https://%s@'.format(':'.join(L)))
+            url = url.replace('https://', 'https://{}@'.format(':'.join(L)))
 
         ################################################################################################################
 
