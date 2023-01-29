@@ -19,7 +19,7 @@ AWF_DIST_GIT_URL = 'https://github.com/ami-team/awf-dist.git'
 
 ########################################################################################################################
 
-import os, re, sys, glob, json, random, shutil, hashlib, argparse, subprocess, platform
+import os, re, sys, glob, json, random, shutil, hashlib, argparse, datetime, subprocess, platform
 
 ########################################################################################################################
 
@@ -253,6 +253,8 @@ def updateWebpack(configFile):
 
 def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = 'webpack.config.js'):
 
+    currentYear = datetime.datetime.today().year
+
     if buildDist:
 
         ignore = [
@@ -399,6 +401,8 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = 'web
             nb += copyFiles(awfTempPath, 'tools', None, 'tools', 'awf.img', verbose, True)
             nb += copyFiles(awfTempPath, 'tools', None, 'tools', 'awf_stub.py', verbose, True)
 
+            replaceStrInFile(os.path.join('tools', 'awf_stub.py'), '{{CURRENT_YEAR}}', currentYear)
+
         print('-> %d files copied.' % nb)
 
         ################################################################################################################
@@ -414,6 +418,8 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = 'web
                 os.remove(os.path.join('js', 'ami.js'))
 
         ################################################################################################################
+
+        replaceStrInFile(os.path.join('.', 'awf.py'), '{{CURRENT_YEAR}}', currentYear)
 
         replaceStrInFile(os.path.join('js', 'ami.min.js'), '{{AMI_COMMIT_ID}}', awfGITCommitId)
 
