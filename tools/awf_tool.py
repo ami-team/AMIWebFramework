@@ -396,11 +396,11 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = 'web
         nb += copyFiles(awfTempPath, '.', None, '.', 'README.md', verbose, True)
         nb += copyFiles(awfTempPath, '.', None, '.', 'favicon.ico', verbose, False)
         nb += copyFiles(awfTempPath, '.', None, '.', '.eslintrc.json', verbose, True)
+
         nb += copyFiles(awfTempPath, '.', 'awf.py', 'tools', 'awf_stub.py', verbose, True)
 
         if buildDist:
 
-            nb += copyFiles(awfTempPath, 'tools', None, 'tools', 'awf.img', verbose, True)
             nb += copyFiles(awfTempPath, 'tools', None, 'tools', 'awf_stub.py', verbose, True)
 
             replaceStrInFile(os.path.join('tools', 'awf_stub.py'), '{{CURRENT_YEAR}}', currentYear)
