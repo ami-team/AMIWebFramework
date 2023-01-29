@@ -39,7 +39,7 @@ chmod a+x ./awf.py
 ./awf.py --create-home-page
 ```
 
-Documentation there: https://ami-ecosystem.in2p3.fr
+Documentation there: https://ami-ecosystem.in2p3.fr/
 
 Developers
 ==========
