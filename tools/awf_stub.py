@@ -29,7 +29,7 @@ import urllib.request as urllib_request
 
 ########################################################################################################################
 
-AWF_IMAGE_URL = 'https://raw.githubusercontent.com/ami-team/AMIWebFramework/master/tools/awf.img?_=%d' % random.uniform(0, 1000000000)
+AWF_IMAGE_URL = 'https://raw.githubusercontent.com/ami-team/awf-dist/master/tools/awf.img?_=%d' % random.uniform(0, 1000000000)
 
 ########################################################################################################################
 # MAIN                                                                                                                 #
