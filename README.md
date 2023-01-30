@@ -2,7 +2,7 @@
 [![][SrcRepo img]][SrcRepo]
 [![][DistRepo img]][DistRepo]
 
-<div style="background-color: white;">
+<div style="background-color: white; padding: 0.5rem;">
 	<a href="http://lpsc.in2p3.fr/" target="_blank">
 		<img src="https://ami.web.cern.ch/images/logo_lpsc.png" alt="LPSC" height="72" />
 	</a>
