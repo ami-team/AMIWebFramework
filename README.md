@@ -1,7 +1,7 @@
 [![][License img]][License]
 [![][SrcRepo img]][SrcRepo]
 [![][DistRepo img]][DistRepo]
-![][BuildStatus img]
+[![][BuildStatus img]][BuildStatus]
 
 <div style="background-color: white; padding: 0.5rem;">
 	<a href="http://lpsc.in2p3.fr/" target="_blank">
@@ -61,4 +61,5 @@ Developers
 [DistRepo]:https://github.com/ami-team/awf-dist
 [DistRepo img]:https://img.shields.io/badge/dist%20repo-github.com-success
 
+[BuildStatus]:https://ami-ecosystem.in2p3.fr/cicd/buildStatus/icon/?job=AWF_Distribution
 [BuildStatus img]:https://ami-ecosystem.in2p3.fr/cicd/buildStatus/icon/?job=AWF_Distribution
