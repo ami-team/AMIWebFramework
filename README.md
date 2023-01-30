@@ -31,7 +31,7 @@ Getting started
 ===============
 
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://ami-ecosystem.in2p3.fr/download/awf.py > awf.py
+curl https://ami-ecosystem.in2p3.fr/download/awf.py > awf.py
 
 chmod a+x ./awf.py
 
