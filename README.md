@@ -1,6 +1,7 @@
 [![][License img]][License]
 [![][SrcRepo img]][SrcRepo]
 [![][DistRepo img]][DistRepo]
+![][BuildStatus img]
 
 <div style="background-color: white; padding: 0.5rem;">
 	<a href="http://lpsc.in2p3.fr/" target="_blank">
@@ -55,7 +56,9 @@ Developers
 [License img]:https://img.shields.io/badge/license-CeCILL--C-blue.svg
 
 [SrcRepo]:https://gitlab.in2p3.fr/ami-team/AMIWebFramework
-[SrcRepo img]:https://img.shields.io/badge/Main%20Repo-gitlab.in2p3.fr-success
+[SrcRepo img]:https://img.shields.io/badge/src%20repo-gitlab.in2p3.fr-success
 
 [DistRepo]:https://github.com/ami-team/awf-dist
-[DistRepo img]:https://img.shields.io/badge/Alt%20Repo-github.com-success
+[DistRepo img]:https://img.shields.io/badge/dist%20repo-github.com-success
+
+[BuildStatus img]:https://ami-ecosystem.in2p3.fr/cicd/buildStatus/icon/?job=AWF_Distribution
