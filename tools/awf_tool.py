@@ -555,49 +555,45 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = 'web
         ################################################################################################################
         ################################################################################################################
 
-        if not buildDist:
+        print('##############################################################################')
+        print('# GENERATING `package.json`...                                               #')
+        print('##############################################################################')
 
-            ############################################################################################################
+        ################################################################################################################
 
-            print('##############################################################################')
-            print('# GENERATING `package.json`...                                               #')
-            print('##############################################################################')
-
-            ############################################################################################################
-
-            USER_PACKAGE_JSON = loadJSON('package.json') if os.path.isfile('package.json') else {
-                "name": "awf_project",
-                "version": "1.0.0",
-                "description": "AWF project",
-                "author": "",
-                "license": "CeCILL",
-                "scripts": {
-                    "build-dev": "npx webpack serve --mode=development",
-                    "build-prod": "npx webpack --mode=production"
-                },
-                "dependencies": {
-                },
-                "devDependencies": {
-                }
+        USER_PACKAGE_JSON = loadJSON('package.json') if not buildDist and os.path.isfile('package.json') else {
+            "name": "awf_project",
+            "version": "1.0.0",
+            "description": "AWF project",
+            "author": "",
+            "license": "CeCILL",
+            "scripts": {
+                "build-dev": "npx webpack serve --mode=development",
+                "build-prod": "npx webpack --mode=production"
+            },
+            "dependencies": {
+            },
+            "devDependencies": {
             }
+        }
 
-            ############################################################################################################
+        ################################################################################################################
 
-            for index, package in enumerate(PACKAGES):
+        for index, package in enumerate(PACKAGES):
 
-                json = package['package_json']
+            json = package['package_json']
 
-                if index > 0:
-                    if 'dependencies' in json:
-                        USER_PACKAGE_JSON['dependencies'].update(json['dependencies'])
+            if index > 0:
+                if 'dependencies' in json:
+                    USER_PACKAGE_JSON['dependencies'].update(json['dependencies'])
 
-                else:
-                    if 'devDependencies' in json:
-                        USER_PACKAGE_JSON['devDependencies'] = dict(json['devDependencies'])
+            else:
+                if 'devDependencies' in json:
+                    USER_PACKAGE_JSON['devDependencies'] = dict(json['devDependencies'])
 
-            ############################################################################################################
+        ################################################################################################################
 
-            saveJSON('package.json', USER_PACKAGE_JSON)
+        saveJSON('package.json', USER_PACKAGE_JSON)
 
         ################################################################################################################
         ################################################################################################################
