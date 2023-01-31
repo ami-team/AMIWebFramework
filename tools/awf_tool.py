@@ -284,7 +284,7 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = 'web
     ignore = [
         '*~', '.DS_Store', '.DS_Store?',
         '/webpack.config.js', '/node_modules', '/package-lock.json',
-        '/.eslintrc.json', '/.settings', '/.idea', '/*.iml',
+        '/.settings', '/.idea', '/*.iml',
     ]
 
     if not buildDist:
