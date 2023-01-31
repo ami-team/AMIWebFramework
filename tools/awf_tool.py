@@ -565,7 +565,7 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = 'web
 
             ############################################################################################################
 
-            USER_PACKAGE_JSON = {
+            USER_PACKAGE_JSON = loadJSON('package.json') if os.path.isfile('package.json') else {
                 "name": "awf_project",
                 "version": "1.0.0",
                 "description": "AWF project",
