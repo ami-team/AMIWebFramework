@@ -413,6 +413,7 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = 'web
 
         nb += copyFiles(awfTempPath, '.', None, '.', 'README.md', verbose, True)
         nb += copyFiles(awfTempPath, '.', None, '.', 'favicon.ico', verbose, False)
+        nb += copyFiles(awfTempPath, '.', None, '.', '.editorconfig', verbose, True)
         nb += copyFiles(awfTempPath, '.', None, '.', '.eslintrc.json', verbose, True)
 
         nb += copyFiles(awfTempPath, '.', 'awf.py', 'tools', 'awf_stub.py', verbose, True)
