@@ -861,7 +861,7 @@ def build(inDebugMode, verbose, configFile = 'webpack.config.js', cwd = None):
 
     try:
 
-        subprocess.check_call(['npm', 'i'], cwd = cwd)
+        subprocess.check_call(['npm', 'i'], shell = True, cwd = cwd)
 
     except Exception as e:
 
