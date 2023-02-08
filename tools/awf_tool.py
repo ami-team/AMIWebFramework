@@ -853,25 +853,35 @@ def createSubapp(verbose, sourceCodeFlavour, configFile = 'webpack.config.js'):
 
 def build(inDebugMode, verbose, configFile = 'webpack.config.js', cwd = None):
 
+    ####################################################################################################################
+
+    result = 0
+
+    ####################################################################################################################
+
     try:
 
-        ################################################################################################################
-
         subprocess.check_call(['npm', 'i'], cwd = cwd)
-
-        ################################################################################################################
-
-        subprocess.check_call(['node', './node_modules/webpack/bin/webpack.js', '--config', configFile, '--mode', 'development' if inDebugMode else 'production'], cwd = cwd)
-
-        ################################################################################################################
-
-        return 0
 
     except Exception as e:
 
         print('error: %s' % e)
+        result = 1
 
-        return 1
+    ####################################################################################################################
+
+    try:
+
+        subprocess.check_call(['node', './node_modules/webpack/bin/webpack.js', '--config', configFile, '--mode', 'development' if inDebugMode else 'production'], cwd = cwd)
+
+    except Exception as e:
+
+        print('error: %s' % e)
+        result = 1
+
+    ####################################################################################################################
+
+    return result
 
 ########################################################################################################################
 
