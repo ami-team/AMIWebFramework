@@ -232,29 +232,63 @@
 
 				<div class="card-body">
 
-					<div class="mb-2">
-						<label class="form-label" for="B4391EF0_F480_2547_71A2_F0D25A310382">memcached_enabled</label>
-						<select class="form-select form-select-sm" name="memcached_enabled" id="B4391EF0_F480_2547_71A2_F0D25A310382">
-							<option value="false">false</option>
-							<option value="true">true</option>
-						</select>
-					</div>
+					<div class="row">
+						<div class="col-md-6">
 
-					<hr />
+							<div class="mb-2">
+								<label class="form-label" for="B4391EF0_F480_2547_71A2_F0D25A310382">redis_enabled</label>
+								<select class="form-select form-select-sm" name="redis_enabled" id="B4391EF0_F480_2547_71A2_F0D25A310382">
+									<option value="false">false</option>
+									<option value="true">true</option>
+								</select>
+							</div>
 
-					<div class="mb-2">
-						<label class="form-label" for="BDFD511F_D66F_921D_00EC_FA8911A7D1E7">memcached_host</label>
-						<input class="form-control form-control-sm" type="text" name="memcached_host" value="localhost" id="BDFD511F_D66F_921D_00EC_FA8911A7D1E7" />
-					</div>
+							<hr />
 
-					<div class="mb-2">
-						<label class="form-label" for="E2DE15C0_575E_AFA3_5505_1A92183F6501">memcached_port</label>
-						<input class="form-control form-control-sm" type="number" name="memcached_port" min="0" max="65535" value="11211" id="E2DE15C0_575E_AFA3_5505_1A92183F6501" />
-					</div>
+							<div class="mb-2">
+								<label class="form-label" for="BDFD511F_D66F_921D_00EC_FA8911A7D1E7">redis_host</label>
+								<input class="form-control form-control-sm" type="text" name="redis_host" value="localhost" id="BDFD511F_D66F_921D_00EC_FA8911A7D1E7" />
+							</div>
 
-					<div class="mb-2">
-						<label class="form-label" for="D095BE4E_A602_B5AC_FD2C_FAB2981E1A83">memcached_expiration [s]</label>
-						<input class="form-control form-control-sm" type="number" name="memcached_expiration" min="0" value="3600" id="D095BE4E_A602_B5AC_FD2C_FAB2981E1A83" />
+							<div class="mb-2">
+								<label class="form-label" for="E2DE15C0_575E_AFA3_5505_1A92183F6501">redis_port</label>
+								<input class="form-control form-control-sm" type="number" name="redis_port" min="0" max="65535" value="6379" id="E2DE15C0_575E_AFA3_5505_1A92183F6501" />
+							</div>
+
+							<div class="mb-2">
+								<label class="form-label" for="D095BE4E_A602_B5AC_FD2C_FAB2981E1A83">redis_expiration [s]</label>
+								<input class="form-control form-control-sm" type="number" name="redis_expiration" min="0" value="3600" id="D095BE4E_A602_B5AC_FD2C_FAB2981E1A83" />
+							</div>
+
+						</div>
+						<div class="col-md-6">
+
+							<div class="mb-2">
+								<label class="form-label" for="B4391EF0_F480_2547_71A2_F0D25A310382">memcached_enabled</label>
+								<select class="form-select form-select-sm" name="memcached_enabled" id="B4391EF0_F480_2547_71A2_F0D25A310382">
+									<option value="false">false</option>
+									<option value="true">true</option>
+								</select>
+							</div>
+
+							<hr />
+
+							<div class="mb-2">
+								<label class="form-label" for="BDFD511F_D66F_921D_00EC_FA8911A7D1E7">memcached_host</label>
+								<input class="form-control form-control-sm" type="text" name="memcached_host" value="localhost" id="BDFD511F_D66F_921D_00EC_FA8911A7D1E7" />
+							</div>
+
+							<div class="mb-2">
+								<label class="form-label" for="E2DE15C0_575E_AFA3_5505_1A92183F6501">memcached_port</label>
+								<input class="form-control form-control-sm" type="number" name="memcached_port" min="0" max="65535" value="11211" id="E2DE15C0_575E_AFA3_5505_1A92183F6501" />
+							</div>
+
+							<div class="mb-2">
+								<label class="form-label" for="D095BE4E_A602_B5AC_FD2C_FAB2981E1A83">memcached_expiration [s]</label>
+								<input class="form-control form-control-sm" type="number" name="memcached_expiration" min="0" value="3600" id="D095BE4E_A602_B5AC_FD2C_FAB2981E1A83" />
+							</div>
+
+						</div>
 					</div>
 
 				</div>
