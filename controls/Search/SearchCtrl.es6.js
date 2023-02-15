@@ -80,7 +80,8 @@ $AMIClass('SearchCtrl', {
 			{
 				isEmbedded: amiWebApp.isEmbedded(),
 
-				endpoint: amiCommand.endpoint,
+				//endpoint: amiCommand.endpoint,
+				endpoint: amiCommand.getHttpEndpoint(),
 
 				/**/
 
