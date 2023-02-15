@@ -691,7 +691,7 @@ class AMIWebApp
 
 						if($('#ami_login_menu_content').length === 0)
 						{
-							data3 += '<div id="ami_login_menu_content"></div>';
+							data3 += '<ul id="ami_login_menu_content"></ul>';
 						}
 
 						/*--------------------------------------------------------------------------------------------*/
@@ -708,7 +708,7 @@ class AMIWebApp
 									ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, signOutAllowed,
 									createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed,
 									captchaAllowed,
-									bookmarksAllowed, dashboardsAllowed
+									false, false
 								).done(() => {
 
 									locks.unlock();
