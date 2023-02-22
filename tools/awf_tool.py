@@ -19,7 +19,7 @@ AWF_DIST_GIT_URL = 'https://github.com/ami-team/awf-dist.git'
 
 ########################################################################################################################
 
-import os, re, sys, glob, json, random, shutil, hashlib, argparse, datetime, subprocess, platform
+import os, re, sys, glob, json, zlib, base64, random, shutil, hashlib, argparse, datetime, subprocess, platform
 
 ########################################################################################################################
 
@@ -420,11 +420,11 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = 'web
 
         if buildDist:
 
-            nb += copyFiles(awfTempPath, 'tools', None, 'tools', 'awf.img', verbose, True)
-
             nb += copyFiles(awfTempPath, 'tools', None, 'tools', 'awf_stub.py', verbose, True)
 
             replaceStrInFile(os.path.join('tools', 'awf_stub.py'), '{{CURRENT_YEAR}}', currentYear)
+
+            saveText(os.path.join('tools', 'awf.img'), base64.b64encode(zlib.compress(loadText(os.path.join(awfTempPath, 'tools', 'awf_tool.py')).encode('utf-8'))).decode('utf-8'))
 
         print('-> %d files copied.' % nb)
 
