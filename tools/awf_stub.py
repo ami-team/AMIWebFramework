@@ -29,9 +29,9 @@ import urllib.request as urllib_request
 
 ########################################################################################################################
 
-AWF_IMAGE_ALT = 'https://raw.githubusercontent.com/ami-team/awf-dist/master/tools/awf.img?_=%d' % random.uniform(0, 1000000000)
+AWF_IMAGE_URL = 'https://raw.githubusercontent.com/ami-team/awf-dist/master/tools/awf.img?_=%d' % random.uniform(0, 1000000000)
 
-AWF_IMAGE_URL_URL = 'https://repo.ami-ecosystem.in2p3.fr/releases/net/hep/ami/AWF/1.0.0/AWF-1.0.0.img?_=%d' % random.uniform(0, 1000000000)
+AWF_IMAGE_ALT_URL = 'https://repo.ami-ecosystem.in2p3.fr/releases/net/hep/ami/AWF/1.0.0/AWF-1.0.0.img?_=%d' % random.uniform(0, 1000000000)
 
 ########################################################################################################################
 # MAIN                                                                                                                 #
