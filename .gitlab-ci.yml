@@ -4,4 +4,5 @@ build:
     before_script:
         - "echo \"<settings><servers><server><id>net.hep.ami-releases</id><username>${AMI_MAVEN_REPO_USERNAME}</username><password>${AMI_MAVEN_REPO_PASSWORD}</password></server></servers></settings>\" > ~/.m2/settings.xml"
     script:
+        - "python3 ./tools/awf_build.py"
         - "mvn deploy:deploy-file -DgroupId=net.hep.ami -DartifactId=AWF -Dversion=1.0.0 -Dfile=./tools/awf.img -Dpackaging=img -DgeneratePom=true -DrepositoryId=net.hep.ami-releases -Durl=https://repo.ami-ecosystem.in2p3.fr/releases"
