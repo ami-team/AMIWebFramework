@@ -31,6 +31,8 @@ import urllib.request as urllib_request
 
 AWF_IMAGE_URL = 'https://repo.ami-ecosystem.in2p3.fr/releases/net/hep/ami/AWF/1.0.0/AWF-1.0.0.img?_=%d' % random.uniform(0, 1000000000)
 
+AWF_IMAGE_ALT_URL = 'https://raw.githubusercontent.com/ami-team/awf-dist/master/tools/awf.img?_=%d' % random.uniform(0, 1000000000)
+
 ########################################################################################################################
 # MAIN                                                                                                                 #
 ########################################################################################################################
@@ -41,7 +43,17 @@ if __name__ == '__main__':
 
     try:
 
-        f = urllib_request.urlopen(AWF_IMAGE_URL, context = hasattr(ssl, '_create_unverified_context') and ssl._create_unverified_context() or None)
+        ################################################################################################################
+
+        try:
+
+            f = urllib_request.urlopen(AWF_IMAGE_URL, context = hasattr(ssl, '_create_unverified_context') and ssl._create_unverified_context() or None)
+
+        except Exception as e:
+
+            f = urllib_request.urlopen(AWF_IMAGE_ALT_URL, context = hasattr(ssl, '_create_unverified_context') and ssl._create_unverified_context() or None)
+
+        ################################################################################################################
 
         try:
 
@@ -50,6 +62,8 @@ if __name__ == '__main__':
         finally:
 
             f.close()
+
+        ################################################################################################################
 
     except Exception as e:
 
