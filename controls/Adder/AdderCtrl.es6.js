@@ -59,6 +59,7 @@ $AMIClass('AdderCtrl', {
 				context: result,
 				showAddModalFunc: showAddModalFunc,
 				canAdd: canAdd,
+				filter: '',
 			},
 			options
 		);
@@ -75,7 +76,7 @@ $AMIClass('AdderCtrl', {
 				{
 					e.preventDefault();
 
-					this.search($(this.patchId('#B28F6454_3862_3031_6BAF_98392DE9C377')).val());
+					this.search($(this.patchId('#B28F6454_3862_3031_6BAF_98392DE9C377')).val().trim());
 				}
 			});
 
@@ -83,7 +84,7 @@ $AMIClass('AdderCtrl', {
 
 				e.preventDefault();
 
-				this.search($(this.patchId('#B28F6454_3862_3031_6BAF_98392DE9C377')).val());
+				this.search($(this.patchId('#B28F6454_3862_3031_6BAF_98392DE9C377')).val().trim());
 			});
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -100,7 +101,11 @@ $AMIClass('AdderCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			this.search().done((listOfFieldDescriptions, listOfRows, sql, mql, ast, totalNumberOfRows) => {
+			$(this.patchId('#B28F6454_3862_3031_6BAF_98392DE9C377')).val(this.ctx.filter);
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			this.search(this.ctx.filter).done((listOfFieldDescriptions, listOfRows, sql, mql, ast, totalNumberOfRows) => {
 
 				result.resolveWith(this.ctx.context, [listOfFieldDescriptions, listOfRows, sql, mql, ast, totalNumberOfRows]);
 
@@ -121,19 +126,17 @@ $AMIClass('AdderCtrl', {
 
 	search: function(filter)
 	{
-		const val = $(this.patchId('#B28F6454_3862_3031_6BAF_98392DE9C377')).val().trim();
-
 		let mql = 'SELECT *';
 
-		if(val)
+		if(filter)
 		{
-			if(val.includes('%'))
+			if(filter.includes('%'))
 			{
-				mql += ` WHERE \`${this.ctx.field }\` LIKE '${amiWebApp.textToSQL(val)}'`;
+				mql += ` WHERE \`${this.ctx.field }\` LIKE '${amiWebApp.textToSQL(filter)}'`;
 			}
 			else
 			{
-				mql += ` WHERE \`${this.ctx.field }\` = '${amiWebApp.textToSQL(val)}'`;
+				mql += ` WHERE \`${this.ctx.field }\` = '${amiWebApp.textToSQL(filter)}'`;
 			}
 		}
 
