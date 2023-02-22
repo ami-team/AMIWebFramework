@@ -101,6 +101,10 @@ $AMIClass('AdderCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
+			$(this.patchId('#B28F6454_3862_3031_6BAF_98392DE9C377')).val(this.ctx.filter);
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
 			this.search(this.ctx.filter).done((listOfFieldDescriptions, listOfRows, sql, mql, ast, totalNumberOfRows) => {
 
 				result.resolveWith(this.ctx.context, [listOfFieldDescriptions, listOfRows, sql, mql, ast, totalNumberOfRows]);
