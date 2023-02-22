@@ -422,6 +422,8 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = 'web
 
             nb += copyFiles(awfTempPath, 'tools', None, 'tools', 'awf_stub.py', verbose, True)
 
+            nb += copyFiles(awfTempPath, 'tools', None, 'tools', 'awf_tool.py', verbose, True)
+
             replaceStrInFile(os.path.join('tools', 'awf_stub.py'), '{{CURRENT_YEAR}}', currentYear)
 
         print('-> %d files copied.' % nb)
