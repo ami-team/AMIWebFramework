@@ -2,6 +2,7 @@ image: maven:3-amazoncorretto-17
 
 build:
     before_script:
+        - "yum install python3"
         - "echo \"<settings><servers><server><id>net.hep.ami-releases</id><username>${AMI_MAVEN_REPO_USERNAME}</username><password>${AMI_MAVEN_REPO_PASSWORD}</password></server></servers></settings>\" > ~/.m2/settings.xml"
     script:
         - "python3 ./tools/awf_build.py"
