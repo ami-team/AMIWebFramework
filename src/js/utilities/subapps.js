@@ -205,6 +205,10 @@ export function loadSubApp(subapp, userdata, options)
 
 						promise.then(() => {
 
+							amiWebApp.args['subapp'] = subapp;
+
+							amiWebApp.args['userdata'] = userdata;
+
 							amiRouter.appendHistoryEntry({
 								searchParams: {
 									'subapp': subapp,
