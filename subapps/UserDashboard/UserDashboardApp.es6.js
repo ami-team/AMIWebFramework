@@ -78,7 +78,7 @@ $AMIClass('UserDashboardApp', {
 
 			setTimeout(() => {
 
-				$('#ami_ext_menu_content').prepend(
+				$('#ami_ext_menu_content').html(
 					'<li class="nav-item">' +
 					'  <span class="switch switch-on-primary switch-off-secondary">' +
 					'    <input type="checkbox" id="B64A4510_C563_4DD4_B161_EDDB560F613C" onchange="userDashboardApp.setStatic(!$(this).prop(\'checked\'));">' +
