@@ -199,15 +199,15 @@ export function loadSubApp(subapp, userdata, options)
 
 					tools._internal_then(_currentSubappInstance.onReady(userdata), () => {
 
+						amiWebApp.args['subapp'] = subapp;
+
+						amiWebApp.args['userdata'] = userdata;
+
 						const promise = amiAuth.isAuthenticated() ? triggerLogin()
 						                                          : triggerLogout()
 						;
 
 						promise.then(() => {
-
-							amiWebApp.args['subapp'] = subapp;
-
-							amiWebApp.args['userdata'] = userdata;
 
 							amiRouter.appendHistoryEntry({
 								searchParams: {
