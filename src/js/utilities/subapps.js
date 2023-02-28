@@ -197,11 +197,13 @@ export function loadSubApp(subapp, userdata, options)
 
 					/**/
 
+					amiWebApp.args['subapp'] = subapp;
+
+					amiWebApp.args['userdata'] = userdata;
+
+					/**/
+
 					tools._internal_then(_currentSubappInstance.onReady(userdata), () => {
-
-						amiWebApp.args['subapp'] = subapp;
-
-						amiWebApp.args['userdata'] = userdata;
 
 						const promise = amiAuth.isAuthenticated() ? triggerLogin()
 						                                          : triggerLogout()
