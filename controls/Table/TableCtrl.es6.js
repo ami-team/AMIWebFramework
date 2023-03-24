@@ -874,7 +874,18 @@ $AMIClass('TableCtrl', {
 
 					const descr = e.currentTarget.getAttribute('data-filter-def').split('::');
 
-					if(descr.length === 2) this.getOwner().refineResult('2', descr[0], descr[1]);
+					if(descr.length === 2)
+					{
+						if(this.getOwner())
+						{
+							this.getOwner().refineResult('2', descr[0], descr[1]);
+						}
+						else
+						{
+							this.refineResult('2', descr[0], descr[1], false);
+						}
+
+					}
 				});
 
 				/*----------------------------------------------------------------------------------------------------*/
@@ -1129,7 +1140,7 @@ $AMIClass('TableCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	refineResult: function(_filter, _x, _y)
+	refineResult: function(_filter, _x, _y, _hasParent = true)
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -1232,7 +1243,15 @@ $AMIClass('TableCtrl', {
 		const xql = [];
 
 		if(regions['SELECT']) {
-			xql.push(`SELECT ${regions['SELECT']}`);
+			if(!_hasParent || regions['GROUP'])
+			{
+				xql.push('SELECT *')
+			}
+			else
+			{
+				xql.push(`SELECT ${regions['SELECT']}`);
+			}
+
 		}
 
 		if(regions['FROM']) {
