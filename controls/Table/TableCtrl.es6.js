@@ -876,7 +876,7 @@ $AMIClass('TableCtrl', {
 
 					if(descr.length === 2)
 					{
-						if(this.getOwner().refineResult)
+						if(this.getOwner() && this.getOwner().refineResult)
 						{
 							this.getOwner().refineResult('2', descr[0], descr[1]);
 						}
