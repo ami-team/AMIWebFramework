@@ -327,13 +327,13 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = './w
             print('# COMPILING AWF CORE...                                                      #')
             print('##############################################################################')
 
-            build(inDebugMode, verbose, './webpack-core.config.js', True, awfTempPath)
+            build(inDebugMode, verbose, './webpack-core.config.js', awfTempPath)
 
             print('##############################################################################')
             print('# COMPILING AWF CONTROLS AND SUBAPPS...                                      #')
             print('##############################################################################')
 
-            build(inDebugMode, verbose, './webpack-nocore.config.js', False, awfTempPath)
+            build(inDebugMode, verbose, './webpack-nocore.config.js', awfTempPath)
 
         ################################################################################################################
 
@@ -853,7 +853,7 @@ def createSubapp(verbose, sourceCodeFlavour, configFile = './webpack.config.js')
 
 ########################################################################################################################
 
-def build(inDebugMode, verbose, configFile = './webpack.config.js', removeNodeModules = False, cwd = None):
+def build(inDebugMode, verbose, configFile = './webpack.config.js', cwd = None):
 
     ####################################################################################################################
 
@@ -862,12 +862,6 @@ def build(inDebugMode, verbose, configFile = './webpack.config.js', removeNodeMo
     ####################################################################################################################
 
     try:
-
-        if removeNodeModules and cwd is not None:
-
-            print('Removing `%s`...' % os.path.join(cwd, 'node_modules'))
-
-            shutil.rmtree(os.path.join(cwd, 'node_modules'), ignore_errors = True)
 
         subprocess.check_call('npm install --update', shell = True, cwd = cwd)
 
@@ -922,6 +916,22 @@ def run(verbose, port = 8000):
     except KeyboardInterrupt:
 
         print('bye.')
+
+    return 0
+
+########################################################################################################################
+
+def clean(verbose):
+
+    path = os.path.join(os.path.expanduser('~'), '.awf-cache')
+
+    if verbose:
+
+        print('Removing AWF cache `%s`...' % path)
+
+    shutil.rmtree(path, ignore_errors = True)
+
+    return 0
 
 ########################################################################################################################
 
@@ -990,6 +1000,8 @@ def main():
 
     parser.add_argument('--build-dist', help = 'build an AWF distribution', action = 'store_true')
 
+    parser.add_argument('--clean-cache', help = 'clean the AWF cache', action = 'store_true')
+
     parser.add_argument('--verbose', help = 'make this tool verbose', action = 'store_true')
 
     args = parser.parse_args()
@@ -1007,6 +1019,9 @@ def main():
 
     elif args.run:
         return run(args.verbose)
+
+    elif args.clean_cache:
+        return clean(args.verbose)
 
     elif args.build_prod:
         return build(False, args.verbose)
