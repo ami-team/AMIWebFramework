@@ -863,9 +863,9 @@ def build(inDebugMode, verbose, configFile = './webpack.config.js', removeNodeMo
 
     try:
 
-        if removeNodeModules:
+        if removeNodeModules and cwd is not None:
 
-            shutil.rmtree('./node_modules/', ignore_errors = True)
+            shutil.rmtree(os.path.join(cwd, 'node_modules'), ignore_errors = True)
 
         subprocess.check_call('npm install --update', shell = True, cwd = cwd)
 
