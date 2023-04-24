@@ -269,7 +269,7 @@ def updateWebpack(configFile):
 
 ########################################################################################################################
 
-def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = 'webpack.config.js'):
+def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = './webpack.config.js'):
 
     ####################################################################################################################
 
@@ -691,7 +691,7 @@ def createHomePage(verbose, bootstrapVersion, title = None, endpoint = None):
 
 ########################################################################################################################
 
-def createControl(verbose, sourceCodeFlavour, configFile = 'webpack.config.js'):
+def createControl(verbose, sourceCodeFlavour, configFile = './webpack.config.js'):
 
     try:
 
@@ -769,7 +769,7 @@ def createControl(verbose, sourceCodeFlavour, configFile = 'webpack.config.js'):
 
 ########################################################################################################################
 
-def createSubapp(verbose, sourceCodeFlavour, configFile = 'webpack.config.js'):
+def createSubapp(verbose, sourceCodeFlavour, configFile = './webpack.config.js'):
 
     try:
 
