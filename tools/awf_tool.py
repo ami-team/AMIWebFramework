@@ -327,13 +327,13 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = 'web
             print('# COMPILING AWF CORE...                                                      #')
             print('##############################################################################')
 
-            build(inDebugMode, verbose, './webpack-core.config.js', awfTempPath)
+            build(inDebugMode, verbose, './webpack-core.config.js', awfTempPath, True)
 
             print('##############################################################################')
             print('# COMPILING AWF CONTROLS AND SUBAPPS...                                      #')
             print('##############################################################################')
 
-            build(inDebugMode, verbose, './webpack-nocore.config.js', awfTempPath)
+            build(inDebugMode, verbose, './webpack-nocore.config.js', awfTempPath, False)
 
         ################################################################################################################
 
@@ -853,7 +853,7 @@ def createSubapp(verbose, sourceCodeFlavour, configFile = 'webpack.config.js'):
 
 ########################################################################################################################
 
-def build(inDebugMode, verbose, configFile = './webpack.config.js', cwd = None):
+def build(inDebugMode, verbose, configFile = './webpack.config.js', removeNodeModules = False, cwd = None):
 
     ####################################################################################################################
 
@@ -863,7 +863,9 @@ def build(inDebugMode, verbose, configFile = './webpack.config.js', cwd = None):
 
     try:
 
-        subprocess.check_call('npm prune ami-http-client ami-mqtt-client ami-twig', shell = True, cwd = cwd)
+        if removeNodeModules:
+
+            shutil.rmtree('./node_modules/')
 
         subprocess.check_call('npm install --update', shell = True, cwd = cwd)
 
