@@ -853,7 +853,7 @@ def createSubapp(verbose, sourceCodeFlavour, configFile = 'webpack.config.js'):
 
 ########################################################################################################################
 
-def build(inDebugMode, verbose, configFile = 'webpack.config.js', cwd = None):
+def build(inDebugMode, verbose, configFile = './webpack.config.js', cwd = None):
 
     ####################################################################################################################
 
@@ -863,7 +863,9 @@ def build(inDebugMode, verbose, configFile = 'webpack.config.js', cwd = None):
 
     try:
 
-        subprocess.check_call('npm i --update', shell = True, cwd = cwd)
+        subprocess.check_call('npm prune ami-http-client ami-mqtt-client ami-twig', shell = True, cwd = cwd)
+
+        subprocess.check_call('npm install --update', shell = True, cwd = cwd)
 
     except Exception as e:
 
