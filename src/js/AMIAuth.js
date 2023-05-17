@@ -873,7 +873,7 @@ class AMIAuth
 	{
 		AMIAuth.#clean();
 
-		window.open(this.#awfInfo.ssoAuthURL ? `${this.#awfInfo.ssoAuthURL}?response_type=code&client_id=${encodeURIComponent(this.#awfInfo.ssoClientId || '')}&redirect_uri=${encodeURIComponent(amiRouter.getOriginURL())}/docs/sso.html` : `${amiRouter.getOriginURL()}/docs/sso_not_configured.html`, this.#awfInfo.ssoLabel || 'Single Sign-On', 'location=no, menubar=no, status=no, scrollbars=no, width=800, height=525');
+		window.open(this.#awfInfo.ssoAuthURL ? `${this.#awfInfo.ssoAuthURL}?response_type=code&scope=openid&client_id=${encodeURIComponent(this.#awfInfo.ssoClientId || '')}&redirect_uri=${encodeURIComponent(amiRouter.getOriginURL())}/docs/sso.html` : `${amiRouter.getOriginURL()}/docs/sso_not_configured.html`, this.#awfInfo.ssoLabel || 'Single Sign-On', 'location=no, menubar=no, status=no, scrollbars=no, width=800, height=525');
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
