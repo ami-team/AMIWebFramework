@@ -299,8 +299,8 @@ $AMIClass('GraphCtrl', {
 
 		[...edges].forEach((edge) => {
 
-			let source = amiWebApp.jspath('..field{.@name==="SOURCE"}.$', edge)[0] || '';
-			let destination = amiWebApp.jspath('..field{.@name==="DESTINATION"}.$', edge)[0] || '';
+			let source = amiWebApp.jspath('..field{.@name==="source"}.$', edge)[0] || '';
+			let destination = amiWebApp.jspath('..field{.@name==="destination"}.$', edge)[0] || '';
 
 			let destinations;
 
@@ -327,7 +327,7 @@ $AMIClass('GraphCtrl', {
 
 		[...nodes].forEach((node) => {
 
-			let label = amiWebApp.jspath('..field{.@name==="LABEL"}.$', node)[0] || '';
+			let label = amiWebApp.jspath('..field{.@name==="label"}.$', node)[0] || '';
 
 			/*--------------------------------------------------------------------------------------------------------*/
 			/* DO EDGE FILTERING                                                                                      */
@@ -362,11 +362,11 @@ $AMIClass('GraphCtrl', {
 
 				dot += `"${label}"
 				[
-					color="${(amiWebApp.jspath('..field{.@name==="COLOUR"}.$', node)[0] || '')}",
+					color="${(amiWebApp.jspath('..field{.@name==="colour"}.$', node)[0] || '')}",
 					label="${label}"
 				`;
 
-				if((amiWebApp.jspath('..field{.@name==="DISTANCE"}.$', node)[0] || '') === '0')
+				if((amiWebApp.jspath('..field{.@name==="distance"}.$', node)[0] || '') === '0')
 				{
 					dot += ', style ="filled, rounded"';
 				}
@@ -376,9 +376,9 @@ $AMIClass('GraphCtrl', {
 				}
 
 				dot	+= `, URL="${this.url(
-										(amiWebApp.jspath('..field{.@name==="IDENTIFIER"}.$', node)[0] || ''),
-										(amiWebApp.jspath('..field{.@name==="CATALOG"}.$', node)[0] || ''),
-										(amiWebApp.jspath('..field{.@name==="ICON"}.$', node)[0] || ''),
+										(amiWebApp.jspath('..field{.@name==="identifier"}.$', node)[0] || ''),
+										(amiWebApp.jspath('..field{.@name==="catalog"}.$', node)[0] || ''),
+										(amiWebApp.jspath('..field{.@name==="icon"}.$', node)[0] || ''),
 									  )}"
 				]`;
 
@@ -392,7 +392,7 @@ $AMIClass('GraphCtrl', {
 
 			[...destinations].forEach((destination) => {
 
-				let edge = (amiWebApp.jspath(`..{.field{.@name === "SOURCE"}.$ === "${source}" && .field{.@name === "DESTINATION"}.$ === "${destination}"}`, edges)[0] || '');
+				let edge = (amiWebApp.jspath(`..{.field{.@name === "source"}.$ === "${source}" && .field{.@name === "destination"}.$ === "${destination}"}`, edges)[0] || '');
 
 				dot += `"${source}" -> "${destination}"${!edge ? ' [style="dashed"]' : ''}`;
 			});
