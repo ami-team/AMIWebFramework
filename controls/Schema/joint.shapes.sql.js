@@ -549,7 +549,8 @@ joint.dia.Graph.prototype.newForeignKey = function(fkEntityId, pkEntityId)
 	const result = new joint.dia.Link({
 		source: {id: fkEntityId},
 		target: {id: pkEntityId},
-		router: {name: 'manhattan'},
+		router: {name: 'metro'},
+		//router: {name: 'manhattan'},
     	connector: {name: 'rounded'},
 		attrs: {
 			'.link-tools': {'display': 'none'},
