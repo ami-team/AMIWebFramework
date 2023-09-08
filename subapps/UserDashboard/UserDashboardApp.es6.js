@@ -240,13 +240,13 @@ $AMIClass('UserDashboardApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	reload: function()
+	reload: function(amiLogin = null)
 	{
 		const result = $.Deferred();
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		amiCommand.execute('GetDashboardInfo -amiLogin=?', {params: [this.amiLogin]}).done((data) => { // BERK
+		amiCommand.execute('GetDashboardInfo -amiLogin=?', {params: [amiLogin || this.amiLogin]}).done((data) => { // BERK
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
