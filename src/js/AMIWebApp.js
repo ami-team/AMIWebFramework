@@ -757,13 +757,13 @@ class AMIWebApp
 
 		if(theme === 'dark')
 		{
-			$('#B3094B72_95CB_0F9F_0364_0ED6B6DCD6EF').prop('select', true);
+			$('#B3094B72_95CB_0F9F_0364_0ED6B6DCD6EF').prop('checked', true);
 
 			el.addClass('bi-moon-stars-fill').removeClass('bi-sun-fill');
 		}
 		else
 		{
-			$('#B3094B72_95CB_0F9F_0364_0ED6B6DCD6EF').prop('select', false);
+			$('#B3094B72_95CB_0F9F_0364_0ED6B6DCD6EF').prop('checked', false);
 
 			el.removeClass('bi-moon-stars-fill').addClass('bi-sun-fill');
 		}
