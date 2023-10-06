@@ -543,9 +543,7 @@ class AMIWebApp
 
 	start(options)
 	{
-		const theme = localStorage.getItem('theme') || 'light';
-
-		amiWebApp.themeSet(theme);
+		amiWebApp.themeSet(localStorage.getItem('theme') || 'light');
 
 		this.#globalDeferred.done(() => {
 			/*--------------------------------------------------------------------------------------------------------*/
