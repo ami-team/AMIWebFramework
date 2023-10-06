@@ -543,6 +543,8 @@ class AMIWebApp
 
 	start(options)
 	{
+		amiWebApp.themeSet(localStorage.getItem('theme') || 'light');
+
 		this.#globalDeferred.done(() => {
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -660,8 +662,6 @@ class AMIWebApp
 										dayNightAllowed, bookmarksAllowed, dashboardsAllowed
 									).done(() => {
 
-										amiWebApp.themeSet(localStorage.getItem('theme') || 'light');
-
 										locks.unlock();
 
 									}).fail((message) => {
@@ -714,8 +714,6 @@ class AMIWebApp
 									captchaAllowed,
 									dayNightAllowed,false, false
 								).done(() => {
-
-									amiWebApp.themeSet(localStorage.getItem('theme') || 'light');
 
 									locks.unlock();
 

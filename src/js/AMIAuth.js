@@ -488,7 +488,12 @@ class AMIAuth
 			/* DAY/NIGHT THEME                                                                                        */
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			$('#ami_theme_menu_content').html(this.#flags.dayNightAllowed ? dayNightButtonTwig : '');
+			if(this.#flags.dayNightAllowed)
+			{
+				$('#ami_theme_menu_content').html(dayNightButtonTwig);
+
+				amiWebApp.themeSet(localStorage.getItem('theme') || 'light');
+			}
 
 			/*--------------------------------------------------------------------------------------------------------*/
 			/* CHECK USER STATUS                                                                                      */
