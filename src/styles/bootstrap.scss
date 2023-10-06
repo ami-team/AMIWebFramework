@@ -33,32 +33,17 @@
 
 [data-bs-theme=light] {
 
-	.bg-light {
-		background: rgba(0, 0, 0, 0.03) url("../images/stripe1.png");
-	}
-
-	.bg-light2 {
-		background: rgba(0, 0, 0, 0.03) url("../images/stripe2.png");
-	}
-
-	.breadcrumb {
-		background: rgba(0, 0, 0, 0.03) url("../images/stripe2.png");
-	}
-
-	.card-header {
-		background: rgba(0, 0, 0, 0.03) url("../images/stripe2.png");
-	}
-
-	.card-footer {
-		background: rgba(0, 0, 0, 0.03) url("../images/stripe2.png");
-	}
-
+	.bg-light,
 	.modal-header {
-		background: rgb(245, 245, 245) url("../images/stripe1.png");
+		background: var(--bs-body-bg) url("../images/stripe1.png");
 	}
 
+	.bg-light2,
+	.breadcrumb,
+	.card-header,
+	.card-footer,
 	.modal-footer {
-		background: rgb(245, 245, 245) url("../images/stripe2.png");
+		background: var(--bs-tertiary-bg) url("../images/stripe2.png");
 	}
 }
 
@@ -70,10 +55,7 @@
 		background-color: var(--bs-body-bg) !important;
 	}
 
-	.bg-light2 {
-		background-color: var(--bs-tertiary-bg) !important;
-	}
-
+	.bg-light2,
 	.breadcrumb {
 		background-color: var(--bs-tertiary-bg) !important;
 	}
