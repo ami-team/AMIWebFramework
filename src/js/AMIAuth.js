@@ -20,6 +20,7 @@ import amiRouter from './AMIRouter';
 import amiWebApp from './AMIWebApp';
 import amiCommand from './AMICommand';
 
+import dayNightButtonTwig from '../twigs/day_night_button.twig';
 import signInButtonTwig from '../twigs/sign_in_button.twig';
 import signOutButtonTwig from '../twigs/sign_out_button.twig';
 import signInModalTwig from '../twigs/Modals/sign_in_modal.twig';
@@ -119,7 +120,7 @@ class AMIAuth
 		ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, signOutAllowed,
 		createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed,
 		captchaAllowed,
-		bookmarksAllowed, dashboardsAllowed
+		dayNightAllowed, bookmarksAllowed, dashboardsAllowed
 	 ) {
 		const result = $.Deferred();
 
@@ -138,6 +139,7 @@ class AMIAuth
 			changePasswordAllowed: changePasswordAllowed,
 			changeCertificateAllowed: changeCertificateAllowed,
 			captchaAllowed: captchaAllowed,
+			dayNightAllowed: dayNightAllowed,
 			bookmarksAllowed: bookmarksAllowed,
 			dashboardsAllowed: dashboardsAllowed,
 		};
@@ -481,6 +483,12 @@ class AMIAuth
 			}
 
 			$('#BB07676B_EACA_9B42_ED51_477DB2976041').html(table.join(''));
+
+			/*--------------------------------------------------------------------------------------------------------*/
+			/* DAY/NIGHT THEME                                                                                        */
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			$('#ami_theme_menu_content').html(this.#flags.dayNightAllowed ? dayNightButtonTwig : '');
 
 			/*--------------------------------------------------------------------------------------------------------*/
 			/* CHECK USER STATUS                                                                                      */

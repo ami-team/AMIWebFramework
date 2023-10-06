@@ -3,8 +3,15 @@
 /* GENERAL THEME                                                                                                      */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+[data-bs-theme=light] body {
+	background: white url('{{BACKGROUND_LIGHT_URL}}') fixed;
+}
+
+[data-bs-theme=dark] body {
+	background: black url('{{BACKGROUND_DARK_URL}}') fixed;
+}
+
 body {
-	background: white url('{{BACKGROUND_URL}}') fixed;
 	background-size: cover;
 }
 
@@ -22,7 +29,7 @@ body {
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 #ami_main_center {
-	background-color: white;
+	background-color: var(--bs-body-bg);
 	margin: 0;
 	padding: 0;
 	overflow-x: hidden;
@@ -60,9 +67,10 @@ body {
 
 			<div class="collapse navbar-collapse" id="FCE61AFD_012B_2816_B9FD_C737908FAF72">
 
-				<ul class="navbar-nav me-xxxx" id="ami_main_menu_content"></ul>
+				<ul class="navbar-nav ms-xxxx" id="ami_main_menu_content"></ul>
 				<ul class="navbar-nav ms-auto" id="ami_ext_menu_content"></ul>
-				<ul class="navbar-nav me-xxxx" id="ami_login_menu_content"></ul>
+				<ul class="navbar-nav ms-xxxx" id="ami_theme_menu_content"></ul>
+				<ul class="navbar-nav ms-xxxx" id="ami_login_menu_content"></ul>
 
 			</div>
 

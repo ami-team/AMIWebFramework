@@ -31,41 +31,64 @@
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-.bg-light {
-	background: rgba(0, 0, 0, 0.03) url("../images/stripe1.png");
+[data-bs-theme=light] {
+
+	.bg-light {
+		background: rgba(0, 0, 0, 0.03) url("../images/stripe1.png");
+	}
+
+	.bg-light2 {
+		background: rgba(0, 0, 0, 0.03) url("../images/stripe2.png");
+	}
+
+	.breadcrumb {
+		background: rgba(0, 0, 0, 0.03) url("../images/stripe2.png");
+	}
+
+	.card-header {
+		background: rgba(0, 0, 0, 0.03) url("../images/stripe2.png");
+	}
+
+	.card-footer {
+		background: rgba(0, 0, 0, 0.03) url("../images/stripe2.png");
+	}
+
+	.modal-header {
+		background: rgb(245, 245, 245) url("../images/stripe1.png");
+	}
+
+	.modal-footer {
+		background: rgb(245, 245, 245) url("../images/stripe2.png");
+	}
 }
 
-.bg-light2 {
-	background: rgba(0, 0, 0, 0.03) url("../images/stripe2.png");
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+[data-bs-theme=dark] {
+
+	.bg-light {
+		background-color: var(--bs-body-bg) !important;
+	}
+
+	.bg-light2 {
+		background-color: var(--bs-body-bg) !important;
+	}
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 .breadcrumb {
-	background: rgba(0, 0, 0, 0.03) url("../images/stripe2.png");
 	border-radius: 0.125rem;
 	padding: 0.25rem 0.5rem;
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-.card-header {
-	background: rgba(0, 0, 0, 0.03) url("../images/stripe2.png");
-}
-
-.card-footer {
-	background: rgba(0, 0, 0, 0.03) url("../images/stripe2.png");
-}
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
 .modal-header {
-	background: rgb(245, 245, 245) url("../images/stripe1.png");
 	border-radius: 0.25rem 0.25rem 0 0;
 }
 
 .modal-footer {
-	background: rgb(245, 245, 245) url("../images/stripe2.png");
 	border-radius: 0 0 0.25rem 0.25rem;
 }
 
