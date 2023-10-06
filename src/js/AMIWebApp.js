@@ -543,7 +543,9 @@ class AMIWebApp
 
 	start(options)
 	{
-		amiWebApp.themeSet(localStorage.getItem('theme') || 'light');
+		const theme = localStorage.getItem('theme') || 'light';
+
+		amiWebApp.themeSet(theme);
 
 		this.#globalDeferred.done(() => {
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -757,10 +759,14 @@ class AMIWebApp
 
 		if(theme === 'dark')
 		{
+			$('#B3094B72_95CB_0F9F_0364_0ED6B6DCD6EF').prop('select', true);
+
 			el.addClass('bi-moon-stars-fill').removeClass('bi-sun-fill');
 		}
 		else
 		{
+			$('#B3094B72_95CB_0F9F_0364_0ED6B6DCD6EF').prop('select', false);
+
 			el.removeClass('bi-moon-stars-fill').addClass('bi-sun-fill');
 		}
 
