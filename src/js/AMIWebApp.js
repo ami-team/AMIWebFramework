@@ -751,24 +751,38 @@ class AMIWebApp
 
 	themeSet(theme)
 	{
+		/*------------------------------------------------------------------------------------------------------------*/
+
 		document.documentElement.setAttribute('data-bs-theme', theme);
 
-		const el = $('label[for="B3094B72_95CB_0F9F_0364_0ED6B6DCD6EF"] i');
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		const el1 = $('#B3094B72_95CB_0F9F_0364_0ED6B6DCD6EF');
+
+		const el2 = $('label[for="B3094B72_95CB_0F9F_0364_0ED6B6DCD6EF"] i');
 
 		if(theme === 'dark')
 		{
-			$('#B3094B72_95CB_0F9F_0364_0ED6B6DCD6EF').prop('checked', true);
+			el1.prop('checked', true);
 
-			el.addClass('bi-moon-stars-fill').removeClass('bi-sun-fill');
+			el2.addClass('bi-moon-stars-fill').removeClass('bi-sun-fill')
+			   .addClass('text-primary').removeClass('text-warning')
+			;
 		}
 		else
 		{
-			$('#B3094B72_95CB_0F9F_0364_0ED6B6DCD6EF').prop('checked', false);
+			el1.prop('checked', false);
 
-			el.removeClass('bi-moon-stars-fill').addClass('bi-sun-fill');
+			el2.removeClass('bi-moon-stars-fill').addClass('bi-sun-fill')
+			   .removeClass('text-primary').addClass('text-warning')
+			;
 		}
 
+		/*------------------------------------------------------------------------------------------------------------*/
+
 		localStorage.setItem('theme', theme);
+
+		/*------------------------------------------------------------------------------------------------------------*/
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
