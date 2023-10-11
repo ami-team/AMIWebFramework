@@ -10,12 +10,8 @@
  */
 
 import './assets/css/app.min.css';
-import App from  './assets/js/app.min.js';
-/*import './assets/js/app.min.js';*/
 
-import { createApp } from 'vue';
-
-
+import './assets/js/app.min.js';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -60,8 +56,7 @@ $AMIClass('TaskMonitoringApp', {
 	{
 		if(!this.isMounted)
 		{
-			//window.ami_mount('#ami_main_content');
-			createApp(App).mount('#ami_main_content');
+			window.ami_mount('#ami_main_content');
 
 			this.isMounted = true;
 		}
