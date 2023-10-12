@@ -31,8 +31,6 @@ $AMIClass('TaskMonitoringApp', {
 
 	onReady: function(userdata)
 	{
-		this.isMounted = false;
-
 		return $.Deferred().resolve();
 	},
 
@@ -54,12 +52,6 @@ $AMIClass('TaskMonitoringApp', {
 
 	mount: function()
 	{
-		if(!this.isMounted)
-		{
-			window.ami_mount('#ami_main_content');
-
-			this.isMounted = true;
-		}
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
