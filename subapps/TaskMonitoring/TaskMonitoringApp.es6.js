@@ -9,9 +9,9 @@
  *
  */
 
-import './assets/css/app.min.css';
+//import './assets/css/app.min.css';
 
-import './assets/js/app.min.js';
+//import './assets/js/app.min.js';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
