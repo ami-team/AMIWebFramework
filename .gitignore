@@ -14,5 +14,3 @@ package-lock.json
 /js/
 
 /tools/awf.img
-
-!subapps/TaskMonitoring/assets/js/*.min.js
