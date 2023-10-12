@@ -12,9 +12,10 @@
 //import './assets/css/app.min.css';
 
 //import './assets/js/app.min.js';
-import twigTaskMonitoringApp from './assets/twig/TaskMonitoringApp.twig';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
+
+import twigTaskMonitoringApp from './assets/twig/TaskMonitoringApp.twig';
 
 $AMIClass('TaskMonitoringApp', {
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -56,10 +57,10 @@ $AMIClass('TaskMonitoringApp', {
 		const result = $.Deferred();
 
 		amiWebApp.loadResources([
-			'https://ami-ecosystem.in2p3.fr/task-monitoring/assets/css/app.min.css',
+			'./app/css/app.min.css',
 		]).done((data) => {
 
-			amiWebApp.replaceHTML('#ami_main_content', twigTaskMonitoringApp).done(() => {
+			amiWebApp.replaceHTML('#ami_main_content', twigTaskMonitoringApp, {dict: {'jspath' : './app/js/app.min.js'}}).done(() => {
 
 				result.resolve();
 			});
