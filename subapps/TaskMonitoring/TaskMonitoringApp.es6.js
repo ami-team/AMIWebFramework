@@ -9,13 +9,11 @@
  *
  */
 
-//import './assets/css/app.min.css';
-
-//import './assets/js/app.min.js';
-
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 import twigTaskMonitoringApp from './assets/twig/TaskMonitoringApp.twig';
+
+/*--------------------------------------------------------------------------------------------------------------------*/
 
 $AMIClass('TaskMonitoringApp', {
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -40,35 +38,21 @@ $AMIClass('TaskMonitoringApp', {
 
 	onLogin: function()
 	{
-		this.mount();
+		return this.mount();
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	onLogout: function()
 	{
-		this.mount();
+		return this.mount();
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	mount: function()
 	{
-		const result = $.Deferred();
-
-		amiWebApp.loadResources([
-			'./app/css/app.min.css',
-		]).done((data) => {
-
-			amiWebApp.replaceHTML('#ami_main_content', twigTaskMonitoringApp, {dict: {'jspath' : './app/js/app.min.js'}}).done(() => {
-
-				result.resolve();
-			});
-
-		}).fail((data) => {
-
-			result.reject(data);
-		});
+		return amiWebApp.replaceHTML('#ami_main_content', twigTaskMonitoringApp);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
