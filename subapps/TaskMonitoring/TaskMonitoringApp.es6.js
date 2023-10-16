@@ -31,28 +31,42 @@ $AMIClass('TaskMonitoringApp', {
 
 	onReady: function(userdata)
 	{
-		return $.Deferred().resolve();
+		const result = $.Deferred();
+
+		amiWebApp.replaceHTML('#ami_main_content', twigTaskMonitoringApp).done(() => {
+
+			this.isMounted = false;
+
+			result.resolve();
+		});
+
+		return result;
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	onLogin: function()
 	{
-		return this.mount();
+		this.mount();
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	onLogout: function()
 	{
-		return this.mount();
+		this.mount();
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	mount: function()
 	{
-		return amiWebApp.replaceHTML('#ami_main_content', twigTaskMonitoringApp);
+		if(!this.isMounted)
+		{
+			window.ami.mount('#task_monitoring');
+
+			this.isMounted = true;
+		}
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
