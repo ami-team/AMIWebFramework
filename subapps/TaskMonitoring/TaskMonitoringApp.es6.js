@@ -31,7 +31,7 @@ $AMIClass('TaskMonitoringApp', {
 
 	onReady: function(userdata)
 	{
-		return $.Deferred().resolve();
+		return amiWebApp.replaceHTML('#ami_main_content', twigTaskMonitoringApp);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -52,7 +52,7 @@ $AMIClass('TaskMonitoringApp', {
 
 	mount: function()
 	{
-		return amiWebApp.replaceHTML('#ami_main_content', twigTaskMonitoringApp);
+		window.ami.mount('#ami_main_content');
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
