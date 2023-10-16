@@ -47,28 +47,29 @@ $AMIClass('TaskMonitoringApp', {
 
 	onLogin: function()
 	{
-		return this.mount();
+		this.mount();
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	onLogout: function()
 	{
-		return this.mount();
+		this.mount();
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	mount: function()
 	{
-		if(!this.isMounted)
-		{
-			window.ami.mount('#task_monitoring');
+		setTimeout(() => {
 
-			this.isMounted = true;
-		}
+			if(!this.isMounted)
+			{
+				window.ami.mount('#task_monitoring');
 
-		return $.Deferred().resolve();
+				this.isMounted = true;
+			}
+		}, 500)
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
