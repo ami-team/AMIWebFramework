@@ -347,6 +347,7 @@ export default function()
 		{
 			options = options || {};
 
+			options.ctx = this.ctx;
 			options.scope = this._instanceScope;
 
 			return view.replaceHTML(selector, twig, options);
@@ -358,6 +359,7 @@ export default function()
 		{
 			options = options || {};
 
+			options.ctx = this.ctx;
 			options.scope = this._instanceScope;
 
 			return view.prependHTML(selector, twig, options);
@@ -369,6 +371,7 @@ export default function()
 		{
 			options = options || {};
 
+			options.ctx = this.ctx;
 			options.scope = this._instanceScope;
 
 			return view.appendHTML(selector, twig, options);

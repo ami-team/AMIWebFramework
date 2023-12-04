@@ -536,6 +536,7 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = './w
 
                 if m is not None:
 
+                    nb += copyFiles(package['path'], os.path.join('subapps', m.group(1), 'assets', 'ext'), None, os.path.join('subapps', m.group(1), 'assets', 'ext'), '*', verbose)
                     nb += copyFiles(package['path'], os.path.join('subapps', m.group(1), 'assets', 'wasm'), None, os.path.join('subapps', m.group(1), 'assets', 'wasm'), '*', verbose)
                     nb += copyFiles(package['path'], os.path.join('subapps', m.group(1), 'assets', 'fonts'), None, os.path.join('subapps', m.group(1), 'assets', 'fonts'), '*', verbose)
                     nb += copyFiles(package['path'], os.path.join('subapps', m.group(1), 'assets', 'images'), None, os.path.join('subapps', m.group(1), 'assets', 'images'), '*', verbose)
