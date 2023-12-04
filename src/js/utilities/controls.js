@@ -110,7 +110,7 @@ export function loadControl(control, options)
  * @param {?*} owner the owner entity
  * @param {string} control the control name
  * @param {Array<*>} params the control's parameters
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, cache)
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, patch, cache)
  * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
@@ -119,9 +119,9 @@ export function createControl(parent, owner, control, params, options)
 {
 	const result = $.Deferred();
 
-	const [context] = tools.setup(
-		['context'],
-		[result],
+	const [context, patch] = tools.setup(
+		['context', 'patch'],
+		[result, null],
 		options
 	);
 
@@ -130,6 +130,11 @@ export function createControl(parent, owner, control, params, options)
 	loadControl(control, options).done((constructor) => {
 
 		const instance = new constructor(parent, owner);
+
+		if(typeof patch === 'function')
+		{
+			patch(instance);
+		}
 
 		tools._internal_then(constructor.prototype.render.apply(instance, params), (...args) => {
 
@@ -160,7 +165,7 @@ export function createControl(parent, owner, control, params, options)
  * @param {Array<*>} controlParams the control's render method mandatory parameters
  * @param {Object<string, *>} controlOptions the control's render method optional parameters
  * @param {Object<string, *>} ownerOptions the owner's optional parameters
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, cache)
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, patch, cache)
  * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
@@ -235,7 +240,7 @@ export function createControlInBody(parent, owner, control, controlParams, contr
  * @param {Object<string, *>} ownerOptions the owner's optional parameters
  * @param {string} icon the icon
  * @param {string} title the title
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, cache)
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, patch, cache)
  * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
@@ -323,7 +328,7 @@ function _parseJSON(s, _default)
  * @param {?*} owner the owner entity
  * @param {Element} el the HTML element
  * @param {Object<string, *>} ownerOptions the owner's optional parameters
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, cache)
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, patch, cache)
  * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
