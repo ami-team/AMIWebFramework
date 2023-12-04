@@ -12,6 +12,7 @@
 'use strict';
 
 import * as view from './utilities/view';
+import * as tools from './utilities/tools';
 import * as controls from './utilities/controls';
 
 import * as AMIObject from './AMIObject';
@@ -131,7 +132,7 @@ export default function()
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		/**
-		 * Puts a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
+		 * Puts an HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
 		 * @param {string} selector the target selector
 		 * @param {string} [twig={}] the TWIG fragment
 		 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, dict, twigs)
@@ -143,7 +144,7 @@ export default function()
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		/**
-		 * Prepends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
+		 * Prepends an HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
 		 * @param {string} selector the target selector
 		 * @param {string} [twig={}] the TWIG fragment
 		 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, dict, twigs)
@@ -155,7 +156,7 @@ export default function()
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		/**
-		 * Appends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
+		 * Appends an HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
 		 * @param {string} selector the target selector
 		 * @param {string} [twig={}] the TWIG fragment
 		 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, dict, twigs)
@@ -345,7 +346,10 @@ export default function()
 
 		replaceHTML: function(selector, twig, options)
 		{
-			options = options || {};
+			if(!tools.isMap(options))
+			{
+				options = {};
+			}
 
 			if(!('dict' in options))
 			{
@@ -353,6 +357,7 @@ export default function()
 			}
 
 			options.dict.ctx = this.ctx;
+			options.dict.instance = this;
 			options.scope = this._instanceScope;
 
 			return view.replaceHTML(selector, twig, options);
@@ -362,7 +367,10 @@ export default function()
 
 		prependHTML: function(selector, twig, options)
 		{
-			options = options || {};
+			if(!tools.isMap(options))
+			{
+				options = {};
+			}
 
 			if(!('dict' in options))
 			{
@@ -370,6 +378,7 @@ export default function()
 			}
 
 			options.dict.ctx = this.ctx;
+			options.dict.instance = this;
 			options.scope = this._instanceScope;
 
 			return view.prependHTML(selector, twig, options);
@@ -379,7 +388,10 @@ export default function()
 
 		appendHTML: function(selector, twig, options)
 		{
-			options = options || {};
+			if(!tools.isMap(options))
+			{
+				options = {};
+			}
 
 			if(!('dict' in options))
 			{
@@ -387,6 +399,7 @@ export default function()
 			}
 
 			options.dict.ctx = this.ctx;
+			options.dict.instance = this;
 			options.scope = this._instanceScope;
 
 			return view.appendHTML(selector, twig, options);
