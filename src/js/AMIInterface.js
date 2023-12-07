@@ -378,7 +378,6 @@ export default function()
 			}
 
 			options.dict.ctx = this.ctx;
-			options.dict.instance = this;
 			options.scope = this._instanceScope;
 
 			return view.prependHTML(selector, twig, options);
@@ -399,7 +398,6 @@ export default function()
 			}
 
 			options.dict.ctx = this.ctx;
-			options.dict.instance = this;
 			options.scope = this._instanceScope;
 
 			return view.appendHTML(selector, twig, options);
