@@ -351,7 +351,7 @@ export default function()
 				options = {};
 			}
 
-			if(!('dict' in options))
+			if(!tools.isMap(options['dict']))
 			{
 				options['dict'] = {};
 			}
@@ -371,7 +371,7 @@ export default function()
 				options = {};
 			}
 
-			if(!('dict' in options))
+			if(!tools.isMap(options['dict']))
 			{
 				options['dict'] = {};
 			}
@@ -391,7 +391,7 @@ export default function()
 				options = {};
 			}
 
-			if(!('dict' in options))
+			if(!tools.isMap(options['dict']))
 			{
 				options['dict'] = {};
 			}
