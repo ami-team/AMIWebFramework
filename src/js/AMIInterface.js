@@ -356,7 +356,7 @@ export default function()
 				options['dict'] = {};
 			}
 
-			Object.assign(options.dict, ami.awf.tempTwigDict);
+			Object.assign(options['dict'], ami.awf.tempTwigDict);
 
 			options.scope = this._instanceScope;
 
@@ -377,7 +377,7 @@ export default function()
 				options['dict'] = {};
 			}
 
-			Object.assign(options.dict, ami.awf.tempTwigDict);
+			Object.assign(options['dict'], ami.awf.tempTwigDict);
 
 			options.scope = this._instanceScope;
 
@@ -398,7 +398,7 @@ export default function()
 				options['dict'] = {};
 			}
 
-			Object.assign(options.dict, ami.awf.tempTwigDict);
+			Object.assign(options['dict'], ami.awf.tempTwigDict);
 
 			options.scope = this._instanceScope;
 
