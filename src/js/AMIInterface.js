@@ -265,8 +265,6 @@ export default function()
 			this._parent = parent || this;
 			this._owner = owner || this;
 
-			this._instanceTwigVariables = {};
-
 			this._instanceScope = ami.Control._instanceScopeCnt++;
 		},
 
@@ -358,7 +356,7 @@ export default function()
 				options['dict'] = {};
 			}
 
-			Object.assign(options.dict, this._instanceTwigVariables);
+			Object.assign(options.dict, ami.awf.tempTwigDict);
 
 			options.scope = this._instanceScope;
 
@@ -379,7 +377,7 @@ export default function()
 				options['dict'] = {};
 			}
 
-			Object.assign(options.dict, this._instanceTwigVariables);
+			Object.assign(options.dict, ami.awf.tempTwigDict);
 
 			options.scope = this._instanceScope;
 
@@ -400,7 +398,7 @@ export default function()
 				options['dict'] = {};
 			}
 
-			Object.assign(options.dict, this._instanceTwigVariables);
+			Object.assign(options.dict, ami.awf.tempTwigDict);
 
 			options.scope = this._instanceScope;
 
