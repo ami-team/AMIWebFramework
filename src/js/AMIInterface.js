@@ -265,6 +265,8 @@ export default function()
 			this._parent = parent || this;
 			this._owner = owner || this;
 
+			this._instanceTwigVariables = {};
+
 			this._instanceScope = ami.Control._instanceScopeCnt++;
 		},
 
@@ -356,7 +358,8 @@ export default function()
 				options['dict'] = {};
 			}
 
-			options.ctx = this.ctx;
+			Object.assign(options.dict, this._instanceTwigVariables);
+
 			options.scope = this._instanceScope;
 
 			return view.replaceHTML(selector, twig, options);
@@ -376,7 +379,8 @@ export default function()
 				options['dict'] = {};
 			}
 
-			options.ctx = this.ctx;
+			Object.assign(options.dict, this._instanceTwigVariables);
+
 			options.scope = this._instanceScope;
 
 			return view.prependHTML(selector, twig, options);
@@ -396,7 +400,8 @@ export default function()
 				options['dict'] = {};
 			}
 
-			options.ctx = this.ctx;
+			Object.assign(options.dict, this._instanceTwigVariables);
+
 			options.scope = this._instanceScope;
 
 			return view.appendHTML(selector, twig, options);
