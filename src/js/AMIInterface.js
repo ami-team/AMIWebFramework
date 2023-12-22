@@ -351,13 +351,6 @@ export default function()
 				options = {};
 			}
 
-			if(!tools.isMap(options['dict']))
-			{
-				options['dict'] = {};
-			}
-
-			Object.assign(options['dict'], ami.awf.tempTwigDict);
-
 			options.scope = this._instanceScope;
 
 			return view.replaceHTML(selector, twig, options);
@@ -372,13 +365,6 @@ export default function()
 				options = {};
 			}
 
-			if(!tools.isMap(options['dict']))
-			{
-				options['dict'] = {};
-			}
-
-			Object.assign(options['dict'], ami.awf.tempTwigDict);
-
 			options.scope = this._instanceScope;
 
 			return view.prependHTML(selector, twig, options);
@@ -392,13 +378,6 @@ export default function()
 			{
 				options = {};
 			}
-
-			if(!tools.isMap(options['dict']))
-			{
-				options['dict'] = {};
-			}
-
-			Object.assign(options['dict'], ami.awf.tempTwigDict);
 
 			options.scope = this._instanceScope;
 

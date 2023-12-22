@@ -216,7 +216,7 @@ class AMIWebApp
 				buildVersion: '{{AMI_VERSION}}',
 				commitIdAbbrev: '{{AMI_COMMIT_ID}}',
 				/**/
-				tempTwigDict: {},
+				globalTwigDict: {},
 				/**/
 				command: amiCommand,
 				router: amiRouter,
