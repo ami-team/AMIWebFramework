@@ -265,6 +265,8 @@ export default function()
 			this._parent = parent || this;
 			this._owner = owner || this;
 
+			this._twigDict = {};
+
 			this._instanceScope = ami.Control._instanceScopeCnt++;
 		},
 
@@ -351,6 +353,13 @@ export default function()
 				options = {};
 			}
 
+			if(!tools.isMap(options['dict']))
+			{
+				options['dict'] = {};
+			}
+
+			Object.assign(options['dict'], this._twigDict);
+
 			options.scope = this._instanceScope;
 
 			return view.replaceHTML(selector, twig, options);
@@ -365,6 +374,13 @@ export default function()
 				options = {};
 			}
 
+			if(!tools.isMap(options['dict']))
+			{
+				options['dict'] = {};
+			}
+
+			Object.assign(options['dict'], this._twigDict);
+
 			options.scope = this._instanceScope;
 
 			return view.prependHTML(selector, twig, options);
@@ -378,6 +394,13 @@ export default function()
 			{
 				options = {};
 			}
+
+			if(!tools.isMap(options['dict']))
+			{
+				options['dict'] = {};
+			}
+
+			Object.assign(options['dict'], this._twigDict);
 
 			options.scope = this._instanceScope;
 

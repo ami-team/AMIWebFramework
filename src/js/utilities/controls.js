@@ -133,7 +133,7 @@ export function createControl(parent, owner, control, params, options)
 
 		if(typeof patch === 'function')
 		{
-			patch(instance, window.ami.awf.globalTwigDict);
+			patch(instance, instance._twigDict);
 		}
 
 		tools._internal_then(constructor.prototype.render.apply(instance, params), (...args) => {
