@@ -575,6 +575,8 @@ export function formatTWIG(twig, dict, twigs)
 		dict['WEBAPP_URL'       ] = amiRouter.getWebAppURL()  ;
 		dict['BOOTSTRAP_VERSION'] = amiWebApp.bootstrapVersion;
 
+		Object.assign(dict, window.ami.awf.globalTwigDict);
+
 		return amiTwig.engine.render(twig, dict, twigs);
 	};
 

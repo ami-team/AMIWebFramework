@@ -216,12 +216,15 @@ class AMIWebApp
 				buildVersion: '{{AMI_VERSION}}',
 				commitIdAbbrev: '{{AMI_COMMIT_ID}}',
 				/**/
+				globalTwigDict: {
+					'BUILD_VERSION': '{{AMI_VERSION}}',
+					'COMMIT_ID_ABBREV': '{{AMI_COMMIT_ID}}',
+				},
+				/**/
 				command: amiCommand,
 				router: amiRouter,
 				webapp: ((this)),
 				auth: amiAuth,
-				/**/
-				globalTwigDict: {},
 			},
 			vue: {
 				version: 'N/A',

@@ -359,7 +359,6 @@ export default function()
 			}
 
 			Object.assign(options['dict'], this._twigDict);
-			Object.assign(options['dict'], window.ami.awf.globalTwigDict);
 
 			options.scope = this._instanceScope;
 
@@ -381,7 +380,6 @@ export default function()
 			}
 
 			Object.assign(options['dict'], this._twigDict);
-			Object.assign(options['dict'], window.ami.awf.globalTwigDict);
 
 			options.scope = this._instanceScope;
 
@@ -403,7 +401,6 @@ export default function()
 			}
 
 			Object.assign(options['dict'], this._twigDict);
-			Object.assign(options['dict'], window.ami.awf.globalTwigDict);
 
 			options.scope = this._instanceScope;
 
