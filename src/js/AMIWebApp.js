@@ -220,6 +220,8 @@ class AMIWebApp
 				router: amiRouter,
 				webapp: ((this)),
 				auth: amiAuth,
+				/**/
+				twigGlobal: {},
 			},
 			vue: {
 				version: 'N/A',
