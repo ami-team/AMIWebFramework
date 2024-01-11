@@ -221,7 +221,7 @@ class AMIWebApp
 				webapp: ((this)),
 				auth: amiAuth,
 				/**/
-				twigGlobal: {},
+				globalTwigDict: {},
 			},
 			vue: {
 				version: 'N/A',
