@@ -9,7 +9,7 @@
 
 	<span class="w-100" style="cursor: pointer;" onclick="searchModelerApp.select('{{searchInterface.id|e}}');">
 		{% if searchInterface.archived %}
-		<strike>{{searchInterface.group|e}} :: {{searchInterface.name|e}}</strike>
+		<span style="text-decoration: line-through;">{{searchInterface.group|e}} :: {{searchInterface.name|e}}</span>
 		{% else%}
 		<span>{{searchInterface.group|e}} :: {{searchInterface.name|e}}</span>
 		{% endif %}

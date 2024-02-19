@@ -82,6 +82,8 @@ $AMIClass('SearchModelerApp', {
 			$('#D580EF7E_AD6A_BC51_FFAB_41782CC3F2CF').keyup (f2);
 			$('#ED6493B8_63FC_96F1_48AA_F2D670E63836').keyup (f2);
 			$('#A6D9F53B_DCBF_96D2_8DCE_4EFAB0F46E33').keyup (f2);
+			$('#F9949786_303E_7A76_D205_4DCC1122C0F0').keyup (f2);
+			$('#AF93AE9B_1FE0_585B_AA28_2EBD3E078902').keyup (f2);
 
 			$('#E3951FA5_8B76_3C9E_CFC2_EC3749451226').change(f2);
 			$('#D6089F83_363A_F322_1E92_25567D89BD3B').change(f2);
@@ -690,6 +692,8 @@ $AMIClass('SearchModelerApp', {
 		$('#D580EF7E_AD6A_BC51_FFAB_41782CC3F2CF').val(more.max !== null ? more.max : '@NULL');
 		$('#ED6493B8_63FC_96F1_48AA_F2D670E63836').val(more.off !== null ? more.off : '@NULL');
 		$('#A6D9F53B_DCBF_96D2_8DCE_4EFAB0F46E33').val(more.on  !== null ? more.on  : '@NULL');
+		$('#F9949786_303E_7A76_D205_4DCC1122C0F0').val(more.off !== null ? more.off_label : '@NULL');
+		$('#AF93AE9B_1FE0_585B_AA28_2EBD3E078902').val(more.on  !== null ? more.on_label  : '@NULL');
 
 		$('#E3951FA5_8B76_3C9E_CFC2_EC3749451226').prop('checked', !!more.auto_open);
 		$('#D6089F83_363A_F322_1E92_25567D89BD3B').prop('checked', !!more.inclusive);
@@ -774,6 +778,20 @@ $AMIClass('SearchModelerApp', {
 			delete more.on;
 		}
 
+		const off_label = $('#F9949786_303E_7A76_D205_4DCC1122C0F0').val();
+		if(off_label && off_label.toUpperCase() !== '@NULL') {
+			more.off_label = off_label;
+		} else {
+			delete more.off_label;
+		}
+
+		const on_label = $('#AF93AE9B_1FE0_585B_AA28_2EBD3E078902').val();
+		if(on_label && on_label.toUpperCase() !== '@NULL') {
+			more.on_label = on_label;
+		} else {
+			delete more.on_label;
+		}
+
 		if(!$('#E3951FA5_8B76_3C9E_CFC2_EC3749451226').prop('disabled')) {
 			more.  auto_open   = $('#E3951FA5_8B76_3C9E_CFC2_EC3749451226').prop('checked');
 		}
@@ -823,11 +841,15 @@ $AMIClass('SearchModelerApp', {
 			$('#D6089F83_363A_F322_1E92_25567D89BD3B').prop('disabled', false);
 			$('#ED6493B8_63FC_96F1_48AA_F2D670E63836').prop('disabled', false);
 			$('#A6D9F53B_DCBF_96D2_8DCE_4EFAB0F46E33').prop('disabled', false);
+			$('#F9949786_303E_7A76_D205_4DCC1122C0F0').prop('disabled', false);
+			$('#AF93AE9B_1FE0_585B_AA28_2EBD3E078902').prop('disabled', false);
 		}
 		else {
 			$('#D6089F83_363A_F322_1E92_25567D89BD3B').prop('disabled', true);
 			$('#ED6493B8_63FC_96F1_48AA_F2D670E63836').prop('disabled', true);
 			$('#A6D9F53B_DCBF_96D2_8DCE_4EFAB0F46E33').prop('disabled', true);
+			$('#F9949786_303E_7A76_D205_4DCC1122C0F0').prop('disabled', true);
+			$('#AF93AE9B_1FE0_585B_AA28_2EBD3E078902').prop('disabled', true);
 		}
 
 		$('#C4AAADBC_C3B5_6DDC_851B_F06430CB4F6E_' + inputCnt).val(
