@@ -4,14 +4,12 @@
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 [data-bs-theme=light] body {
-	background: white url('{{BACKGROUND_LIGHT_URL}}') fixed;
+	background: url('{{BACKGROUND_LIGHT_URL}}') white;
+	background-size: cover;
 }
 
 [data-bs-theme=dark] body {
-	background: black url('{{BACKGROUND_DARK_URL}}') fixed;
-}
-
-body {
+	background: url('{{BACKGROUND_DARK_URL}}') black;
 	background-size: cover;
 }
 
