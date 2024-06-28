@@ -1117,7 +1117,7 @@ const config = {
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			{
-				'test': /\.js$/,
+				'test': /\\.js$/,
 				'use': {
 					'loader': 'babel-loader',
 					'options': {
@@ -1141,7 +1141,7 @@ const config = {
 
 			{
 				'type': 'asset/source',
-				'test': /\.twig$/,
+				'test': /\\.twig$/,
 				'exclude': /node_modules/
 			},
 
@@ -1149,7 +1149,7 @@ const config = {
 
 			{
 				'type': 'asset/source',
-				'test': /\.(json|yml|xml)$/,
+				'test': /\\.(json|yml|xml)$/,
 				'exclude': /node_modules/
 			},
 
@@ -1157,21 +1157,21 @@ const config = {
 
 			{
 				'type': 'asset/resource',
-				'test': /\.wasm$/
+				'test': /\\.wasm$/
 			},
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			{
 				'type': 'asset/resource',
-				'test': /\.(gif|png|jpg|jpeg|svg)$/,
+				'test': /\\.(gif|png|jpg|jpeg|svg)$/,
 				'exclude': /node_modules/
 			},
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			{
-				test: /\.css$/,
+				test: /\\.css$/,
 				use: [
 					'style-loader',
 					'css-loader',
@@ -1204,7 +1204,7 @@ const config = {
 	'optimization': {
 		'minimizer': [
 			new TerserPlugin({
-				'test': /\.min\.js$/,
+				'test': /\\.min\\.js$/,
 				'parallel': true,
 				'extractComments': () => false,
 				'terserOptions': {
