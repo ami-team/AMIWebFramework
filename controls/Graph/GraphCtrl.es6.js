@@ -10,12 +10,10 @@
  * @global saveAs
  */
 
-import graphvizWASM from '../../node_modules/@hpcc-js/wasm/dist/graphvizlib.wasm';
-
 import twigGraphCtrl from './assets/twig/GraphCtrl.twig';
 import twigGraph     from './assets/twig/graph.twig'    ;
 
-import {graphvizSync} from '@hpcc-js/wasm';
+import {Graphviz} from '@hpcc-js/wasm';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -40,25 +38,9 @@ $AMIClass('GraphCtrl', {
 		this.fragmentGraphCtrl = twigGraphCtrl;
 		this.fragmentGraph = twigGraph;
 
-		fetch(graphvizWASM, {mode: 'cors'}).then((response) => {
+		Graphviz.load().then((graphviz) => {
 
-			response.arrayBuffer().then((wasmBinary) => {
-
-				graphvizSync(null, wasmBinary).then((graphviz) => {
-
-					this.graphviz = graphviz;
-
-					result.resolve();
-
-				}).catch((e) => {
-
-					result.reject(e);
-				});
-
-			}).catch((e) => {
-
-				result.reject(e);
-			});
+			this.graphviz = graphviz;
 
 		}).catch((e) => {
 
@@ -181,7 +163,7 @@ $AMIClass('GraphCtrl', {
 
         /*------------------------------------------------------------------------------------------------------------*/
 
-		this.graph = this.graphviz.layout(this.dotString, 'svg', 'dot');
+		this.graph = this.graphviz.dot(this.dotString, 'svg');
 
 		/*------------------------------------------------------------------------------------------------------------*/
 		/* GRAPH POST TREATMENT                                                                                       */
