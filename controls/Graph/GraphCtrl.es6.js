@@ -42,6 +42,8 @@ $AMIClass('GraphCtrl', {
 
 			this.graphviz = graphviz;
 
+			result.resolve();
+
 		}).catch((e) => {
 
 			result.reject(e);
@@ -77,7 +79,7 @@ $AMIClass('GraphCtrl', {
 
 			if((this.dotString = amiWebApp.jspath('..rowset{.@type==="graph"}.row.field{.@name==="dot"}.$', data)[0] || '') !== '')
 			{
-				this.mode='dot';
+				this.mode = 'dot';
 			}
 			else
 			{
@@ -149,6 +151,7 @@ $AMIClass('GraphCtrl', {
 		return result.promise();
 
     },
+
 	/*----------------------------------------------------------------------------------------------------------------*/
 
     display: function()
