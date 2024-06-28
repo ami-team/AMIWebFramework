@@ -485,6 +485,7 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = './w
                     nb += copyFiles(package['path'], os.path.join('controls', m.group(1), 'assets', 'wasm'), None, os.path.join('controls', m.group(1), 'assets', 'wasm'), '*', verbose)
                     nb += copyFiles(package['path'], os.path.join('controls', m.group(1), 'assets', 'fonts'), None, os.path.join('controls', m.group(1), 'assets', 'fonts'), '*', verbose)
                     nb += copyFiles(package['path'], os.path.join('controls', m.group(1), 'assets', 'images'), None, os.path.join('controls', m.group(1), 'assets', 'images'), '*', verbose)
+                    nb += copyFiles(package['path'], os.path.join('controls', m.group(1), 'assets', 'js', 'chunks'), None, os.path.join('controls', m.group(1), 'assets', 'js', 'chunks'), '*', verbose)
 
                     nb += copyFiles(package['path'], os.path.join('controls', m.group(1)), None, os.path.join('controls', m.group(1)), m.group(2), verbose)
 
@@ -540,6 +541,7 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = './w
                     nb += copyFiles(package['path'], os.path.join('subapps', m.group(1), 'assets', 'wasm'), None, os.path.join('subapps', m.group(1), 'assets', 'wasm'), '*', verbose)
                     nb += copyFiles(package['path'], os.path.join('subapps', m.group(1), 'assets', 'fonts'), None, os.path.join('subapps', m.group(1), 'assets', 'fonts'), '*', verbose)
                     nb += copyFiles(package['path'], os.path.join('subapps', m.group(1), 'assets', 'images'), None, os.path.join('subapps', m.group(1), 'assets', 'images'), '*', verbose)
+                    nb += copyFiles(package['path'], os.path.join('subapps', m.group(1), 'assets', 'js', 'chunks'), None, os.path.join('subapps', m.group(1), 'assets', 'js', 'chunks'), '*', verbose)
 
                     nb += copyFiles(package['path'], os.path.join('subapps', m.group(1)), None, os.path.join('subapps', m.group(1)), m.group(2), verbose)
 
