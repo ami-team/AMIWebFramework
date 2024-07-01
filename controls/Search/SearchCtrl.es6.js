@@ -899,7 +899,7 @@ $AMIClass('SearchCtrl', {
 			clauses.push('(1 = 0)');
 		}
 
-		if(applyFilter)
+		if(applyFilter && filter)
 		{
 			clauses.push(`${filter}`);
 		}
@@ -935,7 +935,7 @@ $AMIClass('SearchCtrl', {
 				clauses.push(`\`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\`${this.dumpConstraints(criterion)} NOT IN (\'${Object.keys(predicate.select).join('\',\'')}\')`);
 			}
 
-			if(applyFilter)
+			if(applyFilter && filter)
 			{
 				clauses.push(`${filter}`);
 			}
