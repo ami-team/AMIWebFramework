@@ -81,7 +81,7 @@ $AMIClass('BookmarkEditorApp', {
 		const result = $.Deferred();
 
 		const dict = {
-			mode: (userdata || 'home').trim()
+			mode: (userdata || 'bookmarks').trim()
 		};
 
 		amiWebApp.replaceHTML('#ami_main_content', twigBookmarkEditorApp, {dict: dict}).done(() => {

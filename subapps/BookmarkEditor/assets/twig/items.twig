@@ -1,5 +1,5 @@
 {% for item in items %}
-{%   if item.expire === '0' %}
+{%   if profile !== '_bookmarkProfile' or item.expire === '0' %}
 <div class="d-flex" data-id="{{ item.id|e }}">
 
 	<span class="flex-shrink-1" style="cursor: grab;">
@@ -11,9 +11,15 @@
 	</span>
 
 	<span class="flex-shrink-1" style="cursor: pointer;">
+		{% if profile === '_bookmarkProfile' %}
 		<a href="{{WEBAPP_URL}}?v={{ item.hash|e }}" target="_blank" style="white-space: nowrap;">
 			<i class="bi bi-link-45deg"></i> goto
 		</a>
+		{% elseif profile === '_dashboardProfile' %}
+		<a href="{{WEBAPP_URL}}?u={{ item.id|e }}" target="_blank" style="white-space: nowrap;">
+			<i class="bi bi-link-45deg"></i> goto
+		</a>
+		{% endif %}
 	</span>
 
 </div>
