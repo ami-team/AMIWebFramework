@@ -86,14 +86,14 @@ $AMIClass('TableCtrl', {
 		this.setupCtx(
 			{
 				ignoredFields: {
-            			'ORACLE_ROWNUM': '',
-            			'PROJECT': '',
-            			'PROCESS': '',
-            			'AMIENTITYNAME': '',
-            			'AMIELEMENTID': '',
-            			'AMICREATED': '',
-            			'AMILASTMODIFIED': '',
-            			'AMISYSDATE': ''
+					'ORACLE_ROWNUM': '',
+					'PROJECT': '',
+					'PROCESS': '',
+					'AMIENTITYNAME': '',
+					'AMIELEMENTID': '',
+					'AMICREATED': '',
+					'AMILASTMODIFIED': '',
+					'AMISYSDATE': ''
             	},
 				isEmbedded: amiWebApp.isEmbedded(),
 				endpoint: amiCommand.endpoint,
@@ -238,8 +238,7 @@ $AMIClass('TableCtrl', {
 
 			$(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).keypress((e) => {
 
-				if(e.keyCode == 13)
-				{
+				if (e.keyCode == 13) {
 					this.refresh().fail((message) => {
 
 						amiWebApp.error(message, true);
@@ -249,8 +248,7 @@ $AMIClass('TableCtrl', {
 
 			$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).keypress((e) => {
 
-				if(e.keyCode == 13)
-				{
+				if (e.keyCode == 13) {
 					this.refresh().fail((message) => {
 
 						amiWebApp.error(message, true);
@@ -286,7 +284,10 @@ $AMIClass('TableCtrl', {
 
 				var xslts = amiWebApp.jspath('..field{.@name==="xslt" && .$!=="AMIXmlToXml.xsl" && .$!=="AMIXmlToJson.xsl" && .$!=="AMIXmlToCsv.xsl" && .$!=="AMIXmlToText.xsl" }.$', data) || [];
 
-				this.replaceHTML(this.patchId('#A49B2730_4FAB_F089_5864_41029D65BF05'), this.fragmentExport, {dict: this.ctx, xslts : xslts}).done(() => {
+				this.replaceHTML(this.patchId('#A49B2730_4FAB_F089_5864_41029D65BF05'), this.fragmentExport, {
+					dict: this.ctx,
+					xslts: xslts
+				}).done(() => {
 
 					$(`${this.patchId('#A49B2730_4FAB_F089_5864_41029D65BF05')} a`).click((e) => {
 
@@ -372,6 +373,15 @@ $AMIClass('TableCtrl', {
 				};
 
 				amiWebApp.createControl(this.getParent(), this, 'bookmarkBox', ['TableViewer', json]);
+			});
+
+			$(this.patchId('#B26CABC0_C653_83CF_BE88_A4BF97FCDAB5')).click(() => {
+
+				const json = {
+
+				};
+
+				amiWebApp.createControl(this.getParent(), this, 'dashboardBox', ['TableViewer', json]);
 			});
 
 			$(this.patchId('#CD458FEC_9AD9_30E8_140F_263F119961BE')).click(() => {
