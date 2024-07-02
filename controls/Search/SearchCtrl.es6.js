@@ -952,8 +952,6 @@ $AMIClass('SearchCtrl', {
 
 					const valuehtml = amiWebApp.textToHtml(value);
 
-					console.log('other: ' + valuehtml);
-
 					L.push(`<option value="${valuehtml}" xxxxxxxx="xxxxxxxx">${valuehtml}</option>`);
 
 				});
