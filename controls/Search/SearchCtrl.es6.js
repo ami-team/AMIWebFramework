@@ -702,7 +702,7 @@ $AMIClass('SearchCtrl', {
 				{
 					case 0:
 						amiWebApp.lock();
-						this.fillStringBox(name, false, false).always(() => {
+						this.fillStringBox(name, true, false).always(() => {
 							amiWebApp.unlock();
 						});
 						break;
@@ -868,6 +868,131 @@ $AMIClass('SearchCtrl', {
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	fillStringBox: function(name, applyFilter, applyLimit)
+	{
+		const L = [];
+		const predicate = this.ctx.predicates[name], criterion = predicate.criterion;
+
+		/*------------------------------------------------------------------------------------------------------------*/
+		/* BASE SQL QUERY                                                                                            */
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		let select = `SELECT DISTINCT \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\`${this.dumpConstraints(criterion)}`;
+
+		/*------------------------------------------------------------------------------------------------------------*/
+		/*     FILTER                                                                                                 */
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		const filter = this.dumpFilterAST(name);
+
+		/*------------------------------------------------------------------------------------------------------------*/
+		/* CHECK STATUS OF ALREADY SELECTED ITEMS                                                                     */
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		const clauses = [];
+
+		if(Object.keys(predicate.select).length > 0)
+		{
+			clauses.push(`(\`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\`${this.dumpConstraints(criterion)} IN (\'${Object.keys(predicate.select).join('\',\'')}\'))`);
+		}
+		else
+		{
+			clauses.push('(1 = 0)');
+		}
+
+		if(applyFilter && filter && '' !== filter)
+		{
+			clauses.push(`(${filter})`);
+		}
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		let mqlCheckSelection = `${select} ${clauses.length > 0 ? `WHERE ${clauses.join(' AND ')}` : ''}${criterion.more.order ? ` ORDER BY  \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\` ${criterion.more.order} ` : ''}`;
+
+		amiWebApp.lock();
+
+		return amiCommand.execute(`SearchQuery -catalog="${amiWebApp.textToString(criterion.catalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mqlCheckSelection)}"`).done((data) => {
+
+			Object.keys(predicate.select).forEach((key, idx) => {
+
+				if(!applyLimit || (applyLimit && idx < predicate.limit))
+				{
+					const valuehtml = amiWebApp.textToHtml(key);
+
+					if (amiWebApp.jspath('..row.field{.$ === \'' + key + '\'}.$', data)[0]) {
+
+						L.push(`<option value="${valuehtml}" selected="selected">${valuehtml}</option>`);
+					} else {
+
+						L.push(`<option value="${valuehtml}" selected="selected" class="text-danger">${valuehtml}</option>`);
+					}
+				}
+			});
+
+			/*--------------------------------------------------------------------------------------------------------*/
+			/* COMPLETE EVENTUALLY WITH OTHER NON SELECTED VALUES                                                     */
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			const clauses = [];
+
+			if(Object.keys(predicate.select).length > 0)
+			{
+				clauses.push(`(\`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\`${this.dumpConstraints(criterion)} NOT IN (\'${Object.keys(predicate.select).join('\',\'')}\'))`);
+			}
+
+			if(applyFilter && filter && '' !== filter)
+			{
+				clauses.push(`(${filter})`);
+			}
+
+			let mql = `${select} ${clauses.length > 0 ? `WHERE ${clauses.join(' AND ')}` : ''} ${criterion.more.order ? ` ORDER BY  \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\` ${criterion.more.order} ` : ''}${applyLimit ? ` LIMIT ${predicate.limit - Object.keys(predicate.select).length > 0 ? predicate.limit - Object.keys(predicate.select).length : 0} OFFSET 0`: ''}`;
+
+			amiCommand.execute(`SearchQuery -catalog="${amiWebApp.textToString(criterion.catalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mql)}"`).done((data) => {
+
+				const rows = amiWebApp.jspath('..row', data);
+
+				$.each(rows, (idx, row) => {
+
+					const value = amiWebApp.jspath('..field.$', row)[0] || '';
+
+					const valuehtml = amiWebApp.textToHtml(value);
+
+					L.push(`<option value="${valuehtml}" xxxxxxxx="xxxxxxxx">${valuehtml}</option>`);
+
+				});
+
+				L.sort();
+
+				if('::any::' in predicate.select) {
+					L.unshift('<option value="::any::" selected="selected">« reset filter »</option>');
+				}
+				else {
+					L.unshift('<option value="::any::" xxxxxxxx="xxxxxxxx">« reset filter »</option>');
+				}
+
+				$(`${predicate.selector} select`).html(L.join(''));
+
+				$(`${predicate.selector} .count`).text(L.length - 1);
+
+				$(`${predicate.selector} .limit`).text(predicate.limit);
+
+				amiWebApp.unlock();
+
+			}).fail((data) => {
+
+				amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+			});
+
+			/*--------------------------------------------------------------------------------------------------------*/
+		}).fail((data) => {
+
+			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+		});
+
+		/*------------------------------------------------------------------------------------------------------------*/
+	},
+
+
+	fillStringBoxOld: function(name, applyFilter, applyLimit)
 	{
 		const predicate = this.ctx.predicates[name], criterion = predicate.criterion;
 
