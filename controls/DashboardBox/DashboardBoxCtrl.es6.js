@@ -63,7 +63,7 @@ $AMIClass('DashboardBoxCtrl', {
 
 					amiWebApp.lock();
 
-					amiCommand.execute('AddToDashboard -hash=? -transparent=? -json=?', {params: [hash, transparent, JSON.stringify(json)]}).done(() => {
+					amiCommand.execute('AddDashboard -hash=? -transparent=? -json=?', {params: [hash, transparent, JSON.stringify(json)]}).done(() => {
 
 						amiLogin.update().always(() => {
 
