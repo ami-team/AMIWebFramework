@@ -16,7 +16,7 @@
 			<i class="bi bi-link-45deg"></i> goto
 		</a>
 		{% elseif profile === '_dashboardProfile' %}
-		<a href="{{WEBAPP_URL}}?u={{ item.id|e }}" target="_blank" style="white-space: nowrap;">
+		<a href="{{WEBAPP_URL}}?u={{ item.hash|e }}" target="_blank" style="white-space: nowrap;">
 			<i class="bi bi-link-45deg"></i> goto
 		</a>
 		{% endif %}

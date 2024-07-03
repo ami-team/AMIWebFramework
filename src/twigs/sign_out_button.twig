@@ -25,8 +25,8 @@
 		<div class="dropdown-menu" id="ami_dashboard_menu_content">
 			<a class="dropdown-item xxxxxxxx" href="{{WEBAPP_URL}}?subapp=BookmarkEditor&userdata=dashboards" target="_blank">Edit dashboards</a>
 			<div class="dropdown-divider"></div>
-			{% for id, dashboard in dashboardInfo %}
-			<a class="dropdown-item" href="{{WEBAPP_URL}}?u={{ id|e }}" target="_blank">{{ dashboard.name|e }}</a>
+			{% for hash, dashboard in dashboardInfo %}
+			<a class="dropdown-item" href="{{WEBAPP_URL}}?u={{ hash|e }}" target="_blank">{{ dashboard.name|e }}</a>
 			{% else %}
 			<div class="dropdown-item text-muted">-- empty --</div>
 			{% endfor %}
