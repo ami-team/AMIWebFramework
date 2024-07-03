@@ -354,7 +354,9 @@ $AMIClass('TableCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			$(this.patchId('#E830DA2D_A52E_8012_D358_100821361270')).click(() => {
+			$(this.patchId('#E830DA2D_A52E_8012_D358_100821361270')).click((e) => {
+
+				e.preventDefault();
 
 				const json = {
 					command: this.ctx.command2,
@@ -375,7 +377,9 @@ $AMIClass('TableCtrl', {
 				amiWebApp.createControl(this.getParent(), this, 'bookmarkBox', ['TableViewer', json]);
 			});
 
-			$(this.patchId('#B26CABC0_C653_83CF_BE88_A4BF97FCDAB5')).click(() => {
+			$(this.patchId('#B26CABC0_C653_83CF_BE88_A4BF97FCDAB5')).click((e) => {
+
+				e.preventDefault();
 
 				const json = {
 
