@@ -62,6 +62,7 @@ $AMIClass('DashboardBoxCtrl', {
 				const hash = $('#CA1C2B9C_C66E_16A4_0192_95704C27B6E2').val().trim();
 
 				const transparent = $('#DDC88FB6_C193_9C60_53CE_85D885BD42F7').prop('checked') ? '1' : '0';
+				const autoRefresh = $('#BFE60B45_EB7C_E9AD_8748_9894FB5FBC35').prop('checked') ? '1' : '0';
 
 				if(hash)
 				{
@@ -72,7 +73,7 @@ $AMIClass('DashboardBoxCtrl', {
 
 					amiWebApp.lock();
 
-					amiCommand.execute('AddDashboardWidget -hash=? -transparent=? -json=?', {params: [hash, transparent, JSON.stringify(json)]}).done(() => {
+					amiCommand.execute('AddDashboardWidget -hash=? -transparent=? -autoRefresh=? -json=?', {params: [hash, transparent, autoRefresh, JSON.stringify(json)]}).done(() => {
 
 						amiLogin.update().always(() => {
 

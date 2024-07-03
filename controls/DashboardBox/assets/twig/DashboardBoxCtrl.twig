@@ -3,13 +3,16 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title"><i class="bi bi-speedometer"></i> Append to Dashboard</h4>
+				{% if BOOTSTRAP_VERSION > 4 %}
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				{% else %}
+				<button type="button" class="close" data-dismiss="modal"><i class="bi bi-x-lg"></i></button>
+				{% endif %}
 			</div>
 			<div class="modal-body">
 				<div class="mb-2">
 					<label class="form-label" for="CA1C2B9C_C66E_16A4_0192_95704C27B6E2">Existing or new dashboard name<sup class="text-danger">*</sup></label>
-					<div class="input-group input-group-sm">
-						<select class="form-select form-select-sm" id="CA1C2B9C_C66E_16A4_0192_95704C27B6E2"></select>
-					</div>
+					<select class="form-select form-select-sm" id="CA1C2B9C_C66E_16A4_0192_95704C27B6E2"></select>
 				</div>
 				<div class="mb-2">
 					<label class="form-label" for="A7003C5D_0A5C_08A2_DAD9_3EC577328D43">JSON <button class="btn btn-sm btn-primary" data-bs-toggle="collapse" data-bs-target="#CC011903_7C42_70CF_25CD_DE594C3E23C5">view/hide</button></label>
@@ -17,15 +20,29 @@
 						<select class="form-editor" data-lang="json" id="A7003C5D_0A5C_08A2_DAD9_3EC577328D43"></select>
 					</div>
 				</div>
-				<div class="mb-2">
-					<label class="form-label" for="DDC88FB6_C193_9C60_53CE_85D885BD42F7">Transparent widget<sub class="text-danger">*</sub></label>
-					<div class="switch switch-sm switch-off-primary switch-on-success">
-						<input type="checkbox" id="DDC88FB6_C193_9C60_53CE_85D885BD42F7">
-						<label for="DDC88FB6_C193_9C60_53CE_85D885BD42F7">
-							<span class="text-primary">no</span>
-							/
-							<span class="text-success">yes</span>
-						</label>
+
+				<div class="row">
+					<div class="col-md-6">
+						<label class="form-label" for="DDC88FB6_C193_9C60_53CE_85D885BD42F7">Transparent widget<sub class="text-danger">*</sub></label>
+						<div class="switch switch-sm switch-off-primary switch-on-success">
+							<input type="checkbox" id="DDC88FB6_C193_9C60_53CE_85D885BD42F7">
+							<label for="DDC88FB6_C193_9C60_53CE_85D885BD42F7">
+								<span class="text-primary">no</span>
+								/
+								<span class="text-success">yes</span>
+							</label>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<label class="form-label" for="BFE60B45_EB7C_E9AD_8748_9894FB5FBC35">Auto refresh widget<sub class="text-danger">*</sub></label>
+						<div class="switch switch-sm switch-off-primary switch-on-success">
+							<input type="checkbox" id="BFE60B45_EB7C_E9AD_8748_9894FB5FBC35">
+							<label for="BFE60B45_EB7C_E9AD_8748_9894FB5FBC35">
+								<span class="text-primary">no</span>
+								/
+								<span class="text-success">yes</span>
+							</label>
+						</div>
 					</div>
 				</div>
 			</div>
