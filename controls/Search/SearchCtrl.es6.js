@@ -867,7 +867,7 @@ $AMIClass('SearchCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	fillStringBox: function(name, applyFilter, applyLimit)
+	fillStringBoxNew: function(name, applyFilter, applyLimit)
 	{
 		const L = [];
 		const predicate = this.ctx.predicates[name], criterion = predicate.criterion;
@@ -992,7 +992,7 @@ $AMIClass('SearchCtrl', {
 	},
 
 
-	fillStringBoxOld: function(name, applyFilter, applyLimit)
+	fillStringBox: function(name, applyFilter, applyLimit)
 	{
 		const predicate = this.ctx.predicates[name], criterion = predicate.criterion;
 
@@ -1032,6 +1032,11 @@ $AMIClass('SearchCtrl', {
 		/*------------------------------------------------------------------------------------------------------------*/
 		/* FILL BOX                                                                                                   */
 		/*------------------------------------------------------------------------------------------------------------*/
+
+		/*console.log('name ' + name);
+		console.log('predicate.filter ' + predicate.filter);
+		console.log('filter ' + filter);
+		console.log('predicate.select ' + JSON.stringify(predicate.select));*/
 
 		return amiCommand.execute(`SearchQuery -catalog="${amiWebApp.textToString(criterion.catalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mql)}"`).done((data) => {
 
