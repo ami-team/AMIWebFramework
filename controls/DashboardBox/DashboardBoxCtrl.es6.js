@@ -37,6 +37,15 @@ $AMIClass('DashboardBoxCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
+			$('#CA1C2B9C_C66E_16A4_0192_95704C27B6E2').select2({
+				tags: true,
+				allowClear: true,
+				placeholder: 'Existing or new dashboard name',
+				dropdownParent: $('#C5E27E1F_DEB1_DE92_1301_898529832194 .modal-body')
+			});
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
 			$('#D5C96872_D545_4B33_ECD9_55EC32E1703E').on('click', () => {
 
 				amiWebApp.modalLeave();
@@ -48,11 +57,12 @@ $AMIClass('DashboardBoxCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			$('#E557D8C7_CBA2_3E32_4861_A2A7A81A9D14').on('click', () => {
+			$('#E335D6CC_ADA1_92CF_1C64_F446B27B5F93').on('click', () => {
 
 				const hash = $('#CA1C2B9C_C66E_16A4_0192_95704C27B6E2').val().trim();
 
 				const transparent = $('#DDC88FB6_C193_9C60_53CE_85D885BD42F7').prop('checked') ? '1' : '0';
+				const autoRefresh = $('#BFE60B45_EB7C_E9AD_8748_9894FB5FBC35').prop('checked') ? '1' : '0';
 
 				if(hash)
 				{
@@ -63,7 +73,7 @@ $AMIClass('DashboardBoxCtrl', {
 
 					amiWebApp.lock();
 
-					amiCommand.execute('AddToDashboard -hash=? -transparent=? -json=?', {params: [hash, transparent, JSON.stringify(json)]}).done(() => {
+					amiCommand.execute('AddDashboardWidget -hash=? -transparent=? -autoRefresh=? -json=?', {params: [hash, transparent, autoRefresh, JSON.stringify(json)]}).done(() => {
 
 						amiLogin.update().always(() => {
 
@@ -123,6 +133,15 @@ $AMIClass('DashboardBoxCtrl', {
 		{
 			json = {};
 		}
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		const select = $('#CA1C2B9C_C66E_16A4_0192_95704C27B6E2').empty();
+
+		$.each(Object.values(amiAuth.getDashboardInfo()), (_, info) => {
+
+			select.append(new Option(info.name, info.hash));
+		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
