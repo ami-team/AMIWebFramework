@@ -389,7 +389,7 @@ $AMIClass('UserDashboardApp', {
 	{
 		amiWebApp.lock();
 
-		return amiCommand.execute('RemoveDashboardWidget -id=? -widgetId=?', {params: [this.hash, item.id]}).done(() => {
+		return amiCommand.execute('RemoveDashboardWidget -hash=? -widgetId=?', {params: [this.hash, item.id]}).done(() => {
 
 			amiWebApp.unlock();
 
