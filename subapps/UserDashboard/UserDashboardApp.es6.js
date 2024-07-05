@@ -35,6 +35,8 @@ $AMIClass('UserDashboardApp', {
 
 	onReady: function()
 	{
+		this._gridstack = null;
+
 		const result = $.Deferred();
 
 		amiWebApp.replaceHTML('#ami_main_content', twigUserDashboardApp).done(() => {
@@ -43,10 +45,12 @@ $AMIClass('UserDashboardApp', {
 
 			GridStack.initAll({cellHeight: 36}).forEach((gridstack) => {
 
-				(this._gridstack = gridstack).on('dragstop resizestop', (e, el) => {
+				gridstack.on('dragstop resizestop', (e, el) => {
 
 					this.updateWidget(el.gridstackNode);
 				});
+
+				this._gridstack = gridstack;
 			});
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -131,7 +135,7 @@ $AMIClass('UserDashboardApp', {
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		const el = $(this._gridstack.addWidget({
-			id: widget.hash,
+			id: widget.id,
 			x: widget.x,
 			y: widget.y,
 			w: widget.width,
@@ -184,7 +188,7 @@ $AMIClass('UserDashboardApp', {
 
 					/*------------------------------------------------------------------------------------------------*/
 
-					amiWebApp.error(`For widget '${widget.hash}': ${message}`);
+					amiWebApp.error(`For widget '${widget.id}': ${message}`);
 
 					/*------------------------------------------------------------------------------------------------*/
 
@@ -197,7 +201,7 @@ $AMIClass('UserDashboardApp', {
 			{
 				/*----------------------------------------------------------------------------------------------------*/
 
-				amiWebApp.error(`For widget '${widget.hash}': ${e.message}`);
+				amiWebApp.error(`For widget '${widget.id}': ${e.message}`);
 
 				/*----------------------------------------------------------------------------------------------------*/
 
@@ -216,7 +220,7 @@ $AMIClass('UserDashboardApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	reload: function(amiLogin = null)
+	reload: function()
 	{
 		const result = $.Deferred();
 
@@ -369,7 +373,7 @@ $AMIClass('UserDashboardApp', {
 	{
 		amiWebApp.lock();
 
-		return amiCommand.execute('UpdateWidget -id=? -transparent=? -x=? -y=? -width=? -height=?', {params: [item.id, item.transparent, item.x, item.y, item.w, item.h]}).done(() => {
+		return amiCommand.execute('UpdateDashboardWidget -hash=? -widgetId=? -transparent=? -x=? -y=? -width=? -height=?', {params: [this.hash, item.id, item.transparent, item.x, item.y, item.w, item.h]}).done(() => {
 
 			amiWebApp.unlock();
 
@@ -385,7 +389,7 @@ $AMIClass('UserDashboardApp', {
 	{
 		amiWebApp.lock();
 
-		return amiCommand.execute('RemoveWidget -id=?', {params: [item.id]}).done(() => {
+		return amiCommand.execute('RemoveDashboardWidget -id=? -widgetId=?', {params: [this.hash, item.id]}).done(() => {
 
 			amiWebApp.unlock();
 
