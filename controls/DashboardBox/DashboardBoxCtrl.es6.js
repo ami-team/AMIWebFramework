@@ -49,6 +49,7 @@ $AMIClass('DashboardBoxCtrl', {
 			$('#D5C96872_D545_4B33_ECD9_55EC32E1703E').on('click', () => {
 
 				amiWebApp.modalLeave();
+				amiWebApp.modalLeave();
 
 				$('#C5E27E1F_DEB1_DE92_1301_898529832194').modal('hide');
 
@@ -64,16 +65,13 @@ $AMIClass('DashboardBoxCtrl', {
 				const transparent = $('#DDC88FB6_C193_9C60_53CE_85D885BD42F7').prop('checked') ? '1' : '0';
 				const autoRefresh = $('#BFE60B45_EB7C_E9AD_8748_9894FB5FBC35').prop('checked') ? '1' : '0';
 
-				if(hash)
-				{
-					const json = {
-						control: _class.control,
-						userdata: JSON.stringify(_class.userdata),
-					};
+				const json = $('#A7003C5D_0A5C_08A2_DAD9_3EC577328D43').val().trim();
 
+				if(hash && json)
+				{
 					amiWebApp.lock();
 
-					amiCommand.execute('AddDashboardWidget -hash=? -transparent=? -autoRefresh=? -json=?', {params: [hash, transparent, autoRefresh, JSON.stringify(json)]}).done(() => {
+					amiCommand.execute('AddDashboardWidget -hash=? -transparent=? -autoRefresh=? -json=?', {params: [hash, transparent, autoRefresh, json]}).done(() => {
 
 						amiLogin.update().always(() => {
 
@@ -105,7 +103,7 @@ $AMIClass('DashboardBoxCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	render: function(control, userdata, options)
+	render: function(widget, options)
 	{
 		const deferred = $.Deferred();
 
@@ -125,8 +123,8 @@ $AMIClass('DashboardBoxCtrl', {
 
 		try
 		{
-			json = amiWebApp.typeOf(userdata) === 'Object' ? /*------*/(userdata)
-			                                               : JSON.parse(userdata)
+			json = amiWebApp.typeOf(widget) === 'Object' ? /*------*/(widget)
+			                                             : JSON.parse(widget)
 			;
 		}
 		catch(e)
@@ -152,8 +150,6 @@ $AMIClass('DashboardBoxCtrl', {
 
 		this.$class.deferred = deferred;
 		this.$class.context = context;
-		this.$class.control = control;
-		this.$class.userdata = json;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 

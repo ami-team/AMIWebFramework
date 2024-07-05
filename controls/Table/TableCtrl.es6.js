@@ -359,22 +359,25 @@ $AMIClass('TableCtrl', {
 				e.preventDefault();
 
 				const json = {
-					command: this.ctx.command2,
-					/**/
-					catalog: this.ctx.catalog,
-					entity: this.ctx.entity,
-					primaryField: this.ctx.primaryField,
-					rowset: this.ctx.rowset,
-					/**/
-					start: this.ctx.start,
-					stop: this.ctx.stop,
-					orderBy: this.ctx.orderBy,
-					orderWay: this.ctx.orderWay,
-					/**/
-					maxCellLength: this.ctx.maxCellLength,
+					subapp: 'TableViewer',
+					userdata: JSON.stringify({
+						command: this.ctx.command2,
+						/**/
+						catalog: this.ctx.catalog,
+						entity: this.ctx.entity,
+						primaryField: this.ctx.primaryField,
+						rowset: this.ctx.rowset,
+						/**/
+						start: this.ctx.start,
+						stop: this.ctx.stop,
+						orderBy: this.ctx.orderBy,
+						orderWay: this.ctx.orderWay,
+						/**/
+						maxCellLength: this.ctx.maxCellLength,
+					}),
 				};
 
-				amiWebApp.createControl(this.getParent(), this, 'bookmarkBox', ['TableViewer', json]);
+				amiWebApp.createControl(this.getParent(), this, 'bookmarkBox', [json]);
 			});
 
 			$(this.patchId('#B26CABC0_C653_83CF_BE88_A4BF97FCDAB5')).click((e) => {
@@ -422,7 +425,7 @@ $AMIClass('TableCtrl', {
 					}
 				};
 
-				amiWebApp.createControl(this.getParent(), this, 'dashboardBox', ['TableViewer', json]);
+				amiWebApp.createControl(this.getParent(), this, 'dashboardBox', [json]);
 			});
 
 			$(this.patchId('#CD458FEC_9AD9_30E8_140F_263F119961BE')).click(() => {
