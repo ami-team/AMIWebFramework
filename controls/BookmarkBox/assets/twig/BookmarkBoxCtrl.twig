@@ -3,11 +3,6 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title"><i class="bi bi-star-fill"></i> New Bookmark</h4>
-				{% if BOOTSTRAP_VERSION > 4 %}
-				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-				{% else %}
-				<button type="button" class="close" data-dismiss="modal"><i class="bi bi-x-lg"></i></button>
-				{% endif %}
 			</div>
 			<div class="modal-body">
 				<div class="mb-2">
@@ -17,7 +12,7 @@
 				<div class="mb-2">
 					<label class="form-label" for="AC86FF11_7805_C85E_7411_F061BA049208">JSON <button class="btn btn-sm btn-primary" data-bs-toggle="collapse" data-bs-target="#EBABE58F_47EC_314C_5386_280E9D8A32A7">view/hide</button></label>
 					<div class="collapse show" id="EBABE58F_47EC_314C_5386_280E9D8A32A7">
-						<textarea class="form-editor" data-lang="json" data-read-only="true" id="AC86FF11_7805_C85E_7411_F061BA049208"></textarea>
+						<select class="form-editor" data-lang="json" data-read-only="true" id="AC86FF11_7805_C85E_7411_F061BA049208"></select>
 					</div>
 				</div>
 				<div class="mb-2">

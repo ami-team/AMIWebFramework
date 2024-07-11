@@ -15,6 +15,10 @@ import twigUserDashboardApp from './assets/twig/UserDashboardApp.twig';
 
 /**/
 
+import 'gridstack/dist/gridstack.min.css';
+
+import 'gridstack/dist/h5/gridstack-dd-native';
+
 import { GridStack } from 'gridstack';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -35,22 +39,25 @@ $AMIClass('UserDashboardApp', {
 
 	onReady: function()
 	{
-		this._gridstack = null;
-
 		const result = $.Deferred();
 
 		amiWebApp.replaceHTML('#ami_main_content', twigUserDashboardApp).done(() => {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			GridStack.initAll({cellHeight: 36}).forEach((gridstack) => {
+			this._gridstack = GridStack.init({
+				float: true,
+				cellHeight: 36,
+				staticGrid: true,
+				verticalMargin: 12,
+				width: 12,
+			});
 
-				gridstack.on('dragstop resizestop', (e, el) => {
+			/*--------------------------------------------------------------------------------------------------------*/
 
-					this.updateWidget(el.gridstackNode);
-				});
+			this._gridstack.on('dragstop resizestop', (e, el) => {
 
-				this._gridstack = gridstack;
+				this.updateWidget(el.gridstackNode);
 			});
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -65,7 +72,7 @@ $AMIClass('UserDashboardApp', {
 
 	onLogin: function(userdata)
 	{
-		this.hash = userdata;
+		this.amiLogin = userdata || amiLogin.getUser(); // BERK
 
 		return this.reload().done(() => {
 
@@ -102,7 +109,7 @@ $AMIClass('UserDashboardApp', {
 
 	onLogout: function(userdata)
 	{
-		this.hash = userdata;
+		this.amiLogin = userdata || amiLogin.getUser(); // BERK
 
 		$('#F251696F_D42E_F7FF_86F7_2E6B4F2E8F74').empty();
 
@@ -115,32 +122,45 @@ $AMIClass('UserDashboardApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	_reload: function(result, widgets, idx)
+	_reload: function(result, rows, idx)
 	{
-		if(idx === widgets.length)
+		if(idx === rows.length)
 		{
 			return result.resolve();
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const widget = widgets[idx];
+		const row = rows[idx];
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const item_content_clazz = parseInt(widget.transparent) ? 'grid-stack-item-transparent-content'
-		                                                        : 'grid-stack-item-translucent-content'
+		const id = amiWebApp.jspath('..field{.@name==="id"}.$', row)[0] || '';
+		const control = amiWebApp.jspath('..field{.@name==="control"}.$', row)[0] || '';
+		const params = amiWebApp.jspath('..field{.@name==="params"}.$', row)[0] || '[]';
+		const options = amiWebApp.jspath('..field{.@name==="settings"}.$', row)[0] || '{}';
+		const transparent = amiWebApp.jspath('..field{.@name==="transparent"}.$', row)[0] || '0';
+		const autoRefresh = amiWebApp.jspath('..field{.@name==="autoRefresh"}.$', row)[0] || '1';
+		const x = amiWebApp.jspath('..field{.@name==="x"}.$', row)[0] || '0';
+		const y = amiWebApp.jspath('..field{.@name==="y"}.$', row)[0] || '0';
+		const width = amiWebApp.jspath('..field{.@name==="width"}.$', row)[0] || '0';
+		const height = amiWebApp.jspath('..field{.@name==="height"}.$', row)[0] || '0';
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		const item_content_clazz = parseInt(transparent) ? 'grid-stack-item-transparent-content'
+		                                                 : 'grid-stack-item-translucent-content'
 		;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		const el = $(this._gridstack.addWidget({
-			id: widget.id,
-			x: widget.x,
-			y: widget.y,
-			w: widget.width,
-			h: widget.height,
-			transparent: widget.transparent,
+			x: x,
+			y: y,
+			w: width,
+			h: height,
+			id: id,
+			transparent: transparent,
 		}));
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -170,17 +190,17 @@ $AMIClass('UserDashboardApp', {
 
 			try
 			{
-				amiWebApp.createControl(this, this, widget.control, [`#EB4DF671_2C31_BED0_6BED_44790525F28F_${idx} > .grid-stack-item-content`].concat(widget.params, widget.options)).done((control) => {
+				amiWebApp.createControl(this, this, control, [`#EB4DF671_2C31_BED0_6BED_44790525F28F_${idx} > .grid-stack-item-content`].concat(JSON.parse(params), JSON.parse(options))).done((control) => {
 
 					/*------------------------------------------------------------------------------------------------*/
 
-					control.autoRefresh = parseInt(widget.autoRefresh);
+					control.autoRefresh = parseInt(autoRefresh);
 
 					this.controls.push(control);
 
 					/*------------------------------------------------------------------------------------------------*/
 
-					this._reload(result, widgets, idx + 1);
+					this._reload(result, rows, idx + 1);
 
 					/*------------------------------------------------------------------------------------------------*/
 
@@ -188,11 +208,11 @@ $AMIClass('UserDashboardApp', {
 
 					/*------------------------------------------------------------------------------------------------*/
 
-					amiWebApp.error(`For widget '${widget.id}': ${message}`);
+					amiWebApp.error(`For widget '${id}': ${message}`);
 
 					/*------------------------------------------------------------------------------------------------*/
 
-					this._reload(result, widgets, idx + 1);
+					this._reload(result, rows, idx + 1);
 
 					/*------------------------------------------------------------------------------------------------*/
 				});
@@ -201,11 +221,11 @@ $AMIClass('UserDashboardApp', {
 			{
 				/*----------------------------------------------------------------------------------------------------*/
 
-				amiWebApp.error(`For widget '${widget.id}': ${e.message}`);
+				amiWebApp.error(`For widget '${id}': ${e.message}`);
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				this._reload(result, widgets, idx + 1);
+				this._reload(result, rows, idx + 1);
 
 				/*----------------------------------------------------------------------------------------------------*/
 			}
@@ -220,17 +240,13 @@ $AMIClass('UserDashboardApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	reload: function()
+	reload: function(amiLogin = null)
 	{
 		const result = $.Deferred();
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		amiCommand.execute('GetDashboardInfo -hash=?', {params: [this.hash]}).done((data) => {
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			const widgets = JSON.parse(amiWebApp.jspath('..field{.@name==="json"}.$', data)[0] || '{}');
+		amiCommand.execute('GetDashboardInfo -amiLogin=?', {params: [amiLogin || this.amiLogin]}).done((data) => { // BERK
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -242,13 +258,14 @@ $AMIClass('UserDashboardApp', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			this._reload($.Deferred(), Object.values(widgets), 0).done(() => {
+			this._reload($.Deferred(), amiWebApp.jspath('..row', data), 0).done(() => {
 
 				/*----------------------------------------------------------------------------------------------------*/
 
 				$('.grid-stack-item-close-handle').click((e) => {
 
-					if (confirm('Are you sure?')) {
+					if(confirm('Are you sure?'))
+					{
 						const el = $(e.currentTarget).parent()[0];
 
 						this.removeWidget(el.gridstackNode).done(() => {
@@ -266,11 +283,14 @@ $AMIClass('UserDashboardApp', {
 
 					const el = $(e.currentTarget).parent().find('.grid-stack-item-content');
 
-					if (el.hasClass('grid-stack-item-transparent-content')) {
+					if(el.hasClass('grid-stack-item-transparent-content'))
+					{
 						node.transparent = 0;
 
 						el.removeClass('grid-stack-item-transparent-content').addClass('grid-stack-item-translucent-content');
-					} else {
+					}
+					else
+					{
 						node.transparent = 1;
 
 						el.removeClass('grid-stack-item-translucent-content').addClass('grid-stack-item-transparent-content');
@@ -373,7 +393,7 @@ $AMIClass('UserDashboardApp', {
 	{
 		amiWebApp.lock();
 
-		return amiCommand.execute('UpdateDashboardWidget -hash=? -widgetId=? -transparent=? -x=? -y=? -width=? -height=?', {params: [this.hash, item.id, item.transparent, item.x, item.y, item.w, item.h]}).done(() => {
+		return amiCommand.execute('UpdateWidget -id=? -transparent=? -x=? -y=? -width=? -height=?', {params: [item.id, item.transparent, item.x, item.y, item.w, item.h]}).done(() => {
 
 			amiWebApp.unlock();
 
@@ -389,7 +409,7 @@ $AMIClass('UserDashboardApp', {
 	{
 		amiWebApp.lock();
 
-		return amiCommand.execute('RemoveDashboardWidget -hash=? -widgetId=?', {params: [this.hash, item.id]}).done(() => {
+		return amiCommand.execute('RemoveWidget -id=?', {params: [item.id]}).done(() => {
 
 			amiWebApp.unlock();
 

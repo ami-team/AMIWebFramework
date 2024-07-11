@@ -54,13 +54,16 @@ $AMIClass('BookmarkBoxCtrl', {
 
 				const shared = $('#CEB66D23_8782_A96F_A8B6_139AC2A48875').prop('checked') ? '1' : '0';
 
-				const json = $('#AC86FF11_7805_C85E_7411_F061BA049208').val().trim();
-
-				if(name && json)
+				if(name)
 				{
+					const json = {
+						subapp: _class.subapp,
+						userdata: JSON.stringify(_class.userdata),
+					};
+
 					amiWebApp.lock();
 
-					amiCommand.execute('AddHash -name=? -shared=? -json=?', {params: [name, shared, json]}).done(() => {
+					amiCommand.execute('AddHash -name=? -shared=? -json=?', {params: [name, shared, JSON.stringify(json)]}).done(() => {
 
 						amiLogin.update().always(() => {
 
@@ -92,7 +95,7 @@ $AMIClass('BookmarkBoxCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	render: function(userdata, options)
+	render: function(subapp, userdata, options)
 	{
 		const deferred = $.Deferred();
 
@@ -130,6 +133,8 @@ $AMIClass('BookmarkBoxCtrl', {
 
 		this.$class.deferred = deferred;
 		this.$class.context = context;
+		this.$class.subapp = subapp;
+		this.$class.userdata = json
 
 		/*------------------------------------------------------------------------------------------------------------*/
 

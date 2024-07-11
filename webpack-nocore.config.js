@@ -91,9 +91,9 @@ const config = {
 	},
 	'output': {
 		'filename': '[name].min.js',
+		'chunkFilename': 'assets/js/chunks/[id].min.js',
 		'path': path.resolve(__dirname),
-		'chunkFilename': (pathData) => path.join(path.dirname(pathData.runtime || pathData.chunk.runtime), 'assets', 'js', 'chunks', '[id].min.js'),
-		'assetModuleFilename': (pathData) => path.join(path.dirname(pathData.runtime), 'assets', getResourceDirectory(pathData.filename), '[hash][ext][query]'),
+		'assetModuleFilename': (o) => path.join(path.dirname(o.runtime), 'assets', getResourceDirectory(o.filename), '[hash][ext][query]')
 	},
 	'devServer': {
 		'static': {

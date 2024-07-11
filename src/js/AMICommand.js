@@ -102,7 +102,7 @@ class AMICommand
 		const result = $.Deferred();
 
 		const promise = (typeof options === 'object' && 'mqtt' in options) ? this.#mqttClient.execute(command, options)
-			                                                                        : this.#httpClient.execute(command, options)
+			                                                               : this.#httpClient.execute(command, options)
 		;
 
 		promise.then((response) => {

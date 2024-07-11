@@ -642,10 +642,10 @@ class AMIWebApp
 							ABOUT_URL: aboutURL,
 						};
 
-						/*--------------------------------------------------------------------------------------------*/
+						/*--------------------------------------------------------------------------------------------------------*/
 
-						const themeURL = (amiRouter.getWebAppArgs()['subapp'] || '').toLowerCase() === 'userdashboard' || amiRouter.getWebAppArgs()['u'] ? dashboardThemeURL
-						                                                                                                                                 : defaultThemeURL
+						const themeURL = (amiRouter.getWebAppArgs()['subapp'] || '').toLowerCase() === 'userdashboard' ? dashboardThemeURL
+						                                                                                               : defaultThemeURL
 						;
 
 						/*--------------------------------------------------------------------------------------------*/

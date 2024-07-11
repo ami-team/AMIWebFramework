@@ -10,10 +10,12 @@
  * @global saveAs
  */
 
+import graphvizWASM from '../../node_modules/@hpcc-js/wasm/dist/graphvizlib.wasm';
+
 import twigGraphCtrl from './assets/twig/GraphCtrl.twig';
 import twigGraph     from './assets/twig/graph.twig'    ;
 
-import {Graphviz} from '@hpcc-js/wasm';
+import {graphvizSync} from '@hpcc-js/wasm';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -38,11 +40,25 @@ $AMIClass('GraphCtrl', {
 		this.fragmentGraphCtrl = twigGraphCtrl;
 		this.fragmentGraph = twigGraph;
 
-		Graphviz.load().then((graphviz) => {
+		fetch(graphvizWASM, {mode: 'cors'}).then((response) => {
 
-			this.graphviz = graphviz;
+			response.arrayBuffer().then((wasmBinary) => {
 
-			result.resolve();
+				graphvizSync(null, wasmBinary).then((graphviz) => {
+
+					this.graphviz = graphviz;
+
+					result.resolve();
+
+				}).catch((e) => {
+
+					result.reject(e);
+				});
+
+			}).catch((e) => {
+
+				result.reject(e);
+			});
 
 		}).catch((e) => {
 
@@ -79,7 +95,7 @@ $AMIClass('GraphCtrl', {
 
 			if((this.dotString = amiWebApp.jspath('..rowset{.@type==="graph"}.row.field{.@name==="dot"}.$', data)[0] || '') !== '')
 			{
-				this.mode = 'dot';
+				this.mode='dot';
 			}
 			else
 			{
@@ -151,7 +167,6 @@ $AMIClass('GraphCtrl', {
 		return result.promise();
 
     },
-
 	/*----------------------------------------------------------------------------------------------------------------*/
 
     display: function()
@@ -166,7 +181,7 @@ $AMIClass('GraphCtrl', {
 
         /*------------------------------------------------------------------------------------------------------------*/
 
-		this.graph = this.graphviz.dot(this.dotString, 'svg');
+		this.graph = this.graphviz.layout(this.dotString, 'svg', 'dot');
 
 		/*------------------------------------------------------------------------------------------------------------*/
 		/* GRAPH POST TREATMENT                                                                                       */
