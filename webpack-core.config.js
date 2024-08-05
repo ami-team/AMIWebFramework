@@ -69,8 +69,8 @@ const config = {
 	},
 	'output': {
 		'filename': '[name].js',
+		'path': path.resolve(__dirname, 'js'),
 		'chunkFilename': 'assets/js/chunks/[id].min.js',
-		'path': path.resolve(__dirname, 'js')
 	},
 	'module': {
 		'rules': [

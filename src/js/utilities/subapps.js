@@ -148,7 +148,7 @@ export function triggerLogout()
  * Asynchronously loads a subapp
  * @param {string} subapp the subapp name
  * @param {?*} [userdata] the user data
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, defaultSubApp, hash, cache)
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, hash, cache)
  * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
@@ -260,7 +260,7 @@ export function loadSubApp(subapp, userdata, options)
  * Asynchronously loads a subapp
  * @param {string} subapp the subapp name
  * @param {?*} [userdata] the user data
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, defaultSubApp, hash, cache)
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, hash, cache)
  * @returns {undefined} Nothing
  * @ignore
  */
@@ -289,7 +289,7 @@ export function loadSubAppByURL(defaultSubApp, defaultUserData)
 
 	const args = amiRouter.getWebAppArgs();
 
-	if(args['v'])
+	/**/ if(args['v'])
 	{
 		amiCommand.execute('GetHashInfo -hash=?', {params: [args['v']]}).fail((data, message) => {
 
@@ -313,7 +313,7 @@ export function loadSubAppByURL(defaultSubApp, defaultUserData)
 			const subapp = json['subapp'] || defaultSubApp;
 			const userdata = json['userdata'] || defaultUserData;
 
-			loadSubApp(subapp, userdata, {defaultSubApp: defaultSubApp}).then((/*---*/) => {
+			loadSubApp(subapp, userdata).then((/*---*/) => {
 
 				result.resolve(/*---*/);
 
@@ -324,6 +324,21 @@ export function loadSubAppByURL(defaultSubApp, defaultUserData)
 
 			/*--------------------------------------------------------------------------------------------------------*/
 		});
+	}
+	else if(args['u'])
+	{
+		/*--------------------------------------------------------------------------------------------------------*/
+
+		loadSubApp('UserDashboard', args['u']).then((/*---*/) => {
+
+			result.resolve(/*---*/);
+
+		}, (message) => {
+
+			result.reject(message);
+		});
+
+		/*--------------------------------------------------------------------------------------------------------*/
 	}
 	else
 	{

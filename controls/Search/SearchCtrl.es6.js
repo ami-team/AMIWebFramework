@@ -702,7 +702,7 @@ $AMIClass('SearchCtrl', {
 				{
 					case 0:
 						amiWebApp.lock();
-						this.fillStringBox(name, false, false).always(() => {
+						this.fillStringBox(name, true, false).always(() => {
 							amiWebApp.unlock();
 						});
 						break;
@@ -901,7 +901,193 @@ $AMIClass('SearchCtrl', {
 
 		if(applyLimit)
 		{
-			mql += ` LIMIT ${predicate.limit} OFFSET 0`;
+			mql += ` LIMIT ${predicate.limit + Object.keys(predicate.select).length} OFFSET 0`;
+		}
+
+		/*------------------------------------------------------------------------------------------------------------*/
+		/* FILL BOX                                                                                                   */
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		return amiCommand.execute(`SearchQuery -catalog="${amiWebApp.textToString(criterion.catalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mql)}"`).done((data) => {
+
+			const L = [];
+			const LS = [];
+
+			const rows = amiWebApp.jspath('..row', data);
+
+			/*--------------------------------------------------------------------------------------------------------*/
+			/* SELECTED ITEMS                                                                                         */
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			Object.keys(predicate.select).forEach((key) => {
+
+				const valuehtml = amiWebApp.textToHtml(key);
+
+				if(amiWebApp.jspath('..row.field{.$ === \'' + key + '\'}.$', data)[0])
+				{
+					L.push(`<option value="${valuehtml}" selected="selected">${valuehtml}</option>`);
+				}
+				else
+				{
+					LS.push(key);
+				}
+			});
+
+			if(LS.length > 0)
+			{
+				let mqlLS = `SELECT DISTINCT \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\`${this.dumpConstraints(criterion)}`;
+
+				mqlLS += ` WHERE \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\`${this.dumpConstraints(criterion)} IN (\'${LS.join('\',\'')}\')`;
+
+				if(filter)
+				{
+					mqlLS += ` AND ${filter}`;
+				}
+
+				amiCommand.execute(`SearchQuery -catalog="${amiWebApp.textToString(criterion.catalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mqlLS)}"`).done((data) => {
+
+					LS.forEach((key) =>
+					{
+						const valuehtml = amiWebApp.textToHtml(key);
+
+						if(amiWebApp.jspath('..row.field{.$ === \'' + key + '\'}.$', data)[0])
+						{
+							L.push(`<option value="${valuehtml}" selected="selected">${valuehtml}</option>`);
+						}
+						else
+						{
+							L.push(`<option value="${valuehtml}" selected="selected" class="text-danger">${valuehtml}</option>`);
+						}
+
+					});
+
+					/*------------------------------------------------------------------------------------------------*/
+					/* OTHER ITEMS                                                                                    */
+					/*------------------------------------------------------------------------------------------------*/
+
+					let cpt = 0;
+
+					$.each(rows, (idx, row) => {
+
+						if (applyLimit && cpt >= (predicate.limit - Object.keys(predicate.select).length)) {
+							return false;
+						}
+
+						const value = amiWebApp.jspath('..field.$', row)[0] || '';
+
+						if(!(value in predicate.select))
+						{
+							const valuehtml = amiWebApp.textToHtml(value);
+							L.push(`<option value="${valuehtml}" xxxxxxxx="xxxxxxxx">${valuehtml}</option>`);
+							cpt = cpt + 1;
+						}
+
+					});
+
+					L.sort();
+
+					if('::any::' in predicate.select) {
+						L.unshift('<option value="::any::" selected="selected">« reset filter »</option>');
+					}
+					else {
+						L.unshift('<option value="::any::" xxxxxxxx="xxxxxxxx">« reset filter »</option>');
+					}
+
+					$(`${predicate.selector} select`).html(L.join(''));
+
+					$(`${predicate.selector} .count`).text(L.length - 1);
+
+					$(`${predicate.selector} .limit`).text(predicate.limit);
+
+				}).fail((data) => {
+
+					amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+				});
+
+			}
+			else
+			{
+				/*----------------------------------------------------------------------------------------------------*/
+				/* OTHER ITEMS                                                                                        */
+				/*----------------------------------------------------------------------------------------------------*/
+
+				let cpt = 0;
+
+				$.each(rows, (idx, row) => {
+
+					if (applyLimit && cpt >= (predicate.limit - Object.keys(predicate.select).length)) {
+						return false;
+					}
+
+					const value = amiWebApp.jspath('..field.$', row)[0] || '';
+
+					if (!(value in predicate.select)) {
+						const valuehtml = amiWebApp.textToHtml(value);
+						L.push(`<option value="${valuehtml}" xxxxxxxx="xxxxxxxx">${valuehtml}</option>`);
+						cpt = cpt + 1;
+					}
+				});
+
+				L.sort();
+
+				if ('::any::' in predicate.select) {
+					L.unshift('<option value="::any::" selected="selected">« reset filter »</option>');
+				} else {
+					L.unshift('<option value="::any::" xxxxxxxx="xxxxxxxx">« reset filter »</option>');
+				}
+
+				$(`${predicate.selector} select`).html(L.join(''));
+
+				$(`${predicate.selector} .count`).text(L.length - 1);
+
+				$(`${predicate.selector} .limit`).text(predicate.limit);
+
+			}
+
+		}).fail((data) => {
+
+			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+		});
+
+		/*------------------------------------------------------------------------------------------------------------*/
+	},
+
+
+	fillStringBoxOri: function(name, applyFilter, applyLimit)
+	{
+		const predicate = this.ctx.predicates[name], criterion = predicate.criterion;
+
+		/*------------------------------------------------------------------------------------------------------------*/
+		/* BUILD SQL QUERY                                                                                            */
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		let mql = `SELECT DISTINCT \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\`${this.dumpConstraints(criterion)}`;
+
+		/*------------------------------------------------------------------------------------------------------------*/
+		/* ADD FILTER                                                                                                 */
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		const filter = this.dumpFilterAST(name);
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		if(filter)
+		{
+			mql += ` WHERE ${filter}`;
+		}
+
+		/*------------------------------------------------------------------------------------------------------------*/
+		/* ADD ORDER BY AND LIMIT																					 */
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		if (criterion.more.order)
+		{
+			mql += ` ORDER BY  \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\` ${criterion.more.order}`;
+		}
+
+		if(applyLimit)
+		{
+			mql += ` LIMIT ${ predicate.limit - Object.keys(predicate.select).length <= 0 ? '0' : predicate.limit - Object.keys(predicate.select).length} OFFSET 0`;
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/

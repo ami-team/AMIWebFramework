@@ -52,9 +52,9 @@ $AMIClass('BookmarkEditorApp', {
 		/**/
 		infoMethod: () => amiAuth.getDashboardInfo(),
 		/**/
-		addCommand: 'AddToDashboard',
-		updateCommand: 'UpdateInDashboard',
-		removeCommand: 'RemoveInDashboard',
+		addCommand: 'AddDashboard',
+		updateCommand: 'UpdateDashboard',
+		removeCommand: 'RemoveDashboard',
 		/**/
 		listId: '#D89CE3F5_9D1D_B338_D895_C344CD4FFE08',
 		/**/
@@ -81,7 +81,7 @@ $AMIClass('BookmarkEditorApp', {
 		const result = $.Deferred();
 
 		const dict = {
-			mode: (userdata || 'home').trim()
+			mode: (userdata || 'bookmarks').trim()
 		};
 
 		amiWebApp.replaceHTML('#ami_main_content', twigBookmarkEditorApp, {dict: dict}).done(() => {

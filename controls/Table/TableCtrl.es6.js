@@ -86,14 +86,14 @@ $AMIClass('TableCtrl', {
 		this.setupCtx(
 			{
 				ignoredFields: {
-            			'ORACLE_ROWNUM': '',
-            			'PROJECT': '',
-            			'PROCESS': '',
-            			'AMIENTITYNAME': '',
-            			'AMIELEMENTID': '',
-            			'AMICREATED': '',
-            			'AMILASTMODIFIED': '',
-            			'AMISYSDATE': ''
+					'ORACLE_ROWNUM': '',
+					'PROJECT': '',
+					'PROCESS': '',
+					'AMIENTITYNAME': '',
+					'AMIELEMENTID': '',
+					'AMICREATED': '',
+					'AMILASTMODIFIED': '',
+					'AMISYSDATE': ''
             	},
 				isEmbedded: amiWebApp.isEmbedded(),
 				endpoint: amiCommand.endpoint,
@@ -238,8 +238,7 @@ $AMIClass('TableCtrl', {
 
 			$(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).keypress((e) => {
 
-				if(e.keyCode == 13)
-				{
+				if (e.keyCode == 13) {
 					this.refresh().fail((message) => {
 
 						amiWebApp.error(message, true);
@@ -249,8 +248,7 @@ $AMIClass('TableCtrl', {
 
 			$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).keypress((e) => {
 
-				if(e.keyCode == 13)
-				{
+				if (e.keyCode == 13) {
 					this.refresh().fail((message) => {
 
 						amiWebApp.error(message, true);
@@ -286,7 +284,10 @@ $AMIClass('TableCtrl', {
 
 				var xslts = amiWebApp.jspath('..field{.@name==="xslt" && .$!=="AMIXmlToXml.xsl" && .$!=="AMIXmlToJson.xsl" && .$!=="AMIXmlToCsv.xsl" && .$!=="AMIXmlToText.xsl" }.$', data) || [];
 
-				this.replaceHTML(this.patchId('#A49B2730_4FAB_F089_5864_41029D65BF05'), this.fragmentExport, {dict: this.ctx, xslts : xslts}).done(() => {
+				this.replaceHTML(this.patchId('#A49B2730_4FAB_F089_5864_41029D65BF05'), this.fragmentExport, {
+					dict: this.ctx,
+					xslts: xslts
+				}).done(() => {
 
 					$(`${this.patchId('#A49B2730_4FAB_F089_5864_41029D65BF05')} a`).click((e) => {
 
@@ -353,25 +354,78 @@ $AMIClass('TableCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			$(this.patchId('#E830DA2D_A52E_8012_D358_100821361270')).click(() => {
+			$(this.patchId('#E830DA2D_A52E_8012_D358_100821361270')).click((e) => {
+
+				e.preventDefault();
 
 				const json = {
-					command: this.ctx.command2,
-					/**/
-					catalog: this.ctx.catalog,
-					entity: this.ctx.entity,
-					primaryField: this.ctx.primaryField,
-					rowset: this.ctx.rowset,
-					/**/
-					start: this.ctx.start,
-					stop: this.ctx.stop,
-					orderBy: this.ctx.orderBy,
-					orderWay: this.ctx.orderWay,
-					/**/
-					maxCellLength: this.ctx.maxCellLength,
+					subapp: 'TableViewer',
+					userdata: JSON.stringify({
+						command: this.ctx.command2,
+						/**/
+						catalog: this.ctx.catalog,
+						entity: this.ctx.entity,
+						primaryField: this.ctx.primaryField,
+						rowset: this.ctx.rowset,
+						/**/
+						start: this.ctx.start,
+						stop: this.ctx.stop,
+						orderBy: this.ctx.orderBy,
+						orderWay: this.ctx.orderWay,
+						/**/
+						maxCellLength: this.ctx.maxCellLength,
+					}),
 				};
 
-				amiWebApp.createControl(this.getParent(), this, 'bookmarkBox', ['TableViewer', json]);
+				amiWebApp.createControl(this.getParent(), this, 'bookmarkBox', [json]);
+			});
+
+			$(this.patchId('#B26CABC0_C653_83CF_BE88_A4BF97FCDAB5')).click((e) => {
+
+				e.preventDefault();
+
+				const json = {
+					control: 'Table',
+					params: [this.ctx.command],
+					options: {
+						elementInfoCommandFunc: this.ctx.elementInfoCommandFunc,
+						appendCommandFunc: this.ctx.appendCommandFunc,
+						updateCommandFunc: this.ctx.updateCommandFunc,
+						removeCommandFunc: this.ctx.removeCommandFunc,
+						/**/
+						customLabelsFragment: this.ctx.customLabelsFragment,
+						customInputsFragment: this.ctx.customInputsFragment,
+						customHTMLsFragment: this.ctx.customHTMLsFragment,
+						/**/
+						enableCache: this.ctx.enableCache,
+						enableCount: this.ctx.enableCount,
+						enableEditMode: this.ctx.enableEditMode,
+						/**/
+						hideBigContent: this.ctx.hideBigContent,
+						/**/
+						showPrimaryField: this.ctx.showPrimaryField,
+						showToolBar: this.ctx.showToolBar,
+						showDetails: this.ctx.showDetails,
+						showTools: this.ctx.showTools,
+						canEdit: this.ctx.canEdit,
+						/**/
+						catalog: this.ctx.catalog,
+						entity: this.ctx.entity,
+						primaryField: this.ctx.primaryField,
+						rowset: this.ctx.rowset,
+						/**/
+						start: this.ctx.start,
+						stop: this.ctx.stop,
+						orderBy: this.ctx.orderBy,
+						orderWay: this.ctx.orderWay,
+						/**/
+						maxCellLength: this.ctx.maxCellLength,
+						/**/
+						card: this.ctx.card,
+					}
+				};
+
+				amiWebApp.createControl(this.getParent(), this, 'dashboardBox', [json]);
 			});
 
 			$(this.patchId('#CD458FEC_9AD9_30E8_140F_263F119961BE')).click(() => {
@@ -397,73 +451,6 @@ $AMIClass('TableCtrl', {
 			$(this.patchId('#C50C3427_FEE5_F115_1FEC_6A6668763EC4')).click(() => {
 
 				amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.js, {lang: 'javascript'}]);
-			});
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			$(this.patchId('#F1C79246_17B2_B9B0_3ABF_8C10FA0852DD')).click(() => {
-
-				/*----------------------------------------------------------------------------------------------------*/
-
-				const params = [
-					this.ctx.command
-				];
-
-				const options = {
-					elementInfoCommandFunc: this.ctx.elementInfoCommandFunc,
-					appendCommandFunc: this.ctx.appendCommandFunc,
-					updateCommandFunc: this.ctx.updateCommandFunc,
-					removeCommandFunc: this.ctx.removeCommandFunc,
-					/**/
-					customLabelsFragment: this.ctx.customLabelsFragment,
-					customInputsFragment: this.ctx.customInputsFragment,
-					customHTMLsFragment: this.ctx.customHTMLsFragment,
-					/**/
-					enableCache: this.ctx.enableCache,
-					enableCount: this.ctx.enableCount,
-					enableEditMode: this.ctx.enableEditMode,
-					/**/
-					hideBigContent: this.ctx.hideBigContent,
-					/**/
-					showPrimaryField: this.ctx.showPrimaryField,
-					showToolBar: this.ctx.showToolBar,
-					showDetails: this.ctx.showDetails,
-					showTools: this.ctx.showTools,
-					canEdit: this.ctx.canEdit,
-					/**/
-					catalog: this.ctx.catalog,
-					entity: this.ctx.entity,
-					primaryField: this.ctx.primaryField,
-					rowset: this.ctx.rowset,
-					/**/
-					start: this.ctx.start,
-					stop: this.ctx.stop,
-					orderBy: this.ctx.orderBy,
-					orderWay: this.ctx.orderWay,
-					/**/
-					maxCellLength: this.ctx.maxCellLength,
-					/**/
-					card: this.ctx.card,
-				};
-
-				/*----------------------------------------------------------------------------------------------------*/
-
-				const autoRefresh = confirm('Auto-refresh new widget?');
-
-				/*----------------------------------------------------------------------------------------------------*/
-
-				amiWebApp.lock();
-
-				amiCommand.execute(`AddWidget -control="Table" -params="${amiWebApp.textToString(JSON.stringify(params))}" -settings="${amiWebApp.textToString(JSON.stringify(options))}" -transparent${autoRefresh ? ' -autoRefresh' : ''}`).done((data, message) => {
-
-					amiWebApp.success(message);
-
-				}).fail((data, message) => {
-
-					amiWebApp.error(message);
-				});
-
-				/*----------------------------------------------------------------------------------------------------*/
 			});
 
 			/*--------------------------------------------------------------------------------------------------------*/

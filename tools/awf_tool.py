@@ -485,6 +485,7 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = './w
                     nb += copyFiles(package['path'], os.path.join('controls', m.group(1), 'assets', 'wasm'), None, os.path.join('controls', m.group(1), 'assets', 'wasm'), '*', verbose)
                     nb += copyFiles(package['path'], os.path.join('controls', m.group(1), 'assets', 'fonts'), None, os.path.join('controls', m.group(1), 'assets', 'fonts'), '*', verbose)
                     nb += copyFiles(package['path'], os.path.join('controls', m.group(1), 'assets', 'images'), None, os.path.join('controls', m.group(1), 'assets', 'images'), '*', verbose)
+                    nb += copyFiles(package['path'], os.path.join('controls', m.group(1), 'assets', 'js', 'chunks'), None, os.path.join('controls', m.group(1), 'assets', 'js', 'chunks'), '*', verbose)
 
                     nb += copyFiles(package['path'], os.path.join('controls', m.group(1)), None, os.path.join('controls', m.group(1)), m.group(2), verbose)
 
@@ -540,6 +541,7 @@ def updateAWF(awfGITCommitId, inDebugMode, buildDist, verbose, configFile = './w
                     nb += copyFiles(package['path'], os.path.join('subapps', m.group(1), 'assets', 'wasm'), None, os.path.join('subapps', m.group(1), 'assets', 'wasm'), '*', verbose)
                     nb += copyFiles(package['path'], os.path.join('subapps', m.group(1), 'assets', 'fonts'), None, os.path.join('subapps', m.group(1), 'assets', 'fonts'), '*', verbose)
                     nb += copyFiles(package['path'], os.path.join('subapps', m.group(1), 'assets', 'images'), None, os.path.join('subapps', m.group(1), 'assets', 'images'), '*', verbose)
+                    nb += copyFiles(package['path'], os.path.join('subapps', m.group(1), 'assets', 'js', 'chunks'), None, os.path.join('subapps', m.group(1), 'assets', 'js', 'chunks'), '*', verbose)
 
                     nb += copyFiles(package['path'], os.path.join('subapps', m.group(1)), None, os.path.join('subapps', m.group(1)), m.group(2), verbose)
 
@@ -1103,9 +1105,9 @@ const config = {
 	},
 	'output': {
 		'filename': '[name].min.js',
-		'chunkFilename': 'assets/js/chunks/[id].min.js',
 		'path': path.resolve(__dirname),
-		'assetModuleFilename': (o) => path.join(path.dirname(o.runtime), 'assets', getResourceDirectory(o.filename), '[hash][ext][query]')
+		'chunkFilename': (pathData) => path.join(path.dirname(pathData.runtime || pathData.chunk.runtime), 'assets', 'js', 'chunks', '[id].min.js'),
+		'assetModuleFilename': (pathData) => path.join(path.dirname(pathData.runtime), 'assets', getResourceDirectory(pathData.filename), '[hash][ext][query]'),
 	},
 	'devServer': {
 		'static': {
@@ -1117,7 +1119,7 @@ const config = {
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			{
-				'test': /\.js$/,
+				'test': /\\.js$/,
 				'use': {
 					'loader': 'babel-loader',
 					'options': {
@@ -1141,7 +1143,7 @@ const config = {
 
 			{
 				'type': 'asset/source',
-				'test': /\.twig$/,
+				'test': /\\.twig$/,
 				'exclude': /node_modules/
 			},
 
@@ -1149,7 +1151,7 @@ const config = {
 
 			{
 				'type': 'asset/source',
-				'test': /\.(json|yml|xml)$/,
+				'test': /\\.(json|yml|xml)$/,
 				'exclude': /node_modules/
 			},
 
@@ -1157,21 +1159,21 @@ const config = {
 
 			{
 				'type': 'asset/resource',
-				'test': /\.wasm$/
+				'test': /\\.wasm$/
 			},
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			{
 				'type': 'asset/resource',
-				'test': /\.(gif|png|jpg|jpeg|svg)$/,
+				'test': /\\.(gif|png|jpg|jpeg|svg)$/,
 				'exclude': /node_modules/
 			},
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			{
-				test: /\.css$/,
+				test: /\\.css$/,
 				use: [
 					'style-loader',
 					'css-loader',
@@ -1204,7 +1206,7 @@ const config = {
 	'optimization': {
 		'minimizer': [
 			new TerserPlugin({
-				'test': /\.min\.js$/,
+				'test': /\\.min\\.js$/,
 				'parallel': true,
 				'extractComments': () => false,
 				'terserOptions': {

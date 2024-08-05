@@ -77,11 +77,12 @@ $AMIClass('SchemaCtrl', {
 
 		const el1 = $(this.setSelector(selector));
 
-		el1.css('box-shadow', '0px 1px 0px rgba(255, 255, 255, 0.15) inset, 0 1px 5px rgba(0, 0, 0, 0.075)');
-		el1.css('border', '1px solid rgb(231, 231, 231)');
-		el1.css('border-radius', '4px');
-		el1.css('overflow-x', 'scroll');
-		el1.css('overflow-y', 'scroll');
+		el1.addClass('overflow-scroll');
+		el1.addClass('bg-white');
+		el1.addClass('rounded');
+		el1.addClass('border');
+		el1.addClass('shadow');
+
 		el1.css('padding', '10px');
 
 		/*------------------------------------------------------------------------------------------------------------*/
