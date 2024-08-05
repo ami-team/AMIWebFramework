@@ -39,17 +39,14 @@ $AMIClass('DocumentApp', {
 
 		this._markdownOptions = {
 			gfm: true,
-			tables: true,
 			breaks: false,
 			pedantic: false,
-			sanitize: false,
-			smartLists: true,
-			smartypants: false,
-			xhtml: true,
-			renderer: new marked.Renderer(),
+//			tables: true,
+//			sanitize: false,
+//			smartLists: true,
+//			smartypants: false,
+//			xhtml: true,
 		};
-
-		this._markdownOptions.renderer.table = (header, body) => `<table class="table table-striped"><thead>${header}</thead><tbody>${body}</tbody></table>`;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -89,7 +86,7 @@ $AMIClass('DocumentApp', {
 
 	markdownToHtml: function(body)
 	{
-		return !body.match(/<!--\s+markdown:\s*disabled\s+-->/g) ? marked.marked(body.replace(/[\t ]+[<]/gm, '<'), this._markdownOptions)
+		return !body.match(/<!--\s+markdown:\s*disabled\s+-->/g) ? marked.marked(body.replace(/[\t ]+[<]/gm, '<'), this._markdownOptions).replace('<table>', '<table class="table table-striped">')
 		                                                         : body
 		;
 	},
