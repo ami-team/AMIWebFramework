@@ -988,7 +988,7 @@ $AMIClass('TableCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			saveAs(new Blob([data], {type: fileMime}), fileName);
+			saveAs(new Blob([converter === 'AMIXmlToJson.xsl' ? JSON.stringify(data) : data], {type: fileMime}), fileName);
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
