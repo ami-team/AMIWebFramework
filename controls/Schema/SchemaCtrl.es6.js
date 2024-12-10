@@ -582,7 +582,7 @@ $AMIClass('SchemaCtrl', {
 			const crypted = amiWebApp.jspath('..field{.@name==="crypted"}.$', data)[0] || 'false';
 			const primary = amiWebApp.jspath('..field{.@name==="primary"}.$', data)[0] || 'false';
 			const scope = amiWebApp.jspath('..field{.@name==="scope"}.$', data)[0] || 'false';
-			const scopeLabel = amiWebApp.jspath('..field{.@name==="scopeLabel"}.$', data)[0] || 'false';
+			const scopeLabel = amiWebApp.jspath('..field{.@name==="scopeLabel"}.$', data)[0] || '';
 			const json = amiWebApp.jspath('..field{.@name==="json"}.$', data)[0] || 'false';
 
 			const automatic = amiWebApp.jspath('..field{.@name==="automatic"}.$', data)[0] || 'false';
