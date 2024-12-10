@@ -230,6 +230,7 @@ $AMIClass('SchemaCtrl', {
 					const crypted = amiWebApp.jspath('..field{.@name==="crypted"}.$', value)[0] || '';
 					const primary = amiWebApp.jspath('..field{.@name==="primary"}.$', value)[0] || '';
 					const scope = amiWebApp.jspath('..field{.@name==="scope"}.$', value)[0] || '';
+					const scopeLabel = amiWebApp.jspath('..field{.@name==="scopeLabel"}.$', value)[0] || '';
 					const json = amiWebApp.jspath('..field{.@name==="json"}.$', value)[0] || '';
 					const automatic = amiWebApp.jspath('..field{.@name==="automatic"}.$', value)[0] || '';
 					const created = amiWebApp.jspath('..field{.@name==="created"}.$', value)[0] || '';
@@ -285,6 +286,7 @@ $AMIClass('SchemaCtrl', {
 							crypted: crypted === 'true',
 							primary: primary === 'true',
 							scope: scope === 'true',
+							scopeLabel: scopeLabel,
 							json: json === 'true',
 							automatic: automatic === 'true',
 							created: created === 'true',
@@ -580,6 +582,7 @@ $AMIClass('SchemaCtrl', {
 			const crypted = amiWebApp.jspath('..field{.@name==="crypted"}.$', data)[0] || 'false';
 			const primary = amiWebApp.jspath('..field{.@name==="primary"}.$', data)[0] || 'false';
 			const scope = amiWebApp.jspath('..field{.@name==="scope"}.$', data)[0] || 'false';
+			const scopeLabel = amiWebApp.jspath('..field{.@name==="scopeLabel"}.$', data)[0] || 'false';
 			const json = amiWebApp.jspath('..field{.@name==="json"}.$', data)[0] || 'false';
 
 			const automatic = amiWebApp.jspath('..field{.@name==="automatic"}.$', data)[0] || 'false';
@@ -611,6 +614,7 @@ $AMIClass('SchemaCtrl', {
 			$('#E2D8A4EB_1065_01B5_C8DB_7B2E01F03AD4').prop('checked', crypted === 'true');
 			$('#A4F33332_8DDD_B235_F523_6A35B902519C').prop('checked', primary === 'true');
 			$('#B63FD4F7_061E_5433_FA48_1D221EB70854').prop('checked', scope === 'true');
+			$('#A6DE330D_A96A_8F65_020D_0D5E16E906E8').val(scopeLabel);
 			$('#D1D48065_3C6B_B0A0_BA7C_8A0D0AB84F55').prop('checked', json === 'true');
 
 			$('#EDEB0864_76FC_5FCC_C951_4F59AC5B54D2').prop('checked', /*--*/ true /*--*/);
@@ -789,6 +793,7 @@ window.SchemaCtrl.applyField = function()
 		'crypted': $('#E2D8A4EB_1065_01B5_C8DB_7B2E01F03AD4').prop('checked'),
 		'primary': $('#A4F33332_8DDD_B235_F523_6A35B902519C').prop('checked'),
 		'scope': $('#B63FD4F7_061E_5433_FA48_1D221EB70854').prop('checked'),
+		'scopeLabel': $('#A6DE330D_A96A_8F65_020D_0D5E16E906E8').val().trim(),
 		'json': $('#D1D48065_3C6B_B0A0_BA7C_8A0D0AB84F55').prop('checked'),
 		'automatic': $('#E747BF02_031E_A70D_9327_7A974FDF7E96').prop('checked'),
 		'created': $('#BC7E5CA1_09C8_BB5C_20E2_C0CFE3204224').prop('checked'),
