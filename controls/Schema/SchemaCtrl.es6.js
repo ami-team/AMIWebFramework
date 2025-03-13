@@ -732,8 +732,12 @@ window.SchemaCtrl.applyEntity = function()
 
 	const json = {
 		'bridge': $('#E1B8F5B1_9BDD_D4A5_56B1_540534E17B09').prop('checked'),
+		'ignoreForwardEntities': $('#F25ABD44_EA8F_44F1_0D5C_AB0216F18DAE').prop('checked'),
+		'ignoreBackwardEntities': $('#DDA55A7B_DB54_E85D_3A00_4C7D406F228F').prop('checked'),
 		'hidden': $('#A7C3FA85_FE03_FC4F_04FB_D8F9C09430F1').prop('checked'),
 		'adminOnly': $('#BFFD13C4_EAE9_D440_15AB_6005A941FB23').prop('checked'),
+		'viewOf': $('#F2A454C9_6422_97D9_0E44_88FBDB0434C4').prop('checked'),
+		'viewOfTable': $('#A3F8F46E_DD40_A066_79B7_1A4E0921AABA').val(),
 	};
 
 	/*----------------------------------------------------------------------------------------------------------------*/
