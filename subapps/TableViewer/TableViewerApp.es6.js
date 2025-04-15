@@ -82,9 +82,14 @@ $AMIClass('TableViewerApp', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		if(this.ctx.catalog && this.ctx.entity)
+		const command = (this.ctx.command || '').trim();
+		const catalog = (this.ctx.catalog || '').trim();
+		const entity = (this.ctx.entity || '').trim();
+		const expression = (this.ctx.expression || '').trim();
+
+		if(command || (catalog && entity))
 		{
-			this._table.render('#A2944C0A_9249_E4D2_3679_494C1A3AAAF0', (this.ctx.command || '').trim() || `BrowseQuery -catalog="${amiWebApp.textToString(this.ctx.catalog)}" -entity="${amiWebApp.textToString(this.ctx.entity)}" -mql="SELECT * WHERE ${amiWebApp.textToString((this.ctx.expression || '').trim() || '1 = 1')}"`, this.ctx).done(() => {
+			this._table.render('#A2944C0A_9249_E4D2_3679_494C1A3AAAF0', command || `BrowseQuery -catalog="${amiWebApp.textToString(catalog)}" -entity="${amiWebApp.textToString(entity)}" -mql="SELECT * WHERE ${amiWebApp.textToString(expression) || '1 = 1'}"`, this.ctx).done(() => {
 
 				amiWebApp.flush();
 
