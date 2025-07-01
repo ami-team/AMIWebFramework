@@ -865,11 +865,11 @@ $AMIClass('TableCtrl', {
 					{
 						if(this.getOwner() && this.getOwner().refineResult)
 						{
-							this.getOwner().refineResult('2', descr[0], descr[1], true);
+							this.getOwner().refineResult('2', descr[0], descr[1], false);
 						}
 						else
 						{
-							this.refineResult('2', descr[0], descr[1], false);
+							this.refineResult('2', descr[0], descr[1], true);
 						}
 
 					}
@@ -1127,7 +1127,7 @@ $AMIClass('TableCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	refineResult: function(_filter, _x, _y, _hasParent = false)
+	refineResult: function(_filter, _x, _y, _forceStar = false)
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -1230,7 +1230,7 @@ $AMIClass('TableCtrl', {
 		const xql = [];
 
 		if(regions['SELECT']) {
-			if(!_hasParent || regions['GROUP'])
+			if(_forceStar || regions['GROUP'])
 			{
 				xql.push('SELECT *')
 			}
