@@ -574,7 +574,7 @@ $AMIClass('FieldEditorCtrl', {
 
 	showRowModal: function(primaryCatalog, primaryEntity, primaryField, primaryValue)
 	{
-		const fromClause = this.ctx.sql?.substring(this.ctx.sql.indexOf('FROM'));
+		const fromClause = this.ctx.sql?.substring(this.ctx.sql?.indexOf('FROM'));
 
 		if(!fromClause)
 		{
