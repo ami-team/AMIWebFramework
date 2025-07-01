@@ -1229,7 +1229,10 @@ $AMIClass('TableCtrl', {
 
 		const xql = [];
 
-		if(regions['SELECT']) {
+		alert(regions['SELECT'] + ' / ' + _forceStar +' / ' + regions['GROUP']);
+
+		if(regions['SELECT'])
+		{
 			if(_forceStar || regions['GROUP'])
 			{
 				xql.push('SELECT *')
