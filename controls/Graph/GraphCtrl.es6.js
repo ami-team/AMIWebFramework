@@ -13,7 +13,7 @@
 import twigGraphCtrl from './assets/twig/GraphCtrl.twig';
 import twigGraph     from './assets/twig/graph.twig'    ;
 
-import {Graphviz} from '@hpcc-js/wasm';
+import {Graphviz} from "@hpcc-js/wasm-graphviz";
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
