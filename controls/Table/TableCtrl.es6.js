@@ -865,7 +865,7 @@ $AMIClass('TableCtrl', {
 					{
 						if(this.getOwner() && this.getOwner().refineResult)
 						{
-							this.getOwner().refineResult('2', descr[0], descr[1]);
+							this.getOwner().refineResult('2', descr[0], descr[1], true);
 						}
 						else
 						{
@@ -1127,7 +1127,7 @@ $AMIClass('TableCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	refineResult: function(_filter, _x, _y, _hasParent = true)
+	refineResult: function(_filter, _x, _y, _hasParent = false)
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 

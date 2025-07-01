@@ -312,7 +312,7 @@ $AMIClass('FieldEditorCtrl', {
 			hasCustomHTMLs: hasCustomHTMLs,
 			customHTMLsFragment: customHTMLsFragment,
 
-			sql: options.sql || '',
+			sql: options.sql || 'N/A',
 		};
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -574,6 +574,13 @@ $AMIClass('FieldEditorCtrl', {
 
 	showRowModal: function(primaryCatalog, primaryEntity, primaryField, primaryValue)
 	{
+		const fromClause = this.ctx.sql?.substring(this.ctx.sql.indexOf('FROM'));
+
+		if(!fromClause)
+		{
+			return;
+		}
+
 		this.getInfo(primaryCatalog, primaryEntity, primaryField).done((primaryField, fieldInfo, foreignKeysInfo) => {
 
 			this.getValues(primaryCatalog, primaryEntity, primaryField, primaryValue).done((values) => {
@@ -587,10 +594,9 @@ $AMIClass('FieldEditorCtrl', {
 						fks.push(`\`${foreignKeysInfo[i].fkInternalCatalog}\`.\`${foreignKeysInfo[i].fkEntity}\`.\`${foreignKeysInfo[i].fkColumn}\``);
 					}
 
-					const sql = `SELECT DISTINCT ${fks.join()} ${this.ctx.sql.substring(this.ctx.sql.indexOf('FROM'))}`;
-					const command =`SearchQuery -catalog="${primaryCatalog}" -entity="${primaryEntity}" -sql="${sql}"`;
+					const sql = `SELECT DISTINCT ${fks.join()} ${fromClause}`;
 
-					amiCommand.execute(command, {}).done((data) => {
+					amiCommand.execute('SearchQuery -catalog=? -entity="? -sql=?', {params: [primaryCatalog, primaryEntity, sql]}).done((data) => {
 
 						const rows = amiWebApp.jspath('..row', data) || [];
 
