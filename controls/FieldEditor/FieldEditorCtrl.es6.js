@@ -99,6 +99,8 @@ $AMIClass('FieldEditorCtrl', {
 
 	getInfo: function(primaryCatalog, primaryEntity, primaryField)
 	{
+		console.log(primaryEntity);
+		console.log(primaryField);
 		const result = $.Deferred();
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -277,14 +279,17 @@ $AMIClass('FieldEditorCtrl', {
 		const [
 			elementInfoCommandFunc, appendCommandFunc, updateCommandFunc, removeCommandFunc,
 			customLabelsFragment, customInputsFragment, customHTMLsFragment,
+			presetFields,
 		] = amiWebApp.setup(
 			[
 				'elementInfoCommandFunc', 'appendCommandFunc', 'updateCommandFunc', 'removeCommandFunc',
 				'customLabelsFragment', 'customInputsFragment', 'customHTMLsFragment',
+				'presetFields',
 			],
 			[
 				fn1, fn2, fn3, fn4,
 				null, null, null,
+				{},
 			],
 			options
 		);
@@ -311,6 +316,8 @@ $AMIClass('FieldEditorCtrl', {
 
 			hasCustomHTMLs: hasCustomHTMLs,
 			customHTMLsFragment: customHTMLsFragment,
+
+			presetFields: presetFields,
 
 			sql: options.sql || 'N/A',
 		};
@@ -609,6 +616,11 @@ $AMIClass('FieldEditorCtrl', {
 								values[fields[i]['@name']] = fields[i]['$'];
 							}
 						}
+
+						Object.entries(this.ctx.presetFields).forEach(([name, value]) => {
+
+							values[name] = value;
+						});
 
 						const dict = {
 							primaryCatalog: primaryCatalog,
