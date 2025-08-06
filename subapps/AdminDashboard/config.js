@@ -139,14 +139,17 @@ function _save()
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	const cidrRegex = /^((25[0-5]|2[0-4]\d|1?\d{1,2})\.){3}(25[0-5]|2[0-4]\d|1?\d{1,2})\/([0-9]|[12]\d|3[0-2])$/;
+	const cidrRegex = /^\d{1,3}(\.\d{1,3}){3}\/\d{1,2}$/;
 
-	const lines = $('#B57BD409_F8F4_6382_0057_E38795D1E499').val().trim().split('\n');
-
-	if(lines.filter((l) => !cidrRegex.test(l.trim())))
+	for(let line of $('#B57BD409_F8F4_6382_0057_E38795D1E499').val().split('\n'))
 	{
-		amiWebApp.error('invalid subnets', true);
-		return
+		line = line.trim();
+
+		if(line.length > 0 && !cidrRegex.test(line))
+		{
+			amiWebApp.error('invalid subnets', true);
+			return
+		}
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
