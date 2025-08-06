@@ -86,8 +86,8 @@ function _load()
 		config_fields.forEach((config_field) => {
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			let name = config_field['@name'] || '';
-			let value = config_field[(('$'))] || '';
+			let name = amiWebApp.stringToText(config_field['@name'] || '');
+			let value = amiWebApp.stringToText(config_field[(('$'))] || '');
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -166,6 +166,8 @@ function _save()
 	{
 		name = params[i].name;
 		value = params[i].value;
+
+		value = value.replace('\r', '');
 
 		if(_paramDict[name] !== value)
 		{
