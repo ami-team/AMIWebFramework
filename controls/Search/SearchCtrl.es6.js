@@ -682,7 +682,7 @@ $AMIClass('SearchCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	refresh: function()
+	refresh: function(no_refresh_name)
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -695,46 +695,48 @@ $AMIClass('SearchCtrl', {
 			let predicate;
 
 			$.each(this.ctx.predicates, (name) => {
+					predicate = this.ctx.predicates[name];
 
-				predicate = this.ctx.predicates[name];
+					switch(predicate.criterion.type)
+					{
+						case 0:
+							amiWebApp.lock();
+							this.fillStringBox(name, true, false).always(() => {
+								amiWebApp.unlock();
+							});
+							break;
 
-				switch(predicate.criterion.type)
-				{
-					case 0:
-						amiWebApp.lock();
-						this.fillStringBox(name, true, false).always(() => {
-							amiWebApp.unlock();
-						});
-						break;
+						case 1:
+							amiWebApp.lock();
+							this.fillStringBox(name, true, true).always(() => {
+								amiWebApp.unlock();
+							});
+							break;
 
-					case 1:
-						amiWebApp.lock();
-						this.fillStringBox(name, true, true).always(() => {
-							amiWebApp.unlock();
-						});
-						break;
+						case 2:
+						case 3:
+							if (name !== no_refresh_name)
+							{
+								amiWebApp.lock();
+								this.fillNumberBox(name, false).always(() => {
+									amiWebApp.unlock();
+								});
+							}
+							break;
 
-					case 2:
-					case 3:
-						amiWebApp.lock();
-						this.fillNumberBox(name, false).always(() => {
-							amiWebApp.unlock();
-						});
-						break;
-
-					case 5:
-					case 6:
-					case 7:
-					case 8:
-					case 9:
-					case 10:
-						amiWebApp.lock();
-						this.fillParamBoxKey(name); this.fillParamBoxVal(name).always(() => {
-							amiWebApp.unlock();
-						});
-						break;
-				}
-
+						case 5:
+						case 6:
+						case 7:
+						case 8:
+						case 9:
+						case 10:
+							amiWebApp.lock();
+							this.fillParamBoxKey(name);
+							this.fillParamBoxVal(name).always(() => {
+								amiWebApp.unlock();
+							});
+							break;
+					}
 			}, this);
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -1615,6 +1617,9 @@ $AMIClass('SearchCtrl', {
 				{
 					$(`${predicate.selector} input.min`).val(min);
 					$(`${predicate.selector} input.max`).val(max);
+
+					$(`${predicate.selector} input.min`).removeClass('text-danger');
+					$(`${predicate.selector} input.max`).removeClass('text-danger');
 				}
 			}
 			//new feature
@@ -2199,7 +2204,7 @@ $AMIClass('SearchCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.refresh();
+		this.refresh(name);
 		amiWebApp.unlock();
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -2357,7 +2362,7 @@ $AMIClass('SearchCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.refresh();
+		this.refresh(name);
 
 		amiWebApp.unlock();
 
