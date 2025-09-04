@@ -2331,12 +2331,12 @@ $AMIClass('SearchCtrl', {
 				{
 					if(!$(`${predicate.selector} input.switch-in`).prop('checked'))
 					{
-						tmpFilter = `\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} >= '${min}' AND \`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} <= '${max}'`
+						tmpFilter = `\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} >= ${min} AND \`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} <= ${max}`
 						;
 					}
 					else
 					{
-						tmpFilter = `\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} < '${min}' OR \`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} > '${max}'`
+						tmpFilter = `\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} < ${min} OR \`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} > ${max}`
 						;
 					}
 				}
