@@ -121,7 +121,6 @@ function xqlGetRegions(xql, fieldDescriptions, addCatalogInALiases)
 
 			tokens = [   ];
 			keyword = TOKEN;
-
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/

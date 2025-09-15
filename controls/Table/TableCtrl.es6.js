@@ -1262,6 +1262,10 @@ $AMIClass('TableCtrl', {
 			xql.push(`WHERE ${regions['WHERE']}`);
 		}
 
+		if(regions['GROUP']) {
+			xql.push(`GROUP BY ${regions['GROUP']}`);
+		}
+
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		const command = `BrowseQuery -catalog="${amiWebApp.textToString(this.ctx.catalog)}" -entity="${amiWebApp.textToString(this.ctx.entity)}" -${isMQL ? 'mql' : 'sql'}="${amiWebApp.textToString(xql.join(' '))}"`;
@@ -1302,6 +1306,10 @@ $AMIClass('TableCtrl', {
 
 		if(regions['WHERE']) {
 			xql.push(`WHERE ${regions['WHERE']}`);
+		}
+
+		if(regions['GROUP']) {
+			xql.push(`GROUP BY ${regions['GROUP']}`);
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
