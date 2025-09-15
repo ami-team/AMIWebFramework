@@ -53,9 +53,9 @@
 						{%     endif %}
 						{%     if fieldDescription['@groupable'] === 'true' %}
 						<a href="#" class="text-secondary mx-1" data-action="group" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="bi bi-slack"></i></a>
-						{%     else %}
-                        <span class="text-body-tertiary"><i class="bi bi-funnel"></i></span>
 						{%     endif %}
+						{%   else %}
+                        <span class="text-body-tertiary"><i class="bi bi-funnel"></i></span>
 						{%   endif %}
 						{% endif %}
 					</th>
