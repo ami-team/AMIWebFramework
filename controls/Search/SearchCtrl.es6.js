@@ -715,7 +715,7 @@ $AMIClass('SearchCtrl', {
 
 						case 2:
 						case 3:
-							if (name !== no_refresh_name)
+							if(name !== no_refresh_name)
 							{
 								amiWebApp.lock();
 								this.fillNumberBox(name, false).always(() => {

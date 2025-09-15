@@ -48,7 +48,9 @@
 						{%   endif %}
 						{%   if fieldDescription['@statable'] === 'true' %}
 						<a href="#" class="text-secondary mx-1" data-action="stats" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="bi bi-calculator"></i></a>
+<!--
 						<a href="#" class="text-secondary mx-1" data-action="hist" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="bi bi-bar-chart"></i></a>
+-->
 						{%   endif %}
 						{%   if fieldDescription['@groupable'] === 'true' %}
 						<a href="#" class="text-secondary mx-1" data-action="group" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="bi bi-slack"></i></a>

@@ -115,6 +115,7 @@ $AMIClass('TableCtrl', {
 				hideBigContent: true,
 				showPrimaryField: true, showToolBar: true, showDetails: true, showTools: true, showEditTools: true, canEdit: amiLogin.hasRole('AMI_ADMIN') || amiLogin.hasRole('AMI_WRITER'),
 				catalog: '', entity: '', primaryField: '', rowset: '',
+				groupBy: '',
 				start: 1, stop: 10, orderBy: '', orderWay: '',
 				maxCellLength: 64,
 				card: false,
@@ -368,6 +369,8 @@ $AMIClass('TableCtrl', {
 						primaryField: this.ctx.primaryField,
 						rowset: this.ctx.rowset,
 						/**/
+						groupBy: this.ctx.groupBy,
+						/**/
 						start: this.ctx.start,
 						stop: this.ctx.stop,
 						orderBy: this.ctx.orderBy,
@@ -413,6 +416,8 @@ $AMIClass('TableCtrl', {
 						entity: this.ctx.entity,
 						primaryField: this.ctx.primaryField,
 						rowset: this.ctx.rowset,
+						/**/
+						groupBy: this.ctx.groupBy,
 						/**/
 						start: this.ctx.start,
 						stop: this.ctx.stop,
@@ -617,6 +622,13 @@ $AMIClass('TableCtrl', {
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		this.ctx.command2 = this.ctx.command;
+
+		/**/
+
+		if((this.ctx.groupBy = this.ctx.groupBy.trim()))
+		{
+			this.ctx.command2 += ` -groupBy="${this.ctx.groupBy}"`;
+		}
 
 		/**/
 
