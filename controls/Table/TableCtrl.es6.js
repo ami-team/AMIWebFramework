@@ -725,6 +725,8 @@ $AMIClass('TableCtrl', {
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			const dict = {
+				hasOwner: this.ctx.sql.includes('CONCAT(\'@OWNER::'),
+				/**/
 				primaryField: this.ctx.primaryField,
 				ignoredFields: this.ctx.ignoredFields,
 				/**/
