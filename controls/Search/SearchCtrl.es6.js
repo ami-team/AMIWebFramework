@@ -657,6 +657,20 @@ $AMIClass('SearchCtrl', {
 				});
 
 			}
+			else if(criterion.type === 1)
+			{
+				amiWebApp.lock();
+				this.fillStringBox(name, true, true).always(() => {
+					amiWebApp.unlock();
+				});
+			}
+			else if(criterion.type === 0)
+			{
+				amiWebApp.lock();
+				this.fillStringBox(name, true, false).always(() => {
+					amiWebApp.unlock();
+				});
+			}
 			else {
 				this.refresh(name);
 			}
@@ -671,13 +685,27 @@ $AMIClass('SearchCtrl', {
 
 	closeBox: function(name)
 	{
+		let doRefresh = true;
+
+		const predicate = this.ctx.predicates[name];
+
+		if(predicate.criterion.type === 1 || predicate.criterion.type === 0 )
+		{
+			doRefresh = !$.isEmptyObject(predicate.select);
+		}
+
 		$(this.ctx.predicates[name].selector).remove();
 
 		delete this.ctx.predicates[name];
 
 		this.delPredicateInAST(name);
 
-		this.refresh();
+		$(this.patchId('#CA15011B_EECA_E9AB_63EE_7A2A467025A5')).val(this.dumpAST());
+
+		if(doRefresh)
+		{
+			this.refresh();
+		}
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
