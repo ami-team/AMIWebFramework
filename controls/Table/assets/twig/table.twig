@@ -43,17 +43,19 @@
 						<a href="#" class="text-secondary" data-orderway="ASC" data-row-name="{{fieldDescription['@field']|e}}" data-row-label="{{fieldDescription['@label']|e}}"><i class="bi bi-chevron-up"></i></a>
 						{% if showTools %}
 						<br />
-						{%   if fieldDescription['@field'] is not empty %}
+						{%   if not (hasOwner and (fieldDescription['@label'] === 'total' or fieldDescription['@label'] === 'go')) %}
+						{%     if fieldDescription['@field'] is not empty %}
 						<a href="#" class="text-secondary mx-1" data-action="refine" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="bi bi-funnel"></i></a>
-						{%   endif %}
-						{%   if fieldDescription['@statable'] === 'true' %}
+						{%     endif %}
+						{%     if fieldDescription['@statable'] === 'true' %}
 						<a href="#" class="text-secondary mx-1" data-action="stats" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="bi bi-calculator"></i></a>
-<!--
-						<a href="#" class="text-secondary mx-1" data-action="hist" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="bi bi-bar-chart"></i></a>
--->
-						{%   endif %}
-						{%   if fieldDescription['@groupable'] === 'true' %}
+<!--		            <a href="#" class="text-secondary mx-1" data-action="hist" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="bi bi-bar-chart"></i></a> -->
+						{%     endif %}
+						{%     if fieldDescription['@groupable'] === 'true' %}
 						<a href="#" class="text-secondary mx-1" data-action="group" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="bi bi-slack"></i></a>
+						{%     endif %}
+						{%   else %}
+                        <span class="text-secondary"><i class="bi bi-dash"></i></span>
 						{%   endif %}
 						{% endif %}
 					</th>

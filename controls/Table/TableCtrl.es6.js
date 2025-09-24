@@ -115,8 +115,7 @@ $AMIClass('TableCtrl', {
 				hideBigContent: true,
 				showPrimaryField: true, showToolBar: true, showDetails: true, showTools: true, showEditTools: true, canEdit: amiLogin.hasRole('AMI_ADMIN') || amiLogin.hasRole('AMI_WRITER'),
 				catalog: '', entity: '', primaryField: '', rowset: '',
-				groupBy: '',
-				start: 1, stop: 10, orderBy: '', orderWay: '',
+				groupBy: '', start: 1, stop: 10, orderBy: '', orderWay: '',
 				maxCellLength: 64,
 				card: false,
 				onRefresh: null,
@@ -370,7 +369,6 @@ $AMIClass('TableCtrl', {
 						rowset: this.ctx.rowset,
 						/**/
 						groupBy: this.ctx.groupBy,
-						/**/
 						start: this.ctx.start,
 						stop: this.ctx.stop,
 						orderBy: this.ctx.orderBy,
@@ -418,7 +416,6 @@ $AMIClass('TableCtrl', {
 						rowset: this.ctx.rowset,
 						/**/
 						groupBy: this.ctx.groupBy,
-						/**/
 						start: this.ctx.start,
 						stop: this.ctx.stop,
 						orderBy: this.ctx.orderBy,
@@ -879,11 +876,11 @@ $AMIClass('TableCtrl', {
 					{
 						if(this.getOwner() && this.getOwner().refineResult)
 						{
-							this.getOwner().refineResult('2', descr[0], descr[1], false);
+							this.getOwner().refineResult('2', descr[0], descr[1], false, true);
 						}
 						else
 						{
-							this.refineResult('2', descr[0], descr[1], true);
+							this.refineResult('2', descr[0], descr[1], true, true);
 						}
 
 					}
@@ -1141,7 +1138,7 @@ $AMIClass('TableCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	refineResult: function(_filter, _x, _y, _forceStar = false)
+	refineResult: function(_filter, _x, _y, _forceStar = false, _avoidGroupBy = false)
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -1264,7 +1261,7 @@ $AMIClass('TableCtrl', {
 			xql.push(`WHERE ${regions['WHERE']}`);
 		}
 
-		if(regions['GROUP']) {
+		if(regions['GROUP'] && !_avoidGroupBy) {
 			xql.push(`GROUP BY ${regions['GROUP']}`);
 		}
 

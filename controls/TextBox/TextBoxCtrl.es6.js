@@ -42,14 +42,6 @@ $AMIClass('TextBoxCtrl', {
 
 			$('#B8927006_7FCE_87BD_FC8D_C7575D69C362').on('hidden.bs.modal', () => {
 
-				// const editor = EditorView.findFromDOM($('.form-editor-codemirror.form-editor-codemirror')[0]);
-				//
-				// let transaction = editor.state.update({
-				// 	changes: { from: 0, to: editor.state.doc.length, insert: '' }
-				// });
-				//
-				// editor.dispatch(transaction)
-
 				amiWebApp.modalLeave();
 
 				_class.deferred.resolveWith(_class.context || _class.deferred);
