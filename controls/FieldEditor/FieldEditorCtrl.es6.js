@@ -427,6 +427,8 @@ $AMIClass('FieldEditorCtrl', {
 		const name = $(selector).prop('name');
 		const value = $(selector). val (/*--*/);
 
+		console.log(JSON.stringify(sqlType));
+
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		let html;
