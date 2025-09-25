@@ -99,8 +99,6 @@ $AMIClass('FieldEditorCtrl', {
 
 	getInfo: function(primaryCatalog, primaryEntity, primaryField)
 	{
-		console.log(primaryEntity);
-		console.log(primaryField);
 		const result = $.Deferred();
 
 		/*------------------------------------------------------------------------------------------------------------*/
