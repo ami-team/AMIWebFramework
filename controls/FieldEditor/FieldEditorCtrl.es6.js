@@ -130,7 +130,8 @@ $AMIClass('FieldEditorCtrl', {
 				/*----------------------------------------------------------------------------------------------------*/
 
 				const field = amiWebApp.jspath('..field{.@name==="field"}.$', rows[i])[0] || '';
-				const type = amiWebApp.jspath('..field{.@name==="type"}.$', rows[i])[0] || '';
+				let type = amiWebApp.jspath('..field{.@name==="type"}.$', rows[i])[0] || '';
+				const enumValues = amiWebApp.jspath('..field{.@name==="enumValues"}.$', rows[i])[0] || '';
 				const nullable = amiWebApp.jspath('..field{.@name==="nullable"}.$', rows[i])[0] || 'false';
 				const def = amiWebApp.jspath('..field{.@name==="def"}.$', rows[i])[0] || '';
 
@@ -141,6 +142,11 @@ $AMIClass('FieldEditorCtrl', {
 				const createdBy = amiWebApp.jspath('..field{.@name==="createdBy"}.$', rows[i])[0] || 'false';
 				const modified = amiWebApp.jspath('..field{.@name==="modified"}.$', rows[i])[0] || 'false';
 				const modifiedBy = amiWebApp.jspath('..field{.@name==="modifiedBy"}.$', rows[i])[0] || 'false';
+
+				if(type === 'ENUM')
+				{
+					type = `ENUM(${enumValues})`;
+				}
 
 				/*----------------------------------------------------------------------------------------------------*/
 
@@ -425,8 +431,6 @@ $AMIClass('FieldEditorCtrl', {
 		const name = $(selector).prop('name');
 		const value = $(selector). val (/*--*/);
 
-		console.log(JSON.stringify(sqlType));
-
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		let html;
@@ -452,8 +456,8 @@ $AMIClass('FieldEditorCtrl', {
 		else if(amiType === 'TIME') {
 			html = `<input class="form-control form-control-sm form-time" type="text" data-target="${selector}" />`;
 		}
-		else if(amiType === 'ENUM') {
-			html = `<select class="custom-select custom-select-sm">${amiTwig.stdlib.getAMITypeToEnumOptions(sqlType, value)}</select>`;
+		else if(amiType.startsWith('ENUM')) {
+			html = `<select class="form-select form-select-sm">${amiTwig.stdlib.getAMITypeToEnumOptions(sqlType, value)}</select>`;
 		}
 		else if(amiType === 'LONGTEXT') {
 			html = '<textarea class="form-control form-control-sm" rows="6"></textarea>';

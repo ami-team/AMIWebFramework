@@ -604,8 +604,10 @@ $AMIClass('SchemaCtrl', {
 
 			/**/
 
+			const type = amiWebApp.jspath('..field{.@name==="type"}.$', data)[0] || '';
 			const rank = amiWebApp.jspath('..field{.@name==="rank"}.$', data)[0] || '999';
 			const description = amiWebApp.jspath('..field{.@name==="description"}.$', data)[0] || 'N/A';
+			const enumValues = amiWebApp.jspath('..field{.@name==="enumValues"}.$', data)[0] || '';
 
 			const hidden = amiWebApp.jspath('..field{.@name==="hidden"}.$', data)[0] || 'false';
 			const adminOnly = amiWebApp.jspath('..field{.@name==="adminOnly"}.$', data)[0] || 'false';
@@ -638,6 +640,7 @@ $AMIClass('SchemaCtrl', {
 
 			$('#C6CA88FD_548A_FE30_9871_AFE55362439B').val(rank);
 			$('#E9801316_0EC6_D6F2_0BC9_E1E1DC3ABA00').val(description);
+			$('#D662713F_15B7_A135_F557_CAA44C467073').prop('disabled', type !== 'ENUM').val(enumValues);
 
 			$('#F82C7F86_1260_D5B1_4CBF_EE519415B3FD').prop('checked', hidden === 'true');
 			$('#DEA15A0F_5EBF_49E7_3E75_F29850184968').prop('checked', adminOnly === 'true');
@@ -822,6 +825,7 @@ window.SchemaCtrl.applyField = function()
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	const json = {
+		'enumValues': $('#D662713F_15B7_A135_F557_CAA44C467073').val(),
 		'hidden': $('#F82C7F86_1260_D5B1_4CBF_EE519415B3FD').prop('checked'),
 		'adminOnly': $('#DEA15A0F_5EBF_49E7_3E75_F29850184968').prop('checked'),
 		'hashed': $('#AB8FF40A_4D44_56B5_DCBC_1A0E877E10F5').prop('checked'),
