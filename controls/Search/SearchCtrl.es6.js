@@ -448,7 +448,7 @@ $AMIClass('SearchCtrl', {
 
 						e.preventDefault();
 
-						this.setMinMax(name);
+						this.setMinMax(name, false);
 					});
 
 					el.find('.reset').click((e) => {
@@ -465,7 +465,7 @@ $AMIClass('SearchCtrl', {
 
 						this.fillNumberBox(name, true).done(() => {
 
-							this.setMinMax(name);
+							this.setMinMax(name, true);
 						}).always(() => {
 
 							amiWebApp.unlock();
@@ -489,7 +489,7 @@ $AMIClass('SearchCtrl', {
 							$(`${predicate.selector} input.max`).removeAttr('disabled');
 						}
 
-						this.setMinMax(name);
+						this.setMinMax(name, false);
 					});
 
 					el.find('.timedate').daterangepicker({
@@ -650,7 +650,7 @@ $AMIClass('SearchCtrl', {
 
 				this.fillNumberBox(name, true).done(() => {
 
-					this.setMinMax(name);
+					this.setMinMax(name, true);
 				}).always(() => {
 
 					amiWebApp.unlock();
@@ -671,7 +671,8 @@ $AMIClass('SearchCtrl', {
 					amiWebApp.unlock();
 				});
 			}
-			else {
+			else
+			{
 				this.refresh(name);
 			}
 
@@ -728,17 +729,24 @@ $AMIClass('SearchCtrl', {
 					switch(predicate.criterion.type)
 					{
 						case 0:
-							amiWebApp.lock();
-							this.fillStringBox(name, true, false).always(() => {
-								amiWebApp.unlock();
-							});
+							if(!predicate.criterion.more.scope && (name !== no_refresh_name))
+							{
+								amiWebApp.lock();
+
+								this.fillStringBox(name, true, false).always(() => {
+									amiWebApp.unlock();
+								});
+							}
 							break;
 
 						case 1:
-							amiWebApp.lock();
-							this.fillStringBox(name, true, true).always(() => {
-								amiWebApp.unlock();
-							});
+							if(!predicate.criterion.more.scope && (name !== no_refresh_name))
+							{
+								amiWebApp.lock();
+								this.fillStringBox(name, true, true).always(() => {
+									amiWebApp.unlock();
+								});
+							}
 							break;
 
 						case 2:
@@ -905,7 +913,16 @@ $AMIClass('SearchCtrl', {
 		/* BUILD SQL QUERY                                                                                            */
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		let mql = `SELECT DISTINCT \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\`${this.dumpConstraints(criterion)}`;
+		let mql;
+
+		if(criterion.more.scope)
+		{
+			mql = `SELECT DISTINCT \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\``;
+		}
+		else
+		{
+			mql = `SELECT DISTINCT \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\`${this.dumpConstraints(criterion)}`;
+		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 		/* ADD FILTER                                                                                                 */
@@ -2036,7 +2053,7 @@ $AMIClass('SearchCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.refresh();
+		this.refresh(name);
 		amiWebApp.unlock();
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -2303,7 +2320,7 @@ $AMIClass('SearchCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	setMinMax: function(name)
+	setMinMax: function(name, firstOpen)
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -2342,12 +2359,15 @@ $AMIClass('SearchCtrl', {
 
 			if(min === '' || max === '')
 			{
-				tmpFilter = `\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} IS NULL`
-				;
+				tmpFilter = `\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} IS NULL`;
 			}
 			else
 			{
-				if(predicate.criterion.type === 3)
+				if(firstOpen)
+				{
+					tmpFilter = `\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} IS NOT NULL`;
+				}
+				else if(predicate.criterion.type === 3)
 				{
 					if(!$(`${predicate.selector} input.switch-in`).prop('checked'))
 					{
