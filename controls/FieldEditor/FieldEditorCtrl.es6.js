@@ -738,10 +738,6 @@ $AMIClass('FieldEditorCtrl', {
 					values.push(form[i].value);
 				}
 
-				console.log(JSON.stringify(form));
-				console.log(JSON.stringify(fields));
-				console.log(JSON.stringify(values));
-
 				/*--------------------------------------------------------------------------------------------*/
 
 				this.appendRow(dict.primaryCatalog, dict.primaryEntity, fields, values);
