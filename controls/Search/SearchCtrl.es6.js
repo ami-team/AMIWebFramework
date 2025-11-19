@@ -224,24 +224,13 @@ $AMIClass('SearchCtrl', {
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				let doRefresh = true;
-
 				[...this.ctx.criteria].forEach((criterion,idx) => {
 
 					if(criterion.more.auto_open === true)
 					{
 						this.openBox(idx);
-
-						doRefresh = false;
 					}
 				})
-
-				/*----------------------------------------------------------------------------------------------------*/
-
-				if(doRefresh)
-				{
-					this.refresh();
-				}
 
 				/*----------------------------------------------------------------------------------------------------*/
 
@@ -448,7 +437,7 @@ $AMIClass('SearchCtrl', {
 
 						e.preventDefault();
 
-						this.setMinMax(name, false);
+						this.setMinMax(name, false, true);
 					});
 
 					el.find('.reset').click((e) => {
@@ -465,7 +454,7 @@ $AMIClass('SearchCtrl', {
 
 						this.fillNumberBox(name, true).done(() => {
 
-							this.setMinMax(name, true);
+							this.setMinMax(name, true, true);
 						}).always(() => {
 
 							amiWebApp.unlock();
@@ -489,7 +478,7 @@ $AMIClass('SearchCtrl', {
 							$(`${predicate.selector} input.max`).removeAttr('disabled');
 						}
 
-						this.setMinMax(name, false);
+						this.setMinMax(name, false, true);
 					});
 
 					el.find('.timedate').daterangepicker({
@@ -650,7 +639,7 @@ $AMIClass('SearchCtrl', {
 
 				this.fillNumberBox(name, true).done(() => {
 
-					this.setMinMax(name, true);
+					this.setMinMax(name, true, true);
 				}).always(() => {
 
 					amiWebApp.unlock();
@@ -661,6 +650,9 @@ $AMIClass('SearchCtrl', {
 			{
 				amiWebApp.lock();
 				this.fillStringBox(name, true, true).always(() => {
+
+					this.select(name);
+
 					amiWebApp.unlock();
 				});
 			}
@@ -668,13 +660,17 @@ $AMIClass('SearchCtrl', {
 			{
 				amiWebApp.lock();
 				this.fillStringBox(name, true, false).always(() => {
+
+					this.select(name);
+
 					amiWebApp.unlock();
 				});
 			}
-			else
+			//inutile ?
+			/*else
 			{
-				this.refresh(name);
-			}
+				this.refresh();
+			}*/
 
 			/*--------------------------------------------------------------------------------------------------------*/
 		});
@@ -754,6 +750,7 @@ $AMIClass('SearchCtrl', {
 							if(name !== no_refresh_name)
 							{
 								amiWebApp.lock();
+								this.setMinMax(name,false, false);
 								this.fillNumberBox(name, false).always(() => {
 									amiWebApp.unlock();
 								});
@@ -2320,7 +2317,7 @@ $AMIClass('SearchCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	setMinMax: function(name, firstOpen)
+	setMinMax: function(name, firstOpen, do_refresh)
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -2410,7 +2407,11 @@ $AMIClass('SearchCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.refresh(name);
+		if(do_refresh)
+		{
+			this.refresh(name);
+		}
+
 
 		amiWebApp.unlock();
 
