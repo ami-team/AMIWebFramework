@@ -1270,7 +1270,8 @@ $AMIClass('SearchCtrl', {
 					m['@NULL'] = '@NULL';
 
 					$.each(fields, (idx, field) => {
-							let key = field.$.substring(2);
+							//let key = field.$.substring(2);
+							let key = field.$.replace(/\$\.|\$/,'');
 							m[key] = key;
 					});
 
@@ -1403,44 +1404,63 @@ $AMIClass('SearchCtrl', {
 
 			let mql = '';
 
+			const filter = this.dumpFilterAST(name);
+
 			switch(criterion.type)
 			{
 				case 5:
 				case 6:
-					mql = `SELECT JSON_VALUES(\`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\`${this.dumpConstraints(criterion)}, '$.${selectedParam}') WHERE 1`;
+					if(filter)
+					{
+						if(selectedParam === '[*]')
+						{
+							mql = `SELECT JSON_VALUES(\`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\`${this.dumpConstraints(criterion)}, '$${selectedParam}') WHERE ${filter}`;
+						}
+						else
+						{
+							mql = `SELECT JSON_VALUES(\`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\`${this.dumpConstraints(criterion)}, '$.${selectedParam}') WHERE ${filter}`;
+						}
+					}
+					else
+					{
+						if(selectedParam === '[*]')
+						{
+							mql = `SELECT JSON_VALUES(\`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\`${this.dumpConstraints(criterion)}, '$${selectedParam}') WHERE 1`;
+						}
+						else
+						{
+							mql = `SELECT JSON_VALUES(\`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\`${this.dumpConstraints(criterion)}, '$.${selectedParam}') WHERE 1`;
+						}
+					}
+
 					break;
 				case 7:
 				case 8:
-					mql = `SELECT DISTINCT \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\`${this.dumpConstraints(criterion)} WHERE \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.key_field}\`${this.dumpConstraints(criterion)} = '${selectedParam}'`;
+					if(filter)
+					{
+						mql = `SELECT DISTINCT \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\`${this.dumpConstraints(criterion)} WHERE \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.key_field}\`${this.dumpConstraints(criterion)} = '${selectedParam}' AND ${filter}`;
+					}
+					else
+					{
+						mql = `SELECT DISTINCT \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\`${this.dumpConstraints(criterion)} WHERE \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.key_field}\`${this.dumpConstraints(criterion)} = '${selectedParam}'`;
+					}
+
 					break;
 				case 9:
 				case 10:
-					mql = `SELECT DISTINCT \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${this.ctx.predicates[name].selectedValueField}\`${this.dumpConstraints(criterion)} WHERE \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.key_field}\`${this.dumpConstraints(criterion)} = '${selectedParam}'`;
+					if(filter)
+					{
+						mql = `SELECT DISTINCT \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${this.ctx.predicates[name].selectedValueField}\`${this.dumpConstraints(criterion)} WHERE \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.key_field}\`${this.dumpConstraints(criterion)} = '${selectedParam}' AND ${filter}`;
+					}
+					else
+					{
+						mql = `SELECT DISTINCT \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${this.ctx.predicates[name].selectedValueField}\`${this.dumpConstraints(criterion)} WHERE \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.key_field}\`${this.dumpConstraints(criterion)} = '${selectedParam}'`;
+					}
+
 					break;
 			}
 
 			/*--------------------------------------------------------------------------------------------------------*/
-
-			const filter = this.dumpFilterAST(name);
-
-			if(filter)
-			{
-				switch(criterion.type)
-				{
-					case 5:
-					case 6:
-						mql += ' WHERE ';
-						break;
-					case 7:
-					case 8:
-					case 9:
-					case 10:
-						mql += ' AND ';
-						break;
-				}
-
-				mql += filter;
-			}
 
 			if(criterion.more.order)
 			{
@@ -1882,11 +1902,23 @@ $AMIClass('SearchCtrl', {
 								{
 									if(el.value === '@NULL')
 									{
-										L.push(`JSON_VALUE(\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)},'$.${param}') IS NULL`);
+										if(param === '[*]')
+										{
+											L.push(`JSON_VALUE(\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)},'$') IS NULL`);
+										}
+										else
+										{
+											L.push(`JSON_VALUE(\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)},'$.${param}') IS NULL`);
+										}
+										//L.push(`JSON_VALUE(\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)},'$.${param}') IS NULL`);
 									}
 									else
 									{
-										if(param.endsWith('[*]'))
+										if(param === '[*]')
+										{
+											L.push(`JSON_QUERY(\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)},'$') LIKE '[%${amiWebApp.textToSQL(el.value)}%]'`);
+										}
+										else if(param.endsWith('[*]'))
 										{
 											L.push(`JSON_QUERY(\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)},'$.${param.replace(/\[\*\]/g, '')}') LIKE '[%${amiWebApp.textToSQL(el.value)}%]'`);
 										}
@@ -1920,11 +1952,23 @@ $AMIClass('SearchCtrl', {
 								{
 									if(el.value === '@NULL')
 									{
-										L.push(`[JSON_VALUE(\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)},'$.${param}') IS NULL]`);
+										if(param === '[*]')
+										{
+											L.push(`[JSON_VALUE(\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)},'$') IS NULL]`);
+										}
+										else
+										{
+											L.push(`[JSON_VALUE(\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)},'$.${param}') IS NULL]`);
+										}
+										//L.push(`[JSON_VALUE(\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)},'$.${param}') IS NULL]`);
 									}
 									else
 									{
-										if(param.endsWith('[*]'))
+										if(param === '[*]')
+										{
+											L.push(`[JSON_QUERY(\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)},'$${param.replace(/\[\*\]/g, '')}') LIKE '[%${amiWebApp.textToSQL(el.value)}%]']`);
+										}
+										else if(param.endsWith('[*]'))
 										{
 											L.push(`[JSON_QUERY(\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)},'$.${param.replace(/\[\*\]/g, '')}') LIKE '[%${amiWebApp.textToSQL(el.value)}%]']`);
 										}
@@ -2019,14 +2063,18 @@ $AMIClass('SearchCtrl', {
 							}
 							else
 							{
-								 if(param.endsWith('[*]'))
-								 {
-								 	L.push(`JSON_QUERY(\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)}, '$.${param.substring(0, param.length - 3)}') IS NOT NULL`);
-								 }
-								 else
-								 {
-								 	L.push(`JSON_VALUE(\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)}, '$.${param}') IS NOT NULL`);
-								 }
+								if(param === '[*]')
+							  	{
+									L.push(`JSON_QUERY(\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)}, '$') IS NOT NULL`);
+								}
+								else if(param.endsWith('[*]'))
+								{
+									L.push(`JSON_QUERY(\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)}, '$.${param.substring(0, param.length - 3)}') IS NOT NULL`);
+								}
+								else
+								{
+									L.push(`JSON_VALUE(\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)}, '$.${param}') IS NOT NULL`);
+								}
 							}
 						}
 						else
@@ -2037,7 +2085,11 @@ $AMIClass('SearchCtrl', {
 							}
 							else
 							{
-								 if(param.endsWith('[*]'))
+								if(param === '[*]')
+								{
+									L.push(`[JSON_QUERY(\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)}, '$') IS NOT NULL]`);
+								}
+								else if(param.endsWith('[*]'))
 								 {
 									L.push(`[JSON_QUERY(\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)}, '$.${param.substring(0, param.length - 3)}') IS NOT NULL]`);
 								 }
@@ -2161,7 +2213,6 @@ $AMIClass('SearchCtrl', {
 				break;
 			case 5:
 			case 6:
-
 				if(param === '@NULL')
 				{
 					tmpFilter = `\`${catalog}\`.\`${entity}\`.\`${criterion.field}\` IS NULL`;
@@ -2170,7 +2221,11 @@ $AMIClass('SearchCtrl', {
 				{
 					if(filter.includes('%'))
 					{
-						if(param.endsWith('[*]'))
+						if(param === '[*]')
+						{
+							tmpFilter = `JSON_QUERY(\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)},'$') LIKE '[%${amiWebApp.textToSQL(filter)}%]'`;
+						}
+						else if(param.endsWith('[*]'))
 						{
 							tmpFilter = `JSON_QUERY(\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)},'$.${param.substring(0, param.length - 3 )}') LIKE '[%${amiWebApp.textToSQL(filter)}%]'`;
 						}
@@ -2181,7 +2236,11 @@ $AMIClass('SearchCtrl', {
 					}
 					else
 					{
-						if(param.endsWith('[*]'))
+						if(param === '[*]')
+						{
+							tmpFilter = `JSON_QUERY(\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)},'$') LIKE '[%${amiWebApp.textToSQL(filter)}%]'`;
+						}
+						else if(param.endsWith('[*]'))
 						{
 							tmpFilter = `JSON_QUERY(\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)},'$.${param.substring(0, param.length - 3 )}') LIKE '[%${amiWebApp.textToSQL(filter)}%]'`;
 						}
