@@ -666,6 +666,10 @@ $AMIClass('SearchCtrl', {
 					amiWebApp.unlock();
 				});
 			}
+			else if(criterion.type === 5 || criterion.type === 6 || criterion.type === 7 || criterion.type === 8 || criterion.type === 9 || criterion.type === 10)
+			{
+				this.fillParamBoxKey(name);
+			}
 			//inutile ?
 			/*else
 			{
@@ -763,11 +767,13 @@ $AMIClass('SearchCtrl', {
 						case 8:
 						case 9:
 						case 10:
-							amiWebApp.lock();
-							this.fillParamBoxKey(name);
-							this.fillParamBoxVal(name).always(() => {
-								amiWebApp.unlock();
-							});
+							if(name !== no_refresh_name) {
+								amiWebApp.lock();
+								this.fillParamBoxKey(name);
+								this.fillParamBoxVal(name).always(() => {
+									amiWebApp.unlock();
+								});
+							}
 							break;
 					}
 			}, this);
@@ -793,9 +799,9 @@ $AMIClass('SearchCtrl', {
 			}
 
 			this.ctx.mql = this.ctx.mql
-				           .replace(/and/g, 'AND')
-				           .replace(/or/g, 'OR')
-				           .replace(/not/g, 'NOT')
+				           .replace(/ and /g, ' AND ')
+				           .replace(/ or /g, ' OR ')
+				           .replace(/ not /g, ' NOT ')
 			;
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -1218,26 +1224,35 @@ $AMIClass('SearchCtrl', {
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		let mql = '';
+		const filter = this.dumpFilterAST(name);
 
 		switch(criterion.type)
 		{
 			case 5:
 			case 6:
-				mql = `SELECT JSON_PATHS(\`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\`${this.dumpConstraints(criterion)}, '$') WHERE 1`;
+				if(filter)
+				{
+					mql = `SELECT JSON_PATHS(\`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\`${this.dumpConstraints(criterion)}, '$') WHERE ${filter}`;
+				}
+				else
+				{
+					mql = `SELECT JSON_PATHS(\`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\`${this.dumpConstraints(criterion)}, '$') WHERE 1`;
+				}
 				break;
 			case 7:
 			case 8:
 			case 9:
 			case 10:
-				mql = `SELECT DISTINCT \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.key_field}\`${this.dumpConstraints(criterion)}`;
+				if(filter)
+				{
+					mql = `SELECT DISTINCT \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.key_field}\`${this.dumpConstraints(criterion) }WHERE ${filter}`;
+				}
+				else
+				{
+					mql = `SELECT DISTINCT \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.key_field}\`${this.dumpConstraints(criterion)} WHERE 1`;
+				}
+
 				break;
-		}
-
-		const filter = this.dumpFilterAST(name);
-
-		if(filter)
-		{
-			mql += ` WHERE ${filter}`;
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
