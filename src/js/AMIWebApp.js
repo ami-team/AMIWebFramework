@@ -11,6 +11,8 @@
 
 'use strict';
 
+import * as Vue from 'vue';
+
 import * as view from './utilities/view';
 import * as jsdoc from './utilities/jsdoc';
 import * as locks from './utilities/locks';
@@ -227,7 +229,8 @@ class AMIWebApp
 				auth: amiAuth,
 			},
 			vue: {
-				version: 'N/A',
+				Vue: Vue,
+				version: Vue.version,
 			},
 		});
 
