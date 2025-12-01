@@ -1245,7 +1245,7 @@ $AMIClass('SearchCtrl', {
 			case 10:
 				if(filter)
 				{
-					mql = `SELECT DISTINCT \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.key_field}\`${this.dumpConstraints(criterion) }WHERE ${filter}`;
+					mql = `SELECT DISTINCT \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.key_field}\`${this.dumpConstraints(criterion)} WHERE ${filter}`;
 				}
 				else
 				{
