@@ -852,8 +852,6 @@ $AMIClass('SearchCtrl', {
 
 						case TYPE_JSON_DICT_FEW:
 						case TYPE_JSON_DICT_MANY:
-						case TYPE_JSON_LIST_FEW:
-						case TYPE_JSON_LIST_MANY:
 						case TYPE_SIMPLE_KEYVAL_FEW:
 						case TYPE_SIMPLE_KEYVAL_MANY:
 						case TYPE_MULTIPLE_KEYVAL_FEW:
@@ -866,6 +864,15 @@ $AMIClass('SearchCtrl', {
 								});
 							}
 							break;
+
+						case TYPE_JSON_LIST_FEW:
+						case TYPE_JSON_LIST_MANY:
+							if(name !== no_refresh_name) {
+								amiWebApp.lock();
+								this.fillParamBoxVal(name).always(() => {
+									amiWebApp.unlock();
+								});
+							}
 					}
 			}, this);
 
