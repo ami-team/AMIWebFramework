@@ -17,12 +17,29 @@ import twigCriteriaDate from './assets/twig/criteria_date.twig';
 import twigCriteriaNumber from './assets/twig/criteria_number.twig';
 import twigCriteriaParamFew from './assets/twig/criteria_param_few.twig';
 import twigCriteriaParamMany from './assets/twig/criteria_param_many.twig';
+import twigCriteriaJsonListFew from './assets/twig/criteria_jsonlist_few.twig';
+import twigCriteriaJsonListMany from './assets/twig/criteria_jsonlist_many.twig';
 import twigCriteriaStringFew from './assets/twig/criteria_string_few.twig';
 import twigCriteriaStringMany from './assets/twig/criteria_string_many.twig';
 import twigJS from './assets/twig/js.twig';
 import twigSearchCtrl from './assets/twig/SearchCtrl.twig';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
+
+const TYPE_TEXT_FEW = 0;
+const TYPE_TEXT_MANY = 1;
+const TYPE_NUMBER = 2;
+const TYPE_DATE = 3;
+const TYPE_BOOL = 4;
+const TYPE_JSON_DICT_FEW = 5;
+const TYPE_JSON_DICT_MANY = 6;
+const TYPE_JSON_LIST_FEW = 7;
+const TYPE_JSON_LIST_MANY = 8;
+
+const TYPE_SIMPLE_KEYVAL_FEW = 9;
+const TYPE_SIMPLE_KEYVAL_MANY = 10;
+const TYPE_MULTIPLE_KEYVAL_FEW = 11;
+const TYPE_MULTIPLE_KEYVAL_MANY = 12;
 
 $AMIClass('SearchCtrl', {
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -51,6 +68,8 @@ $AMIClass('SearchCtrl', {
 			this.fragmentCriteriaNumber = twigCriteriaNumber;
 			this.fragmentCriteriaParamFew = twigCriteriaParamFew;
 			this.fragmentCriteriaParamMany = twigCriteriaParamMany;
+			this.fragmentCriteriaJsonListFew = twigCriteriaJsonListFew;
+			this.fragmentCriteriaJsonListMany = twigCriteriaJsonListMany;
 			this.fragmentCriteriaStringFew = twigCriteriaStringFew;
 			this.fragmentCriteriaStringMany = twigCriteriaStringMany;
 			this.fragmentJS = twigJS;
@@ -270,27 +289,27 @@ $AMIClass('SearchCtrl', {
 
 		switch(criterion.type)
 		{
-			case 0:
+			case TYPE_TEXT_FEW:
 				name = `Q${criterion.cnt = this.ctx.cnt++}`;
 				promise = this.appendHTML(selector, this.fragmentCriteriaStringFew, {dict: criterion});
 				break;
 
-			case 1:
+			case TYPE_TEXT_MANY:
 				name = `Q${criterion.cnt = this.ctx.cnt++}`;
 				promise = this.appendHTML(selector, this.fragmentCriteriaStringMany, {dict: criterion});
 				break;
 
-			case 2:
+			case TYPE_NUMBER:
 				name = `Q${criterion.cnt = this.ctx.cnt++}`;
 				promise = this.appendHTML(selector, this.fragmentCriteriaNumber, {dict: criterion});
 				break;
 
-			case 3:
+			case TYPE_DATE:
 				name = `Q${criterion.cnt = this.ctx.cnt++}`;
 				promise = this.appendHTML(selector, this.fragmentCriteriaDate, {dict: criterion});
 				break;
 
-			case 4:
+			case TYPE_BOOL:
 				name = `Q${criterion.cnt = this.ctx.cnt++}`;
 				promise = this.appendHTML(selector, this.fragmentCriteriaBool, {dict: criterion});
 				break;
@@ -300,20 +319,29 @@ $AMIClass('SearchCtrl', {
 			/* KEY / VAL                                                                                              */
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			case 5:
-			case 7:
-			case 9:
+			case TYPE_JSON_DICT_FEW:
+			case TYPE_SIMPLE_KEYVAL_FEW:
+			case TYPE_MULTIPLE_KEYVAL_FEW:
 				name = `Q${criterion.cnt = this.ctx.cnt++}`;
 				promise = this.appendHTML(selector, this.fragmentCriteriaParamFew, {dict: criterion});
 				break;
 
-			case 6:
-			case 8:
-			case 10:
+			case TYPE_JSON_DICT_MANY:
+			case TYPE_SIMPLE_KEYVAL_MANY:
+			case TYPE_MULTIPLE_KEYVAL_MANY:
 				name = `Q${criterion.cnt = this.ctx.cnt++}`;
 				promise = this.appendHTML(selector, this.fragmentCriteriaParamMany, {dict: criterion});
 				break;
 
+			case TYPE_JSON_LIST_FEW:
+				name = `Q${criterion.cnt = this.ctx.cnt++}`;
+				promise = this.appendHTML(selector, this.fragmentCriteriaJsonListFew, {dict: criterion});
+				break;
+
+			case TYPE_JSON_LIST_MANY:
+				name = `Q${criterion.cnt = this.ctx.cnt++}`;
+				promise = this.appendHTML(selector, this.fragmentCriteriaJsonListMany, {dict: criterion});
+				break;
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			default:
@@ -340,8 +368,8 @@ $AMIClass('SearchCtrl', {
 				/* TEXT BOX                                                                                           */
 				/*----------------------------------------------------------------------------------------------------*/
 
-				case 0:
-				case 1:
+				case TYPE_TEXT_FEW:
+				case TYPE_TEXT_MANY:
 					el.find('select').change((e) => {
 
 						e.preventDefault();
@@ -431,8 +459,8 @@ $AMIClass('SearchCtrl', {
 				/* NUMBER BOX																						 */
 				/*----------------------------------------------------------------------------------------------------*/
 
-				case 2:
-				case 3:
+				case TYPE_NUMBER:
+				case TYPE_DATE:
 					el.find('.set').click((e) => {
 
 						e.preventDefault();
@@ -524,7 +552,7 @@ $AMIClass('SearchCtrl', {
 				/* BOOLEAN BOX																						*/
 				/*----------------------------------------------------------------------------------------------------*/
 
-				case 4:
+				case TYPE_BOOL:
 					el.find('input[type="checkbox"]').change((e) => {
 
 						e.preventDefault();
@@ -538,12 +566,12 @@ $AMIClass('SearchCtrl', {
 				/* PARAM BOX																						  */
 				/*----------------------------------------------------------------------------------------------------*/
 
-				case 5:
-				case 6:
-				case 7:
-				case 8:
-				case 9:
-				case 10:
+				case TYPE_JSON_DICT_FEW:
+				case TYPE_JSON_DICT_MANY:
+				case TYPE_SIMPLE_KEYVAL_FEW:
+				case TYPE_SIMPLE_KEYVAL_MANY:
+				case TYPE_MULTIPLE_KEYVAL_FEW:
+				case TYPE_MULTIPLE_KEYVAL_MANY:
 					el.find('.key').change((e) => {
 
 						e.preventDefault();
@@ -599,6 +627,63 @@ $AMIClass('SearchCtrl', {
 
 					break;
 
+				case TYPE_JSON_LIST_FEW:
+				case TYPE_JSON_LIST_MANY:
+
+					el.find('.key').change((e) => {
+
+						e.preventDefault();
+
+						this.selectParamKey(name);
+					});
+
+					el.find('.value').change((e) => {
+
+						e.preventDefault();
+
+						//this.selectParamVal(name);
+						this.select(name);
+					});
+
+					el.find('button.filter').click((e) => {
+
+						e.preventDefault();
+
+						this.filter(name);
+					});
+
+					el.find('input.filter').keypress((e) => {
+
+						if(e.keyCode === 13)
+						{
+							e.preventDefault();
+
+							this.filter(name);
+						}
+					});
+
+					el.find('input[type="checkbox"]').change((e) => {
+
+						e.preventDefault();
+
+						this.select(name);
+					});
+
+					el.find('.show-less').click((e) => {
+
+						e.preventDefault();
+
+						/*this.viewLessParamVal(name);*/
+					});
+
+					el.find('.show-more').click((e) => {
+
+						e.preventDefault();
+
+						/*this.viewMoreParamVal(name);*/
+					});
+
+					break;
 				/*----------------------------------------------------------------------------------------------------*/
 			}
 
@@ -629,11 +714,11 @@ $AMIClass('SearchCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			if(criterion.type === 4)
+			if(criterion.type === TYPE_BOOL)
 			{
 				this.toggle(name);
 			}
-			else if(criterion.type === 2 || criterion.type === 3)
+			else if(criterion.type === TYPE_NUMBER || criterion.type === TYPE_DATE)
 			{
 				amiWebApp.lock();
 
@@ -646,7 +731,7 @@ $AMIClass('SearchCtrl', {
 				});
 
 			}
-			else if(criterion.type === 1)
+			else if(criterion.type === TYPE_TEXT_MANY)
 			{
 				amiWebApp.lock();
 				this.fillStringBox(name, true, true).always(() => {
@@ -656,7 +741,7 @@ $AMIClass('SearchCtrl', {
 					amiWebApp.unlock();
 				});
 			}
-			else if(criterion.type === 0)
+			else if(criterion.type === TYPE_TEXT_FEW)
 			{
 				amiWebApp.lock();
 				this.fillStringBox(name, true, false).always(() => {
@@ -666,9 +751,13 @@ $AMIClass('SearchCtrl', {
 					amiWebApp.unlock();
 				});
 			}
-			else if(criterion.type === 5 || criterion.type === 6 || criterion.type === 7 || criterion.type === 8 || criterion.type === 9 || criterion.type === 10)
+			else if(criterion.type === TYPE_JSON_DICT_FEW || criterion.type === TYPE_JSON_DICT_MANY || criterion.type === TYPE_SIMPLE_KEYVAL_FEW || criterion.type === TYPE_SIMPLE_KEYVAL_MANY || criterion.type === TYPE_MULTIPLE_KEYVAL_FEW || criterion.type === TYPE_MULTIPLE_KEYVAL_MANY)
 			{
 				this.fillParamBoxKey(name);
+			}
+			else if(criterion.type === TYPE_JSON_LIST_FEW || criterion.type === TYPE_JSON_LIST_MANY)
+			{
+				this.selectParamKey(name);
 			}
 			//inutile ?
 			/*else
@@ -690,7 +779,7 @@ $AMIClass('SearchCtrl', {
 
 		const predicate = this.ctx.predicates[name];
 
-		if(predicate.criterion.type === 1 || predicate.criterion.type === 0 )
+		if(predicate.criterion.type === TYPE_TEXT_MANY || predicate.criterion.type === TYPE_TEXT_FEW )
 		{
 			doRefresh = !$.isEmptyObject(predicate.select);
 		}
@@ -728,7 +817,7 @@ $AMIClass('SearchCtrl', {
 
 					switch(predicate.criterion.type)
 					{
-						case 0:
+						case TYPE_TEXT_FEW:
 							if(!predicate.criterion.more.scope && (name !== no_refresh_name))
 							{
 								amiWebApp.lock();
@@ -739,7 +828,7 @@ $AMIClass('SearchCtrl', {
 							}
 							break;
 
-						case 1:
+						case TYPE_TEXT_MANY:
 							if(!predicate.criterion.more.scope && (name !== no_refresh_name))
 							{
 								amiWebApp.lock();
@@ -749,8 +838,8 @@ $AMIClass('SearchCtrl', {
 							}
 							break;
 
-						case 2:
-						case 3:
+						case TYPE_NUMBER:
+						case TYPE_DATE:
 							if(name !== no_refresh_name)
 							{
 								amiWebApp.lock();
@@ -761,12 +850,14 @@ $AMIClass('SearchCtrl', {
 							}
 							break;
 
-						case 5:
-						case 6:
-						case 7:
-						case 8:
-						case 9:
-						case 10:
+						case TYPE_JSON_DICT_FEW:
+						case TYPE_JSON_DICT_MANY:
+						case TYPE_JSON_LIST_FEW:
+						case TYPE_JSON_LIST_MANY:
+						case TYPE_SIMPLE_KEYVAL_FEW:
+						case TYPE_SIMPLE_KEYVAL_MANY:
+						case TYPE_MULTIPLE_KEYVAL_FEW:
+						case TYPE_MULTIPLE_KEYVAL_MANY:
 							if(name !== no_refresh_name) {
 								amiWebApp.lock();
 								this.fillParamBoxKey(name);
@@ -854,7 +945,7 @@ $AMIClass('SearchCtrl', {
 
 				switch(this.ctx.more.summary[idx].type)
 				{
-					case 0:
+					case TYPE_TEXT_FEW:
 						mql = `SELECT COUNT(DISTINCT \`${this.ctx.more.summary[idx].catalog}\`.\`${this.ctx.more.summary[idx].entity}\`.\`${this.ctx.more.summary[idx].field}\`${constraints}) AS RES`;
 						if(filter)
 						{
@@ -862,7 +953,7 @@ $AMIClass('SearchCtrl', {
 						}
 						break;
 
-					case 1:
+					case TYPE_TEXT_MANY:
 						mql = `SELECT SUM(\`${this.ctx.more.summary[idx].catalog}\`.\`${this.ctx.more.summary[idx].entity}\`.\`${this.ctx.more.summary[idx].field}\`${constraints}) AS RES`;
 						if(filter)
 						{
@@ -870,7 +961,7 @@ $AMIClass('SearchCtrl', {
 						}
 						break;
 
-					case 2:
+					case TYPE_NUMBER:
 						mql = `SELECT ROUND(AVG(\`${this.ctx.more.summary[idx].catalog}\`.\`${this.ctx.more.summary[idx].entity}\`.\`${this.ctx.more.summary[idx].field}\`${constraints})) AS RES`;
 						if(filter)
 						{
@@ -1228,8 +1319,8 @@ $AMIClass('SearchCtrl', {
 
 		switch(criterion.type)
 		{
-			case 5:
-			case 6:
+			case TYPE_JSON_DICT_FEW:
+			case TYPE_JSON_DICT_MANY:
 				if(filter)
 				{
 					mql = `SELECT JSON_PATHS(\`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\`${this.dumpConstraints(criterion)}, '$') WHERE ${filter}`;
@@ -1239,10 +1330,10 @@ $AMIClass('SearchCtrl', {
 					mql = `SELECT JSON_PATHS(\`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\`${this.dumpConstraints(criterion)}, '$') WHERE 1`;
 				}
 				break;
-			case 7:
-			case 8:
-			case 9:
-			case 10:
+			case TYPE_SIMPLE_KEYVAL_FEW:
+			case TYPE_SIMPLE_KEYVAL_MANY:
+			case TYPE_MULTIPLE_KEYVAL_FEW:
+			case TYPE_MULTIPLE_KEYVAL_MANY:
 				if(filter)
 				{
 					mql = `SELECT DISTINCT \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.key_field}\`${this.dumpConstraints(criterion)} WHERE ${filter}`;
@@ -1265,10 +1356,11 @@ $AMIClass('SearchCtrl', {
 
 			switch(criterion.type)
 			{
-				case 5:
-				case 6:
+				case TYPE_JSON_DICT_FEW:
+				case TYPE_JSON_DICT_MANY:
+				case TYPE_JSON_LIST_FEW:
+				case TYPE_JSON_LIST_MANY:
 					m['@NULL'] = '@NULL';
-
 					$.each(fields, (idx, field) => {
 							//let key = field.$.substring(2);
 							let key = field.$.replace(/\$\.|\$/,'');
@@ -1279,10 +1371,10 @@ $AMIClass('SearchCtrl', {
 
 					break;
 
-				case 7:
-				case 8:
-				case 9:
-				case 10:
+				case TYPE_SIMPLE_KEYVAL_FEW:
+				case TYPE_SIMPLE_KEYVAL_MANY:
+				case TYPE_MULTIPLE_KEYVAL_FEW:
+				case TYPE_MULTIPLE_KEYVAL_MANY:
 					$.each(fields, (idx, field) => {
 
 						m[field.$] = field.$
@@ -1408,8 +1500,10 @@ $AMIClass('SearchCtrl', {
 
 			switch(criterion.type)
 			{
-				case 5:
-				case 6:
+				case TYPE_JSON_DICT_FEW:
+				case TYPE_JSON_DICT_MANY:
+				case TYPE_JSON_LIST_FEW:
+				case TYPE_JSON_LIST_MANY:
 					if(filter)
 					{
 						if(selectedParam === '[*]')
@@ -1434,8 +1528,8 @@ $AMIClass('SearchCtrl', {
 					}
 
 					break;
-				case 7:
-				case 8:
+				case TYPE_SIMPLE_KEYVAL_FEW:
+				case TYPE_SIMPLE_KEYVAL_MANY:
 					if(filter)
 					{
 						mql = `SELECT DISTINCT \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\`${this.dumpConstraints(criterion)} WHERE \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.key_field}\`${this.dumpConstraints(criterion)} = '${selectedParam}' AND ${filter}`;
@@ -1446,8 +1540,8 @@ $AMIClass('SearchCtrl', {
 					}
 
 					break;
-				case 9:
-				case 10:
+				case TYPE_MULTIPLE_KEYVAL_FEW:
+				case TYPE_MULTIPLE_KEYVAL_MANY:
 					if(filter)
 					{
 						mql = `SELECT DISTINCT \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${this.ctx.predicates[name].selectedValueField}\`${this.dumpConstraints(criterion)} WHERE \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.key_field}\`${this.dumpConstraints(criterion)} = '${selectedParam}' AND ${filter}`;
@@ -1466,16 +1560,18 @@ $AMIClass('SearchCtrl', {
 			{
 				switch(criterion.type)
 				{
-					case 5:
-					case 6:
+					case TYPE_JSON_DICT_FEW:
+					case TYPE_JSON_DICT_MANY:
+					case TYPE_JSON_LIST_FEW:
+					case TYPE_JSON_LIST_MANY:
 						mql += ` ORDER BY \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\` ${criterion.more.order}`;
 						break;
-					case 7:
-					case 8:
+					case TYPE_SIMPLE_KEYVAL_FEW:
+					case TYPE_SIMPLE_KEYVAL_MANY:
 						mql += ` ORDER BY \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\` ${criterion.more.order}`;
 						break;
-					case 9:
-					case 10:
+					case TYPE_MULTIPLE_KEYVAL_FEW:
+					case TYPE_MULTIPLE_KEYVAL_MANY:
 						mql += ` ORDER BY \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${this.ctx.predicates[name].selectedValueField}\` ${criterion.more.order}`;
 						break;
 				}
@@ -1501,8 +1597,10 @@ $AMIClass('SearchCtrl', {
 					let value;
 
 					switch(criterion.type) {
-						case 5:
-						case 6:
+						case TYPE_JSON_DICT_FEW:
+						case TYPE_JSON_DICT_MANY:
+						case TYPE_JSON_LIST_FEW:
+						case TYPE_JSON_LIST_MANY:
 							value = (field.$ || '').trim();
 
 							if(value.startsWith('"') && value.endsWith('"'))
@@ -1527,10 +1625,10 @@ $AMIClass('SearchCtrl', {
 								valueDict[value] = value;
 							}
 							break;
-						case 7:
-						case 8:
-						case 9:
-						case 10:
+						case TYPE_SIMPLE_KEYVAL_FEW:
+						case TYPE_SIMPLE_KEYVAL_MANY:
+						case TYPE_MULTIPLE_KEYVAL_FEW:
+						case TYPE_MULTIPLE_KEYVAL_MANY:
 							value = field.$ || '';
 							valueDict[value] = value;
 							break;
@@ -1741,7 +1839,11 @@ $AMIClass('SearchCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		if($(`${predicate.selector} select:first option[value="::any::"]:selected`).length == 0)
+		if (this.ctx.predicates[name].criterion.type === TYPE_JSON_LIST_FEW || this.ctx.predicates[name].criterion.type === TYPE_JSON_LIST_MANY)
+		{
+			this.ctx.predicates[name].selectedParam = '[*]';
+		}
+		else if($(`${predicate.selector} select:first option[value="::any::"]:selected`).length == 0)
 		{
 			this.ctx.predicates[name].selectedParam = $(`${predicate.selector} select:first option:selected`).val();
 		}
@@ -1754,7 +1856,7 @@ $AMIClass('SearchCtrl', {
 
 		if(this.ctx.predicates[name].selectedParam !== '')
 		{
-			if (this.ctx.predicates[name].criterion.type === 9 || this.ctx.predicates[name].criterion.type === 10)
+			if (this.ctx.predicates[name].criterion.type === TYPE_MULTIPLE_KEYVAL_FEW || this.ctx.predicates[name].criterion.type === TYPE_MULTIPLE_KEYVAL_MANY)
 			{
 				let mql = `SELECT DISTINCT \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\`${this.dumpConstraints(criterion)} WHERE \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.key_field}\`${this.dumpConstraints(criterion)} = '${this.ctx.predicates[name].selectedParam}'`;
 
@@ -1764,14 +1866,14 @@ $AMIClass('SearchCtrl', {
 
 					switch(predicate.criterion.type)
 					{
-						case 9:
+						case TYPE_MULTIPLE_KEYVAL_FEW:
 							this.fillParamBoxVal(name, false, false).always(() => {
 
 								this.select(name);
 							});
 							break;
 
-						case 10:
+						case TYPE_MULTIPLE_KEYVAL_MANY:
 							this.fillParamBoxVal(name, true, true).always(() => {
 
 							   this.select(name);
@@ -1784,16 +1886,18 @@ $AMIClass('SearchCtrl', {
 			{
 				switch(predicate.criterion.type)
 				{
-					case 5:
-					case 7:
-
+					case TYPE_JSON_DICT_FEW:
+					case TYPE_JSON_LIST_FEW:
+					case TYPE_SIMPLE_KEYVAL_FEW:
 						this.fillParamBoxVal(name, false, false).always(() => {
 
 							this.select(name);
 						});
 						break;
-					case 6:
-					case 8:
+
+					case TYPE_JSON_DICT_MANY:
+					case TYPE_JSON_LIST_MANY:
+					case TYPE_SIMPLE_KEYVAL_MANY:
 						this.fillParamBoxVal(name, true, true).always(() => {
 
 							this.select(name);
@@ -1808,17 +1912,17 @@ $AMIClass('SearchCtrl', {
 
 			switch(predicate.criterion.type)
 			{
-				case 5:
-				case 7:
-				case 9:
+				case TYPE_JSON_DICT_FEW:
+				case TYPE_SIMPLE_KEYVAL_FEW:
+				case TYPE_MULTIPLE_KEYVAL_FEW:
 					this.fillParamBoxVal(name, false, false).always(() => {
 
 					   this.select(name);
 					});
 					break;
-				case 6:
-				case 8:
-				case 10:
+				case TYPE_JSON_DICT_MANY:
+				case TYPE_SIMPLE_KEYVAL_MANY:
+				case TYPE_MULTIPLE_KEYVAL_MANY:
 					this.fillParamBoxVal(name, true, true).always(() => {
 
 					   this.select(name);
@@ -1863,8 +1967,8 @@ $AMIClass('SearchCtrl', {
 
 				switch(criterion.type)
 				{
-					case 0:
-					case 1:
+					case TYPE_TEXT_FEW:
+					case TYPE_TEXT_MANY:
 						if( el.value === '@NULL')
 						{
 							if (isDefaultEntity)
@@ -1888,8 +1992,10 @@ $AMIClass('SearchCtrl', {
 							}
 						}
 						break;
-					case 5:
-					case 6:
+					case TYPE_JSON_DICT_FEW:
+					case TYPE_JSON_DICT_MANY:
+					case TYPE_JSON_LIST_FEW:
+					case TYPE_JSON_LIST_MANY:
 						if(param)
 						{
 							if (isDefaultEntity)
@@ -1997,8 +2103,8 @@ $AMIClass('SearchCtrl', {
 
 						break;
 
-					case 7:
-					case 8:
+					case TYPE_SIMPLE_KEYVAL_FEW:
+					case TYPE_SIMPLE_KEYVAL_MANY:
 						if(param)
 						{
 							if (isDefaultEntity)
@@ -2012,8 +2118,8 @@ $AMIClass('SearchCtrl', {
 						}
 						break;
 
-					case 9:
-					case 10:
+					case TYPE_MULTIPLE_KEYVAL_FEW:
+					case TYPE_MULTIPLE_KEYVAL_MANY:
 						if(param)
 						{
 							if (isDefaultEntity)
@@ -2051,8 +2157,10 @@ $AMIClass('SearchCtrl', {
 
 			switch(criterion.type)
 			{
-				case 5:
-				case 6:
+				case TYPE_JSON_DICT_FEW:
+				case TYPE_JSON_DICT_MANY:
+				case TYPE_JSON_LIST_FEW:
+				case TYPE_JSON_LIST_MANY:
 					if(param)
 					{
 						if (isDefaultEntity)
@@ -2170,7 +2278,7 @@ $AMIClass('SearchCtrl', {
 		switch(criterion.type)
 		{
 
-			case 0:
+			case TYPE_TEXT_FEW:
 
 				if(filter.includes('%'))
 				{
@@ -2201,7 +2309,7 @@ $AMIClass('SearchCtrl', {
 				}
 
 				break;
-			case 1:
+			case TYPE_TEXT_MANY:
 				if(filter.includes('%'))
 				{
 					tmpFilter = `\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} LIKE '${filter.replace(/'/g, '\'\'')}'`;
@@ -2211,8 +2319,8 @@ $AMIClass('SearchCtrl', {
 					tmpFilter = `\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} = '${filter.replace(/'/g, '\'\'')}'`;
 				}
 				break;
-			case 5:
-			case 6:
+			case TYPE_JSON_DICT_FEW:
+			case TYPE_JSON_DICT_MANY:
 				if(param === '@NULL')
 				{
 					tmpFilter = `\`${catalog}\`.\`${entity}\`.\`${criterion.field}\` IS NULL`;
@@ -2252,8 +2360,8 @@ $AMIClass('SearchCtrl', {
 				}
 				break;
 
-			case 7:
-			case 8:
+			case TYPE_SIMPLE_KEYVAL_FEW:
+			case TYPE_SIMPLE_KEYVAL_MANY:
 				if(filter.includes('%')) {
 					tmpFilter = `(\`${catalog}\`.\`${entity}\`.\`${criterion.key_field}\`${this.dumpConstraints(criterion)} = '${param}' AND \`${catalog}\`.\`${entity}\`.\`${criterion.field}\` LIKE '${filter.replace(/'/g, '\'\'')}')`;
 				} else {
@@ -2261,8 +2369,8 @@ $AMIClass('SearchCtrl', {
 				}
 				break;
 
-			case 9:
-			case 10:
+			case TYPE_MULTIPLE_KEYVAL_FEW:
+			case TYPE_MULTIPLE_KEYVAL_MANY:
 				if(filter.includes('%')) {
 					tmpFilter = `(\`${catalog}\`.\`${entity}\`.\`${criterion.key_field}\`${this.dumpConstraints(criterion)} = '${param}' AND \`${catalog}\`.\`${entity}\`.\`${this.ctx.predicates[name].selectedValueField}\` LIKE '${filter.replace(/'/g, '\'\'')}')`;
 				} else {
@@ -2284,7 +2392,7 @@ $AMIClass('SearchCtrl', {
 		}
 		else
 		{
-			criterion.type === 0 ? predicate.filter = tmpFilter : predicate.filter = `[${tmpFilter}]` ;
+			criterion.type === TYPE_TEXT_FEW ? predicate.filter = tmpFilter : predicate.filter = `[${tmpFilter}]` ;
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -2438,7 +2546,7 @@ $AMIClass('SearchCtrl', {
 				{
 					tmpFilter = `\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} IS NOT NULL`;
 				}
-				else if(predicate.criterion.type === 3)
+				else if(predicate.criterion.type === TYPE_DATE)
 				{
 					if(!$(`${predicate.selector} input.switch-in`).prop('checked'))
 					{

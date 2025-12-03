@@ -569,7 +569,7 @@ $AMIClass('SearchModelerApp', {
 
 		const dict = {
 			cnt: this.cnt,
-			criteria: criteria || [{type: isKeyVal ? 7 : 0}],
+			criteria: criteria || [{type: isKeyVal ? 9 : 0}],
 		};
 
 		amiWebApp.appendHTML('#DD89D783_6F39_7B3B_3F3F_D875737A5E68', twigInput, {dict: dict}).done(() => {
@@ -586,7 +586,7 @@ $AMIClass('SearchModelerApp', {
 					{
 						this.getFields(`#A45F0216_6C35_19F3_2CEC_103A8536914F_${this.cnt}`, catalog, entity, field);
 
-						if(criterion.type > 6)
+						if(criterion.type >= 9)
 						{
 							this.getFields(`#F83CE4BB_3851_3C40_242E_F7384C68A1A5_${this.cnt}`, catalog, entity, field);
 						}

@@ -13,26 +13,28 @@
 		<select class="{% if BOOTSTRAP_VERSION > 4 %}form-select form-select-sm{% else %}custom-select custom-select-sm{% endif %}" name="entity::{{cnt + loop.index0}}" id="A4D2FD72_FF0A_3C87_B1CF_4A31331D3F8B_{{cnt + loop.index0}}" onchange="searchModelerApp.getFields('#F83CE4BB_3851_3C40_242E_F7384C68A1A5_{{cnt + loop.index0}},#A45F0216_6C35_19F3_2CEC_103A8536914F_{{cnt + loop.index0}}', $('#E3ACBBAC_D452_5B9A_4926_D8FEE356CD63_{{cnt + loop.index0}}').val(), $('#A4D2FD72_FF0A_3C87_B1CF_4A31331D3F8B_{{cnt + loop.index0}}').val());"></select>
 	</td>
 	<td>
-		{% if criterion.type > 6 %}
+		{% if criterion.type >= 9 %}
 		<select class="{% if BOOTSTRAP_VERSION > 4 %}form-select form-select-sm{% else %}custom-select custom-select-sm{% endif %}" name="key_field::{{cnt + loop.index0}}" id="F83CE4BB_3851_3C40_242E_F7384C68A1A5_{{cnt + loop.index0}}"></select>
 		{% endif %}
 		<select class="{% if BOOTSTRAP_VERSION > 4 %}form-select form-select-sm{% else %}custom-select custom-select-sm{% endif %}" name="field::{{cnt + loop.index0}}" id="A45F0216_6C35_19F3_2CEC_103A8536914F_{{cnt + loop.index0}}"></select>
 	</td>
 	<td>
 		<select class="{% if BOOTSTRAP_VERSION > 4 %}form-select form-select-sm{% else %}custom-select custom-select-sm{% endif %}" name="type::{{cnt + loop.index0}}" id="F591F5A7_76BD_C010_8A37_3BD869CF0BB4_{{cnt + loop.index0}}">
-			{% if criterion.type > 6 %}
-			<option value="7"{% if criterion.type === 7 %} selected="selected"{% endif %}>simple key/val (few results)</option>
-			<option value="8"{% if criterion.type === 8 %} selected="selected"{% endif %}>simple key/val (many results)</option>
-			<option value="9"{% if criterion.type === 9 %} selected="selected"{% endif %}>multiple type key/val (few results)</option>
-			<option value="10"{% if criterion.type === 10 %} selected="selected"{% endif %}>multiple type key/val (many results)</option>
+			{% if criterion.type >= 9 %}
+			<option value="9"{% if criterion.type === 9 %} selected="selected"{% endif %}>simple key/val (few results)</option>
+			<option value="10"{% if criterion.type === 10 %} selected="selected"{% endif %}>simple key/val (many results)</option>
+			<option value="11"{% if criterion.type === 11 %} selected="selected"{% endif %}>multiple type key/val (few results)</option>
+			<option value="12"{% if criterion.type === 12 %} selected="selected"{% endif %}>multiple type key/val (many results)</option>
 			{% else %}
 			<option value="0"{% if criterion.type === 0 %} selected="selected"{% endif %}>text (few results)</option>
 			<option value="1"{% if criterion.type === 1 %} selected="selected"{% endif %}>text (many results)</option>
 			<option value="2"{% if criterion.type === 2 %} selected="selected"{% endif %}>number</option>
 			<option value="3"{% if criterion.type === 3 %} selected="selected"{% endif %}>date</option>
 			<option value="4"{% if criterion.type === 4 %} selected="selected"{% endif %}>boolean</option>
-			<option value="5"{% if criterion.type === 5 %} selected="selected"{% endif %}>json key/val (few results)</option>
-			<option value="6"{% if criterion.type === 6 %} selected="selected"{% endif %}>json key/val (many results)</option>
+			<option value="5"{% if criterion.type === 5 %} selected="selected"{% endif %}>json dict (few results)</option>
+			<option value="6"{% if criterion.type === 6 %} selected="selected"{% endif %}>json dict (many results)</option>
+			<option value="7"{% if criterion.type === 7 %} selected="selected"{% endif %}>json list (few results)</option>
+			<option value="8"{% if criterion.type === 8 %} selected="selected"{% endif %}>json list (many results)</option>
 			{% endif %}
 		</select>
 	</td>
