@@ -873,6 +873,7 @@ $AMIClass('SearchCtrl', {
 									amiWebApp.unlock();
 								});
 							}
+							break;
 					}
 			}, this);
 
@@ -1848,7 +1849,15 @@ $AMIClass('SearchCtrl', {
 
 		if (this.ctx.predicates[name].criterion.type === TYPE_JSON_LIST_FEW || this.ctx.predicates[name].criterion.type === TYPE_JSON_LIST_MANY)
 		{
-			this.ctx.predicates[name].selectedParam = '[*]';
+			if($(`${predicate.selector} select:eq(1) option[value="::any::"]:selected`).length == 0)
+			{
+				this.ctx.predicates[name].selectedParam = '[*]';
+			}
+			else
+			{
+				this.ctx.predicates[name].selectedParam = '[*]';
+				this.ctx.predicates[name].select = {};
+			}
 		}
 		else if($(`${predicate.selector} select:first option[value="::any::"]:selected`).length == 0)
 		{
@@ -2155,6 +2164,7 @@ $AMIClass('SearchCtrl', {
 
 
 			/*--------------------------------------------------------------------------------------------------------*/
+			this.refresh(name);
 		}
 		else
 		{
@@ -2227,12 +2237,11 @@ $AMIClass('SearchCtrl', {
 			predicate.select = S;
 
 			/*--------------------------------------------------------------------------------------------------------*/
-
+			this.refresh();
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.refresh(name);
 		amiWebApp.unlock();
 
 		/*------------------------------------------------------------------------------------------------------------*/
