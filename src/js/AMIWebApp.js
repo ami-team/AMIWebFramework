@@ -12,6 +12,7 @@
 'use strict';
 
 import * as Vue from 'vue';
+window.__AMI_VUE__ = Vue ;
 //import * as Bootstrap5 from 'bootstrap5';
 
 import * as view from './utilities/view';
@@ -31,6 +32,7 @@ import amiRouter from './AMIRouter';
 import amiCommand from './AMICommand';
 import amiExtensions from './AMIExtension';
 import amiInterfaces from './AMIInterface';
+import amiNativeInterfaces from './AMINativeInterface';
 
 import JSPath from 'jspath';
 
@@ -229,7 +231,7 @@ class AMIWebApp
 				webapp: ((this)),
 				auth: amiAuth,
 			},
-			vue: {
+			vue3: {
 				Vue: Vue,
 				version: Vue.version,
 			},
@@ -252,6 +254,8 @@ class AMIWebApp
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		amiInterfaces();
+
+		amiNativeInterfaces();
 
 		/*------------------------------------------------------------------------------------------------------------*/
 		/* GET SCRIPT FLAGS                                                                                           */
