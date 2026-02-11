@@ -390,7 +390,7 @@ export function createControlFromWebLink(parent, owner, el, ownerOptions, option
 	}
 	catch(e)
 	{
-		console.error(e);
+		messages.error(`Error parsing JSON in HTML attributes: ${e}`);
 	}
 }
 
