@@ -325,6 +325,8 @@ const _parseJSON = (s, _default) => tools.isString(s) ? JSON.parse(s.replace('\\
 
 export function createControlFromWebLink(parent, owner, el, ownerOptions, options)
 {
+	locks.lock();
+
 	try
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -360,8 +362,6 @@ export function createControlFromWebLink(parent, owner, el, ownerOptions, option
 		;
 
 		/*------------------------------------------------------------------------------------------------------------*/
-
-		locks.lock();
 
 		/**/ if(dataCtrlLocation === 'body')
 		{
