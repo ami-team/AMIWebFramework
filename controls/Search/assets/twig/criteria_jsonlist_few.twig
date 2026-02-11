@@ -1,0 +1,46 @@
+<div class="card pull-left m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2 mt-2 align-self-start" id="C12133EC_2A38_3545_0685_974260DCC950_Q{{cnt}}" style="min-width: 285px;">
+	<div class="card-header d-flex align-items-center px-2 py-1">
+		<div class="flex-grow-1">
+			<span class="text-success">Q{{cnt}}</span>: {{name|e}}
+		</div>
+		{% if isDefaultEntity !== true %}
+		<div class="m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-3">
+			<span class="switch switch-sm switch-on-primary switch-off-secondary">
+				<input class="switch-andor" type="checkbox" id="DF58FAC0_BC64_FE13_A92D_3E9032A8F573_Q{{cnt}}" />
+				<label for="DF58FAC0_BC64_FE13_A92D_3E9032A8F573_Q{{cnt}}">
+					<span class="text-secondary">or</span>
+					/
+					<span class="text-primary">and</span>
+				</label>
+			</span>
+		</div>
+		{% endif %}
+		<div class="m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-3">
+			<span class="switch switch-sm switch-on-primary switch-off-secondary">
+				<input class="switch-not" type="checkbox" id="EB274C71_9905_80B0_6E6E_AA5210F5F690_Q{{cnt}}" />
+				<label for="EB274C71_9905_80B0_6E6E_AA5210F5F690_Q{{cnt}}">
+					<span class="text-primary">not</span>
+				</label>
+			</span>
+		</div>
+		<div class="m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-3">
+			<button type="button" class="btn close box-close px-0" data-dismiss="box"><i class="bi bi-x-circle-fill"></i></button>
+		</div>
+	</div>
+	<div class="card-body" style="padding: 0.5rem;">
+		<select class="form-control form-control-sm value" multiple="multiple" size="6" style="font-size: 13px;" disabled="disabled"></select>
+		<div class="text-{% if BOOTSTRAP_VERSION > 4 %}end{% else %}right{% endif %}">
+			#<span class="count">?</span>
+		</div>
+		<div class="input-group input-group-sm">
+			<input type="text" class="form-control filter" placeholder="Filter, % for wildcarding" />
+			{% if BOOTSTRAP_VERSION > 4 %}
+			<button type="button" class="btn btn-secondary filter">Apply</button>
+			{% else %}
+			<div class="input-group-append">
+				<button type="button" class="btn btn-secondary filter">Apply</button>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
