@@ -308,17 +308,7 @@ export function createControlInContainer(parent, owner, control, controlParams, 
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-function _parseJSON(s, _default)
-{
-	try
-	{
-		return JSON.parse(s);
-	}
-	catch(e)
-	{
-		return _default;
-	}
-}
+const _parseJSON = (s, _default) => tools.isString(s) ? JSON.parse(s.replace('\\\'', '\'')) : _default;
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -335,66 +325,73 @@ function _parseJSON(s, _default)
 
 export function createControlFromWebLink(parent, owner, el, ownerOptions, options)
 {
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	const dataCtrl = el.hasAttribute('data-ctrl') ? el.getAttribute('data-ctrl')
-	                                              : ''
-	;
-
-	const dataCtrlLocation = el.hasAttribute('data-ctrl-location') ? el.getAttribute('data-ctrl-location')
-	                                                               : ''
-	;
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	const dataParams = el.hasAttribute('data-params') ? _parseJSON(el.getAttribute('data-params'), [])
-	                                                  : []
-	;
-
-	const dataOptions = el.hasAttribute('data-options') ? _parseJSON(el.getAttribute('data-options'), {})
-	                                                    : (
-	                    el.hasAttribute('data-settings') ? _parseJSON(el.getAttribute('data-settings'), {})
-	                                                    : {
-	});
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	const dataIcon = el.hasAttribute('data-icon') ? el.getAttribute('data-icon')
-	                                              : 'question'
-	;
-
-	const dataTitle = el.hasAttribute('data-title') ? el.getAttribute('data-title')
-	                                                : 'Unknown'
-	;
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	locks.lock();
-
-	/**/ if(dataCtrlLocation === 'body')
+	try
 	{
-		return createControlInBody(parent, owner, dataCtrl, dataParams, dataOptions, ownerOptions, options).done(() => {
+		/*------------------------------------------------------------------------------------------------------------*/
 
-			locks.unlock();
+		const dataCtrl = el.hasAttribute('data-ctrl') ? el.getAttribute('data-ctrl')
+													  : ''
+		;
 
-		}).fail((message) => {
+		const dataCtrlLocation = el.hasAttribute('data-ctrl-location') ? el.getAttribute('data-ctrl-location')
+																	   : ''
+		;
 
-			messages.error(message);
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		const dataParams = el.hasAttribute('data-params') ? _parseJSON(el.getAttribute('data-params'), [])
+														  : []
+		;
+
+		const dataOptions = el.hasAttribute('data-options') ? _parseJSON(el.getAttribute('data-options'), {})
+															: (
+							el.hasAttribute('data-settings') ? _parseJSON(el.getAttribute('data-settings'), {})
+															: {
 		});
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		const dataIcon = el.hasAttribute('data-icon') ? el.getAttribute('data-icon')
+													  : 'question'
+		;
+
+		const dataTitle = el.hasAttribute('data-title') ? el.getAttribute('data-title')
+														: 'Unknown'
+		;
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		locks.lock();
+
+		/**/ if(dataCtrlLocation === 'body')
+		{
+			return createControlInBody(parent, owner, dataCtrl, dataParams, dataOptions, ownerOptions, options).done(() => {
+
+				locks.unlock();
+
+			}).fail((message) => {
+
+				messages.error(message);
+			});
+		}
+		else
+		{
+			return createControlInContainer(parent, owner, dataCtrl, dataParams, dataOptions, ownerOptions, dataIcon, dataTitle, options).done(() => {
+
+				locks.unlock();
+
+			}).fail((message) => {
+
+				messages.error(message);
+			});
+		}
+
+		/*------------------------------------------------------------------------------------------------------------*/
 	}
-	else
+	catch(e)
 	{
-		return createControlInContainer(parent, owner, dataCtrl, dataParams, dataOptions, ownerOptions, dataIcon, dataTitle, options).done(() => {
-
-			locks.unlock();
-
-		}).fail((message) => {
-
-			messages.error(message);
-		});
+		console.error(e);
 	}
-
-	/*----------------------------------------------------------------------------------------------------------------*/
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
