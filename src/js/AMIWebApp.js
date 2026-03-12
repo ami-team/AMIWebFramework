@@ -12,7 +12,6 @@
 'use strict';
 
 import * as Vue from 'vue';
-//import * as Bootstrap5 from 'bootstrap5';
 
 import * as view from './utilities/view';
 import * as jsdoc from './utilities/jsdoc';
@@ -517,7 +516,7 @@ class AMIWebApp
 	/**
 	 * This method must be overloaded and is called when the Web application starts
 	 * @event amiWebApp#onReady
-	 * @param {?*} userdata the user data
+	 * @param {?*} userdata indicates if the user is authenticated
 	 */
 
 	onReady(userdata)
@@ -535,7 +534,7 @@ class AMIWebApp
 	/**
 	 * This method must be overloaded and is called when the toolbar needs to be updated
 	 * @event amiWebApp#onRefresh
-	 * @param {boolean} isAuth is the user authenticated
+	 * @param {boolean} isAuth indicates if the user is authenticated
 	 */
 
 	onRefresh(isAuth)
@@ -546,6 +545,19 @@ class AMIWebApp
 		}
 
 		return null;
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * This method must be overloaded and is called each time a table is refreshed.
+	 * @event amiWebApp#onTableRefresh
+	 * @param {boolean} table the table that has just been refreshed
+	 */
+
+	onTableRefresh(table)
+	{
+		/* nothing to do  */
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/

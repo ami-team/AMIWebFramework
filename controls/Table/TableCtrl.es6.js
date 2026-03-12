@@ -85,6 +85,10 @@ $AMIClass('TableCtrl', {
 
 		this.setupCtx(
 			{
+				selector: selector,
+
+				/**/
+
 				ignoredFields: {
 					'ORACLE_ROWNUM': '',
 					'PROJECT': '',
@@ -938,6 +942,13 @@ $AMIClass('TableCtrl', {
 				if(this.ctx.onRefresh)
 				{
 					this.ctx.onRefresh(this);
+				}
+
+				/*----------------------------------------------------------------------------------------------------*/
+
+				if(amiWebApp.onTableRefresh)
+				{
+					amiWebApp.onTableRefresh(this);
 				}
 
 				/*----------------------------------------------------------------------------------------------------*/
