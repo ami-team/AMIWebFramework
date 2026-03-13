@@ -1194,7 +1194,7 @@ const path = require('path');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
-const AMIWebpackPlugin = require('./AMIWebpackPlugin.js');
+//const AMIWebpackPlugin = require('./AMIWebpackPlugin.js');
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
