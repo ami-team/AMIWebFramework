@@ -37,11 +37,31 @@ $AMIClass('DashboardBoxCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
+			_class.hash = '';
+			_class.widgetId = '';
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
 			$('#CA1C2B9C_C66E_16A4_0192_95704C27B6E2').select2({
 				tags: true,
 				allowClear: true,
 				placeholder: 'Existing or new dashboard name',
 				dropdownParent: $('#C5E27E1F_DEB1_DE92_1301_898529832194 .modal-body')
+			});
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			$('#CA1C2B9C_C66E_16A4_0192_95704C27B6E2').on('change', (event) => {
+
+				if(_class.hash)
+				{
+					if($(event.currentTarget).val() === _class.hash) {
+						$('#E747BA46_FF58_FE17_6238_76757EA275A7').show();
+					}
+					else {
+						$('#E747BA46_FF58_FE17_6238_76757EA275A7').hide();
+					}
+				}
 			});
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -58,7 +78,7 @@ $AMIClass('DashboardBoxCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			$('#E335D6CC_ADA1_92CF_1C64_F446B27B5F93').on('click', () => {
+			const toto = (widgetId = null) => {
 
 				const hash = $('#CA1C2B9C_C66E_16A4_0192_95704C27B6E2').val().trim();
 
@@ -71,24 +91,70 @@ $AMIClass('DashboardBoxCtrl', {
 				{
 					amiWebApp.lock();
 
-					amiCommand.execute('AddDashboardWidget -hash=? -transparent=? -autoRefresh=? -json=?', {params: [hash, transparent, autoRefresh, json]}).done(() => {
+					if(widgetId)
+					{
+						/*--------------------------------------------------------------------------------------------*/
 
-						amiLogin.update().always(() => {
+						amiCommand.execute('UpdateDashboardWidget -hash=? -widgetId=? -json=?', {params: [hash, widgetId, json]}).done(() => {
 
-							amiWebApp.unlock();
+							amiLogin.update().always(() => {
 
-							amiWebApp.modalLeave();
+								amiWebApp.unlock();
 
-							$('#C5E27E1F_DEB1_DE92_1301_898529832194').modal('hide');
+								amiWebApp.modalLeave();
 
-							_class.deferred.rejectWith(_class.context || _class.deferred, [name]);
+								$('#C5E27E1F_DEB1_DE92_1301_898529832194').modal('hide');
+
+								_class.deferred.rejectWith(_class.context || _class.deferred, [name]);
+							});
+
+						}).fail((data, message) => {
+
+							amiWebApp.error(message, true);
 						});
 
-					}).fail((data, message) => {
+						/*--------------------------------------------------------------------------------------------*/
+					}
+					else
+					{
+						/*--------------------------------------------------------------------------------------------*/
 
-						amiWebApp.error(message, true);
-					});
+						amiCommand.execute('AddDashboardWidget -hash=? -transparent=? -autoRefresh=? -json=?', {params: [hash, transparent, autoRefresh, json]}).done(() => {
+
+							amiLogin.update().always(() => {
+
+								amiWebApp.unlock();
+
+								amiWebApp.modalLeave();
+
+								$('#C5E27E1F_DEB1_DE92_1301_898529832194').modal('hide');
+
+								_class.deferred.rejectWith(_class.context || _class.deferred, [name]);
+							});
+
+						}).fail((data, message) => {
+
+							amiWebApp.error(message, true);
+						});
+
+						/*--------------------------------------------------------------------------------------------*/
+					}
 				}
+			};
+
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			$('#E747BA46_FF58_FE17_6238_76757EA275A7').on('click', () => {
+
+				toto(_class.widgetId);
+			});
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			$('#E335D6CC_ADA1_92CF_1C64_F446B27B5F93').on('click', () => {
+
+				toto(null);
 			});
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -110,10 +176,10 @@ $AMIClass('DashboardBoxCtrl', {
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		const [
-			context, hash
+			context, hash, widgetId
 		] = amiWebApp.setup(
-			['context', 'hash'],
-			[deferred, ''],
+			['context', 'hash', 'widgetId'],
+			[deferred, '', ''],
 			options
 		);
 
@@ -134,6 +200,11 @@ $AMIClass('DashboardBoxCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
+		this.$class.hash = hash;
+		this.$class.widgetId = widgetId;
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
 		const select = $('#CA1C2B9C_C66E_16A4_0192_95704C27B6E2').empty();
 
 		$.each(Object.values(amiAuth.getDashboardInfo()), (_, info) => {
@@ -146,6 +217,12 @@ $AMIClass('DashboardBoxCtrl', {
 		$('#CA1C2B9C_C66E_16A4_0192_95704C27B6E2').val(hash || '');
 		$('#A7003C5D_0A5C_08A2_DAD9_3EC577328D43').val(JSON.stringify(json, null, 2)|| '{}');
 		$('#CC011903_7C42_70CF_25CD_DE594C3E23C5').collapse('show');
+		if(hash && widgetId) {
+			$('#E747BA46_FF58_FE17_6238_76757EA275A7').show();
+		}
+		else {
+			$('#E747BA46_FF58_FE17_6238_76757EA275A7').hide();
+		}
 		$('#C5E27E1F_DEB1_DE92_1301_898529832194').modal('show');
 
 		this.$class.deferred = deferred;

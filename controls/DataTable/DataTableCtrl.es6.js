@@ -493,7 +493,7 @@ $AMIClass('DataTableCtrl', {
 
 								el.find('[ami-table-op="dashboard"]').click(() => {
 
-									amiWebApp.createControl(this.getParent(), this, 'dashboardBox', ['DataTable', this.toDashboardJSON(this.ctx)]);
+									amiWebApp.createControl(this.getParent(), this, 'dashboardBox', ['DataTable', this.toDashboardJSON(this.ctx), {hash: this.dashboardHash, widgetId: this.dashboardWidgetId}]);
 								});
 
 								/*------------------------------------------------------------------------------------*/

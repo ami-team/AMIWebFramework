@@ -431,7 +431,7 @@ $AMIClass('TableCtrl', {
 					}
 				};
 
-				amiWebApp.createControl(this.getParent(), this, 'dashboardBox', [json]);
+				amiWebApp.createControl(this.getParent(), this, 'dashboardBox', [json, {hash: this.dashboardHash, widgetId: this.dashboardWidgetId}]);
 			});
 
 			$(this.patchId('#CD458FEC_9AD9_30E8_140F_263F119961BE')).click(() => {

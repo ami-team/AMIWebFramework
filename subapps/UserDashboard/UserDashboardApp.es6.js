@@ -43,7 +43,7 @@ $AMIClass('UserDashboardApp', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			GridStack.initAll({cellHeight: 36}).forEach((gridstack) => {
+			GridStack.initAll({float: true, cellHeight: 36}).forEach((gridstack) => {
 
 				gridstack.on('dragstop resizestop', (e, el) => {
 
@@ -175,6 +175,9 @@ $AMIClass('UserDashboardApp', {
 					/*------------------------------------------------------------------------------------------------*/
 
 					control.autoRefresh = parseInt(widget.autoRefresh);
+
+					control.dashboardWidgetId = widget.id;
+					control.dashboardHash = this.hash;
 
 					this.controls.push(control);
 
