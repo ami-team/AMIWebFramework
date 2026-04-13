@@ -12,7 +12,8 @@
 'use strict';
 
 import * as Vue from 'vue';
-//import * as Bootstrap5 from 'bootstrap5';
+
+import * as Bootstrap from 'bootstrap5';
 
 import * as view from './utilities/view';
 import * as jsdoc from './utilities/jsdoc';
@@ -233,12 +234,10 @@ class AMIWebApp
 				Vue: Vue,
 				version: Vue.version,
 			},
-			/*
-			bootstrap5: {
-				Bootstrap: Bootstrap5,
-				version: Bootstrap5.Tooltip.VERSION,
+			bootstrap: {
+				Bootstrap: Bootstrap,
+				version: Bootstrap.Tooltip.VERSION,
 			},
-			*/
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
