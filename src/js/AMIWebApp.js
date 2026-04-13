@@ -13,8 +13,6 @@
 
 import * as Vue from 'vue';
 
-import * as Bootstrap from 'bootstrap5';
-
 import * as view from './utilities/view';
 import * as jsdoc from './utilities/jsdoc';
 import * as locks from './utilities/locks';
@@ -235,8 +233,8 @@ class AMIWebApp
 				version: Vue.version,
 			},
 			bootstrap: {
-				Bootstrap: Bootstrap,
-				version: Bootstrap.Tooltip.VERSION,
+				Bootstrap: window.bootstrap,
+				version: window.bootstrap?.Modal?.VERSION,
 			},
 		});
 
