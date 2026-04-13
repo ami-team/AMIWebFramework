@@ -233,8 +233,8 @@ class AMIWebApp
 				version: Vue.version,
 			},
 			bootstrap: {
-				Bootstrap: window.bootstrap,
-				version: window.bootstrap?.Modal?.VERSION,
+				Bootstrap: null,
+				version: null,
 			},
 		});
 
@@ -332,6 +332,10 @@ class AMIWebApp
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			window.JSPath = JSPath;
+
+			ami.bootstrap.Bootstrap = window.bootstrap;
+
+			ami.bootstrap.version = window.bootstrap?.Modal?.VERSION;
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
