@@ -718,12 +718,6 @@ def createControl(verbose, sourceCodeFlavour, configFile = './webpack.config.js'
 		if sourceCodeFlavour == 'vue3':
 			shutil_makedirs(os.path.join('controls', NAME, 'assets', 'css'), ignore_errors=False)
 
-			# index.js (entry webpack)
-			saveText(
-				os.path.join('controls', NAME, 'index.js'),
-				AWF_CONTROL_VUE_INDEX_TEMPLATE.replace('{{name}}', name).replace('{{NAME}}', NAME)
-			)
-
 			# Main file .es6.js (control's logic)
 			saveText(
 				os.path.join('controls', NAME, NAME + 'Ctrl.es6.js'),
@@ -823,15 +817,9 @@ def createSubapp(verbose, sourceCodeFlavour, configFile = './webpack.config.js')
 		if sourceCodeFlavour == 'vue3':
 			shutil_makedirs(os.path.join('subapps', NAME, 'assets', 'css'), ignore_errors=False)
 
-			# index.js
-			saveText(
-				os.path.join('subapps', NAME, 'index.js'),
-				AWF_SUBAPP_VUE_INDEX_TEMPLATE.replace('{{name}}', name).replace('{{NAME}}', NAME)
-			)
-
 			# Main File
 			saveText(
-				os.path.join('subapps', NAME, NAME+'App.js'),
+				os.path.join('subapps', NAME, NAME+'App.es6.js'),
 				AWF_SUBAPP_VUE_PLUGIN_TEMPLATE.replace('{{name}}', name).replace('{{NAME}}', NAME)
 			)
 
@@ -1194,29 +1182,6 @@ module.exports = config;
 # TEMPLATES FOR VUE SUBAPPS & CONTROLS
 ########################################################################################################################
 
-AWF_SUBAPP_VUE_INDEX_TEMPLATE = '''
-/*!
- * AMI Web Framework
- *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team / LPSC / CNRS
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
- */
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-import {{NAME}}App from './{{NAME}}App.js';
-
-window.{{name}}App = new {{NAME}}App();
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-'''[1: ]
-
-########################################################################################################################
-
 AWF_SUBAPP_VUE_PLUGIN_TEMPLATE = '''
 /*!
  * AMI Web Framework
@@ -1235,7 +1200,7 @@ import {createApp, nextTick} from 'vue';
 
 import {{NAME}}View from './{{NAME}}View.vue';
 
-import AMIVueWrapperCtrl from '../../controls/AMIVueWrapper/index.js';
+//import AMIVueWrapperCtrl from '../../controls/AMIVueWrapper/index.js';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -1258,7 +1223,7 @@ export default class {{NAME}}App extends ami.SubApp
 
 		this.vueApp = createApp({{NAME}}View);
 
-		this.vueApp.component('AMIVueWrapper', AMIVueWrapperCtrl);
+		//this.vueApp.component('AMIVueWrapper', AMIVueWrapperCtrl);
 
 		this.vueApp.mount('#ami_main_content');
 
@@ -1305,6 +1270,10 @@ export default class {{NAME}}App extends ami.SubApp
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 }
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+window.{{NAME}}App = new {{NAME}}App();
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 '''[1: ]
@@ -1372,31 +1341,6 @@ export default {
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 </style>
-'''[1: ]
-
-########################################################################################################################
-
-AWF_CONTROL_VUE_INDEX_TEMPLATE = '''
-/*!
- * AMI Web Framework
- *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team / LPSC / CNRS
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
- */
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-import {{NAME}}Ctrl from './{{NAME}}Ctrl.es6.js';
-
-window.{{NAME}}Ctrl = {{NAME}}Ctrl;
-
-export default {{NAME}}Ctrl;
-
-/*--------------------------------------------------------------------------------------------------------------------*/
 '''[1: ]
 
 ########################################################################################################################
@@ -1481,6 +1425,7 @@ export default class {{NAME}}Ctrl extends ami.Control
 	/*----------------------------------------------------------------------------------------------------------------*/
 }
 
+window.{{NAME}}Ctrl = {{NAME}}Ctrl;
 /*--------------------------------------------------------------------------------------------------------------------*/
 '''[1: ]
 
