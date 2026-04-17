@@ -46,9 +46,16 @@
 
 			if(oidc_code)
 			{
-				window.opener.postMessage({oidc_code: oidc_code}, window.location.origin);
+				if(!window.opener)
+				{
+					document.body.textContent = 'SSO authentication succeeded, but opener is unavailable.';
+				}
+				else
+				{
+					window.opener.postMessage({oidc_code: oidc_code}, window.location.origin);
 
-				window.close();
+					window.close();
+				}
 			}
 
 			/*--------------------------------------------------------------------------------------------------------*/
