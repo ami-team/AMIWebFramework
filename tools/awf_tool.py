@@ -240,98 +240,32 @@ def saveText(fileName, data):
 ########################################################################################################################
 
 def updateWebpack(configFile):
-	"""
-	Automatically generates webpack.config.js by detecting:
-	- Standard controls (*.es6.js)
-	- Vue.js controls (index.js with .vue files)
-	- Standard subapps (*.es6.js)
-	- Vue.js subapps (index.js with .vue files)
-	"""
 
+	####################################################################################################################
 
 	entries = []
-	vue_controls = []
 
 	####################################################################################################################
-	# CONTROLS - AUTOMATIC TYPE DETECTION
-	#####################################################################################################################
 
-	for control_dir in sorted(glob.glob('controls/*/', recursive=False)):
+	for path in sorted(glob.glob('controls/**/*.es6.js', recursive = True)):
+
 		if platform.system() == 'Windows':
-			control_dir = control_dir.replace('\\', '/')
+			path = path.replace('\\', '/')
 
-		control_name = os.path.basename(os.path.normpath(control_dir))
-
-		# Checks if it is a Vue.js control (presence of index.js AND .vue files)
-		index_js = os.path.join(control_dir, 'index.js')
-		has_vue_files = len(glob.glob(os.path.join(control_dir, '**/*.vue'), recursive=True)) > 0
-
-		if os.path.exists(index_js) and has_vue_files:
-			# CONTROL VUE.JS
-			entries.append('\t\t\'controls/%s/%sCtrl\': path.resolve(__dirname, \'%s\')' % (
-				control_name,
-				control_name,
-				index_js.replace('\\', '/')
-			))
-			vue_controls.append(control_name)
-		else:
-			# CONTROL CLASSIC (.es6.js)
-			for path in sorted(glob.glob(os.path.join(control_dir, '*.es6.js'))):
-				if platform.system() == 'Windows':
-					path = path.replace('\\', '/')
-				entries.append('\t\t\'%s\': path.resolve(__dirname, \'%s\')' % (
-					path.replace('.es6.js', ''),
-					path
-				))
+		entries.append('\t\t\'%s\': path.resolve(__dirname, \'%s\')' % (path.replace('.es6.js', ''), path))
 
 	####################################################################################################################
-	# SUBAPPS - AUTOMATIC TYPE DETECTION
-	####################################################################################################################
 
-	for subapp_dir in sorted(glob.glob('subapps/*/', recursive=False)):
+	for path in sorted(glob.glob('subapps/**/*.es6.js', recursive = True)):
+
 		if platform.system() == 'Windows':
-			subapp_dir = subapp_dir.replace('\\', '/')
+			path = path.replace('\\', '/')
 
-		subapp_name = os.path.basename(os.path.normpath(subapp_dir))
-
-		# Checks if it is a Vue.js subapp (presence of index.js AND .vue files)
-		index_js = os.path.join(subapp_dir, 'index.js')
-		has_vue_files = len(glob.glob(os.path.join(subapp_dir, '**/*.vue'), recursive=True)) > 0
-
-		if os.path.exists(index_js) and has_vue_files:
-			# SUBAPP VUE.JS
-			entries.append('\t\t\'subapps/%s/%sApp\': path.resolve(__dirname, \'%s\')' % (
-				subapp_name,
-				subapp_name,
-				index_js.replace('\\', '/')
-			))
-		else:
-			# SUBAPP CLASSIC (.es6.js)
-			for path in sorted(glob.glob(os.path.join(subapp_dir, '*.es6.js'))):
-				if platform.system() == 'Windows':
-					path = path.replace('\\', '/')
-				entries.append('\t\t\'%s\': path.resolve(__dirname, \'%s\')' % (
-					path.replace('.es6.js', ''),
-					path
-				))
+		entries.append('\t\t\'%s\': path.resolve(__dirname, \'%s\')' % (path.replace('.es6.js', ''), path))
 
 	####################################################################################################################
-	# WEBPACK CONFIG GENERATION
-	####################################################################################################################
 
-	ami_plugins = []
-
-	# Uses the updated template
-	config_content = AWF_WEBPACK_CONFIG_TEMPLATE % (
-		',\n'.join(entries),  # Entries
-		',\n'.join(ami_plugins) if ami_plugins else '\t\t// No specific plugins needed'
-	)
-
-	saveText(configFile, config_content)
-
-	# Display a summary
-	if vue_controls:
-		print('Vue.js controls detected:', ', '.join(vue_controls))
+	saveText(configFile, AWF_WEBPACK_CONFIG_TEMPLATE % ',\n'.join(entries))
 
 ########################################################################################################################
 
@@ -784,12 +718,6 @@ def createControl(verbose, sourceCodeFlavour, configFile = './webpack.config.js'
 		if sourceCodeFlavour == 'vue3':
 			shutil_makedirs(os.path.join('controls', NAME, 'assets', 'css'), ignore_errors=False)
 
-			# index.js (entry webpack)
-			saveText(
-				os.path.join('controls', NAME, 'index.js'),
-				AWF_CONTROL_VUE_INDEX_TEMPLATE.replace('{{name}}', name).replace('{{NAME}}', NAME)
-			)
-
 			# Main file .es6.js (control's logic)
 			saveText(
 				os.path.join('controls', NAME, NAME + 'Ctrl.es6.js'),
@@ -889,15 +817,9 @@ def createSubapp(verbose, sourceCodeFlavour, configFile = './webpack.config.js')
 		if sourceCodeFlavour == 'vue3':
 			shutil_makedirs(os.path.join('subapps', NAME, 'assets', 'css'), ignore_errors=False)
 
-			# index.js
-			saveText(
-				os.path.join('subapps', NAME, 'index.js'),
-				AWF_SUBAPP_VUE_INDEX_TEMPLATE.replace('{{name}}', name).replace('{{NAME}}', NAME)
-			)
-
 			# Main File
 			saveText(
-				os.path.join('subapps', NAME, NAME+'App.js'),
+				os.path.join('subapps', NAME, NAME+'App.es6.js'),
 				AWF_SUBAPP_VUE_PLUGIN_TEMPLATE.replace('{{name}}', name).replace('{{NAME}}', NAME)
 			)
 
@@ -1177,24 +1099,12 @@ AWF_WEBPACK_CONFIG_TEMPLATE = '''
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-const BROWSER_LIST = [
-	'defaults',
-	'not ie 11',
-	'not ie_mob 11'
-];
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-console.log(`Building for: ${BROWSER_LIST.join(', ')}`);
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
 const path = require('path');
 
 const ESLintPlugin = require('eslint-webpack-plugin');
+const AMIWebpackPlugin = require('ami-webpack-plugin');
+const {VueLoaderPlugin} = require('vue-loader');
 const TerserPlugin = require('terser-webpack-plugin');
-const { VueLoaderPlugin } = require('vue-loader');
-//const AMIWebpackPlugin = require('./AMIWebpackPlugin.js');
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -1234,103 +1144,12 @@ const config = {
 			'directory': path.join(__dirname, './'),
 		}
 	},
-	'module': {
-		'rules': [
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			{
-				'test': /\\.js$/,
-				'use': {
-					'loader': 'babel-loader',
-					'options': {
-						'shouldPrintComment': () => false,
-						'plugins': [
-							['@babel/plugin-transform-for-of', {
-								'loose': true
-							}]
-						],
-						'presets': [
-							['@babel/preset-env', {
-								'loose': true,
-								'targets': BROWSER_LIST
-							}]
-						]
-					}
-				}
-			},
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			{
-				'type': 'asset/source',
-				'test': /\\.twig$/,
-				'exclude': /node_modules/
-			},
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			{
-				'type': 'asset/source',
-				'test': /\\.(json|yml|xml)$/,
-				'exclude': /node_modules/
-			},
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			{
-				'type': 'asset/resource',
-				'test': /\\.wasm$/
-			},
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			{
-				'type': 'asset/resource',
-				'test': /\\.(gif|png|jpg|jpeg|svg)$/,
-				'exclude': /node_modules/
-			},
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			{
-				test: /\\.css$/,
-				use: [
-					'style-loader',
-					'css-loader',
-					{
-						'loader': 'postcss-loader',
-						'options': {
-							'postcssOptions': {
-								'plugins': [
-									['autoprefixer', {}]
-								]
-							}
-						}
-					}
-				]
-			},
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			{
-				test: /\\.vue$/,
-				loader: 'vue-loader'
-			}
-
-			/*--------------------------------------------------------------------------------------------------------*/
-		]
-	},
-	'externals': {
-		'jquery': 'jQuery',
-		'moment': 'moment',
-		'select2': 'select2'
-	},
 	'plugins': [
 		new ESLintPlugin({
 			'failOnWarning': true
 		}),
+		new AMIWebpackPlugin(),
 		new VueLoaderPlugin(),
-%s
 	],
 	'optimization': {
 		'minimizer': [
@@ -1363,29 +1182,6 @@ module.exports = config;
 # TEMPLATES FOR VUE SUBAPPS & CONTROLS
 ########################################################################################################################
 
-AWF_SUBAPP_VUE_INDEX_TEMPLATE = '''
-/*!
- * AMI Web Framework
- *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team / LPSC / CNRS
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
- */
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-import {{NAME}}App from './{{NAME}}App.js';
-
-window.{{name}}App = new {{NAME}}App();
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-'''[1: ]
-
-########################################################################################################################
-
 AWF_SUBAPP_VUE_PLUGIN_TEMPLATE = '''
 /*!
  * AMI Web Framework
@@ -1404,7 +1200,7 @@ import {createApp, nextTick} from 'vue';
 
 import {{NAME}}View from './{{NAME}}View.vue';
 
-import AMIVueWrapperCtrl from '../../controls/AMIVueWrapper/index.js';
+//import AMIVueWrapperCtrl from '../../controls/AMIVueWrapper/index.js';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -1427,7 +1223,7 @@ export default class {{NAME}}App extends ami.SubApp
 
 		this.vueApp = createApp({{NAME}}View);
 
-		this.vueApp.component('AMIVueWrapper', AMIVueWrapperCtrl);
+		//this.vueApp.component('AMIVueWrapper', AMIVueWrapperCtrl);
 
 		this.vueApp.mount('#ami_main_content');
 
@@ -1474,6 +1270,10 @@ export default class {{NAME}}App extends ami.SubApp
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 }
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+window.{{name}}App = new {{NAME}}App();
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 '''[1: ]
@@ -1545,31 +1345,6 @@ export default {
 
 ########################################################################################################################
 
-AWF_CONTROL_VUE_INDEX_TEMPLATE = '''
-/*!
- * AMI Web Framework
- *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team / LPSC / CNRS
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
- */
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-import {{NAME}}Ctrl from './{{NAME}}Ctrl.es6.js';
-
-window.{{NAME}}Ctrl = {{NAME}}Ctrl;
-
-export default {{NAME}}Ctrl;
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-'''[1: ]
-
-########################################################################################################################
-
 AWF_CONTROL_JS_VUE_JS_TEMPLATE = '''
 /*!
  * AMI Web Framework
@@ -1629,7 +1404,8 @@ export default class {{NAME}}Ctrl extends ami.Control
 
 		this.vueApp.mount(selector);
 
-		nextTick(()=>{
+		nextTick(() => {
+
 			result.resolveWith(result);
 		})
 
