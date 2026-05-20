@@ -36,22 +36,75 @@ $AMIClass('UserDashboardApp', {
 	onReady: function()
 	{
 		this._gridstack = null;
+		this._observer = null;
 
 		const result = $.Deferred();
 
 		amiWebApp.replaceHTML('#ami_main_content', twigUserDashboardApp).done(() => {
 
+			const CELL_WIDTH_PX = 24;
+			const MIN_COLS = 16;
+			const SNAP = 4;
+
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			GridStack.initAll({float: true, cellHeight: 36}).forEach((gridstack) => {
+			const gridEl = document.getElementById('F251696F_D42E_F7FF_86F7_2E6B4F2E8F74');
 
-				gridstack.on('dragstop resizestop', (e, el) => {
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			const getColumns = () => {
+
+				const width = gridEl?.clientWidth ?? 0;
+
+				return Math.max(MIN_COLS, Math.floor(width / CELL_WIDTH_PX));
+			};
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			this._gridstack = GridStack.init({float: true, margin: 0, column: getColumns(), disableOneColumnMode: true}, gridEl);
+
+			if(this._gridstack)
+			{
+				/*----------------------------------------------------------------------------------------------------*/
+				/* WINDOW RESIZING                                                                                    */
+				/*----------------------------------------------------------------------------------------------------*/
+
+				let lastCols = 0;
+
+				const updateColumns = () => {
+
+					const cols = Math.max(MIN_COLS, Math.floor(getColumns() / SNAP) * SNAP);
+
+					if(lastCols !== cols)
+					{
+						lastCols = cols;
+
+						this._gridstack.column(cols, 'none');
+					}
+				};
+
+				/*----------------------------------------------------------------------------------------------------*/
+
+				this._observer = new ResizeObserver(updateColumns);
+
+				this._observer.observe(gridEl);
+
+				updateColumns();
+
+				/*----------------------------------------------------------------------------------------------------*/
+
+				this._gridstack.on('dragstop', (_, el) => {
 
 					this.updateWidget(el.gridstackNode);
 				});
 
-				this._gridstack = gridstack;
-			});
+				this._gridstack.on('resizestop', (_, el) => {
+
+					this.updateWidget(el.gridstackNode);
+				});
+
+				/*----------------------------------------------------------------------------------------------------*/
+			}
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -59,6 +112,15 @@ $AMIClass('UserDashboardApp', {
 		});
 
 		return result;
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	onExit: function()
+	{
+		this._observer?.disconnect(false);
+
+		this._gridstack?.destroy(false);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
