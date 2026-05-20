@@ -59,9 +59,11 @@ $AMIClass('UserDashboardApp', {
 				return Math.max(MIN_COLS, Math.floor(width / CELL_WIDTH_PX));
 			};
 
+			alert(getColumns());
+
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			this._gridstack = GridStack.init({float: true, margin: 0, column: getColumns(), disableOneColumnMode: true}, gridEl);
+			this._gridstack = GridStack.init({float: true, margin: 0, column: 36, disableOneColumnMode: true}, gridEl);
 
 			if(this._gridstack)
 			{
@@ -84,13 +86,13 @@ $AMIClass('UserDashboardApp', {
 				};
 
 				/*----------------------------------------------------------------------------------------------------*/
-
+/*
 				this._observer = new ResizeObserver(updateColumns);
 
 				this._observer.observe(gridEl);
 
 				updateColumns();
-
+*/
 				/*----------------------------------------------------------------------------------------------------*/
 
 				this._gridstack.on('dragstop', (_, el) => {
