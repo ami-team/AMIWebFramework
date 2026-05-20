@@ -63,7 +63,7 @@ $AMIClass('UserDashboardApp', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			this._gridstack = GridStack.init({float: true, margin: 0, column: 36, disableOneColumnMode: true}, gridEl);
+			this._gridstack = GridStack.init({float: true, cellHeight: 36, margin: 0, column: getColumns(), disableOneColumnMode: true}, gridEl);
 
 			if(this._gridstack)
 			{
