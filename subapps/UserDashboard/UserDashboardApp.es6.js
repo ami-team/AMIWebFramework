@@ -72,8 +72,6 @@ $AMIClass('UserDashboardApp', {
 			if(this._gridstack)
 			{
 				/*----------------------------------------------------------------------------------------------------*/
-				/* WINDOW RESIZING                                                                                    */
-				/*----------------------------------------------------------------------------------------------------*/
 
 				let lastCols = 0;
 
@@ -117,8 +115,6 @@ $AMIClass('UserDashboardApp', {
 			{
 				result.reject();
 			}
-
-			/*--------------------------------------------------------------------------------------------------------*/
 		});
 
 		return result;
@@ -207,26 +203,25 @@ $AMIClass('UserDashboardApp', {
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		const el = $(this._gridstack.addWidget({
-			id: widget.id,
 			x: widget.x,
 			y: widget.y,
 			w: widget.width,
 			h: widget.height,
 		}));
 
-		el.attr('data-id', widget.id);
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		el.attr('id', `EB4DF671_2C31_BED0_6BED_44790525F28F_${idx}`);
+		el.attr('data-widget-id', widget.id);
 
 		if(el[0].gridstackNode)
 		{
-			el[0].gridstackNode.id = widget.id;
 			el[0].gridstackNode.transparent = widget.transparent;
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		el.attr('id', `EB4DF671_2C31_BED0_6BED_44790525F28F_${idx}`).promise().done(() => {
-
-			/*--------------------------------------------------------------------------------------------------------*/
+		el.promise().done(() => {
 
 			el.prepend(
 				'<div class="grid-stack-item-close-handle"></div>'
@@ -284,6 +279,8 @@ $AMIClass('UserDashboardApp', {
 	{
 		const result = $.Deferred();
 
+		/*------------------------------------------------------------------------------------------------------------*/
+
 		amiCommand.execute('GetDashboardInfo -hash=?', {params: [this.hash]}).done((data) => {
 
 			const widgets = JSON.parse(amiWebApp.jspath('..field{.@name==="json"}.$', data)[0] || '{}');
@@ -293,6 +290,8 @@ $AMIClass('UserDashboardApp', {
 			this._gridstack.removeAll();
 
 			this.controls = [];
+
+			/*--------------------------------------------------------------------------------------------------------*/
 
 			this._reload($.Deferred(), Object.values(widgets), 0).done(() => {
 
@@ -309,6 +308,8 @@ $AMIClass('UserDashboardApp', {
 					}
 				});
 
+				/*----------------------------------------------------------------------------------------------------*/
+
 				$('.grid-stack-item-style-handle').click((e) => {
 
 					const el0 = $(e.currentTarget).parent()[0];
@@ -316,6 +317,11 @@ $AMIClass('UserDashboardApp', {
 					const node = el0.gridstackNode;
 
 					const el = $(e.currentTarget).parent().find('.grid-stack-item-content');
+
+					if(!node)
+					{
+						return;
+					}
 
 					if(el.hasClass('grid-stack-item-transparent-content'))
 					{
@@ -332,6 +338,8 @@ $AMIClass('UserDashboardApp', {
 
 					this.updateWidget(el0);
 				});
+
+				/*----------------------------------------------------------------------------------------------------*/
 
 				this.refresh().done(() => {
 
@@ -421,24 +429,27 @@ $AMIClass('UserDashboardApp', {
 			return $.Deferred().resolve();
 		}
 
-		const item = {
-			id: el.getAttribute('data-id') || node.id,
-			transparent: node.transparent ?? 0,
-			x: node.x,
-			y: node.y,
-			w: node.w,
-			h: node.h,
-		};
+		const id = el.getAttribute('data-widget-id');
 
-		if(!item.id)
+		if(!id)
 		{
+			console.error('Missing dashboard widget id', el, node);
+
 			return $.Deferred().resolve();
 		}
 
 		amiWebApp.lock();
 
 		return amiCommand.execute('UpdateDashboardWidget -hash=? -widgetId=? -transparent=? -x=? -y=? -width=? -height=?', {
-			params: [this.hash, item.id, item.transparent, item.x, item.y, item.w, item.h],
+			params: [
+				this.hash,
+				id,
+				node.transparent ?? 0,
+				node.x,
+				node.y,
+				node.w,
+				node.h,
+			],
 		}).done(() => {
 
 			amiWebApp.unlock();
@@ -453,9 +464,7 @@ $AMIClass('UserDashboardApp', {
 
 	removeWidget: function(el)
 	{
-		const node = el?.gridstackNode;
-
-		const id = el?.getAttribute('data-id') || node?.id;
+		const id = el?.getAttribute('data-widget-id');
 
 		if(!id)
 		{
