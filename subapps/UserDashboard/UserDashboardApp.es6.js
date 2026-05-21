@@ -418,28 +418,48 @@ $AMIClass('UserDashboardApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	updateWidget: function(el)
+	_getWidgetContext: function(el, options = {})
 	{
+		const required = Array.isArray(options.required) ? options.required : ['id'];
+
 		if(el && !el.gridstackNode && el.closest)
 		{
 			el = el.closest('.grid-stack-item');
 		}
 
-		const node = el?.gridstackNode;
+		const context = {
+			el,
+			node: el?.gridstackNode,
+			id: el?.getAttribute('data-widget-id'),
+		};
 
-		if(!node)
+		for(const field of required)
+		{
+			if(context[field])
+			{
+				continue;
+			}
+
+			return null;
+		}
+
+		return context;
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	updateWidget: function(el)
+	{
+		const context = this._getWidgetContext(el, {
+			required: ['id', 'node'],
+		});
+
+		if(!context)
 		{
 			return $.Deferred().resolve();
 		}
 
-		const id = el.getAttribute('data-widget-id');
-
-		if(!id)
-		{
-			console.error('Missing dashboard widget id', el, node);
-
-			return $.Deferred().resolve();
-		}
+		const {id, node} = context;
 
 		amiWebApp.lock();
 
@@ -467,12 +487,16 @@ $AMIClass('UserDashboardApp', {
 
 	removeWidget: function(el)
 	{
-		const id = el?.getAttribute('data-widget-id');
+		const context = this._getWidgetContext(el, {
+			required: ['id'],
+		});
 
-		if(!id)
+		if(!context)
 		{
 			return $.Deferred().resolve();
 		}
+
+		const {id} = context;
 
 		amiWebApp.lock();
 
