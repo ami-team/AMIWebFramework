@@ -35,7 +35,7 @@
     "diff-match-patch": "^1.0.5",
     "file-saver": "^2.0.5",
     "flatpickr": "^4.6.13",
-    "gridstack": "^10.3.0",
+    "gridstack": "^12.6.0",
     "jointjs": "^3.7.7",
     "jquery": "^3.7.1",
     "jquery-ui": "^1.13.3",

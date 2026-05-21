@@ -56,28 +56,24 @@ $AMIClass('UserDashboardApp', {
 
 				const width = gridEl?.clientWidth ?? 0;
 
-				return Math.max(MIN_COLS, Math.floor(width / CELL_WIDTH_PX / SNAP) * SNAP);
+				return Math.max(MIN_COLS, Math.floor(width / CELL_WIDTH_PX));
 			};
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			this._gridstack = GridStack.init({
-				float: true,
-				cellHeight: 36,
-				margin: 0,
-				column: getColumns(),
-				disableOneColumnMode: true,
-			}, gridEl);
+			this._gridstack = GridStack.init({float: true, margin: 0, column: getColumns()}, gridEl);
 
 			if(this._gridstack)
 			{
+				/*----------------------------------------------------------------------------------------------------*/
+				/* WINDOW RESIZING                                                                                    */
 				/*----------------------------------------------------------------------------------------------------*/
 
 				let lastCols = 0;
 
 				const updateColumns = () => {
 
-					const cols = getColumns();
+					const cols = Math.max(MIN_COLS, Math.floor(getColumns() / SNAP) * SNAP);
 
 					if(lastCols !== cols)
 					{
@@ -96,25 +92,25 @@ $AMIClass('UserDashboardApp', {
 				updateColumns();
 
 				/*----------------------------------------------------------------------------------------------------*/
+				/* WIDGET RESIZING                                                                                    */
+				/*----------------------------------------------------------------------------------------------------*/
 
 				this._gridstack.on('dragstop', (_, el) => {
 
-					this.updateWidget(el);
+					this.updateWidget(el.gridstackNode);
 				});
 
 				this._gridstack.on('resizestop', (_, el) => {
 
-					this.updateWidget(el);
+					this.updateWidget(el.gridstackNode);
 				});
 
 				/*----------------------------------------------------------------------------------------------------*/
+			}
 
-				result.resolve();
-			}
-			else
-			{
-				result.reject();
-			}
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			result.resolve();
 		});
 
 		return result;
@@ -162,8 +158,8 @@ $AMIClass('UserDashboardApp', {
 					'  </div>' +
 					'</li>'
 				);
-			});
-		}, 500);
+			}, 500);
+		});
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -197,7 +193,7 @@ $AMIClass('UserDashboardApp', {
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		const item_content_clazz = parseInt(widget.transparent) ? 'grid-stack-item-transparent-content'
-			: 'grid-stack-item-translucent-content'
+			                                                    : 'grid-stack-item-translucent-content'
 		;
 
 		/*------------------------------------------------------------------------------------------------------------*/
