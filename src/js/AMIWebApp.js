@@ -572,7 +572,8 @@ class AMIWebApp
 				ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, signOutAllowed,
 				createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed,
 				captchaAllowed,
-				dayNightAllowed, bookmarksAllowed, dashboardsAllowed
+				dayNightAllowed, bookmarksAllowed, dashboardsAllowed,
+				dashboardSubappName,
 			] = tools.setup([
 				'logo_url', 'background_light_url', 'background_dark_url', 'sign_in_image_url', 'home_url', 'contact_email', 'about_url',
 				'default_theme_url', 'dashboard_theme_url', 'locker_url', 'endpoint_url',
@@ -582,6 +583,7 @@ class AMIWebApp
 				'create_account_allowed', 'change_info_allowed', 'change_password_allowed', 'change_certificate_allowed',
 				'captcha_allowed',
 				'day_night_allowed', 'bookmarks_allowed', 'dashboards_allowed',
+				'dashboard_subapp_name'
 			], [
 				defaultLogoURL, defaultBackgroundLightURL, defaultBackgroundDarkURL, defaultSignInImageURL, this.webAppURL, 'ami@lpsc.in2p3.fr', 'https://cern.ch/ami/',
 				`${this.originURL}/twig/v${this.bootstrapVersion}/Themes/blue.twig`,
@@ -594,11 +596,14 @@ class AMIWebApp
 				true, true, true, true,
 				true,
 				true, true, true,
+				'UserDashboard'
 			], options);
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			amiCommand.initHttpClient(endpointURL);
+
+			subapps.setDashboardSubappName(dashboardSubappName)
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
