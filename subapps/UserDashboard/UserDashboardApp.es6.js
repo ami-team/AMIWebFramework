@@ -52,16 +52,18 @@ $AMIClass('UserDashboardApp', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			const getColumns = () => {
+			const computeColumns = () => {
 
 				const width = gridEl?.clientWidth ?? 0;
 
-				return Math.max(MIN_COLS, Math.floor(width / CELL_WIDTH_PX));
+				const cols = Math.floor(width / CELL_WIDTH_PX);
+
+				return Math.max(MIN_COLS, Math.floor(cols / SNAP) * SNAP);
 			};
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			this._gridstack = GridStack.init({float: true, margin: 0, column: getColumns()}, gridEl);
+			this._gridstack = GridStack.init({float: true, margin: 0, column: computeColumns()}, gridEl);
 
 			if(this._gridstack)
 			{
@@ -69,17 +71,17 @@ $AMIClass('UserDashboardApp', {
 				/* WINDOW RESIZING                                                                                    */
 				/*----------------------------------------------------------------------------------------------------*/
 
-				let lastCols = 0;
+				let oldCols = -1;
 
 				const updateColumns = () => {
 
-					const cols = Math.max(MIN_COLS, Math.floor(getColumns() / SNAP) * SNAP);
+					const newCols = computeColumns();
 
-					if(lastCols !== cols)
+					if(oldCols !== newCols)
 					{
-						lastCols = cols;
+						oldCols = newCols;
 
-						this._gridstack.column(cols, 'none');
+						this._gridstack.column(newCols, 'none');
 					}
 				};
 
