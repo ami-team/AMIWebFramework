@@ -72,6 +72,7 @@ let _dashboardSubappName = '';
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
+ * @param {string} dashboardSubappName the dashboard subapp name
  * @ignore
  */
 
