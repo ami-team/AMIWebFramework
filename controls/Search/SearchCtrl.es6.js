@@ -909,7 +909,7 @@ $AMIClass('SearchCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			return amiCommand.execute(`SearchQuery -catalog="${amiWebApp.textToString(this.ctx.defaultCatalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mql)}"`).done((data) => {
+			return amiCommand.execute(`SearchQuery -cached -catalog="${amiWebApp.textToString(this.ctx.defaultCatalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mql)}"`).done((data) => {
 
 				const nb = amiWebApp.jspath('..field{.@name==="nb"}.$', data)[0] || 'N/A';
 
@@ -978,7 +978,7 @@ $AMIClass('SearchCtrl', {
 						break;
 				}
 
-				const command =`SearchQuery -catalog="${this.ctx.more.summary[idx].catalog}" -entity="${this.ctx.defaultEntity}" -mql="${mql}"`;
+				const command =`SearchQuery -cached -catalog="${this.ctx.more.summary[idx].catalog}" -entity="${this.ctx.defaultEntity}" -mql="${mql}"`;
 
 				amiCommand.execute(command).done((data) => {
 
@@ -1057,7 +1057,7 @@ $AMIClass('SearchCtrl', {
 		/* FILL BOX                                                                                                   */
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		return amiCommand.execute(`SearchQuery -catalog="${amiWebApp.textToString(criterion.catalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mql)}"`).done((data) => {
+		return amiCommand.execute(`SearchQuery -cached -catalog="${amiWebApp.textToString(criterion.catalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mql)}"`).done((data) => {
 
 			const L = [];
 			const LS = [];
@@ -1093,7 +1093,7 @@ $AMIClass('SearchCtrl', {
 					mqlLS += ` AND ${filter}`;
 				}
 
-				amiCommand.execute(`SearchQuery -catalog="${amiWebApp.textToString(criterion.catalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mqlLS)}"`).done((data) => {
+				amiCommand.execute(`SearchQuery -cached -catalog="${amiWebApp.textToString(criterion.catalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mqlLS)}"`).done((data) => {
 
 					LS.forEach((key) =>
 					{
@@ -1243,7 +1243,7 @@ $AMIClass('SearchCtrl', {
 		/* FILL BOX                                                                                                   */
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		return amiCommand.execute(`SearchQuery -catalog="${amiWebApp.textToString(criterion.catalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mql)}"`).done((data) => {
+		return amiCommand.execute(`SearchQuery -cached -catalog="${amiWebApp.textToString(criterion.catalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mql)}"`).done((data) => {
 
 			const L = [];
 
@@ -1356,7 +1356,7 @@ $AMIClass('SearchCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		amiCommand.execute(`SearchQuery -catalog="${amiWebApp.textToString(criterion.catalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mql)}"`).done((data) => {
+		amiCommand.execute(`SearchQuery -cached -catalog="${amiWebApp.textToString(criterion.catalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mql)}"`).done((data) => {
 
 			const fields = amiWebApp.jspath('..field', data);
 
@@ -1592,7 +1592,7 @@ $AMIClass('SearchCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			amiCommand.execute(`SearchQuery -catalog="${amiWebApp.textToString(criterion.catalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mql)}"`).done((data) => {
+			amiCommand.execute(`SearchQuery -cached -catalog="${amiWebApp.textToString(criterion.catalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mql)}"`).done((data) => {
 
 				const L = [];
 				const fields = amiWebApp.jspath('..field', data);
@@ -1747,7 +1747,7 @@ $AMIClass('SearchCtrl', {
 		/* FILL BOX																								   */
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		return amiCommand.execute(`SearchQuery -catalog="${amiWebApp.textToString(criterion.catalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mql)}"`).done((data) => {
+		return amiCommand.execute(`SearchQuery -cached -catalog="${amiWebApp.textToString(criterion.catalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mql)}"`).done((data) => {
 
 			let min = amiWebApp.jspath('..field{.@name==="min"}.$', data)[0] || '';
 			let max = amiWebApp.jspath('..field{.@name==="max"}.$', data)[0] || '';
@@ -1876,7 +1876,7 @@ $AMIClass('SearchCtrl', {
 			{
 				let mql = `SELECT DISTINCT \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\`${this.dumpConstraints(criterion)} WHERE \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.key_field}\`${this.dumpConstraints(criterion)} = '${this.ctx.predicates[name].selectedParam}'`;
 
-				amiCommand.execute(`SearchQuery -catalog="${amiWebApp.textToString(criterion.catalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mql)}"`).done((data) => {
+				amiCommand.execute(`SearchQuery -cached -catalog="${amiWebApp.textToString(criterion.catalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mql)}"`).done((data) => {
 
 					this.ctx.predicates[name].selectedValueField = amiWebApp.jspath('..field', data)[0].$ || '';
 
