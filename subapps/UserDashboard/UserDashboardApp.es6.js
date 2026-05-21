@@ -79,9 +79,7 @@ $AMIClass('UserDashboardApp', {
 
 					if(oldCols !== newCols)
 					{
-						oldCols = newCols;
-
-						this._gridstack.column(newCols, 'none');
+						this._gridstack.column(oldCols = newCols, 'none');
 					}
 				};
 
