@@ -95,14 +95,14 @@ $AMIClass('UserDashboardApp', {
 				/* WIDGET RESIZING                                                                                    */
 				/*----------------------------------------------------------------------------------------------------*/
 
-				this._gridstack.on('dragstop', (_, el) => {
+				this._gridstack.on('dragstop', (e, el) => {
 
-					this.updateWidget(el.gridstackNode);
+					this.updateWidget(el || e?.target);
 				});
 
-				this._gridstack.on('resizestop', (_, el) => {
+				this._gridstack.on('resizestop', (e, el) => {
 
-					this.updateWidget(el.gridstackNode);
+					this.updateWidget(el || e?.target);
 				});
 
 				/*----------------------------------------------------------------------------------------------------*/
@@ -418,6 +418,11 @@ $AMIClass('UserDashboardApp', {
 
 	updateWidget: function(el)
 	{
+		if(el && !el.gridstackNode && el.closest)
+		{
+			el = el.closest('.grid-stack-item');
+		}
+
 		const node = el?.gridstackNode;
 
 		if(!node)
