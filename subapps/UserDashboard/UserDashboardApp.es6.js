@@ -285,6 +285,8 @@ $AMIClass('UserDashboardApp', {
 
 			this._gridstack.removeAll();
 
+			this.setStatic(true);
+
 			this.controls = [];
 
 			/*--------------------------------------------------------------------------------------------------------*/
