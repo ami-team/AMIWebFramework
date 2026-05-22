@@ -804,7 +804,7 @@ $AMIClass('SearchCtrl', {
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		amiWebApp.lock();
+		//amiWebApp.lock();
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -915,7 +915,7 @@ $AMIClass('SearchCtrl', {
 
 				$(this.patchId('#D7F429C8_E45C_57A3_6BCC_C74BAE4B0DDA')).text(nb);
 
-				amiWebApp.unlock();
+				//amiWebApp.unlock();
 
 				$(this.patchId('#FB83961B_D88B_C24C_E8C5_6B3DCC2AAE2F')).text('');
 
