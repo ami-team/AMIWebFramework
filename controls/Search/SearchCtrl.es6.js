@@ -909,6 +909,8 @@ $AMIClass('SearchCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
+			$(this.patchId('#D7F429C8_E45C_57A3_6BCC_C74BAE4B0DDA')).text('counting...');
+
 			return amiCommand.execute(`SearchQuery -cached -catalog="${amiWebApp.textToString(this.ctx.defaultCatalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mql)}"`).done((data) => {
 
 				const nb = amiWebApp.jspath('..field{.@name==="nb"}.$', data)[0] || 'N/A';
