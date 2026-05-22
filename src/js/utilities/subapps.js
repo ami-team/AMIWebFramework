@@ -63,6 +63,27 @@ let _currentUserdata = null;
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
+ * @type {string}
+ * @private
+ */
+
+let _dashboardSubappName = '';
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @param {string} dashboardSubappName the dashboard subapp name
+ * @ignore
+ */
+
+export function setDashboardSubappName(dashboardSubappName)
+{
+	_dashboardSubappName = dashboardSubappName;
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
  * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
@@ -329,7 +350,7 @@ export function loadSubAppByURL(defaultSubApp, defaultUserData)
 	{
 		/*--------------------------------------------------------------------------------------------------------*/
 
-		loadSubApp('UserDashboard', args['u']).then((/*---*/) => {
+		loadSubApp(_dashboardSubappName, args['u']).then((/*---*/) => {
 
 			result.resolve(/*---*/);
 
