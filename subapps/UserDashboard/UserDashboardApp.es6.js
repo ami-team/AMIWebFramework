@@ -413,7 +413,13 @@ $AMIClass('UserDashboardApp', {
 			$('.grid-stack-item-close-handle,.grid-stack-item-style-handle').show();
 		}
 
-		this._gridstack.setStatic(isStatic);
+		//this._gridstack.setStatic(isStatic);
+		const gridElement = document.querySelector('.grid-stack');
+		const gridInstance = GridStack.get(gridElement);
+		if (gridInstance) {
+    		gridInstance.setStatic(isStatic);
+		}
+		
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
