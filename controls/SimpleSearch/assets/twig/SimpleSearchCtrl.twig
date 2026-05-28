@@ -2,22 +2,26 @@
 	<div class="my-3">
 		<img src="{{ORIGIN_URL}}/controls/SimpleSearch/assets/images/glass-simple.png" alt="" style="width: 80px; height: 80px;" />
 	</div>
-	<div class="row mb-2">
-		<div class="col-md-2">
-		</div>
+	<div class="row justify-content-center">
 		<div class="col-md-8">
-			<div class="input-group input-group-sm">
-				<input type="text" class="form-control" name="q" id="F8D8C2FB_81D9_F7A0_121B_6FB2949F8DB6" placeholder="{{placeholder|e}}" />
-				{% if BOOTSTRAP_VERSION > 4 %}
-				<button type="submit" class="btn btn-outline-secondary">Search</button>
-				{% else %}
-				<div class="input-group-append">
-					<button type="submit" class="btn btn-outline-secondary">Search</button>
+			<div class="form-group row mb-2 {% if scopes.length === 0 %} d-none {% endif %}">
+				<label for="E910FC48_AC78_0FF3_3CAB_C990B0CB1DA5" class="col-md-3 col-form-label text-md-right">Scope pattern:</label>
+				<div class="col-md-9">
+					<input type="text" class="form-control form-control-sm" name="s" id="E910FC48_AC78_0FF3_3CAB_C990B0CB1DA5" placeholder="{{placeholder_scope|e}}" />
 				</div>
-				{% endif %}
 			</div>
-		</div>
-		<div class="col-md-2">
+			<div class="form-group row mb-2">
+				<label for="F8D8C2FB_81D9_F7A0_121B_6FB2949F8DB6" class="col-md-3 col-form-label text-md-right">Search pattern:</label>
+				<div class="col-md-9">
+					<input type="text" class="form-control form-control-sm" name="q" id="F8D8C2FB_81D9_F7A0_121B_6FB2949F8DB6" placeholder="{{placeholder|e}}" />
+				</div>
+			</div>
+			<div class="form-group row justify-content-center mt-3">
+				<div class="col-md-3"></div>
+				<div class="col-md-9 text-md-left">
+					<button type="submit" class="btn btn-outline-secondary btn-sm">Search</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </form>

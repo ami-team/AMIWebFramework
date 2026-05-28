@@ -49,15 +49,28 @@ $AMIClass('SimpleSearchCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const fn = (catalog, entity, fields, value) => {
+		const fn = (catalog, entity, scopes, scope, fields, value) => {
+
+			const scopeClause = scopes.length === 0 ? ['0 = 1']
+												: (scope.indexOf('%') < 0) ? scopes.map(field => `${field} = '${amiWebApp.textToSQL(scope)}'`)
+												: scopes.map(field => `${field} LIKE '${amiWebApp.textToSQL(scope)}'`)
+			;
 
 			const select = fields.length === 0 ? ['0 = 1']
 			                                   : (value.indexOf('%') < 0) ? fields.map(field => `${field} = '${amiWebApp.textToSQL(value)}'`)
-			                                                              : fields.map(field => `${field} LIKE '${amiWebApp.textToSQL(value)}'`)
+					                           : fields.map(field => `${field} LIKE '${amiWebApp.textToSQL(value)}'`)
 			;
 
-			return `BrowseQuery -catalog="${amiWebApp.textToString(catalog)}" -entity="${amiWebApp.textToString(entity)}" -mql="SELECT * WHERE ${select.join(' OR ')}"`;
-		};
+			if(scopes.length === 0 || scope === '')
+			{
+				return `BrowseQuery -catalog="${amiWebApp.textToString(catalog)}" -entity="${amiWebApp.textToString(entity)}" -mql="SELECT * WHERE ${select.join(' OR ')}"`;
+			}
+			else
+			{
+				return `BrowseQuery -catalog="${amiWebApp.textToString(catalog)}" -entity="${amiWebApp.textToString(entity)}" -mql="SELECT * WHERE (${scopeClause.join(' OR ')}) AND (${select.join(' OR ')})"`;
+			}
+
+			};
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -68,10 +81,11 @@ $AMIClass('SimpleSearchCtrl', {
 			},
 			{
 				context: result,
+				placeholder_scope: '% for wildcarding',
 				placeholder: '% for wildcarding',
 				defaultCatalog: '',
 				defaultEntity: '',
-				fields: [], criteria: [],
+				scopes: [], fields: [], criteria: [],
 				searchCommandFunc: fn,
 				card: false,
 			},
@@ -80,9 +94,14 @@ $AMIClass('SimpleSearchCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
+		if(this.ctx.scopes.length === 0)
+		{
+			this.ctx.scopes = this.ctx.criteria.filter(criterion => criterion.more.simple_search && criterion.more.scope).map(criterion => `\`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\``);
+		}
+
 		if(this.ctx.fields.length === 0)
 		{
-			this.ctx.fields = this.ctx.criteria.filter(criterion => criterion.more.simple_search).map(criterion => `\`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\``);
+			this.ctx.fields = this.ctx.criteria.filter(criterion => criterion.more.simple_search && !criterion.more.scope).map(criterion => `\`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\``);
 		}
 
 		this.ctx.catalog = this.ctx.defaultCatalog;
@@ -133,11 +152,12 @@ $AMIClass('SimpleSearchCtrl', {
 
 				e.preventDefault();
 
+				const scope = $(this.patchId('#E910FC48_AC78_0FF3_3CAB_C990B0CB1DA5')).val().trim();
 				const value = $(this.patchId('#F8D8C2FB_81D9_F7A0_121B_6FB2949F8DB6')).val().trim();
 
 				if(value)
 				{
-					this.search(value);
+					this.search(scope, value);
 				}
 			});
 
@@ -151,9 +171,9 @@ $AMIClass('SimpleSearchCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	search: function(value)
+	search: function(scope, value)
 	{
-		return amiWebApp.createControlInContainer(this.getParent(), this, 'table', [this.ctx.searchCommandFunc(this.ctx.defaultCatalog, this.ctx.defaultEntity, this.ctx.fields, value)], {}, this.ctx, 'table', this.ctx.entity);
+		return amiWebApp.createControlInContainer(this.getParent(), this, 'table', [this.ctx.searchCommandFunc(this.ctx.defaultCatalog, this.ctx.defaultEntity, this.ctx.scopes, scope, this.ctx.fields, value)], {}, this.ctx, 'table', this.ctx.entity);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
