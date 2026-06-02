@@ -3351,7 +3351,8 @@ $AMIClass('SearchCtrl', {
 		 ) {
 			if(!this.commandCacheSet.has(command))
 			{
-				amiCommand.execute('AddUpdateElement -catalog=? -entity=? -fields=? -values=? -keyFields=? -keyValues=?', {params: [
+				amiCommand.execute('AddUpdateElement -separator=? -catalog=? -entity=? -fields=? -values=? -keyFields=? -keyValues=?', {params: [
+					';',
 					this.ctx.defaultCatalog,
 					this.ctx.more.appCacheEntity,
 					this.ctx.more.appCacheField,
