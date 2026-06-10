@@ -65,6 +65,10 @@ $AMIClass('SearchModelerApp', {
 			$('#F1720758_5010_E510_DD82_281F2CBF08DA').change(f1);
 			$('#FCB325B1_9F12_AEDB_1256_EEA6BFF6394C').change(f1);
 
+			$('#FAB7FECD_5A17_DDD2_FECF_3DAEAD92F9ED').change(f1);
+			$('#A69834F8_9503_CD47_1B7E_C5AF98D839BA').change(f1);
+			$('#F9DAC216_682D_B03E_AC29_DFB2E7CB19FA').change(f1);
+
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			const f2 = () => {
@@ -622,6 +626,10 @@ $AMIClass('SearchModelerApp', {
 		$('#F1720758_5010_E510_DD82_281F2CBF08DA').val(more.appCacheEntity || '');
 		$('#FCB325B1_9F12_AEDB_1256_EEA6BFF6394C').val(more.appCacheField || '');
 
+		$('#FAB7FECD_5A17_DDD2_FECF_3DAEAD92F9ED').val(more.searchPattern || '');
+		$('#A69834F8_9503_CD47_1B7E_C5AF98D839BA').val(more.scopeGroupIndex || 0);
+		$('#F9DAC216_682D_B03E_AC29_DFB2E7CB19FA').val(more.defaultScope || '');
+
 		return more;
 	},
 
@@ -635,6 +643,10 @@ $AMIClass('SearchModelerApp', {
 
 		more.appCacheEntity = $('#F1720758_5010_E510_DD82_281F2CBF08DA').val() || '';
 		more.appCacheField = $('#FCB325B1_9F12_AEDB_1256_EEA6BFF6394C').val() || '';
+
+		more.searchPattern = $('#FAB7FECD_5A17_DDD2_FECF_3DAEAD92F9ED').val() || '';
+		more.scopeGroupIndex = parseInt($('#A69834F8_9503_CD47_1B7E_C5AF98D839BA').val()) || 0;
+		more.defaultScope= $('#F9DAC216_682D_B03E_AC29_DFB2E7CB19FA').val() || '';
 
 		return more;
 	},

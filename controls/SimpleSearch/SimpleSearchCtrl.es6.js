@@ -81,11 +81,11 @@ $AMIClass('SimpleSearchCtrl', {
 			},
 			{
 				context: result,
-				placeholder_scope: '% for wildcarding',
 				placeholder: '% for wildcarding',
 				defaultCatalog: '',
 				defaultEntity: '',
 				scopes: [], fields: [], criteria: [],
+
 				searchCommandFunc: fn,
 				card: false,
 			},
@@ -152,12 +152,11 @@ $AMIClass('SimpleSearchCtrl', {
 
 				e.preventDefault();
 
-				const scope = $(this.patchId('#E910FC48_AC78_0FF3_3CAB_C990B0CB1DA5')).val().trim();
 				const value = $(this.patchId('#F8D8C2FB_81D9_F7A0_121B_6FB2949F8DB6')).val().trim();
 
 				if(value)
 				{
-					this.search(scope, value);
+					this.search(value);
 				}
 			});
 
@@ -171,8 +170,18 @@ $AMIClass('SimpleSearchCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	search: function(scope, value)
+	search: function(value)
 	{
+		let scope = this.ctx.more.defaultScope ? this.ctx.more.defaultScope : '';
+
+		if(this.ctx.more.searchPattern && (this.ctx.more.scopeGroupIndex > 0))
+		{
+			if(value.match(this.ctx.more.searchPattern))
+			{
+				scope = value.match(this.ctx.more.searchPattern)[this.ctx.more.scopeGroupIndex];
+			}
+		}
+
 		return amiWebApp.createControlInContainer(this.getParent(), this, 'table', [this.ctx.searchCommandFunc(this.ctx.defaultCatalog, this.ctx.defaultEntity, this.ctx.scopes, scope, this.ctx.fields, value)], {}, this.ctx, 'table', this.ctx.entity);
 	},
 
