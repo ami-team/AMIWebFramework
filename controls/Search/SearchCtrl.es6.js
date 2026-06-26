@@ -886,7 +886,8 @@ $AMIClass('SearchCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			let mql = `SELECT COUNT(${this.ctx.defaultPrimaryField}) AS \`nb\``;
+			//let mql = `SELECT COUNT(${this.ctx.defaultPrimaryField}) AS \`nb\``;
+			let mql = `SELECT COUNT(\`${this.ctx.defaultCatalog}\`.\`${this.ctx.defaultEntity}\`.\`${this.ctx.defaultPrimaryField}\`) AS \`nb\``;
 
 			this.ctx.mql = `SELECT ${this.ctx.defaultSelect}`;
 
@@ -993,10 +994,10 @@ $AMIClass('SearchCtrl', {
 				const command =`SearchQuery ${this.ctx.more.useCache ? '-cached' : ''} -catalog=? -entity=? -mql=?`;
 
 				amiCommand.execute(command, {params: [
-					this.ctx.more.summary[idx].catalog,
-					this.ctx.defaultEntity,
-					mql,
-				]}).done((data, _, urlString) => {
+						this.ctx.more.summary[idx].catalog,
+						this.ctx.summary[idx].entity,
+						mql,
+					]}).done((data, _, urlString) => {
 
 					/*------------------------------------------------------------------------------------------------*/
 
@@ -1082,10 +1083,10 @@ $AMIClass('SearchCtrl', {
 		const command = `SearchQuery ${this.ctx.more.useCache ? '-cached' : ''} -catalog=? -entity=? -mql=?`
 
 		return amiCommand.execute(command, {params: [
-			criterion.catalog,
-			this.ctx.defaultEntity,
-			mql,
-		]}).done((data, _, urlString) => {
+				criterion.catalog,
+				criterion.entity,
+				mql,
+			]}).done((data, _, urlString) => {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -1130,10 +1131,10 @@ $AMIClass('SearchCtrl', {
 				const command = `SearchQuery ${this.ctx.more.useCache ? '-cached' : ''} -catalog=? -entity=? -mql=?`
 
 				amiCommand.execute(command, {params: [
-					criterion.catalog,
-					this.ctx.defaultEntity,
-					mqlLS,
-				]}).done((data, _, urlString) => {
+						criterion.catalog,
+						criterion.entity,
+						mqlLS,
+					]}).done((data, _, urlString) => {
 
 					/*------------------------------------------------------------------------------------------------*/
 
@@ -1292,11 +1293,10 @@ $AMIClass('SearchCtrl', {
 		const command = `SearchQuery ${this.ctx.more.useCache ? '-cached' : ''} -catalog=? -entity=? -mql=?`;
 
 		return amiCommand.execute(command, {params: [
-			criterion.catalog,
-			this.ctx.defaultEntity,
-			mql,
-		]}).done((data, _, urlString) => {
-
+				criterion.catalog,
+				criterion.entity,
+				mql,
+			]}).done((data, _, urlString) => {
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			this.preloadAppCache(new URL(urlString).searchParams.get('Command'));
@@ -1417,10 +1417,10 @@ $AMIClass('SearchCtrl', {
 		const command = `SearchQuery ${this.ctx.more.useCache ? '-cached' : ''} -catalog=? -entity=? -mql=?`
 
 		amiCommand.execute(command, {params: [
-			criterion.catalog,
-			this.ctx.defaultEntity,
-			mql,
-		]}).done((data, _, urlString) => {
+				criterion.catalog,
+				criterion.entity,
+				mql,
+			]}).done((data, _, urlString) => {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -1665,10 +1665,10 @@ $AMIClass('SearchCtrl', {
 			const command = `SearchQuery ${this.ctx.more.useCache ? '-cached' : ''} -catalog=? -entity=? -mql=?`;
 
 			amiCommand.execute(command, {params: [
-				criterion.catalog,
-				this.ctx.defaultEntity,
-				mql,
-			]}).done((data, _, urlString) => {
+					criterion.catalog,
+					criterion.entity,
+					mql,
+				]}).done((data, _, urlString) => {
 
 				/*----------------------------------------------------------------------------------------------------*/
 
@@ -1832,10 +1832,10 @@ $AMIClass('SearchCtrl', {
 		const command = `SearchQuery ${this.ctx.more.useCache ? '-cached' : ''} -catalog=? -entity=? -mql=?`;
 
 		return amiCommand.execute(command, {params: [
-			criterion.catalog,
-			this.ctx.defaultEntity,
-			mql,
-		]}).done((data, _, urlString) => {
+				criterion.catalog,
+				criterion.entity,
+				mql,
+			]}).done((data, _, urlString) => {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -1974,10 +1974,10 @@ $AMIClass('SearchCtrl', {
 				const command = `SearchQuery ${this.ctx.more.useCache ? '-cached' : ''} -catalog=? -entity=? -mql=?`;
 
 				amiCommand.execute(command, {params: [
-					criterion.catalog,
-					this.ctx.defaultEntity,
-					mql,
-				]}).done((data, _, urlString) => {
+						criterion.catalog,
+						criterion.entity,
+						mql,
+					]}).done((data, _, urlString) => {
 
 					/*------------------------------------------------------------------------------------------------*/
 
