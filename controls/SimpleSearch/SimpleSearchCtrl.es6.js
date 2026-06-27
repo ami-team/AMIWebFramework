@@ -85,6 +85,8 @@ $AMIClass('SimpleSearchCtrl', {
 				defaultCatalog: '',
 				defaultEntity: '',
 
+				defaultScope: '',
+
 				scopes: [], fields: [], criteria: [],
 
 				searchCommandFunc: fn,
@@ -95,6 +97,8 @@ $AMIClass('SimpleSearchCtrl', {
 
 		console.log(JSON.stringify(this.ctx));
 		console.log(JSON.stringify(this.ctx.more));
+		console.log(JSON.stringify(this.ctx.more.defaultScope));
+		console.log(JSON.stringify(this.ctx.defaultScope));
 		console.log(JSON.stringify(options));
 
 		/*------------------------------------------------------------------------------------------------------------*/
