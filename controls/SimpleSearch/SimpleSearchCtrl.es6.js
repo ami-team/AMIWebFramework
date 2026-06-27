@@ -84,7 +84,6 @@ $AMIClass('SimpleSearchCtrl', {
 				placeholder: '% for wildcarding',
 				defaultCatalog: '',
 				defaultEntity: '',
-				defaultScope: '',
 				scopes: [], fields: [], criteria: [],
 
 				searchCommandFunc: fn,
