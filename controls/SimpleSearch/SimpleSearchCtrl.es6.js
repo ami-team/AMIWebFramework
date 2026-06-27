@@ -85,8 +85,6 @@ $AMIClass('SimpleSearchCtrl', {
 				defaultCatalog: '',
 				defaultEntity: '',
 
-				defaultScope: '',
-
 				scopes: [], fields: [], criteria: [],
 
 				searchCommandFunc: fn,
@@ -94,17 +92,6 @@ $AMIClass('SimpleSearchCtrl', {
 			},
 			options
 		);
-
-		console.log(JSON.stringify('this.ctx'));
-		console.log(JSON.stringify(this.ctx));
-		console.log(JSON.stringify('this.ctx.more'));
-		console.log(JSON.stringify(this.ctx.more));
-		console.log(JSON.stringify('this.ctx.more.defaultScope'));
-		console.log(JSON.stringify(this.ctx.more.defaultScope));
-		console.log(JSON.stringify('this.ctx.defaultScope'));
-		console.log(JSON.stringify(this.ctx.defaultScope));
-		console.log(JSON.stringify('options'));
-		console.log(JSON.stringify(options));
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -186,13 +173,18 @@ $AMIClass('SimpleSearchCtrl', {
 
 	search: function(value)
 	{
-		let scope = this.ctx.more.defaultScope ? this.ctx.more.defaultScope : '';
+		let scope = '';
 
-		if(this.ctx.more.searchPattern && (this.ctx.more.scopeGroupIndex > 0))
+		if(this.ctx.more)
 		{
-			if(value.match(this.ctx.more.searchPattern))
+			scope = this.ctx.more.defaultScope ? this.ctx.more.defaultScope : '';
+
+			if(this.ctx.more.searchPattern && (this.ctx.more.scopeGroupIndex > 0))
 			{
-				scope = value.match(this.ctx.more.searchPattern)[this.ctx.more.scopeGroupIndex];
+				if(value.match(this.ctx.more.searchPattern))
+				{
+					scope = value.match(this.ctx.more.searchPattern)[this.ctx.more.scopeGroupIndex];
+				}
 			}
 		}
 
