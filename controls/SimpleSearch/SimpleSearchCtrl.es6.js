@@ -172,13 +172,7 @@ $AMIClass('SimpleSearchCtrl', {
 
 	search: function(value)
 	{
-		//let scope = this.ctx.more.defaultScope ? this.ctx.more.defaultScope : '';
-		let scope = '';
-
-		if(this.ctx.more.defaultScope)
-		{
-			scope = this.ctx.more.defaultScope;
-		};
+		let scope = this.ctx.more.defaultScope ? this.ctx.more.defaultScope : '';
 
 		if(this.ctx.more.searchPattern && (this.ctx.more.scopeGroupIndex > 0))
 		{
