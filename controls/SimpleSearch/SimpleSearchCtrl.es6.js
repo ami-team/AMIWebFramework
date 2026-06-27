@@ -92,6 +92,9 @@ $AMIClass('SimpleSearchCtrl', {
 			options
 		);
 
+		console.log(JSON.stringify(this.ctx));
+		console.log(JSON.stringify(options));
+
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		if(this.ctx.scopes.length === 0)
