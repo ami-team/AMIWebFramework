@@ -95,10 +95,15 @@ $AMIClass('SimpleSearchCtrl', {
 			options
 		);
 
+		console.log(JSON.stringify('this.ctx'));
 		console.log(JSON.stringify(this.ctx));
+		console.log(JSON.stringify('this.ctx.more'));
 		console.log(JSON.stringify(this.ctx.more));
+		console.log(JSON.stringify('this.ctx.more.defaultScope'));
 		console.log(JSON.stringify(this.ctx.more.defaultScope));
+		console.log(JSON.stringify('this.ctx.defaultScope'));
 		console.log(JSON.stringify(this.ctx.defaultScope));
+		console.log(JSON.stringify('options'));
 		console.log(JSON.stringify(options));
 
 		/*------------------------------------------------------------------------------------------------------------*/
