@@ -84,6 +84,7 @@ $AMIClass('SimpleSearchCtrl', {
 				placeholder: '% for wildcarding',
 				defaultCatalog: '',
 				defaultEntity: '',
+
 				scopes: [], fields: [], criteria: [],
 
 				searchCommandFunc: fn,
@@ -93,6 +94,7 @@ $AMIClass('SimpleSearchCtrl', {
 		);
 
 		console.log(JSON.stringify(this.ctx));
+		console.log(JSON.stringify(this.ctx.more));
 		console.log(JSON.stringify(options));
 
 		/*------------------------------------------------------------------------------------------------------------*/
