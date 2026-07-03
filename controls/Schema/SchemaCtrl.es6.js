@@ -193,220 +193,218 @@ $AMIClass('SchemaCtrl', {
 		this.graph.clear();
 
 		/*------------------------------------------------------------------------------------------------------------*/
-		/* ROLES                                                                                                      */
-		/*------------------------------------------------------------------------------------------------------------*/
 
-		amiCommand.execute('SearchQuery -catalog="self" -entity="router_role" -mql="SELECT `router_role`.`role`"').done((data) => {
+		amiCommand.execute('SearchQuery -catalog="self" -entity="router_role" -mql="SELECT `router_role`.`role`"').done((data1) => {
 
-			const el = $('#DA2801BC_A159_06C7_C375_2A935FDFE66C').empty();
+			amiCommand.execute('GetJSONSchema -catalog=?', {params: [catalog]}).done((data2) => {
 
-			amiWebApp.jspath('..field{.@name==="role"}.$', data).filter((x) => x !== 'AMI_ADMIN' && x !== 'AMI_SUDOER' && x !== 'AMI_SSO' && x !== 'AMI_USER' && x !== 'AMI_GUEST').forEach((value) => {
+				/*----------------------------------------------------------------------------------------------------*/
+				/* GET ROLES                                                                                          */
+				/*----------------------------------------------------------------------------------------------------*/
 
-				el.append(
-					$('<option>', {
-						value: value,
-						text: value,
-					}),
-				);
-			});
+				const el = $('#DA2801BC_A159_06C7_C375_2A935FDFE66C').empty();
 
-		}).fail((data, message) => {
+				amiWebApp.jspath('..field{.@name==="role"}.$', data1).filter((x) => x !== 'AMI_ADMIN' && x !== 'AMI_SUDOER' && x !== 'AMI_SSO' && x !== 'AMI_USER' && x !== 'AMI_GUEST').forEach((value) => {
 
-			amiWebApp.error(message, true);
-		});
+					el.append(
+						$('<option>', {
+							value: value,
+							text: value,
+						}),
+					);
+				});
 
-		/*------------------------------------------------------------------------------------------------------------*/
-		/* CATALOG SCHEMAS                                                                                            */
-		/*------------------------------------------------------------------------------------------------------------*/
+				/*----------------------------------------------------------------------------------------------------*/
+				/* GET SCHEMA                                                                                         */
+				/*----------------------------------------------------------------------------------------------------*/
 
-		amiCommand.execute('GetJSONSchema -catalog=?', {params: [catalog]}).done((data) => {
+				let posAndCol;
 
-			/*--------------------------------------------------------------------------------------------------------*/
-			/* GET SCHEMA                                                                                             */
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			let posAndCol;
-
-			try
-			{
-				posAndCol = JSON.parse(amiWebApp.jspath('..field{.@name==="json"}.$', data)[0] || '{}');
-			}
-			catch(e)
-			{
-				posAndCol = {/*---------------------------------------------------------------------*/};
-			}
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			posAndCol = Object.fromEntries(Object.entries(posAndCol).map(([key, val]) => [key.toLowerCase(), val]));
-
-			/*--------------------------------------------------------------------------------------------------------*/
-			/* GET COLUMNS                                                                                            */
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			let cnt = 0;
-
-			const entities = {};
-
-			this._fields.forEach((value) => {
-
-				if((amiWebApp.jspath('..field{.@name==="externalCatalog"}.$', value)[0] || '') === catalog)
+				try
 				{
-					const entity = amiWebApp.jspath('..field{.@name==="entity"}.$', value)[0] || '';
-					const field = amiWebApp.jspath('..field{.@name==="field"}.$', value)[0] || '';
-					const type = amiWebApp.jspath('..field{.@name==="type"}.$', value)[0] || '';
-					const hidden = amiWebApp.jspath('..field{.@name==="hidden"}.$', value)[0] || '';
-					const adminOnly = amiWebApp.jspath('..field{.@name==="adminOnly"}.$', value)[0] || '';
-					const hashed = amiWebApp.jspath('..field{.@name==="hashed"}.$', value)[0] || '';
-					const crypted = amiWebApp.jspath('..field{.@name==="crypted"}.$', value)[0] || '';
-					const primary = amiWebApp.jspath('..field{.@name==="primary"}.$', value)[0] || '';
-					const scope = amiWebApp.jspath('..field{.@name==="scope"}.$', value)[0] || '';
-					const scopeLabel = amiWebApp.jspath('..field{.@name==="scopeLabel"}.$', value)[0] || '';
-					const json = amiWebApp.jspath('..field{.@name==="json"}.$', value)[0] || '';
-					const automatic = amiWebApp.jspath('..field{.@name==="automatic"}.$', value)[0] || '';
-					const created = amiWebApp.jspath('..field{.@name==="created"}.$', value)[0] || '';
-					const createdBy = amiWebApp.jspath('..field{.@name==="createdBy"}.$', value)[0] || '';
-					const modified = amiWebApp.jspath('..field{.@name==="modified"}.$', value)[0] || '';
-					const modifiedBy = amiWebApp.jspath('..field{.@name==="modifiedBy"}.$', value)[0] || '';
-					const media = amiWebApp.jspath('..field{.@name==="media"}.$', value)[0] || '';
-
-					const key = entity.toLowerCase();
-
-					if(!(entity in entities))
-					{
-						let x;
-						let y;
-						let color;
-
-						if(!(key in posAndCol))
-						{
-							x = y
-							  = 20 + 10 * cnt++;
-							color = '#0066CC';
-						}
-						else
-						{
-							x = posAndCol[key].x;
-							y = posAndCol[key].y;
-							color = posAndCol[key].color;
-						}
-
-						entities[entity] = {
-							entity: this.graph.newEntity({
-								position: {
-									x: x,
-									y: y,
-								},
-								entity: entity,
-								color: color,
-								showShowTool: this.ctx.showShowTool,
-								showEditTool: this.ctx.showEditTool,
-							}),
-							fields: [],
-						};
-					}
-
-					if(!(field in entities[entity]['fields']))
-					{
-						entities[entity]['entity'].appendField({
-							field: field,
-							type: type,
-							hidden: hidden === 'true',
-							adminOnly: adminOnly === 'true',
-							hashed: hashed === 'true',
-							crypted: crypted === 'true',
-							primary: primary === 'true',
-							scope: scope === 'true',
-							scopeLabel: scopeLabel,
-							json: json === 'true',
-							automatic: automatic === 'true',
-							created: created === 'true',
-							createdBy: createdBy === 'true',
-							modified: modified === 'true',
-							modifiedBy: modifiedBy === 'true',
-							media: media === 'true',
-						});
-					}
+					posAndCol = JSON.parse(amiWebApp.jspath('..field{.@name==="json"}.$', data2)[0] || '{}');
 				}
-			});
+				catch(e)
+				{
+					posAndCol = {/*---------------------------------------------------------------------*/};
+				}
 
-			/*--------------------------------------------------------------------------------------------------------*/
+				/*----------------------------------------------------------------------------------------------------*/
 
-			$(`${this.getSelector()} a.sql-entity-show-link`).click((e) => {
+				posAndCol = Object.fromEntries(Object.entries(posAndCol).map(([key, val]) => [key.toLowerCase(), val]));
 
-				e.preventDefault();
+				/*----------------------------------------------------------------------------------------------------*/
+				/* GET COLUMNS                                                                                        */
+				/*----------------------------------------------------------------------------------------------------*/
 
-				this.showEntity(
-					catalog
-					,
-					$(e.currentTarget).attr('data-entity')
-				);
-			});
+				let cnt = 0;
 
-			/*--------------------------------------------------------------------------------------------------------*/
+				const entities = {};
 
-			$(`${this.getSelector()} a.sql-entity-edit-link`).click((e) => {
+				this._fields.forEach((value) => {
 
-				e.preventDefault();
+					if((amiWebApp.jspath('..field{.@name==="externalCatalog"}.$', value)[0] || '') === catalog)
+					{
+						const entity = amiWebApp.jspath('..field{.@name==="entity"}.$', value)[0] || '';
+						const field = amiWebApp.jspath('..field{.@name==="field"}.$', value)[0] || '';
+						const type = amiWebApp.jspath('..field{.@name==="type"}.$', value)[0] || '';
+						const hidden = amiWebApp.jspath('..field{.@name==="hidden"}.$', value)[0] || '';
+						const adminOnly = amiWebApp.jspath('..field{.@name==="adminOnly"}.$', value)[0] || '';
+						const hashed = amiWebApp.jspath('..field{.@name==="hashed"}.$', value)[0] || '';
+						const crypted = amiWebApp.jspath('..field{.@name==="crypted"}.$', value)[0] || '';
+						const primary = amiWebApp.jspath('..field{.@name==="primary"}.$', value)[0] || '';
+						const scope = amiWebApp.jspath('..field{.@name==="scope"}.$', value)[0] || '';
+						const scopeLabel = amiWebApp.jspath('..field{.@name==="scopeLabel"}.$', value)[0] || '';
+						const json = amiWebApp.jspath('..field{.@name==="json"}.$', value)[0] || '';
+						const automatic = amiWebApp.jspath('..field{.@name==="automatic"}.$', value)[0] || '';
+						const created = amiWebApp.jspath('..field{.@name==="created"}.$', value)[0] || '';
+						const createdBy = amiWebApp.jspath('..field{.@name==="createdBy"}.$', value)[0] || '';
+						const modified = amiWebApp.jspath('..field{.@name==="modified"}.$', value)[0] || '';
+						const modifiedBy = amiWebApp.jspath('..field{.@name==="modifiedBy"}.$', value)[0] || '';
+						const media = amiWebApp.jspath('..field{.@name==="media"}.$', value)[0] || '';
 
-				this.editEntity(
-					catalog
-					,
-					$(e.currentTarget).attr('data-entity')
-				);
-			});
+						const key = entity.toLowerCase();
 
-			/*--------------------------------------------------------------------------------------------------------*/
+						if(!(entity in entities))
+						{
+							let x;
+							let y;
+							let color;
 
-			$(`${this.getSelector()} a.sql-field-link`).click((e) => {
+							if(!(key in posAndCol))
+							{
+								x = y
+								  = 20 + 10 * cnt++;
+								color = '#0066CC';
+							}
+							else
+							{
+								x = posAndCol[key].x;
+								y = posAndCol[key].y;
+								color = posAndCol[key].color;
+							}
 
-				e.preventDefault();
+							entities[entity] = {
+								entity: this.graph.newEntity({
+									position: {
+										x: x,
+										y: y,
+									},
+									entity: entity,
+									color: color,
+									showShowTool: this.ctx.showShowTool,
+									showEditTool: this.ctx.showEditTool,
+								}),
+								fields: [],
+							};
+						}
 
-				this.editField(
-					catalog
-					,
-					$(e.currentTarget).attr('data-entity')
-					,
-					$(e.currentTarget).attr('data-field')
-				);
-			});
+						if(!(field in entities[entity]['fields']))
+						{
+							entities[entity]['entity'].appendField({
+								field: field,
+								type: type,
+								hidden: hidden === 'true',
+								adminOnly: adminOnly === 'true',
+								hashed: hashed === 'true',
+								crypted: crypted === 'true',
+								primary: primary === 'true',
+								scope: scope === 'true',
+								scopeLabel: scopeLabel,
+								json: json === 'true',
+								automatic: automatic === 'true',
+								created: created === 'true',
+								createdBy: createdBy === 'true',
+								modified: modified === 'true',
+								modifiedBy: modifiedBy === 'true',
+								media: media === 'true',
+							});
+						}
+					}
+				});
 
-			/*--------------------------------------------------------------------------------------------------------*/
-			/* GET FKEYS                                                                                              */
-			/*--------------------------------------------------------------------------------------------------------*/
+				/*----------------------------------------------------------------------------------------------------*/
 
-			this._foreignKeys.forEach((value) => {
+				$(`${this.getSelector()} a.sql-entity-show-link`).click((e) => {
 
-				if(amiWebApp.jspath('..field{.@name==="fkExternalCatalog"}.$', value)[0] === catalog
-				   &&
-				   amiWebApp.jspath('..field{.@name==="pkExternalCatalog"}.$', value)[0] === catalog
-				 ) {
-					const fkEntity = amiWebApp.jspath('..field{.@name==="fkEntity"}.$', value)[0];
-					const pkEntity = amiWebApp.jspath('..field{.@name==="pkEntity"}.$', value)[0];
+					e.preventDefault();
 
-					if(fkEntity in entities
+					this.showEntity(
+						catalog
+						,
+						$(e.currentTarget).attr('data-entity')
+					);
+				});
+
+				/*----------------------------------------------------------------------------------------------------*/
+
+				$(`${this.getSelector()} a.sql-entity-edit-link`).click((e) => {
+
+					e.preventDefault();
+
+					this.editEntity(
+						catalog
+						,
+						$(e.currentTarget).attr('data-entity')
+					);
+				});
+
+				/*----------------------------------------------------------------------------------------------------*/
+
+				$(`${this.getSelector()} a.sql-field-link`).click((e) => {
+
+					e.preventDefault();
+
+					this.editField(
+						catalog
+						,
+						$(e.currentTarget).attr('data-entity')
+						,
+						$(e.currentTarget).attr('data-field')
+					);
+				});
+
+				/*----------------------------------------------------------------------------------------------------*/
+				/* GET FKEYS                                                                                          */
+				/*----------------------------------------------------------------------------------------------------*/
+
+				this._foreignKeys.forEach((value) => {
+
+					if(amiWebApp.jspath('..field{.@name==="fkExternalCatalog"}.$', value)[0] === catalog
 					   &&
-					   pkEntity in entities
-					   &&
-					   fkEntity !== pkEntity
+					   amiWebApp.jspath('..field{.@name==="pkExternalCatalog"}.$', value)[0] === catalog
 					 ) {
-						this.graph.newForeignKey(
-							entities[fkEntity]['entity'].get('id'),
-							entities[pkEntity]['entity'].get('id')
-						);
+						const fkEntity = amiWebApp.jspath('..field{.@name==="fkEntity"}.$', value)[0];
+						const pkEntity = amiWebApp.jspath('..field{.@name==="pkEntity"}.$', value)[0];
+
+						if(fkEntity in entities
+						   &&
+						   pkEntity in entities
+						   &&
+						   fkEntity !== pkEntity
+						 ) {
+							this.graph.newForeignKey(
+								entities[fkEntity]['entity'].get('id'),
+								entities[pkEntity]['entity'].get('id')
+							);
+						}
 					}
-				}
+				});
+
+				/*----------------------------------------------------------------------------------------------------*/
+				/* FIT TO CONTENT                                                                                     */
+				/*----------------------------------------------------------------------------------------------------*/
+
+				this.fitToContent();
+
+				/*----------------------------------------------------------------------------------------------------*/
+
+				result.resolveWith(this.ctx.context, [posAndCol]);
+
+			}).fail((data, message) => {
+
+				result.rejectWith(this.ctx.context, [message]);
 			});
-
-			/*--------------------------------------------------------------------------------------------------------*/
-			/* FIT TO CONTENT                                                                                         */
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			this.fitToContent();
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			result.resolveWith(this.ctx.context, [posAndCol]);
 
 		}).fail((data, message) => {
 
