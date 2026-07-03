@@ -22,6 +22,7 @@ import twigCriteriaJsonListMany from './assets/twig/criteria_jsonlist_many.twig'
 import twigCriteriaStringFew from './assets/twig/criteria_string_few.twig';
 import twigCriteriaStringMany from './assets/twig/criteria_string_many.twig';
 import twigJS from './assets/twig/js.twig';
+
 import twigSearchCtrl from './assets/twig/SearchCtrl.twig';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -95,6 +96,10 @@ $AMIClass('SearchCtrl', {
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
+		this.commandCacheSet = new Set();
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
 		this.setupCtx(
 			{
 				isEmbedded: amiWebApp.isEmbedded(),
@@ -121,18 +126,12 @@ $AMIClass('SearchCtrl', {
 				criteria: [],
 				more: {},
 				canEdit: false,
+				useCache: false,
+				appCacheEntity: '',
+				appCacheField: ''
 			},
 			options
 		);
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		if('canEdit' in this.ctx.more && this.ctx.more.canEdit)
-		{
-			delete this.ctx.more.canEdit;
-
-			this.ctx.canEdit = true;
-		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -804,7 +803,7 @@ $AMIClass('SearchCtrl', {
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		amiWebApp.lock();
+		//amiWebApp.lock();
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -887,7 +886,8 @@ $AMIClass('SearchCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			let mql = `SELECT COUNT(${this.ctx.defaultPrimaryField}) AS \`nb\``;
+			//let mql = `SELECT COUNT(${this.ctx.defaultPrimaryField}) AS \`nb\``;
+			let mql = `SELECT COUNT(\`${this.ctx.defaultCatalog}\`.\`${this.ctx.defaultEntity}\`.\`${this.ctx.defaultPrimaryField}\`) AS \`nb\``;
 
 			this.ctx.mql = `SELECT ${this.ctx.defaultSelect}`;
 
@@ -897,10 +897,9 @@ $AMIClass('SearchCtrl', {
 				this.ctx.mql += ` WHERE ${filter}`;
 			}
 
-			this.ctx.mql = this.ctx.mql
-				           .replace(/ and /g, ' AND ')
-				           .replace(/ or /g, ' OR ')
-				           .replace(/ not /g, ' NOT ')
+			this.ctx.mql = this.ctx.mql.replace(/ and /g, ' AND ')
+			                           .replace(/ or /g, ' OR ')
+			                           .replace(/ not /g, ' NOT ')
 			;
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -909,13 +908,27 @@ $AMIClass('SearchCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			return amiCommand.execute(`SearchQuery -cached -catalog="${amiWebApp.textToString(this.ctx.defaultCatalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mql)}"`).done((data) => {
+			$(this.patchId('#D7F429C8_E45C_57A3_6BCC_C74BAE4B0DDA')).text('counting...');
+
+			const command = `SearchQuery ${this.ctx.more.useCache ? '-cached' : ''} -catalog=? -entity=? -mql=?`;
+
+			return amiCommand.execute(command, {params: [
+				this.ctx.defaultCatalog,
+				this.ctx.defaultEntity,
+				mql,
+			]}).done((data, _, urlString) => {
+
+				/*----------------------------------------------------------------------------------------------------*/
+
+				this.preloadAppCache(new URL(urlString).searchParams.get('Command'));
+
+				/*----------------------------------------------------------------------------------------------------*/
 
 				const nb = amiWebApp.jspath('..field{.@name==="nb"}.$', data)[0] || 'N/A';
 
 				$(this.patchId('#D7F429C8_E45C_57A3_6BCC_C74BAE4B0DDA')).text(nb);
 
-				amiWebApp.unlock();
+				//amiWebApp.unlock();
 
 				$(this.patchId('#FB83961B_D88B_C24C_E8C5_6B3DCC2AAE2F')).text('');
 
@@ -978,9 +991,19 @@ $AMIClass('SearchCtrl', {
 						break;
 				}
 
-				const command =`SearchQuery -cached -catalog="${this.ctx.more.summary[idx].catalog}" -entity="${this.ctx.defaultEntity}" -mql="${mql}"`;
+				const command =`SearchQuery ${this.ctx.more.useCache ? '-cached' : ''} -catalog=? -entity=? -mql=?`;
 
-				amiCommand.execute(command).done((data) => {
+				amiCommand.execute(command, {params: [
+						this.ctx.more.summary[idx].catalog,
+						this.ctx.summary[idx].entity,
+						mql,
+					]}).done((data, _, urlString) => {
+
+					/*------------------------------------------------------------------------------------------------*/
+
+					this.preloadAppCache(new URL(urlString).searchParams.get('Command'));
+
+					/*------------------------------------------------------------------------------------------------*/
 
 					const summaryValue = amiWebApp.jspath('..field{.@name==="RES"}.$', data)[0] || 'N/A';
 
@@ -1057,7 +1080,19 @@ $AMIClass('SearchCtrl', {
 		/* FILL BOX                                                                                                   */
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		return amiCommand.execute(`SearchQuery -cached -catalog="${amiWebApp.textToString(criterion.catalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mql)}"`).done((data) => {
+		const command = `SearchQuery ${this.ctx.more.useCache ? '-cached' : ''} -catalog=? -entity=? -mql=?`
+
+		return amiCommand.execute(command, {params: [
+				criterion.catalog,
+				criterion.entity,
+				mql,
+			]}).done((data, _, urlString) => {
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			this.preloadAppCache(new URL(urlString).searchParams.get('Command'));
+
+			/*--------------------------------------------------------------------------------------------------------*/
 
 			const L = [];
 			const LS = [];
@@ -1093,7 +1128,19 @@ $AMIClass('SearchCtrl', {
 					mqlLS += ` AND ${filter}`;
 				}
 
-				amiCommand.execute(`SearchQuery -cached -catalog="${amiWebApp.textToString(criterion.catalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mqlLS)}"`).done((data) => {
+				const command = `SearchQuery ${this.ctx.more.useCache ? '-cached' : ''} -catalog=? -entity=? -mql=?`
+
+				amiCommand.execute(command, {params: [
+						criterion.catalog,
+						criterion.entity,
+						mqlLS,
+					]}).done((data, _, urlString) => {
+
+					/*------------------------------------------------------------------------------------------------*/
+
+					this.preloadAppCache(new URL(urlString).searchParams.get('Command'));
+
+					/*------------------------------------------------------------------------------------------------*/
 
 					LS.forEach((key) =>
 					{
@@ -1243,7 +1290,18 @@ $AMIClass('SearchCtrl', {
 		/* FILL BOX                                                                                                   */
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		return amiCommand.execute(`SearchQuery -cached -catalog="${amiWebApp.textToString(criterion.catalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mql)}"`).done((data) => {
+		const command = `SearchQuery ${this.ctx.more.useCache ? '-cached' : ''} -catalog=? -entity=? -mql=?`;
+
+		return amiCommand.execute(command, {params: [
+				criterion.catalog,
+				criterion.entity,
+				mql,
+			]}).done((data, _, urlString) => {
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			this.preloadAppCache(new URL(urlString).searchParams.get('Command'));
+
+			/*--------------------------------------------------------------------------------------------------------*/
 
 			const L = [];
 
@@ -1356,7 +1414,19 @@ $AMIClass('SearchCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		amiCommand.execute(`SearchQuery -cached -catalog="${amiWebApp.textToString(criterion.catalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mql)}"`).done((data) => {
+		const command = `SearchQuery ${this.ctx.more.useCache ? '-cached' : ''} -catalog=? -entity=? -mql=?`
+
+		amiCommand.execute(command, {params: [
+				criterion.catalog,
+				criterion.entity,
+				mql,
+			]}).done((data, _, urlString) => {
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			this.preloadAppCache(new URL(urlString).searchParams.get('Command'));
+
+			/*--------------------------------------------------------------------------------------------------------*/
 
 			const fields = amiWebApp.jspath('..field', data);
 
@@ -1592,7 +1662,19 @@ $AMIClass('SearchCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			amiCommand.execute(`SearchQuery -cached -catalog="${amiWebApp.textToString(criterion.catalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mql)}"`).done((data) => {
+			const command = `SearchQuery ${this.ctx.more.useCache ? '-cached' : ''} -catalog=? -entity=? -mql=?`;
+
+			amiCommand.execute(command, {params: [
+					criterion.catalog,
+					criterion.entity,
+					mql,
+				]}).done((data, _, urlString) => {
+
+				/*----------------------------------------------------------------------------------------------------*/
+
+				this.preloadAppCache(new URL(urlString).searchParams.get('Command'));
+
+				/*----------------------------------------------------------------------------------------------------*/
 
 				const L = [];
 				const fields = amiWebApp.jspath('..field', data);
@@ -1747,7 +1829,20 @@ $AMIClass('SearchCtrl', {
 		/* FILL BOX																								   */
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		return amiCommand.execute(`SearchQuery -cached -catalog="${amiWebApp.textToString(criterion.catalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mql)}"`).done((data) => {
+		const command = `SearchQuery ${this.ctx.more.useCache ? '-cached' : ''} -catalog=? -entity=? -mql=?`;
+
+		return amiCommand.execute(command, {params: [
+				criterion.catalog,
+				criterion.entity,
+				mql,
+			]}).done((data, _, urlString) => {
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			this.preloadAppCache(new URL(urlString).searchParams.get('Command'));
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
 
 			let min = amiWebApp.jspath('..field{.@name==="min"}.$', data)[0] || '';
 			let max = amiWebApp.jspath('..field{.@name==="max"}.$', data)[0] || '';
@@ -1876,7 +1971,19 @@ $AMIClass('SearchCtrl', {
 			{
 				let mql = `SELECT DISTINCT \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\`${this.dumpConstraints(criterion)} WHERE \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.key_field}\`${this.dumpConstraints(criterion)} = '${this.ctx.predicates[name].selectedParam}'`;
 
-				amiCommand.execute(`SearchQuery -cached -catalog="${amiWebApp.textToString(criterion.catalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mql)}"`).done((data) => {
+				const command = `SearchQuery ${this.ctx.more.useCache ? '-cached' : ''} -catalog=? -entity=? -mql=?`;
+
+				amiCommand.execute(command, {params: [
+						criterion.catalog,
+						criterion.entity,
+						mql,
+					]}).done((data, _, urlString) => {
+
+					/*------------------------------------------------------------------------------------------------*/
+
+					this.preloadAppCache(new URL(urlString).searchParams.get('Command'));
+
+					/*------------------------------------------------------------------------------------------------*/
 
 					this.ctx.predicates[name].selectedValueField = amiWebApp.jspath('..field', data)[0].$ || '';
 
@@ -2691,7 +2798,7 @@ $AMIClass('SearchCtrl', {
 	{
 		/* À VERIFIER !!! */
 
-		amiWebApp.createControlInContainer(this.tabCtrl, this, 'table', [`BrowseQuery -GUI -catalog="${amiWebApp.textToString(this.ctx.defaultCatalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(this.ctx.mql)}"`], {showDetails: true, canEdit: this.ctx.canEdit, catalog: this.ctx.defaultCatalog, entity: this.ctx.defaultEntity, primaryField: this.ctx.defaultPrimaryField}, this.ctx, 'table', this.ctx.defaultEntity);
+		amiWebApp.createControlInContainer(this.tabCtrl, this, 'table', [`BrowseQuery -GUI -catalog="${amiWebApp.textToString(this.ctx.defaultCatalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(this.ctx.mql)}"`], {showDetails: true, canEdit: this.ctx.more.canEdit, catalog: this.ctx.defaultCatalog, entity: this.ctx.defaultEntity, primaryField: this.ctx.defaultPrimaryField}, this.ctx, 'table', this.ctx.defaultEntity);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -3235,6 +3342,33 @@ $AMIClass('SearchCtrl', {
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
+
+	preloadAppCache(command)
+	{
+		if(this.ctx.more.appCacheEntity
+		   &&
+		   this.ctx.more.appCacheField
+		 ) {
+			if(!this.commandCacheSet.has(command))
+			{
+				amiCommand.execute('AddUpdateElement -separator=? -catalog=? -entity=? -fields=? -values=? -keyFields=? -keyValues=?', {params: [
+					';',
+					this.ctx.defaultCatalog,
+					this.ctx.more.appCacheEntity,
+					this.ctx.more.appCacheField,
+					command,
+					this.ctx.more.appCacheField,
+					command,
+				]}).done(() => {
+
+					this.commandCacheSet.add(command);
+				});
+			}
+		}
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
 });
 
 /*--------------------------------------------------------------------------------------------------------------------*/

@@ -60,6 +60,14 @@ $AMIClass('SearchModelerApp', {
 
 			$('#CECEF559_7DC7_1AE7_AE83_81C19AFB8A06').change(f1);
 			$('#C7E2B53C_AE06_57AF_C7EC_57336E7013A0').change(f1);
+			$('#FEA8C070_95FE_2321_9C96_DBD020B3ED67').change(f1);
+
+			$('#F1720758_5010_E510_DD82_281F2CBF08DA').change(f1);
+			$('#FCB325B1_9F12_AEDB_1256_EEA6BFF6394C').change(f1);
+
+			$('#FAB7FECD_5A17_DDD2_FECF_3DAEAD92F9ED').change(f1);
+			$('#A69834F8_9503_CD47_1B7E_C5AF98D839BA').change(f1);
+			$('#F9DAC216_682D_B03E_AC29_DFB2E7CB19FA').change(f1);
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -336,7 +344,7 @@ $AMIClass('SearchModelerApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	getCatalogs: function(dst, defaultCatalog)
+	getCatalogs: function(dst, defaultCatalog, allowEmpty)
 	{
 		defaultCatalog = defaultCatalog || '';
 
@@ -349,7 +357,8 @@ $AMIClass('SearchModelerApp', {
 		amiCommand.execute('ListCatalogs').done((data) => {
 
 			const s = [
-				'<option value="" style="display: none;">-- select a catalog --</option>'
+				allowEmpty ? '<option value="">-- select a catalog --</option>'
+				           : '<option value="" style="display: none;">-- select a catalog --</option>'
 			];
 
 			amiWebApp.jspath('..row', data).forEach((row) => {
@@ -379,7 +388,7 @@ $AMIClass('SearchModelerApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	getEntities: function(dst, catalog, defaultEntity)
+	getEntities: function(dst, catalog, defaultEntity, allowEmpty)
 	{
 		if(!catalog)
 		{
@@ -397,7 +406,8 @@ $AMIClass('SearchModelerApp', {
 		amiCommand.execute('ListEntities -catalog=?', {params: [amiWebApp.textToString(catalog)]}).done((data) => {
 
 			const s = [
-				'<option value="" style="display: none;">-- select an entity --</option>'
+				allowEmpty ? '<option value="">-- select a entity --</option>'
+				           : '<option value="" style="display: none;">-- select a entity --</option>'
 			];
 
 			amiWebApp.jspath('..row', data).forEach((row) => {
@@ -427,7 +437,7 @@ $AMIClass('SearchModelerApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	getFields: function(dst, catalog, entity, defaultField)
+	getFields: function(dst, catalog, entity, defaultField, allowEmpty)
 	{
 		if(!catalog
 		   ||
@@ -447,7 +457,8 @@ $AMIClass('SearchModelerApp', {
 		amiCommand.execute('ListFields -catalog=? -entity=?', {params: [amiWebApp.textToString(catalog), amiWebApp.textToString(entity)]}).done((data) => {
 
 			const s = [
-				'<option value="" style="display: none;">-- select a field --</option>'
+				allowEmpty ? '<option value="">-- select a field --</option>'
+				           : '<option value="" style="display: none;">-- select a field --</option>'
 			];
 
 			amiWebApp.jspath('..row', data).forEach((row) => {
@@ -512,6 +523,8 @@ $AMIClass('SearchModelerApp', {
 
 		if(searchInterface.json.defaultCatalog)
 		{
+			this.getEntities('#F1720758_5010_E510_DD82_281F2CBF08DA', searchInterface.json.defaultCatalog, searchInterface.json.defaultEntity);
+
 			this.getEntities('#F71D1452_8613_5FB5_27D3_C1540573F450', searchInterface.json.defaultCatalog, searchInterface.json.defaultEntity);
 
 			if(searchInterface.json.defaultEntity)
@@ -608,6 +621,14 @@ $AMIClass('SearchModelerApp', {
 	{
 		$('#CECEF559_7DC7_1AE7_AE83_81C19AFB8A06').prop('checked', !!more.distinct);
 		$('#C7E2B53C_AE06_57AF_C7EC_57336E7013A0').prop('checked', !!more.canEdit);
+		$('#FEA8C070_95FE_2321_9C96_DBD020B3ED67').prop('checked', !!more.useCache);
+
+		$('#F1720758_5010_E510_DD82_281F2CBF08DA').val(more.appCacheEntity || '');
+		$('#FCB325B1_9F12_AEDB_1256_EEA6BFF6394C').val(more.appCacheField || '');
+
+		$('#FAB7FECD_5A17_DDD2_FECF_3DAEAD92F9ED').val(more.searchPattern || '');
+		$('#A69834F8_9503_CD47_1B7E_C5AF98D839BA').val(more.scopeGroupIndex || 0);
+		$('#F9DAC216_682D_B03E_AC29_DFB2E7CB19FA').val(more.defaultScope || '');
 
 		return more;
 	},
@@ -618,6 +639,14 @@ $AMIClass('SearchModelerApp', {
 	{
 		more.distinct = $('#CECEF559_7DC7_1AE7_AE83_81C19AFB8A06').prop('checked');
 		more.canEdit = $('#C7E2B53C_AE06_57AF_C7EC_57336E7013A0').prop('checked');
+		more.useCache = $('#FEA8C070_95FE_2321_9C96_DBD020B3ED67').prop('checked');
+
+		more.appCacheEntity = $('#F1720758_5010_E510_DD82_281F2CBF08DA').val() || '';
+		more.appCacheField = $('#FCB325B1_9F12_AEDB_1256_EEA6BFF6394C').val() || '';
+
+		more.searchPattern = $('#FAB7FECD_5A17_DDD2_FECF_3DAEAD92F9ED').val() || '';
+		more.scopeGroupIndex = parseInt($('#A69834F8_9503_CD47_1B7E_C5AF98D839BA').val()) || 0;
+		more.defaultScope= $('#F9DAC216_682D_B03E_AC29_DFB2E7CB19FA').val() || '';
 
 		return more;
 	},

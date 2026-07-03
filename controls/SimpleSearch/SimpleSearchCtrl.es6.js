@@ -49,15 +49,28 @@ $AMIClass('SimpleSearchCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const fn = (catalog, entity, fields, value) => {
+		const fn = (catalog, entity, scopes, scope, fields, value) => {
+
+			const scopeClause = scopes.length === 0 ? ['0 = 1']
+												: (scope.indexOf('%') < 0) ? scopes.map(field => `${field} = '${amiWebApp.textToSQL(scope)}'`)
+												: scopes.map(field => `${field} LIKE '${amiWebApp.textToSQL(scope)}'`)
+			;
 
 			const select = fields.length === 0 ? ['0 = 1']
 			                                   : (value.indexOf('%') < 0) ? fields.map(field => `${field} = '${amiWebApp.textToSQL(value)}'`)
-			                                                              : fields.map(field => `${field} LIKE '${amiWebApp.textToSQL(value)}'`)
+					                           : fields.map(field => `${field} LIKE '${amiWebApp.textToSQL(value)}'`)
 			;
 
-			return `BrowseQuery -catalog="${amiWebApp.textToString(catalog)}" -entity="${amiWebApp.textToString(entity)}" -mql="SELECT * WHERE ${select.join(' OR ')}"`;
-		};
+			if(scopes.length === 0 || scope === '')
+			{
+				return `BrowseQuery -catalog="${amiWebApp.textToString(catalog)}" -entity="${amiWebApp.textToString(entity)}" -mql="SELECT * WHERE ${select.join(' OR ')}"`;
+			}
+			else
+			{
+				return `BrowseQuery -catalog="${amiWebApp.textToString(catalog)}" -entity="${amiWebApp.textToString(entity)}" -mql="SELECT * WHERE (${scopeClause.join(' OR ')}) AND (${select.join(' OR ')})"`;
+			}
+
+			};
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -71,7 +84,9 @@ $AMIClass('SimpleSearchCtrl', {
 				placeholder: '% for wildcarding',
 				defaultCatalog: '',
 				defaultEntity: '',
-				fields: [], criteria: [],
+
+				scopes: [], fields: [], criteria: [],
+
 				searchCommandFunc: fn,
 				card: false,
 			},
@@ -80,9 +95,14 @@ $AMIClass('SimpleSearchCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
+		if(this.ctx.scopes.length === 0)
+		{
+			this.ctx.scopes = this.ctx.criteria.filter(criterion => criterion.more.simple_search && criterion.more.scope).map(criterion => `\`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\``);
+		}
+
 		if(this.ctx.fields.length === 0)
 		{
-			this.ctx.fields = this.ctx.criteria.filter(criterion => criterion.more.simple_search).map(criterion => `\`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\``);
+			this.ctx.fields = this.ctx.criteria.filter(criterion => criterion.more.simple_search && !criterion.more.scope).map(criterion => `\`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\``);
 		}
 
 		this.ctx.catalog = this.ctx.defaultCatalog;
@@ -153,7 +173,22 @@ $AMIClass('SimpleSearchCtrl', {
 
 	search: function(value)
 	{
-		return amiWebApp.createControlInContainer(this.getParent(), this, 'table', [this.ctx.searchCommandFunc(this.ctx.defaultCatalog, this.ctx.defaultEntity, this.ctx.fields, value)], {}, this.ctx, 'table', this.ctx.entity);
+		let scope = '';
+
+		if(this.ctx.more)
+		{
+			scope = this.ctx.more.defaultScope ? this.ctx.more.defaultScope : '';
+
+			if(this.ctx.more.searchPattern && (this.ctx.more.scopeGroupIndex > 0))
+			{
+				if(value.match(this.ctx.more.searchPattern))
+				{
+					scope = value.match(this.ctx.more.searchPattern)[this.ctx.more.scopeGroupIndex];
+				}
+			}
+		}
+
+		return amiWebApp.createControlInContainer(this.getParent(), this, 'table', [this.ctx.searchCommandFunc(this.ctx.defaultCatalog, this.ctx.defaultEntity, this.ctx.scopes, scope, this.ctx.fields, value)], {}, this.ctx, 'table', this.ctx.entity);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
