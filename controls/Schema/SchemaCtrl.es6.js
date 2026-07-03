@@ -39,7 +39,7 @@ $AMIClass('SchemaCtrl', {
 
 	onReady: function()
 	{
-		amiWebApp.appendHTML('body', twigSchemaCtrl, {dict: {controls: amiWebApp._controls}}).done(() => {
+		amiWebApp.appendHTML('body', twigSchemaCtrl, {dict: {roles: [],controls: amiWebApp._controls}}).done(() => {
 
 			$('#CE54048D_702D_0132_4659_9E558BE2AC11').select2({
 				allowClear: true,
@@ -51,6 +51,12 @@ $AMIClass('SchemaCtrl', {
 				allowClear: true,
 				placeholder: 'Choose a control',
 				dropdownParent: $('#B0BEB5C7_8978_7433_F076_A55D2091777C .modal-body')
+			});
+
+			$('#DA2801BC_A159_06C7_C375_2A935FDFE66C').select2({
+				allowClear: true,
+				placeholder: 'Choose a role',
+				dropdownParent: $('#B7852284_B6C4_8ED5_502D_B8EA22689D2A .modal-body')
 			});
 		});
 	},
@@ -186,6 +192,31 @@ $AMIClass('SchemaCtrl', {
 
 		this.graph.clear();
 
+		/*------------------------------------------------------------------------------------------------------------*/
+		/* ROLES                                                                                                      */
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		amiCommand.execute('SearchQuery -catalog="self" -entity="router_role" -mql="SELECT `router_role`.`role`"').done((data) => {
+
+			const el = $('#DA2801BC_A159_06C7_C375_2A935FDFE66C').empty();
+
+			amiWebApp.jspath('..field{.@name==="role"}.$', data).filter((x) => x !== 'AMI_ADMIN' && x !== 'AMI_SUDOER' && x !== 'AMI_SSO' && x !== 'AMI_USER' && x !== 'AMI_GUEST').forEach((value) => {
+
+				el.append(
+					$('<option>', {
+						value: value,
+						text: value,
+					}),
+				);
+			});
+
+		}).fail((data, message) => {
+
+			amiWebApp.error(message, true);
+		});
+
+		/*------------------------------------------------------------------------------------------------------------*/
+		/* CATALOG SCHEMAS                                                                                            */
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		amiCommand.execute('GetJSONSchema -catalog=?', {params: [catalog]}).done((data) => {
@@ -543,6 +574,9 @@ $AMIClass('SchemaCtrl', {
 				const rank = amiWebApp.jspath('..field{.@name==="rank"}.$', data)[0] || '999';
 				const description = amiWebApp.jspath('..field{.@name==="description"}.$', data)[0] || 'N/A';
 
+				const viewOf = amiWebApp.jspath('..field{.@name==="viewOf"}.$', data)[0] || 'false';
+				const viewOfTable = amiWebApp.jspath('..field{.@name==="viewOfTable"}.$', data)[0] || '';
+
 				const bridge = amiWebApp.jspath('..field{.@name==="bridge"}.$', data)[0] || 'false';
 				const ignoreForwardEntities = amiWebApp.jspath('..field{.@name==="ignoreForwardEntities"}.$', data)[0] || 'false';
 				const ignoreBackwardEntities = amiWebApp.jspath('..field{.@name==="ignoreBackwardEntities"}.$', data)[0] || 'false';
@@ -550,13 +584,17 @@ $AMIClass('SchemaCtrl', {
 				const hidden = amiWebApp.jspath('..field{.@name==="hidden"}.$', data)[0] || 'false';
 				const adminOnly = amiWebApp.jspath('..field{.@name==="adminOnly"}.$', data)[0] || 'false';
 
-				const viewOf = amiWebApp.jspath('..field{.@name==="viewOf"}.$', data)[0] || 'false';
-				const viewOfTable = amiWebApp.jspath('..field{.@name==="viewOfTable"}.$', data)[0] || '';
+				const roles = (amiWebApp.jspath('..field{.@name==="roles"}.$', data)[0] || '').split(',');
+
+				console.log(roles);
 
 				/**/
 
 				$('#F03DA19A_40CE_5C11_9712_A82917FB07AF').val(rank);
 				$('#E831834E_1D7C_A0F7_B266_E5F5F9CB4F16').val(description);
+
+				$('#F2A454C9_6422_97D9_0E44_88FBDB0434C4').prop('checked', viewOf === 'true');
+				$('#A3F8F46E_DD40_A066_79B7_1A4E0921AABA').val(viewOfTable);
 
 				$('#E1B8F5B1_9BDD_D4A5_56B1_540534E17B09').prop('checked', bridge === 'true');
 				$('#F25ABD44_EA8F_44F1_0D5C_AB0216F18DAE').prop('checked', ignoreForwardEntities === 'true');
@@ -565,8 +603,7 @@ $AMIClass('SchemaCtrl', {
 				$('#A7C3FA85_FE03_FC4F_04FB_D8F9C09430F1').prop('checked', hidden === 'true');
 				$('#BFFD13C4_EAE9_D440_15AB_6005A941FB23').prop('checked', adminOnly === 'true');
 
-				$('#F2A454C9_6422_97D9_0E44_88FBDB0434C4').prop('checked', viewOf === 'true');
-				$('#A3F8F46E_DD40_A066_79B7_1A4E0921AABA').val(viewOfTable);
+				$('#DA2801BC_A159_06C7_C375_2A935FDFE66C').val(roles).trigger('change');
 
 				/**/
 
@@ -733,15 +770,20 @@ window.SchemaCtrl.applyEntity = function()
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
+	console.log();
+
 	const json = {
+		'viewOf': $('#F2A454C9_6422_97D9_0E44_88FBDB0434C4').prop('checked'),
+		'viewOfTable': $('#A3F8F46E_DD40_A066_79B7_1A4E0921AABA').val(),
 		'bridge': $('#E1B8F5B1_9BDD_D4A5_56B1_540534E17B09').prop('checked'),
 		'ignoreForwardEntities': $('#F25ABD44_EA8F_44F1_0D5C_AB0216F18DAE').prop('checked'),
 		'ignoreBackwardEntities': $('#DDA55A7B_DB54_E85D_3A00_4C7D406F228F').prop('checked'),
 		'hidden': $('#A7C3FA85_FE03_FC4F_04FB_D8F9C09430F1').prop('checked'),
 		'adminOnly': $('#BFFD13C4_EAE9_D440_15AB_6005A941FB23').prop('checked'),
-		'viewOf': $('#F2A454C9_6422_97D9_0E44_88FBDB0434C4').prop('checked'),
-		'viewOfTable': $('#A3F8F46E_DD40_A066_79B7_1A4E0921AABA').val(),
+		'roles': $('#DA2801BC_A159_06C7_C375_2A935FDFE66C').val().join(','),
 	};
+
+	console.log(json);
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
