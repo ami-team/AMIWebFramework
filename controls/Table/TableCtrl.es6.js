@@ -982,13 +982,15 @@ $AMIClass('TableCtrl', {
 
 		let command;
 
-		if(this.ctx.totalNumberOfRows > 250)
-		{
+		if(!this.ctx.totalNumberOfRows
+		   ||
+		   this.ctx.totalNumberOfRows < 250
+		) {
 			command = this.ctx.command;
 		}
 		else
 		{
-			alert('Command is too long. Will return the first page only.')
+			alert('Too many . Will return the first page only.')
 
 			command = this.ctx.command2.startsWith('BrowseQuery') ? `SearchQuery${this.ctx.command2.substring(11)}` : this.ctx.command2
 		}
