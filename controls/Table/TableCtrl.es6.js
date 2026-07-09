@@ -990,7 +990,7 @@ $AMIClass('TableCtrl', {
 		}
 		else
 		{
-			alert('Too many . Will return the first page only.')
+			alert('Too many rows. Will return the first page only.')
 
 			command = this.ctx.command2.startsWith('BrowseQuery') ? `SearchQuery${this.ctx.command2.substring(11)}` : this.ctx.command2
 		}
